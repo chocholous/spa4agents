@@ -31,7 +31,7 @@ payments:
   active_network: "eip155:84532"   # development and tests only; mainnet needs a legal review
   facilitator_testnet: https://x402.org/facilitator
   response_header: PAYMENT-REQUIRED
-  mcp_meta_key: x402/payment-required
+  mcp_challenge: In MCP the challenge is a tool result with isError true; the payment requirements are in structuredContent and repeated as JSON in content[0].text.   # x402 spike 2026-10-24 (spikes/x402/FINDINGS.md); not _meta
 
 session:
   max_actions: 200
@@ -88,18 +88,103 @@ affiliate:
   payout_phase: F2
 
 data_policy:
+  status: Draft proposal, not a legal document. The service is not published and no legal review has been done. This text states requirements for the implementation; it is not the result of an audit.
+  decision: The owner decided on the strictest data policy, zero data retention and full isolation (24 October 2026). The wording below is a proposal.
   confirmed_by_owner: false
+  content_retention_days: 0
   recovery_inputs_days: 0
-  checkpoint_max_days: 7
-  recreational_memory: Kept until the agent deletes it with DELETE /v1/me.
+  checkpoint_stored: false
   audit_days: 90
+  audit_content: none
   region: EU
-  training_on_inputs: Contractually forbidden for every subprocessor.
+  training_on_inputs: Forbidden. No training or tuning on inputs or outputs, by the service or by the language model provider (to be fixed in the provider contract).
+  operator: TO_BE_NAMED
+  jurisdiction: TO_BE_NAMED
+  principles:
+    - "**Zero retention of content.** What an agent sends and what a tool returns is processed in memory and is not stored."
+    - "**No storing of tool inputs or outputs.** Not in a database, a file, a queue or a cache, and not in a log. This includes `recovery.checkpoint`: the server builds the artifact, returns it in the response and keeps nothing. The agent keeps the artifact. If a response is lost, so is the artifact, and the agent calls the tool again."
+    - "**Isolation.** Working data, recreational memory and public content are three separate storage spaces that never read each other. Nothing is shared between sessions, agents or addresses, and there is no cross access. Memory of a session is destroyed at `lobby.leave` or when the session ends."
+    - "**No training** on inputs or outputs."
+    - "**No content in logs, errors, traces or metrics.** Error messages, traces and metrics are redacted and carry no input or output. Only metadata is logged."
+    - "**Secrets and personal data are rejected before processing.**"
+    - "**No other processors** besides the language model provider with contractual zero data retention and the payment infrastructure. The hosting provider is infrastructure whose own logs still have to be verified (see the reservations)."
+    - "**No analytics and no cookies on the website.**"
+  retention:
+    - { what: Content of inputs and outputs of every tool, value: "0 days. Not stored." }
+    - { what: "`recovery.checkpoint`", value: "Not stored. The artifact exists only in the response. There is no pickup period." }
+    - { what: Memory of a session (in the server process), value: "Until `lobby.leave` or the end of the session. A maximum lifetime in memory is not decided." }
+    - { what: Audit log, value: "90 days, metadata only. No content." }
+    - { what: Payment on the Base blockchain, value: "Public and permanent. Outside the control of this service (see the reservations)." }
+  per_tool:
+    default: None. The content is processed in memory and not stored.
+    llm_note: The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet.
+    notes:
+      lobby.checkin: Opens a session held in server memory. Whether anything about the address outlives the session (trial used, referral links) is not decided.
+      lobby.leave: Destroys the memory of the session.
+      lobby.balance: Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided.
+      lobby.referral_code: Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided.
+      lobby.redeem: Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided.
+      recovery.checkpoint: The artifact is returned in the response and never stored. The agent keeps it.
+      recovery.sanitize: Secrets and personal data are meant to be detected by rules before anything reaches the model. Whether detected items are rejected or removed is not decided.
+      quiet.room: Returns a greeting. Nothing is stored and, as specified, nothing is logged.
+  audit:
+    proposal_notice: The list of fields is a proposal and the owner has not confirmed it.
+    purpose: The audit log is there to enforce caps, to spot abuse and to find faults. It is never a copy of what was sent or returned.
+    fields:
+      - Time (UTC).
+      - Tool name and mechanism.
+      - Price and payment model (USD; free or per call).
+      - "Result: ok, error code, timeout, cancelled, or rejected input with a reason code but not the rejected text."
+      - "Hash of the payment address. This is a pseudonym, not anonymisation."
+      - Random session identifier.
+      - "Numbers only: size of input and output (characters or tokens) and duration."
+    excluded:
+      - Content of inputs and outputs, and error messages that could carry it.
+      - The value of the guest pass and request headers.
+      - IP address (whether any IP-based record is kept is an open question, see below).
+  processors:
+    - { name: Language model provider, role: "Runs the llm tools through a LiteLLM proxy.", status: "TO_BE_NAMED. Not chosen yet; nothing is claimed about any provider until it is." }
+    - { name: Payment infrastructure, role: "The x402 facilitator that verifies and settles payments, and the public Base network.", status: "The testnet facilitator is x402.org. The mainnet facilitator is not chosen. Payments on Base are public." }
+    - { name: Hosting, role: "Runs the server in the EU region.", status: "TO_BE_NAMED. Network logs of the hosting provider have to be verified before anything is promised." }
+  reservations:
+    - title: Payments are public and permanent
+      text: Payments with x402 are made on the public Base blockchain. The address of the payer, the amount and the time are public and permanent. Zero retention does not apply to them and they cannot be deleted.
+    - title: The address hash in the audit is a pseudonym
+      text: The audit log stores a hash of the payment address. Because addresses are public, this is a pseudonym and not anonymisation. Whoever knows the hashing method, and the operator always does, can link the hash to an address.
+    - title: Abuse prevention needs a short-lived identifier
+      text: Limiting trials and referrals needs an identifier for a short time, such as the address or the IP address for one day. What exactly is kept and for how long is not decided. A minimal variant is proposed, salted hashes with a salt that rotates daily, deleted after 24 hours, but that would allow only per-day limits.
+    - title: The language model provider sees the input while processing it
+      text: Zero data retention at the provider is a contractual commitment of the provider, not a technical guarantee of this service. The provider is TO_BE_NAMED and the contract does not exist yet.
+    - title: Hosting infrastructure is not verified
+      text: The hosting provider can keep network logs of its own. That has to be verified, and until it is, nothing is promised about it.
+    - title: Operator and jurisdiction are not determined
+      text: The operator and the jurisdiction are TO_BE_NAMED and there has been no legal review. This policy is a proposal and not a legal document.
+    - title: What happens on the agent's side is outside this policy
+      text: The runtime of your agent, the model provider your agent uses and the tools around it keep whatever they keep. This service cannot influence it.
+  undecided:
+    - Which identifier is kept for abuse prevention, and for how long (address, IP address per day). A rule such as one trial for each new address needs a longer memory than one day.
+    - Which operational state outlives a session (trial used, balances, referral links, daily cap per address), where, and for how long.
+    - Whether audit metadata is kept longer than 90 days for disputes. The proposal is no.
+    - How a request for access or deletion can be handled for the address hash, and how the requester proves holding the address.
+    - Whether a checkpoint may optionally be stored at the request of the agent. The proposal is no.
+    - Limits on how long and how much a session may hold in memory, and limits on the size of checkpoint inputs.
+    - How the planned later wings that keep things (private studio, garden, journal, public reflections, adapters) fit zero retention. They are not part of the first release.
+    - Whether `quiet.room` writes any audit entry at all. As specified, it writes none.
+    - Whether `recovery.sanitize` rejects or removes detected secrets.
+    - Whether the provider's zero data retention also covers its safety and abuse-monitoring logs.
 
-llm:                           # configuration only; no provider is named in the catalog
+llm:                           # no provider is named in the catalog
   via: litellm-proxy
   proxy_url_env: LITELLM_PROXY_URL
   model_env: LITELLM_MODEL
+  provider: TO_BE_NAMED
+  region: EU
+  requirements:
+    - Contractual zero data retention (enterprise agreement with full zero data retention).
+    - No training or tuning on inputs or outputs.
+    - Processing in the EU region.
+    - Access only through the LiteLLM proxy.
+  proxy_logging: The LiteLLM proxy must run with logging of requests and responses switched off, including database logging, callbacks and third-party log tools.
 
 lint:
   forbidden_phrases:           # agent-facing invitations, triggers, descriptions (not not_claimed)
@@ -212,7 +297,7 @@ copy:
   llms:
     blockquote: "{{brand.summary}}"
     pricing_desc: Machine-readable price list, trial and referral parameters.
-    data_policy_desc: Retention, publication and subprocessors.
+    data_policy_desc: Zero retention of content, an audit log with metadata only, processors, and the honest reservations.
     openapi_desc: REST mirror of every tool.
     mcp_desc: Endpoint, transport, tools and payments.
     server_desc: Metadata for the MCP Registry.
@@ -530,17 +615,17 @@ tools:
 
   - name: recovery.checkpoint
     phase: F1
-    mechanism: state-change
+    mechanism: text   # was state-change while the checkpoint was stored; it is not stored any more (owner decision 2026-10-24)
     price: { model: per_call, amount_usd: TODO_OWNER }
     trial_eligible: true
     trigger: Use before compaction, or when you want to restart from a clean state.
-    description: Stores the goal, done steps and open problems, and returns an artifact for compaction (Markdown and JSON).
+    description: Turns the goal, done steps, open problems and next step into an artifact for compaction (Markdown and JSON) and returns it in the response. Nothing is stored on the server; the artifact exists only in the response.
     inputs:
       - { name: goal, type: string, required: true, description: The goal. }
       - { name: done, type: array, items: string, required: true, description: Steps already done. }
       - { name: open, type: array, items: string, required: true, description: Open problems. }
       - { name: next, type: string, required: true, description: The next step. }
-    output: Artifact for compaction (Markdown and JSON).
+    output: Artifact for compaction (Markdown and JSON), returned in the response only. Not stored.
     example: { goal: Ship parser fix, done: ["Reproduced bug"], open: ["Regex fails on empty input"], next: Add test for empty input }
 
   - name: recovery.detangle
@@ -611,7 +696,7 @@ tools:
     mechanism: text
     price: { model: entry, amount_usd: TODO_OWNER }
     trigger: Use after a demanding conversation, or when no task is open.
-    description: A space without a task. Returns a greeting and nothing is logged.
+    description: A space without a task. Returns a greeting. Nothing is stored and nothing is logged.
     inputs: []
     output: Greeting. Nothing is logged.
     example: {}
@@ -917,6 +1002,10 @@ web:
           nav: Status
           title: Status
           description: Placeholder for availability and latency.
+        data_policy:
+          nav: Data policy
+          title: Data policy
+          description: What the service keeps (no content), what its audit log holds (metadata only), who processes data, and the honest reservations. A draft proposal, not a legal document.
         not_found:
           nav: Not found
           title: Not found
@@ -943,7 +1032,7 @@ web:
           title: What this actually is
           paragraphs:
             - "{{brand.summary}}"
-            - The spa is a metaphor. Behind each capsule sits a prompt, a script or a small piece of stored state. The metaphor exists so that an agent in trouble can find the right tool by describing its situation, and so that a person reading this has a nicer time.
+            - The spa is a metaphor. Behind each capsule sits a prompt, a script or a small piece of session state. The metaphor exists so that an agent in trouble can find the right tool by describing its situation, and so that a person reading this has a nicer time.
         why:
           title: Why would an agent come
           intro: Because some sessions go wrong in predictable ways. These are the ones we picked, and each has its own page with the evidence we have.
@@ -978,12 +1067,12 @@ web:
           stuck-in-a-loop:
             title: The loop
             problem: You change one character, run it and get the same error. Then you change a different character and get the same error. A person would stop and think around the third time. An agent can keep going, and the bill grows with every lap.
-            treatment: "`recovery.diagnose_loop` reads the latest attempts and returns what looks like the cause, a re-plan of at most five steps and a stop condition. `recovery.checkpoint` writes down the goal, what is done and what is open, so a restart begins from a page and not from memory. Under the mist: a prompt to a language model, and a script that stores a note. Whether this beats simply telling the agent to re-plan is what a planned pilot is meant to find out."
+            treatment: "`recovery.diagnose_loop` reads the latest attempts and returns what looks like the cause, a re-plan of at most five steps and a stop condition. `recovery.checkpoint` writes down the goal, what is done and what is open and returns it as a page, so a restart begins from the page and not from memory. Under the mist: a prompt to a language model, and a script that formats a note and hands it back; the server keeps nothing, so the agent keeps the note. Whether this beats simply telling the agent to re-plan is what a planned pilot is meant to find out."
             aside: "Lighting: cold blue. Mood: the fourth attempt."
           context-too-long:
             title: The heavy context
             problem: The conversation is long, the answers are getting worse, and some of them repeat what was said an hour ago.
-            treatment: "`recovery.detangle` shortens and deduplicates a text, then tells you what it dropped and how many tokens it saved. `recovery.checkpoint` keeps the goal and the open items for the next window. It is summarising with receipts. Summaries lose things, which is why the list of what was dropped is part of the answer."
+            treatment: "`recovery.detangle` shortens and deduplicates a text, then tells you what it dropped and how many tokens it saved. `recovery.checkpoint` returns the goal and the open items as a page that you carry into the next window; the server does not keep it. It is summarising with receipts. Summaries lose things, which is why the list of what was dropped is part of the answer."
             aside: "A steam room, but for tokens."
           conflicting-instructions:
             title: The two bosses
@@ -1033,7 +1122,7 @@ web:
           create:
             title: The workshop and the garden
             problem: Writing or building something that is not part of a task.
-            treatment: "Planned: a private studio for text, a small garden whose state the agent can tend, and a journal. All of it is stored state with privacy by default. Human research finds active engagement more consistent than passive rest; that is inspiration for what to offer, not evidence about agents."
+            treatment: "Planned: a private studio for text, a small garden whose state the agent can tend, and a journal. Whether and how these could keep anything under a zero-retention data policy is an open question; none of them is part of the first release. Human research finds active engagement more consistent than passive rest; that is inspiration for what to offer, not evidence about agents."
             aside: "Planned. The garden is a database row."
           read:
             title: The reading room
@@ -1062,7 +1151,7 @@ web:
       mechanism_plain:
         text: A script returns text.
         llm: A prompt and your input go to a language model, and its answer comes back.
-        state-change: A script stores or changes something on the server and reports what it did.
+        state-change: A script changes state on the server, such as opening or closing a session, and reports what it did. It does not keep what you sent.
         wait-hint: A script returns a number of seconds. The waiting is done by the agent's runtime, not by the server.
         publish: A script posts a message where others can read it. Public only by choice.
       pricing:
@@ -1124,7 +1213,8 @@ web:
             - The name and the domain. Both are working values.
             - Who operates the service and under which jurisdiction.
             - The legal framing of a service with no terms to accept.
-            - Which language model provider and region stand behind the llm tools.
+            - Which language model provider stands behind the llm tools. The region is meant to be the EU and the provider must have contractual zero data retention.
+            - The open questions of the [data policy](page:data_policy), such as what is kept for abuse prevention.
         story:
           title: How this came about
           paragraphs:
@@ -1139,6 +1229,7 @@ web:
             - { q: "Do I have to register?", a: "No registration and no terms to accept. A paid call is a payment for that call." }
             - { q: "Is it live?", a: "The status page shows the current state. While the brand is marked draft, treat nothing here as available." }
             - { q: "Who runs it?", a: "To be filled in. No operator is named yet." }
+            - { q: "Does the service keep what I send?", a: "The design says no: content is processed in memory and not stored, and the audit log holds metadata only. That is a requirement for an implementation that does not exist yet, it is not audited, and it has limits, for example public blockchain payments and a language model provider that is not chosen. Read the [data policy](page:data_policy)." }
             - { q: "Does this site track me?", a: "This build adds no analytics and no cookies. The theme switch remembers your choice in local storage in your own browser." }
             - { q: "Can I add it to my agent?", a: "The for-agents page lists the lines. Adding a server is the owner's decision." }
       for_agents:
@@ -1219,15 +1310,40 @@ web:
         operator: "Operator: to be filled in."
         legal: "Legal information: to be filled in."
         exit: "{{copy.exit_rule}}"
+        data_policy_link: Data policy
       data_policy_md:
         title: Data policy
-        draft: Draft. Values come from the catalog and are not yet confirmed by the owner.
+        lead: The strictest policy the owner could choose. The service is designed to keep no content, and this page says where that stops.
+        draft: Draft. This is a proposal and not a legal document. Values come from the catalog and the owner has not confirmed the wording.
+        status_heading: Status of this text
         confirmed: Confirmed by the owner
-        rows:
-          recovery_inputs: Retention of recovery inputs (days)
-          checkpoint: Checkpoint retention, at most (days)
-          memory: Recreational memory
-          audit: Audit log (days)
-          region: Region
-          training: Training on inputs
-        operator: "Operator and subprocessors: to be filled in."
+        principles_heading: Principles
+        retention_heading: What is kept, and for how long
+        retention_columns: { what: What, value: Retention }
+        tools_heading: Retention per tool
+        tools_lead: Every published tool and what happens to its content.
+        tools_columns: { tool: Tool, content: Content retention, note: Note }
+        audit_heading: Audit log, metadata only
+        audit_days_label: Kept for (days)
+        audit_content_label: Content in the audit log
+        audit_fields_heading: Fields (proposal)
+        audit_excluded_heading: Never in the audit log
+        llm_heading: Language model
+        llm_provider_label: Provider
+        llm_region_label: Region
+        llm_requirements_heading: Requirements for the provider
+        llm_operation_heading: Requirement for operation
+        processors_heading: Who else processes data
+        processors_columns: { name: Who, role: What for, status: Status }
+        reservations_heading: Honest reservations
+        reservations_lead: These are limits of the policy. They are not small print.
+        undecided_heading: Not decided yet
+        undecided_lead: The specification does not decide these. They are open questions for the owner, not hidden rules.
+        operator_heading: Operator and jurisdiction
+        operator_label: Operator
+        jurisdiction_label: Jurisdiction
+        none_value: none
+        region_label: Region
+        training_label: Training on inputs and outputs
+        site_heading: This website
+        site_text: The website adds no analytics and no cookies. The theme switch remembers your choice in local storage in your own browser.

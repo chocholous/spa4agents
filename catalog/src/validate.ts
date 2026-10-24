@@ -114,6 +114,16 @@ export function validateDoc(raw: Catalog): Report {
     if (!doc.evidence_labels.display[l]) errors.push(`evidence_labels.display lacks ${l}`);
   if (doc.session.warning_at_percent !== 80) errors.push("session.warning_at_percent must be 80 (spec)");
 
+  for (const k of Object.keys(doc.data_policy.per_tool.notes))
+    if (!doc.tools.some((t: any) => t.name === k)) errors.push(`data_policy.per_tool.notes: unknown tool ${k}`);
+  const walkPolicy = (where: string, v: any) => {
+    if (typeof v === "string") lint(where, v);
+    else if (Array.isArray(v)) v.forEach((x, i) => walkPolicy(`${where}[${i}]`, x));
+    else if (v && typeof v === "object") for (const [k, x] of Object.entries(v)) walkPolicy(`${where}.${k}`, x);
+  };
+  walkPolicy("data_policy", doc.data_policy);
+  walkPolicy("llm", doc.llm);
+
   validateWeb(doc, forbidden, errors);
 
   const todos = collectTodos(doc);

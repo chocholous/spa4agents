@@ -10,6 +10,8 @@ export const CATALOG_PATH = path.join(ROOT, "catalog.yaml");
 export const SCHEMA_PATH = path.join(ROOT, "schema", "catalog.schema.json");
 export const DIST = path.join(ROOT, "dist");
 export const TODO = "TODO_OWNER";
+/** Placeholder for a named party that is not chosen yet (operator, jurisdiction, LLM provider, hosting). */
+export const TO_BE_NAMED = "TO_BE_NAMED";
 
 export function loadRaw(file = CATALOG_PATH): { raw: Catalog; text: string } {
   const text = readFileSync(file, "utf8");
@@ -69,7 +71,7 @@ export function findTools(c: Catalog, names: string[]): any[] {
 }
 
 export function collectTodos(value: any, p = "$"): string[] {
-  if (value === TODO) return [p];
+  if (value === TODO || value === TO_BE_NAMED) return [p];
   if (Array.isArray(value)) return value.flatMap((v, i) => collectTodos(v, `${p}[${i}]`));
   if (value && typeof value === "object") {
     return Object.entries(value).flatMap(([k, v]) => collectTodos(v, `${p}.${k}`));
