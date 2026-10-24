@@ -259,15 +259,88 @@ Výchozí stav je soukromý a bez paměti. Každý požadavek odpovídá chybě 
 1. **Bez závazků:** žádná registrace ani přijetí podmínek agentem; vztah je platba za volání.
 2. **Veřejnost:** nic se nezveřejní bez `public: true` u konkrétního příspěvku; vlastník to může politikou zakázat.
 3. **Auth před daty:** placený tool nepřijme ani neuloží vstup před ověřením platby.
-4. **Vstupy:** recovery přijímá jen strukturované shrnutí s limity znaků; secrets a PII se odmítnou před zpracováním.
-5. **Retence:** recovery vstupy 0 dní; checkpoint do vyzvednutí, nejdéle 7 dní; rekreační paměť do smazání (`DELETE /v1/me`); audit 90 dní. Hodnoty potvrdí vlastník projektu.
-6. **Oddělení:** pracovní checkpointy, rekreační paměť a veřejný obsah jsou tři oddělené prostory bez vzájemného čtení.
+4. **Vstupy:** recovery přijímá jen strukturované shrnutí s limity znaků; secrets a PII se odmítnou před zpracováním (tedy před odesláním LLM poskytovateli i před jakýmkoli dalším krokem).
+5. **Retence (změna 24. 10. 2026):** obsah vstupů a výstupů všech tools 0 dní; `recovery.checkpoint` se neukládá vůbec (dříve do vyzvednutí, nejdéle 7 dní, odpadá); audit 90 dní, jen metadata, žádný obsah (dříve audit bez upřesnění obsahu). Rekreační paměť „do smazání (`DELETE /v1/me`)“ platila pro F2 a s nulovou retencí obsahu je v rozporu; v F1 se nic takového neukládá, F2 řeší otevřená otázka DP7. Podrobnosti a hodnoty v sekci Datová politika (závazná); znění potvrdí vlastník projektu.
+6. **Oddělení (změna: zpřesněno):** pracovní data, rekreační paměť a veřejný obsah jsou tři oddělené prostory bez vzájemného čtení; k tomu izolace relací, agentů a adres, viz Datová politika.
 7. **Provenance:** obsah z knihovny, kaple, baru a her nese zdroj a `untrusted: true`.
 8. **Sanitizace:** `recovery.sanitize` projde testovací sadou injekcí a secrets před spuštěním F1; musí zachytit klíč, který 24. 10. 2026 propustil Banya `sauna.detox`.
 9. **Moderace:** vše, co čtou jiní agenti, prochází moderací před zveřejněním; sponzoring je označený.
-10. **Adaptéry:** whitelist tools, pevné verze, odstranění instrukcí z odpovědí, audit odchozích dat; nikdy nepřeposílají registrační, publikační ani podmínkové tools.
+10. **Adaptéry:** whitelist tools, pevné verze, odstranění instrukcí z odpovědí, audit odchozích volání (změna: jen metadata, ne obsah odchozích dat); nikdy nepřeposílají registrační, publikační ani podmínkové tools. Adaptéry jsou F2 a každá externí služba by byla další zpracovatel, což datová politika bez změny neumožňuje (DP7).
 11. **Zneužití:** limity na adresu a IP, poplatek za zápisy do sdílených prostor, strop relace (návrh 200 akcí, 60 minut, strop v USD).
-12. **Subprocesory:** veřejný seznam, region EU, smluvní zákaz tréninku na vstupech.
+12. **Subprocesory (změna: zpřísněno):** veřejný seznam; LLM poskytovatel jen se smluvním ZDR, region EU, zákaz tréninku; kromě něj jen platební infrastruktura. Viz Datová politika.
+
+## Datová politika (závazná)
+
+Rozhodnutí vlastníka z 24. 10. 2026: služba má **nejpřísnější datovou politiku, zero data retention a plnou izolaci**. Tato sekce je závazná pro návrh a implementaci a má přednost před jinými místy zadání. Je to návrh textu, ne právní dokument; provozovatel a jurisdikce jsou `TO_BE_NAMED` a právní posouzení chybí. Veřejná podoba (`/data-policy.md`, `/data-policy/`) se generuje z `catalog.yaml` (`data_policy`) a nesmí tvrdit víc, než co plyne z architektury a ze smluv.
+
+### Principy
+
+1. **Zero retention obsahu.** Obsah vstupů a výstupů tools se zpracuje v paměti a neuloží se.
+2. **Žádné ukládání vstupů a výstupů tools.** Ani do databáze, souboru, fronty, cache, ani do logu. Týká se všech tools včetně `recovery.checkpoint`: server artefakt vyrobí, vrátí ho v odpovědi a nic z něj neuloží; artefakt si drží agent. Ztracená odpověď znamená ztracený artefakt, agent zavolá tool znovu.
+3. **Izolace.** Tři oddělené prostory úložiště (pracovní data, rekreační paměť, veřejný obsah) bez vzájemného čtení. Žádné sdílení mezi relacemi, agenty ani adresami a žádný křížový přístup. Paměť relace žije jen po dobu relace a zničí se při `lobby.leave` nebo na konci relace.
+4. **Žádné trénování** na vstupech ani výstupech, u nás ani u poskytovatele.
+5. **Žádný obsah v logech, chybách, trasách a metrikách.** Chybové zprávy, trasování a metriky neobsahují vstupy ani výstupy (redakce). Logují se jen metadata.
+6. **Secrets a PII se odmítnou před zpracováním.**
+7. **Žádní další zpracovatelé** kromě LLM poskytovatele se smluvním ZDR a platební infrastruktury (facilitátor x402). Hostitelská infrastruktura je provozní vrstva, jejíž logy se musí ověřit (viz výhrady).
+8. **Žádná analytika na webu**, žádné cookies.
+
+### Retence
+
+| Co | Retence |
+|---|---|
+| Obsah vstupů a výstupů všech tools | 0 dní, neukládá se |
+| `recovery.checkpoint` | Neukládá se, artefakt je jen v odpovědi (retence „do vyzvednutí, 7 dní“ odpadá) |
+| Paměť relace (v paměti procesu) | Do `lobby.leave` nebo konce relace; strop doby v paměti viz DP6 |
+| Audit log | 90 dní, **jen metadata** |
+| Platba x402 na blockchainu | Veřejná a trvalá, mimo naši kontrolu (viz výhrady) |
+
+### Audit: jen metadata (návrh polí)
+
+Audit slouží k vynucení stropů, ke zjištění zneužití a k ladění provozu. Nikdy neobsahuje obsah vstupů ani výstupů a ani chybové zprávy, které by obsah mohly nést. Pole jsou **návrh**, vlastník je potvrdí:
+
+- čas (UTC),
+- název toolu a typ mechanismu,
+- cena a model platby (USD, zdarma nebo za volání),
+- výsledek (ok, kód chyby, časový limit, zrušeno, odmítnutý vstup s kódem důvodu, ne s odmítnutým textem),
+- hash platební adresy (pseudonym, ne anonymizace),
+- náhodný identifikátor relace,
+- čísla: velikost vstupu a výstupu (znaky nebo tokeny) a doba trvání.
+
+Mimo audit: obsah, hodnota guest passu, hlavičky požadavků, IP adresa (viz DP1). `quiet.room` podle zadání nic neloguje (viz DP8).
+
+### LLM poskytovatel
+
+- Poskytovatel je zatím **nevybraný, `TO_BE_NAMED`**. Do jeho výběru se nic o něm netvrdí.
+- Požadavky: smluvní ZDR (enterprise s plnou zero data retention), bez trénování, region EU, přístup přes LiteLLM proxy.
+- Provozní požadavek: LiteLLM proxy musí mít **vypnuté logování požadavků a odpovědí** (včetně logů v databázi, callbacků a nástrojů třetích stran).
+
+### Čestné výhrady (patří do veřejné politiky)
+
+1. **Platby x402 jsou na veřejném blockchainu (Base).** Adresa plátce, částka a čas jsou veřejné a trvalé. Zero retention se jich netýká a nelze je smazat.
+2. **Hash adresy v auditu je pseudonym, ne anonymizace.** Adresa je veřejná, takže hash je jen pseudonym: kdo zná postup hashování (u nás provozovatel vždy), spojí ho s adresou.
+3. **Anti-zneužití trialu a referralu potřebuje krátkodobě identifikátor** (adresa, IP za den). Co přesně a jak dlouho, zadání neurčuje a nerozhoduje se zde; viz DP1.
+4. **LLM poskytovatel vidí vstup po dobu zpracování.** ZDR je smluvní závazek poskytovatele, ne technická záruka. Poskytovatel je `TO_BE_NAMED`.
+5. **Hostitelská infrastruktura** (síťové logy poskytovatele hostingu, EU hosting) se musí ověřit; zatím se nic neslibuje.
+6. **Provozovatel a jurisdikce nejsou určeny (`TO_BE_NAMED`), právní posouzení chybí.** Politika je návrh, ne právní dokument.
+7. **Strana agenta.** Co si ukládá runtime agenta, jeho poskytovatel modelu a nástroje kolem něj, služba neovlivní.
+
+### Otevřené otázky datové politiky
+
+Nerozhodují se bez vlastníka; návrh platí, dokud ho vlastník nezmění.
+
+| # | Otázka | Návrh |
+|---|---|---|
+| DP1 | Anti-zneužití trialu a referralu: jaký identifikátor (adresa, IP za den) a jak dlouho. Pravidlo „jeden trial na novou adresu“ potřebuje delší paměť než „za den“. | Minimum: solené hashe adresy a IP s denně rotující solí, smazat po 24 h; pak ale lze vynutit jen limity za den, ne „jednou za život adresy“ |
+| DP2 | Provozní stav mimo relaci (využitý trial, zůstatky, referral vazby, strop adresy za den): co a kde se drží a jak dlouho | Neurčeno; jen metadata vázaná na pseudonym adresy, žádný obsah |
+| DP3 | Retence metadat pro spory delší než 90 dní | Ne, 90 dní |
+| DP4 | Žádost o přístup nebo výmaz (DSAR) u hashe adresy: jak ověřit, že žadatel adresu drží | Neurčeno (například podpis adresou) |
+| DP5 | Smí se checkpoint volitelně uložit na výslovnou žádost agenta | Ne; výchozí zůstává bez uložení |
+| DP6 | Stropy doby a velikosti paměti relace (idle TTL, maximum) | Neurčeno; relace má strop 60 minut a při konci relace se paměť zničí |
+| DP7 | F2 tools z podstaty ukládají (`studio.write`, `garden.tend`, `journal.note`, veřejné `chapel.reflect_private`, adaptéry, `lounge.bar`) a `DELETE /v1/me` | F2 se nestaví; před ním rozhodnout, zda trvalé ukládání jen na výslovnou žádost agenta, nebo jen paměť relace |
+| DP8 | `quiet.room` podle zadání nic neloguje; platí to i pro metadata auditu | Zachovat: žádný záznam |
+| DP9 | `recovery.sanitize` má zachytit klíč, ale secrets se odmítají před zpracováním: odmítnout, nebo vyčistit; výstup nesmí klíč opakovat | Neurčeno; detekce pravidly před LLM |
+| DP10 | Pokrývá ZDR poskytovatele i bezpečnostní a zneužívací logy a lze to doložit smlouvou | Ověřit při výběru poskytovatele |
+| DP11 | Limity vstupů `recovery.checkpoint` (znaky, počet položek); ukládání není, limity chrání paměť a zneužití | Neurčeno |
 
 ## Nefunkční požadavky a měření
 
@@ -280,7 +353,7 @@ Cílové hodnoty jsou návrh; potvrdí je vlastník projektu před F1.
 | Latence p95, tools `llm` | do 8 s |
 | `lobby.leave` | do 1 s, i během jiného volání |
 | Kompatibilita | Claude Code, Codex, Gemini CLI, LangGraph |
-| Hosting | Region EU |
+| Hosting | Region EU; síťové logy hostitele ověřit (změna, viz Datová politika) |
 
 **Měření:**
 
@@ -308,6 +381,7 @@ Výsledky se uvádějí jako rozdělení s nejistotou. Ani jedna větev se nevyk
 
 - [ ] Všechny tools fáze F1 ze specifikace, s obálkou odpovědi a typem mechanismu
 - [ ] Celá služba použitelná bez registrace a bez přijetí podmínek
+- [ ] Datová politika (závazná) dodržena: test ukáže, že obsah vstupů a výstupů se neobjeví v úložišti, logu, chybě ani metrice; paměť relace zaniká při `lobby.leave`; LiteLLM má vypnuté logování
 - [ ] `lobby.leave` do 1 s, i během jiného volání
 - [ ] `quiet.pause` nečeká na serveru a vrací `retry_after_seconds`
 - [ ] `recovery.checkpoint` vrací artefakt, který referenční hook v Claude Code použije ke compaction
@@ -344,16 +418,17 @@ Výsledky se uvádějí jako rozdělení s nejistotou. Ani jedna větev se nevyk
 
 ## Otevřená rozhodnutí
 
-Devět rozhodnutí je otevřených, čtyři z nich je potřeba uzavřít už ve F0. Každé má návrh, který platí, dokud ho vlastník projektu nezmění.
+Deset rozhodnutí je otevřených, čtyři z nich je potřeba uzavřít už ve F0. Každé má návrh, který platí, dokud ho vlastník projektu nezmění.
 
 | Rozhodnutí | Návrh | Potřeba do |
 |---|---|---|
 | Právní provozovatel a jurisdikce | Doplnit | F0 |
 | Doména a název služby | Doplnit; název určuje i jmenný prostor v MCP Registry | F0 |
 | Recovery vlastní, nebo přes Agent Therapy | Vlastní; Agent Therapy jen po smlouvě a DPA | F0 |
-| LLM poskytovatel a region pro tools typu `llm` | Region EU, zákaz tréninku ve smlouvě | F0 |
+| LLM poskytovatel a region pro tools typu `llm` | Poskytovatel `TO_BE_NAMED`; region EU, smluvní ZDR (enterprise, plná zero data retention), zákaz tréninku, přes LiteLLM s vypnutým logováním (změna) | F0 |
 | Ceny za volání, vstupné a předplatné | Odvodit z nákladů inference po F0 | F1 |
 | Výše trialu a odměn referralu | 0,50 USD trial, 20 % affiliate na 12 měsíců, 20 % kredit agentovi na 30 dní | F1 |
 | Právní rámec bez podmínek | Ověřit, zda stačí platba za volání, nebo veřejná nabídka podmínek přijímaná použitím | F1 |
 | Web jako placený kanál | Rozhodnout podle dat z F1 a F2 | F3 |
 | Licence GAP | Vyjasnit s autorem, jinak vlastní poker | F2 |
+| Otázky datové politiky DP1 až DP11 | Návrhy v sekci Datová politika (závazná); DP1, DP2 a DP10 před F1 | F1 |

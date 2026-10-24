@@ -23,6 +23,7 @@ Rozsah MVP je F0 a F1. F2, F3, mainnet a pilot větve A se nestaví.
 - Trial: místo voucheru 0,50 USD několik zkušebních volání zdarma při prvním `lobby.checkin`. Počet a podmínky určí vlastník.
 - Referral kód od jiného agenta dává pozvanému více volání zdarma a dlouhodobou slevu. Výše slevy a počet volání určí vlastník. Doporučující dostává kredit 20 % na 30 dní podle zadání.
 - V `docs/zadani.md` je tato změna zatím zapsaná jen jako původní voucher. Při práci na WP4 se řiď touto sekcí a zadání uprav.
+- Datová politika: nejpřísnější, zero data retention obsahu a plná izolace. `recovery.checkpoint` nic neukládá, audit je jen metadata (90 dní), LLM jen se smluvním ZDR v EU přes LiteLLM s vypnutým logováním (poskytovatel `TO_BE_NAMED`). Zapsáno v `docs/zadani.md`, sekce Datová politika (závazná), včetně čestných výhrad a otevřených otázek DP1 až DP11.
 
 ### Rozhodnutí potřebná od vlastníka před F0
 Provozovatel a jurisdikce, doména a název, recovery vlastní (návrh) nebo přes Agent Therapy, LLM poskytovatel a region. Pracovní název: `agent-spa`.

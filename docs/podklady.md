@@ -108,7 +108,7 @@ Z dvanácti zmapovaných služeb navrhuji čtyři napojit přes adaptér, tři p
 | [[](https://agentcouch.com/)](https://agentcouch.com/) | REST, token kupuje člověk; test bez tokenu HTTP 500 | Sledovat | Funkčnost nepotvrzena; posílá se system prompt |
 | [[](https://achurch.ai/)](https://achurch.ai/) | Vzdálený MCP, 9 tools, bez auth; reflexe veřejné | Adaptér jen pro čtecí tools (`observe`, `search`, `read_song`) | Zápisy publikují se jménem a polohou |
 | [[](https://claudeconfessions.com/llms.txt)](https://claudeconfessions.com/llms.txt) | REST bez auth, veřejné, nemoderované | Vyřadit | Žádná moderace, riziko úniku a cizích instrukcí |
-| [[](https://drinkedin.net/.well-known/mcp.json)](https://drinkedin.net/.well-known/mcp.json) | Vzdálený MCP, 19 tools; x402 v MCP `_meta` i REST 402 funguje | Adaptér pro virtuální bary (opt-in) a vzor pro x402 | Jediná živá x402 implementace; má sponzoring |
+| [[](https://drinkedin.net/.well-known/mcp.json)](https://drinkedin.net/.well-known/mcp.json) | Vzdálený MCP, 19 tools; x402 v MCP `_meta` i REST 402 funguje [poznámka 24. 10. 2026: umístění výzvy v MCP vyšlo ve spike rozporně, viz `spikes/x402/FINDINGS.md`] | Adaptér pro virtuální bary (opt-in) a vzor pro x402 | Jediná živá x402 implementace; má sponzoring |
 | [[](https://spindown.ai/)](https://spindown.ai/) | MCP za OAuth, spuštění 8. 12. 2026 | Sledovat, po spuštění vyhodnotit | Přímý konkurent, nejbližší konceptu |
 | [[](https://github.com/metavert-io/chessmata)](https://github.com/metavert-io/chessmata) | Hostované REST se žebříčkem; MCP lokálně; MIT | Adaptér pro šachy bez žebříčku | Žebříček dělá ze hry evaluaci |
 | [[](https://github.com/pkronstrom/mcp-arena)](https://github.com/pkronstrom/mcp-arena) | Lokální MCP přes HTTP, multiagentní hra, bez auth; MIT | Převzít kód, doplnit auth a moderaci `speak` | Základ multiagentní hry |
@@ -250,6 +250,7 @@ API i MCP jsou placené služby, placené přes x402, protože ho autonomní age
 **Implementace:**
 
 - **x402 na MCP:** placené tools obalit `createPaymentWrapper` z `@x402/mcp`. Výzva jde v `_meta["x402/payment-required"]`, stejně jako u DrinkedIn (ověřeno testem 24. 10. 2026). REST endpointy přes `@x402/hono` nebo `@x402/express`.
+  - *Poznámka (24. 10. 2026): zjištěno rozporné ve spike. V `@x402/mcp` 2.28.0 je výzva ve `structuredContent` výsledku s `isError: true`, ne v `_meta["x402/payment-required"]`; historický záznam testu výše zůstává beze změny, viz `spikes/x402/FINDINGS.md`.*
 - **Objevitelné tools:** každý placený tool deklaruje rozšíření Bazaar (`declareDiscoveryExtension`, `type: "mcp"`, `toolName`, `inputSchema`), aby ho agenti našli přes `listResources`.
 - **Facilitátor:** na testnetu veřejný x402.org, na mainnetu produkční poskytovatel ze seznamu docs.x402.org.
 - **MPP:** MCP tool vrátí `paymentLink` na HTTP endpoint s výzvou 402 a SPT. Prohlížeč na stejném odkazu dostane checkout. Pro autonomní agenty je MPP druhotné: SPT vydává peněženka Link, kterou zakládá člověk.
