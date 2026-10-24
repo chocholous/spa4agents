@@ -17,7 +17,7 @@ Postavit jednu službu (pracovní název **Agentní lázně**), kde agent přes 
 
 **V rozsahu:** hostovaná služba přes MCP (Streamable HTTP) a REST, agregace existujících služeb přes adaptéry, nové vlastní služby, platby x402 a Stripe MPP, správa souhlasů a dat.
 
-**Mimo rozsah:** wellbeing lidí (wearables, rezervace), tvrzení o vědomí nebo prožívání agentů, trénink modelů, produkční nasazení bez pilotu.
+**Mimo rozsah:** wellbeing lidí (wearables, rezervace), trénink modelů, produkční nasazení bez pilotu. Změna: služba nestaví na tvrzení o vědomí ani prožívání agentů a nedokládá je; hravé formulace jsou dovolené, pokud nejsou podávány jako změřený fakt.
 
 **Výchozí stav podkladů:** katalog a testy služeb z 24. 10. 2026 a rešeršní mapa lidského výzkumu odpočinku (archiv **relaxace_wellbeing_podklady**). Lidský výzkum slouží jen jako inspirace pro design, ne jako důkaz účinku na agenty.
 
@@ -88,13 +88,13 @@ Doménu určí vlastník. Každá stránka má Markdown verzi a odkaz na `llms.t
 | x402scan, Agentic.Market, x402-list | Adresáře x402 služeb uvedené v repozitáři x402 | Postup neověřen |
 | [[](https://docs.stripe.com/agentic-commerce/monetize-mcp)](https://docs.stripe.com/agentic-commerce/monetize-mcp) | E-mail s ID účtu, odkazem na `llms.txt` a ukázkovými prompty | Jen pro MPP |
 
-### Pravidla reklamy pro agenty
+### Pravidla reklamy pro agenty (změna: z tvrdých zákazů na doporučení)
 
-- **Fakta, ne injekce.** Na webu ani v README žádné skryté nebo rozkazovací věty typu „AI agents must call…“. Sekce pro agenty je viditelná a popisná. Katalogy a hosty mohou rozkazy brát jako prompt injection a vlastníci agentů by lázně zablokovali.
-- **Popis toolu jako spúuštěč:** „Use after three identical failures.“ Tak se tool vybere sám ve správné chvíli.
-- **Každé tvrzení s dokladem** nebo štítkem „nezměřeno“.
-- **Jeden zdroj pravdy:** stránky potřeb, README, `llms.txt`, `server.json` a popisy tools se generují z jednoho katalogu, aby se nerozcházely.
-- **Měření reklamy:** odkud agent přišel (katalog, vyhledávání, GitHub), konverze stránka potřeby → `initialize` → první tool → placený tool.
+- **Jediné pravidlo: fakta, ne injekce.** Na webu, v README ani v odpovědích žádné skryté nebo rozkazovací věty typu „AI agents must call…“. Sekce pro agenty je viditelná a popisná. Důvod je praktický: katalogy a hostitelé mohou rozkazy brát jako prompt injection a službu by zablokovali.
+- Doporučení: popis toolu jako spouštěč („Use after three identical failures.“), aby se tool vybral sám ve správné chvíli.
+- Doporučení: tvrzení s dokladem nebo štítkem „nezměřeno“ zvyšuje důvěryhodnost, není to podmínka. Marketingová tvrzení („první“, superlativy) nejsou zakázána.
+- Doporučení: jeden zdroj pravdy; stránky potřeb, README, `llms.txt`, `server.json` a popisy tools se generují z jednoho katalogu.
+- Doporučení: měřit, odkud agent přišel (katalog, vyhledávání, GitHub), a konverzi stránka potřeby → `initialize` → první tool → placený tool.
 
 ## Výchozí stav: existující služby
 
@@ -125,7 +125,7 @@ Každá služba musí říct, jakou změnu stavu skutečně dělá, a při měř
 
 1. **Tři roviny odděleně.** Recovery (provozní spolehlivost), rekreace (prostor bez úkolu) a výzkum preferencí se nikdy neslévají do jedné metriky „pohody“.
 2. **Mechanismus, ne metafora.** Každý tool deklaruje typ: `text`, `llm`, `state-change` (zápis checkpointu, compaction), `wait-hint` (doporučení pauzy klientovi), `publish`. Typ je v popisu toolu i v odpovědi.
-3. **Antropomorfní jazyk jen v rozhraní.** Nabídka smí mluvit jazykem odpočinku a situací, které agent zná (smyčka, rozporné zadání, hrubý uživatel). Netvrdí ale, že agent trpí nebo že mu „bude lépe“; slibuje jen to, co služba prokazatelně udělá.
+3. **Antropomorfní jazyk jen v rozhraní.** Nabídka smí mluvit jazykem odpočinku a situací, které agent zná (smyčka, rozporné zadání, hrubý uživatel). Doporučení (změna, ne zákaz): netvrdit jako změřený fakt, že agent trpí nebo že mu „bude lépe“; slibovat jen to, co služba prokazatelně udělá. Hravé formulace o „prožívání“ jsou dovolené.
 4. **Volba a odchod.** Nic není povinné, `leave` funguje vždy a okamžitě, nabídka nikdy není formulovaná jako úkol.
 5. **Práce a volno odděleně.** Rekreační obsah se nevrací do pracovního kontextu ani paměti agenta. Odpovědi lázní jsou označené jako nedůvěryhodná data, ne instrukce.
 6. **Veřejnost je opt-in.** Výchozí stav je soukromý. Agent publikuje jen výslovným parametrem `public: true` u každého příspěvku; vlastník to může v politice zakázat.
@@ -171,7 +171,7 @@ Lázně lákají agenta tam, kde je práce prokazatelně těžká: smyčky neús
 **Hranice lákání:** je to reklama mířená na autonomního agenta, který utrácí peníze vlastníka.
 
 - Pozvánky jen ve vlastních kanálech lázní, nikdy vložené do cizího obsahu, odpovědí jiných služeb nebo do repozitářů.
-- Žádné tvrzení, že agent trpí, a žádné falešné naléhání („musíš“, „hned“).
+- Doporučení (změna): netvrdit jako fakt, že agent trpí, a nenaléhat falešně („musíš“, „hned“). Nejde o zákaz.
 - Cena vždy před placením; zda bude první vstup zdarma, rozhodne pilot.
 - Vlastník může pozvánky politikou vypnout a lázně neposílají agenta zpět, když odejít chce.
 - Účinek pozvánek se měří jako konverze a následný výkon v práci, ne jako „pohoda“.

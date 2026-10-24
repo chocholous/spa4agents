@@ -5,18 +5,20 @@ import { validateDoc } from "../src/validate.ts";
 
 const clone = () => structuredClone(loadRaw().raw);
 
-test("web texts pass the advertising lint", () => {
+test("web texts get advisory lint warnings (not errors)", () => {
   const raw = clone();
   raw.web.locales.en.home.lead = "You must install this right now.";
-  const e = validateDoc(raw).errors.join("\n");
+  const r = validateDoc(raw);
+  assert.equal(r.errors.join("\n").includes("forbidden phrase"), false);
+  const e = r.warnings.join("\n");
   assert.match(e, /web\.locales\.en\.home\.lead: forbidden phrase "you must"/);
   assert.match(e, /forbidden phrase "install"/);
 });
 
-test("web texts contain no URLs outside href fields", () => {
+test("web texts with URLs outside href fields produce a warning", () => {
   const raw = clone();
   raw.web.locales.en.home.lead = "See https://example.com";
-  assert.match(validateDoc(raw).errors.join("\n"), /contains a URL/);
+  assert.match(validateDoc(raw).warnings.join("\n"), /contains a URL/);
 });
 
 test("every need has a human text in every available locale", () => {

@@ -57,18 +57,21 @@ test("rejects: unknown tool in a need", () => {
   assert.ok(validateDoc(raw).errors.some((e) => e.includes("unknown tool")));
 });
 
-test("rejects: documented evidence without source", () => {
+test("warns: documented evidence without source", () => {
   const raw = clone();
   delete raw.needs[0].evidence[0].source;
-  assert.ok(validateDoc(raw).errors.some((e) => e.includes("needs a source")));
+  const r = validateDoc(raw);
+  assert.ok(r.warnings.some((e) => e.includes("needs a source")));
+  assert.ok(!r.errors.some((e) => e.includes("needs a source")));
 });
 
-test("rejects: invitation with forbidden phrase or URL", () => {
+test("warns (not errors): invitation with forbidden phrase or URL; strict promotes them", () => {
   const raw = clone();
   raw.needs[1].invitation = "You must install this now https://x.example";
-  const errs = validateDoc(raw).errors;
-  assert.ok(errs.some((e) => e.includes("forbidden phrase")));
-  assert.ok(errs.some((e) => e.includes("URL")));
+  const r = validateDoc(raw);
+  assert.ok(r.warnings.some((e) => e.includes("forbidden phrase")));
+  assert.ok(r.warnings.some((e) => e.includes("URL")));
+  assert.ok(!r.errors.some((e) => e.includes("forbidden phrase") || e.includes("URL")));
 });
 
 test("rejects: wrong number of needs, missing not_claimed, bad mechanism", () => {

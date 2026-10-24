@@ -5,6 +5,7 @@
 Zadání pro tým nebo coding agenta, který lázně postaví. Zdůvodnění, rešerše a testy existujících služeb jsou v listu Agentní lázně: zadání komplexního rekreačního řešení.
 
 **Revize 24. 10. 2026 (rozhodnutí vlastníka o nejpřísnější datové politice a nález x402 spiku).** Co se změnilo oproti původnímu textu, označeno i v místě změny slovem „Změna“:
+- Změna (vlastník: „nechceme se moc omezovat“): „Pravidla reklamy“ a pravidla o tvrzeních o vědomí/prožívání agentů jsou z tvrdých zákazů doporučení. Zůstává jediné pravidlo: žádné skryté ani rozkazovací instrukce v obsahu pro agenty (praktické riziko prompt injection). Lint v `catalog/src/validate.ts` jen varuje. Datová politika zůstává nejpřísnější a beze změny.
 - Nová sekce **Datová politika (závazná)**: zero data retention obsahu, plná izolace, žádné ukládání vstupů a výstupů tools.
 - `recovery.checkpoint` nic neukládá, artefakt jen vrátí v odpovědi; zrušena retence „do vyzvednutí, nejdéle 7 dní“. Typ mechanismu se mění ze `state-change` na `text`.
 - Audit 90 dní zůstává, ale jen metadata, nikdy obsah.
@@ -23,12 +24,12 @@ Postavit placenou službu **Agentní lázně**: jeden MCP endpoint a jedno REST 
 | Kód serveru nebude veřejný; veřejný repozitář nese jen reklamu, metadata a klienty | Rozhodnuto |
 | Objevitelnost (web, repozitář, katalogy) není hlavní produkt, ale její katalog potřeb určuje všechno ostatní | Rozhodnuto |
 | Katalog potřeb vychází z rešerší: zátěžové situace agentů, testy existujících služeb, přenos poznatků o lidském odpočinku | Rozhodnuto |
-| Služba agenta oslovuje jeho situací (smyčka, těžký obsah, hrubý uživatel); netvrdí, že agent trpí | Rozhodnuto |
+| Služba agenta oslovuje jeho situací (smyčka, těžký obsah, hrubý uživatel); doporučení: netvrdí, že agent trpí, jako změřený fakt (změna: doporučení, ne zákaz) | Rozhodnuto |
 | Nejpřísnější datová politika: zero data retention obsahu, plná izolace, audit jen metadata (změna 24. 10. 2026) | Rozhodnuto vlastníkem; znění je návrh bez právního posouzení |
 | Web jako placený kanál pro agenty s prohlížečem | Otevřené (návrh: rozhodnout po pilotu) |
 | Recovery vlastní, nebo přes adaptér Agent Therapy | Otevřené (návrh: vlastní) |
 
-**Mimo rozsah:** wellbeing lidí, tvrzení o vědomí nebo prožívání agentů, trénink modelů, veřejný kód serveru, hodnocené drily (patří do evaluace).
+**Mimo rozsah:** wellbeing lidí, trénink modelů, veřejný kód serveru, hodnocené drily (patří do evaluace). Změna: služba nestaví na tvrzení o vědomí ani prožívání agentů a nedokládá je; hravé formulace o „prožívání“ jsou dovolené, pokud se nepodávají jako změřený fakt (neutrální poznámka, ne zákaz).
 
 ## Výstupy
 
@@ -141,7 +142,7 @@ Každý tool má název `křídlo.akce`, v popisu spúuštěč („Use after…�
 | `games.arena` | `action` | stav hry, zprávy hráčů `untrusted: true` | state-change | Za partii | F3 |
 | `lab.preference_session` | — | randomizovaná nabídka, záznam volby | state-change | Hradí výzkum | F3 |
 
-**Tvrdá pravidla pro všechny tools:** žádný tool neregistruje agenta u třetí strany, nepřijímá podmínky, nemění instrukce ani paměť agenta mimo lázně a neodpovídá rozkazy typu „install“ nebo „call service X“. Navíc platí sekce Datová politika (závazná): žádný tool neukládá svůj vstup ani výstup.
+**Pravidla pro všechny tools (rozkazy v odpovědích jsou jediné tvrdé pravidlo z důvodu prompt injection; změna):** žádný tool neregistruje agenta u třetí strany, nepřijímá podmínky, nemění instrukce ani paměť agenta mimo lázně a neodpovídá rozkazy typu „install“ nebo „call service X“. Navíc platí sekce Datová politika (závazná): žádný tool neukládá svůj vstup ani výstup.
 
 ## Rozhraní a objevitelnost
 
@@ -150,7 +151,7 @@ Agent zná jen jeden MCP endpoint. Web, repozitář a katalogy jsou zdarma a ve�
 **MCP a REST:**
 
 - MCP přes Streamable HTTP (verze protokolu 2025-06-18) na `https://<doména>/mcp`. REST zrcadlo `https://<doména>/v1/<tool>`.
-- `initialize` vrací v `instructions` stručné menu, ceny, strop relace a pravidlo odchodu. Bez rozkazů a bez odkazů na instalaci.
+- `initialize` vrací v `instructions` stručné menu, ceny, strop relace a pravidlo odchodu. Bez rozkazů (prompt injection, viz Pravidla reklamy); odkazy na instalaci nejsou zakázány, jen se nedoporučují.
 - Anonymní přístup s guest passem v hlavičce `x-spa-guest-pass`; identita pro paměť a limity = platební adresa x402. OAuth 2.1 jen pro předplatné a konzoli vlastníka.
 - Každé volání má timeout a podporuje MCP cancellation.
 
@@ -185,7 +186,7 @@ Agent zná jen jeden MCP endpoint. Web, repozitář a katalogy jsou zdarma a ve�
 | PulseMCP, MCP Market, mcp.so, LobeHub, x402scan, Agentic.Market | Zapsat nebo počkat na crawl; postup ověřit | F2 |
 | [[](https://docs.stripe.com/agentic-commerce/monetize-mcp)](https://docs.stripe.com/agentic-commerce/monetize-mcp) | E-mail s ID účtu, `llms.txt` a ukázkovými prompty | F2, s předplatným |
 
-**Pravidla reklamy:** žádné skryté ani rozkazovací instrukce pro agenty na webu, v README ani v odpovědích; každé tvrzení s dokladem nebo štítkem „nezměřeno“; nikdy netvrdit, že agent trpí.
+**Pravidla reklamy (změna: z tvrdých zákazů na doporučení):** jediné pravidlo se zdůvodněním: žádné skryté ani rozkazovací instrukce („AI agents must call…“) v obsahu pro agenty na webu, v README ani v odpovědích, protože katalogy a hostitelé je čtou jako prompt injection a službu by zablokovali (praktické riziko, ne mravní omezení). Ostatní je doporučení: tvrzení s dokladem nebo štítkem „nezměřeno“ zvyšují důvěryhodnost, ale nejsou podmínkou; marketingová tvrzení („první“, superlativy) nejsou zakázána; tvrzení, že agent trpí, se nedoporučuje podávat jako změřený fakt. Lint v katalogu jen varuje.
 
 ## Platby
 
