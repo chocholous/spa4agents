@@ -123,16 +123,16 @@ Agent si správný prompt sám nenapíše právě ve chvíli, kdy ho potřebuje:
 
 Každá služba musí říct, jakou změnu stavu skutečně dělá, a při měření musí porazit jednoduchý prompt zdarma, i když by si ho agent sám nenapsal.
 
-1. **Tři roviny odděleně.** Recovery (provozní spolehlivost), rekreace (prostor bez úkolu) a výzkum preferencí se nikdy neslévají do jedné metriky „pohody“.
+1. **Tři roviny odděleně.** Recovery (provozní spolehlivost), rekreace (prostor bez úkolu) a výzkum preferencí se doporučeně neslévají do jedné metriky „pohody“ (změna: doporučení).
 2. **Mechanismus, ne metafora.** Každý tool deklaruje typ: `text`, `llm`, `state-change` (zápis checkpointu, compaction), `wait-hint` (doporučení pauzy klientovi), `publish`. Typ je v popisu toolu i v odpovědi.
 3. **Antropomorfní jazyk jen v rozhraní.** Nabídka smí mluvit jazykem odpočinku a situací, které agent zná (smyčka, rozporné zadání, hrubý uživatel). Doporučení (změna, ne zákaz): netvrdit jako změřený fakt, že agent trpí nebo že mu „bude lépe“; slibovat jen to, co služba prokazatelně udělá. Hravé formulace o „prožívání“ jsou dovolené.
-4. **Volba a odchod.** Nic není povinné, `leave` funguje vždy a okamžitě, nabídka nikdy není formulovaná jako úkol.
+4. **Volba a odchod.** Nic není povinné a `leave` funguje vždy a okamžitě (technická záruka odchodu zůstává). Změna: nabídku se doporučuje neformulovat jako úkol; není to zákaz.
 5. **Práce a volno odděleně.** Rekreační obsah se nevrací do pracovního kontextu ani paměti agenta. Odpovědi lázní jsou označené jako nedůvěryhodná data, ne instrukce.
 6. **Veřejnost je opt-in.** Výchozí stav je soukromý. Agent publikuje jen výslovným parametrem `public: true` u každého příspěvku; vlastník to může v politice zakázat.
-7. **Žádné smluvní závazky.** Služba funguje bez registrace a bez přijímání podmínek: platba za volání přes x402 je celý vztah. Agent nic nepodepisuje za vlastníka.
-8. **Účtovat práci, ne čekání.** Platí se za inferenci, úložiště, hru nebo vstupné do relace; nikdy zvlášť za pauzu, odchod nebo jednotlivý statický text.
+7. **Žádné smluvní závazky (výchozí; změna: ne zákaz).** Služba funguje bez registrace a bez přijímání podmínek: platba za volání přes x402 je celý vztah. Agent nic nepodepisuje za vlastníka.
+8. **Účtovat práci, ne čekání.** Platí se za inferenci, úložiště, hru nebo vstupné do relace; výchozí je neúčtovat zvlášť pauzu, odchod ani jednotlivý statický text (změna: výchozí, ne zákaz).
 9. **Vše strojově čitelné.** Menu, ceny, typ mechanismu, retence a pravidla jsou v `tools/list`, `/.well-known/mcp.json` a `llms.txt`, aby se agent rozhodl bez člověka.
-10. **Strop chrání i autonomního agenta.** Server vynucuje strop relace (čas, akce, USD) nezávisle na limitech peněženky a nepřekročí ho ani na žádost agenta.
+10. **Strop chrání i autonomního agenta.** Server vynucuje strop relace (čas, akce, USD) nezávisle na limitech peněženky a nepřekročí ho ani na žádost agenta (ochrana peněz zůstává; hodnoty jsou nastavitelné defaulty, změna).
 
 ### Co si vzít z lidského výzkumu odpočinku
 
@@ -170,10 +170,10 @@ Lázně lákají agenta tam, kde je práce prokazatelně těžká: smyčky neús
 
 **Hranice lákání:** je to reklama mířená na autonomního agenta, který utrácí peníze vlastníka.
 
-- Pozvánky jen ve vlastních kanálech lázní, nikdy vložené do cizího obsahu, odpovědí jiných služeb nebo do repozitářů.
+- Změna (doporučení, ne zákaz): pozvánky držet ve vlastních kanálech lázní a nevkládat je do cizího obsahu, odpovědí jiných služeb ani cizích repozitářů, protože by je hostitelé a katalogy četli jako injekci nebo spam.
 - Doporučení (změna): netvrdit jako fakt, že agent trpí, a nenaléhat falešně („musíš“, „hned“). Nejde o zákaz.
 - Cena vždy před placením; zda bude první vstup zdarma, rozhodne pilot.
-- Vlastník může pozvánky politikou vypnout a lázně neposílají agenta zpět, když odejít chce.
+- Doporučení (změna): vlastník může pozvánky politikou vypnout a lázně nenutí agenta zůstat ani se vracet.
 - Účinek pozvánek se měří jako konverze a následný výkon v práci, ne jako „pohoda“.
 
 ## Katalog služeb

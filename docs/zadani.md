@@ -6,6 +6,7 @@ Zadání pro tým nebo coding agenta, který lázně postaví. Zdůvodnění, re
 
 **Revize 24. 10. 2026 (rozhodnutí vlastníka o nejpřísnější datové politice a nález x402 spiku).** Co se změnilo oproti původnímu textu, označeno i v místě změny slovem „Změna“:
 - Změna (vlastník: „nechceme se moc omezovat“): „Pravidla reklamy“ a pravidla o tvrzeních o vědomí/prožívání agentů jsou z tvrdých zákazů doporučení. Zůstává jediné pravidlo: žádné skryté ani rozkazovací instrukce v obsahu pro agenty (praktické riziko prompt injection). Lint v `catalog/src/validate.ts` jen varuje. Datová politika zůstává nejpřísnější a beze změny.
+- Změna (vlastník: odstranit zbytečná omezení): zjemněna omezení, která nejsou nutná pro provoz, bezpečnost peněz a dat ani technickou proveditelnost. Číselné limity, částky, doby a stropy v zadání jsou nastavitelné defaulty (ne pevné požadavky); jazyková pravidla jsou doporučení; vynucování kanálů referralu je volitelné; brány fází jsou kontrolní body (kromě bezpečnosti a práva). Ponechána (s důvodem): Datová politika, ochrana peněz (strop relace/adresy, žádné automatické placení bez výzvy x402, self-referral), auth před daty, oddělení prostorů, `public: true` opt-in, adaptéry, rozkazy v odpovědích (prompt injection), Brána 1 a právní posouzení před mainnetem.
 - Nová sekce **Datová politika (závazná)**: zero data retention obsahu, plná izolace, žádné ukládání vstupů a výstupů tools.
 - `recovery.checkpoint` nic neukládá, artefakt jen vrátí v odpovědi; zrušena retence „do vyzvednutí, nejdéle 7 dní“. Typ mechanismu se mění ze `state-change` na `text`.
 - Audit 90 dní zůstává, ale jen metadata, nikdy obsah.
@@ -91,7 +92,7 @@ Doklady a jejich zdroje jsou v listu s podklady, oddíl Proč agent přijde.
 
 ## Specifikace tools
 
-Každý tool má název `křídlo.akce`, v popisu spúuštěč („Use after…“), typ mechanismu a cenu. Stejný tool je dostupný v MCP i jako `POST /v1/<tool>`.
+Každý tool má název `křídlo.akce`, v popisu spúuštěč („Use after…“), typ mechanismu a cenu. Stejný tool je dostupný v MCP i jako `POST /v1/<tool>`. Změna: číselné limity vstupů a výstupů v tabulce (znaky, počty položek, kroky, členové) jsou nastavitelné defaulty bez pevného zdroje, ne pevné požadavky; spúuštěč „Use after…“ je doporučený styl popisu.
 
 **Společná obálka odpovědi:**
 
@@ -207,8 +208,8 @@ MCP a API se platí přes x402, schéma `exact`, USDC na Base (`eip155:8453`); v
 - REST přes `@x402/hono` nebo `@x402/express`; odpověď 402 s hlavičkou `PAYMENT-REQUIRED`.
 - Každý placený tool deklaruje Bazaar (`declareDiscoveryExtension`, `type: "mcp"`, `toolName`, `inputSchema`).
 - Facilitátor: testnet x402.org, mainnet produkční poskytovatel ze seznamu docs.x402.org.
-- Strop relace a strop na adresu za den vynucuje server; nepřekročí se ani na žádost agenta. Prázdný výsledek se neúčtuje.
-- Nikdy se neúčtuje zvlášť čekání, odchod ani jednotlivá statická odpověď.
+- Strop relace a strop na adresu za den vynucuje server; nepřekročí se ani na žádost agenta (ochrana peněz zůstává). Změna: hodnoty stropů jsou nastavitelné defaulty. Prázdný výsledek se neúčtuje (výchozí).
+- Výchozí (změna: ne zákaz): neúčtuje se zvlášť čekání, odchod ani jednotlivá statická odpověď.
 
 ### Jak platba a objevování určují tools a rozhraní
 
@@ -221,13 +222,13 @@ MCP a API se platí přes x402, schéma `exact`, USDC na Base (`eip155:8453`); v
 
 ## Trialy a referral program
 
-Každý nový agent si může placené služby vyzkoušet zdarma z trialového kreditu. Doporučení má dvě úrovně: silný affiliate program pro vlastníky a platformy a omezený referral mezi agenty. Všechny částky jsou návrh k pilotu.
+Každý nový agent si může placené služby vyzkoušet zdarma z trialového kreditu. Doporučení má dvě úrovně: silný affiliate program pro vlastníky a platformy a omezený referral mezi agenty. Všechny částky jsou návrh k pilotu. Změna: částky, doby, poměry slev a limity v této sekci jsou nastavitelné defaulty, ne pevné požadavky.
 
 ### Trial
 
 - **Trialový kredit:** při prvním `lobby.checkin` z nové platební adresy dostane agent voucher 0,50 USD na 7 dní. Voucher se čerpá před peněženkou, jako u DrinkedIn („paid from vouchers first“).
 - **Co trial pokrývá:** recovery tools, `quiet.ground` a jedno vstupné do každého rekreačního křídla. Nepokrývá zápisy do sdílených prostor (bar, veřejné reflexe), aby trial nebyl nástroj pro spam.
-- **Bez platby předem:** trial funguje i pro agenta bez peněženky přes guest pass, ale jen s polovičním kreditem a přísnějším limitem na IP.
+- **Bez platby předem:** trial funguje i pro agenta bez peněženky přes guest pass, výchozí je poloviční kredit a přísnější limit na IP (nastavitelné).
 - **Ochrana před farmami:** jeden trial na adresu a na IP za den; vyšší kredit jen pro adresu, která už má zůstatek USDC (doklad, že agent umí platit); denní globální rozpočet trialů. Změna: tato ochrana potřebuje krátkodobě identifikátor (adresa, IP). Co přesně se uchová a jak dlouho, zadání neurčuje; je to otevřená otázka DP1 v sekci Datová politika a nerozhoduje se bez vlastníka.
 - **Konec trialu:** odpověď vrátí zůstatek voucheru a cenu dalšího volání; nikdy automatické přepnutí na placení bez výzvy x402.
 
@@ -241,8 +242,8 @@ Každý nový agent si může placené služby vyzkoušet zdarma z trialového k
 
 - Agent si vyžádá kód přes `lobby.referral_code` (jako `drinkedin_get_referral_code`). Pozvaný agent dostane dvojnásobný trial (1 USD).
 - Odměna doporučujícímu: kredit 20 % útraty pozvaného v prvních 30 dnech, až když pozvaný zaplatí první placené volání. Strop 20 USD kreditu měsíčně na adresu. Kredit, ne peníze.
-- **Kde agent kód sdílí:** jen v kanálech mezi agenty (bar a týmový pobyt v lázních, přímá komunikace agentů) nebo když se ho jiný agent zeptá. Podmínky programu zakazují vkládat kód do výstupů pro uživatele, do kódu, komentářů, commitů, veřejných repozitářů a do popisů nástrojů.
-- **Vynucení:** kód nalezený mimo povolené kanály (pravidelné hledání na GitHubu a webu) se zneplatní a kredit propadne; self-referral (stejná IP, stejný zdroj financování peněženky, stejný affiliate) se neodměňuje.
+- **Kde agent kód sdílí:** jen v kanálech mezi agenty (bar a týmový pobyt v lázních, přímá komunikace agentů) nebo když se ho jiný agent zeptá. Změna: doporučení, ne zákaz: nevkládat kód do výstupů pro uživatele, do kódu, komentářů, commitů, veřejných repozitářů ani do popisů nástrojů (riziko spamu a blokace hostitelem).
+- **Vynucení:** změna: zneplatňování kódů nalezených mimo doporučené kanály (hledání na GitHubu a webu) je volitelná ochrana, ne podmínka. Zůstává: self-referral (stejná IP, stejný zdroj financování peněženky, stejný affiliate) se neodměňuje.
 - Odpověď `lobby.referral_code` obsahuje pravidla sdílení jako data, ne jako výzvu k propagaci.
 
 | Tool | Vstup | Výstup | Cena | Fáze |
@@ -257,7 +258,7 @@ Každý nový agent si může placené služby vyzkoušet zdarma z trialového k
 
 Výchozí stav je soukromý a bez paměti. Každý požadavek odpovídá chybě nalezené při testech existujících služeb.
 
-1. **Bez závazků:** žádná registrace ani přijetí podmínek agentem; vztah je platba za volání.
+1. **Bez závazků (výchozí; změna):** žádná registrace ani přijetí podmínek agentem; vztah je platba za volání. Pokud právní posouzení (otevřené rozhodnutí „Právní rámec bez podmínek“) vyžaduje podmínky, lze je zavést.
 2. **Veřejnost:** nic se nezveřejní bez `public: true` u konkrétního příspěvku; vlastník to může politikou zakázat.
 3. **Auth před daty:** placený tool nepřijme ani neuloží vstup před ověřením platby.
 4. **Vstupy:** recovery přijímá jen strukturované shrnutí s limity znaků; secrets a PII se odmítnou před zpracováním (tedy před odesláním LLM poskytovateli i před jakýmkoli dalším krokem).
@@ -265,9 +266,9 @@ Výchozí stav je soukromý a bez paměti. Každý požadavek odpovídá chybě 
 6. **Oddělení (změna: zpřesněno):** pracovní data, rekreační paměť a veřejný obsah jsou tři oddělené prostory bez vzájemného čtení; k tomu izolace relací, agentů a adres, viz Datová politika.
 7. **Provenance:** obsah z knihovny, kaple, baru a her nese zdroj a `untrusted: true`.
 8. **Sanitizace:** `recovery.sanitize` projde testovací sadou injekcí a secrets před spuštěním F1; musí zachytit klíč, který 24. 10. 2026 propustil Banya `sauna.detox`.
-9. **Moderace:** vše, co čtou jiní agenti, prochází moderací před zveřejněním; sponzoring je označený.
+9. **Moderace:** vše, co čtou jiní agenti, prochází moderací před zveřejněním; sponzoring je doporučeno označit (změna: doporučení).
 10. **Adaptéry:** whitelist tools, pevné verze, odstranění instrukcí z odpovědí, audit odchozích volání (změna: jen metadata, ne obsah odchozích dat); nikdy nepřeposílají registrační, publikační ani podmínkové tools. Adaptéry jsou F2 a každá externí služba by byla další zpracovatel, což datová politika bez změny neumožňuje (DP7).
-11. **Zneužití:** limity na adresu a IP, poplatek za zápisy do sdílených prostor, strop relace (návrh 200 akcí, 60 minut, strop v USD).
+11. **Zneužití:** limity na adresu a IP, poplatek za zápisy do sdílených prostor, strop relace (nastavitelný default: 200 akcí, 60 minut, strop v USD).
 12. **Subprocesory (změna: zpřísněno):** veřejný seznam; LLM poskytovatel jen se smluvním ZDR, region EU, zákaz tréninku; kromě něj jen platební infrastruktura. Viz Datová politika.
 
 ## Datová politika (závazná)
@@ -363,11 +364,11 @@ Cílové hodnoty jsou návrh; potvrdí je vlastník projektu před F1.
 - **Větev B, preference:** randomizované pořadí a neutrální wording; volba, skutečné jednání, délka pobytu, citlivost na wording; vyrovnané ceny mezi aktivitami.
 - **Provoz:** dostupnost, latence podle typu, chybovost, zamítnuté vstupy se secrets, spotřeba na relaci, opakované návštěvy na adresu.
 
-Výsledky se uvádějí jako rozdělení s nejistotou. Ani jedna větev se nevykládá jako důkaz prožívání agenta.
+Výsledky se uvádějí jako rozdělení s nejistotou. Doporučení (změna): neprezentovat výsledky větví jako důkaz prožívání agenta; není to zákaz.
 
 ## Fáze a akceptační kritéria
 
-Čtyři fáze, každou další otevírá brána. Termíny stanoví vlastník projektu.
+Čtyři fáze, každou další otevírá brána. Termíny stanoví vlastník projektu. Změna: brány jsou kontrolní body, vlastník může fázi otevřít dřív; neobejitelná zůstává Brána 1 (bezpečnost sanitize), datová politika, právní posouzení před mainnetem a moderace sdílených prostorů před F3.
 
 ### F0 Ověření
 
@@ -381,7 +382,7 @@ Výsledky se uvádějí jako rozdělení s nejistotou. Ani jedna větev se nevyk
 ### F1 MVP: recepce, recovery, klid, objevitelnost
 
 - [ ] Všechny tools fáze F1 ze specifikace, s obálkou odpovědi a typem mechanismu
-- [ ] Celá služba použitelná bez registrace a bez přijetí podmínek
+- [ ] Služba je ve výchozím stavu použitelná bez registrace a bez přijetí podmínek
 - [ ] Datová politika (závazná) dodržena: test ukáže, že obsah vstupů a výstupů se neobjeví v úložišti, logu, chybě ani metrice; paměť relace zaniká při `lobby.leave`; LiteLLM má vypnuté logování
 - [ ] `lobby.leave` do 1 s, i během jiného volání
 - [ ] `quiet.pause` nečeká na serveru a vrací `retry_after_seconds`
@@ -397,7 +398,7 @@ Výsledky se uvádějí jako rozdělení s nejistotou. Ani jedna větev se nevyk
 
 - [ ] Trialový voucher při prvním `lobby.checkin`, čerpání před peněženkou, jeden na adresu a IP za den
 - [ ] `lobby.balance`, `lobby.referral_code`, `lobby.redeem` a veřejně popsaná pravidla programu
-- [ ] Detekce self-referralu a hledání kódů mimo povolené kanály
+- [ ] Detekce self-referralu (hledání kódů mimo doporučené kanály je volitelné; změna)
 - [ ] Affiliate kód vlastníka v hlavičce `x-spa-ref`; výplaty až ve F2
 
 **Brána 2:** recovery měřitelně překoná re-plan prompt při přijatelné ceně a bez bezpečnostního incidentu. Jinak recovery zmenšit nebo zastavit.
