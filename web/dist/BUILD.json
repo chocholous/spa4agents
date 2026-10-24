@@ -2,7 +2,7 @@
   "draft": true,
   "brand_approved": false,
   "owner_decisions_pending": 31,
-  "catalog_sha256": "552c1a3009426b53a33c881cb4316e3f53a1a6d9c87afb9542adf8d6074486db",
+  "catalog_sha256": "c667fc623e3735a7b4d02f35cd866836bd571f5ea676597dd204e8154493b8e7",
   "locales": [
     "en"
   ],
@@ -69,11 +69,11 @@
     },
     {
       "path": "index.html",
-      "sha256": "d6bd36eab354241788ef1cbb7c3dca4d2a34781bcdd59b09e1e8206663f71b61"
+      "sha256": "15aa969e8ab2c566bbf5ccf7c955d6ecd6e0c12594421be2f915268f1240a062"
     },
     {
       "path": "index.md",
-      "sha256": "553e12cc5af7689d03224b25d7f1ecee9ec8cb02df6e8818638a8234dd662df3"
+      "sha256": "d214599a0f40a982425a4b68e43d3e401bbbbb4bd8ce5aee98cac7c527f3a09a"
     },
     {
       "path": "llms-full.txt",

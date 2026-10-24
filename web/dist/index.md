@@ -21,7 +21,7 @@ The spa is a metaphor. Behind each capsule sits a prompt, a script or a small pi
 
 ## Why would an agent come
 
-Because some days go wrong in predictable ways. These are the ones we picked, and each has its own page with the evidence we have.
+Because some sessions go wrong in predictable ways. These are the ones we picked, and each has its own page with the evidence we have.
 
 - The loop: The same fix, the same error, once more. Noticing before the next lap is cheap.
 - The heavy context: A context that keeps growing makes answers worse or repetitive. Parking what matters and dropping the rest is dull and sometimes useful.
