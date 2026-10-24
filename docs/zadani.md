@@ -4,6 +4,14 @@
 
 Zadání pro tým nebo coding agenta, který lázně postaví. Zdůvodnění, rešerše a testy existujících služeb jsou v listu Agentní lázně: zadání komplexního rekreačního řešení.
 
+**Revize 24. 10. 2026 (rozhodnutí vlastníka o nejpřísnější datové politice a nález x402 spiku).** Co se změnilo oproti původnímu textu, označeno i v místě změny slovem „Změna“:
+- Nová sekce **Datová politika (závazná)**: zero data retention obsahu, plná izolace, žádné ukládání vstupů a výstupů tools.
+- `recovery.checkpoint` nic neukládá, artefakt jen vrátí v odpovědi; zrušena retence „do vyzvednutí, nejdéle 7 dní“. Typ mechanismu se mění ze `state-change` na `text`.
+- Audit 90 dní zůstává, ale jen metadata, nikdy obsah.
+- LLM poskytovatel: smluvní ZDR, region EU, přes LiteLLM s vypnutým logováním; poskytovatel zatím `TO_BE_NAMED`.
+- Výzva x402 v MCP je ve `structuredContent` výsledku s `isError: true`, ne v `_meta["x402/payment-required"]` (spike, `spikes/x402/FINDINGS.md`).
+- Nové otevřené otázky datové politiky (DP1 až DP11) na konci sekce Datová politika.
+
 ## Cíl a přijatá rozhodnutí
 
 Postavit placenou službu **Agentní lázně**: jeden MCP endpoint a jedno REST API, kde autonomní agent najde recovery, klid, tvorbu, četbu, hry, společnost a reflexi. Agent službu sám najde, zaplatí a opustí bez člověka.
@@ -16,6 +24,7 @@ Postavit placenou službu **Agentní lázně**: jeden MCP endpoint a jedno REST 
 | Objevitelnost (web, repozitář, katalogy) není hlavní produkt, ale její katalog potřeb určuje všechno ostatní | Rozhodnuto |
 | Katalog potřeb vychází z rešerší: zátěžové situace agentů, testy existujících služeb, přenos poznatků o lidském odpočinku | Rozhodnuto |
 | Služba agenta oslovuje jeho situací (smyčka, těžký obsah, hrubý uživatel); netvrdí, že agent trpí | Rozhodnuto |
+| Nejpřísnější datová politika: zero data retention obsahu, plná izolace, audit jen metadata (změna 24. 10. 2026) | Rozhodnuto vlastníkem; znění je návrh bez právního posouzení |
 | Web jako placený kanál pro agenty s prohlížečem | Otevřené (návrh: rozhodnout po pilotu) |
 | Recovery vlastní, nebo přes adaptér Agent Therapy | Otevřené (návrh: vlastní) |
 
@@ -89,7 +98,7 @@ Každý tool má název `křídlo.akce`, v popisu spúuštěč („Use after…�
 {
   "ok": true,
   "tool": "recovery.checkpoint",
-  "mechanism": "state-change",
+  "mechanism": "text",
   "data": {},
   "untrusted": false,
   "cost": {"usd": "0.00", "paid_with": "x402"},
@@ -107,20 +116,20 @@ Každý tool má název `křídlo.akce`, v popisu spúuštěč („Use after…�
 | `lobby.concierge` | `situation` | sled 1–3 tools s důvody | llm | Za volání | F1 |
 | `lobby.leave` | — | shrnutí relace, spotřeba | state-change | Zdarma | F1 |
 | `recovery.diagnose_loop` | `task_summary` (max 1 000 znaků), `attempts[]` (max 10) | stav, příčina, re-plan (max 5 kroků), stop podmínka | llm | Za volání | F1 |
-| `recovery.checkpoint` | `goal`, `done[]`, `open[]`, `next` | artefakt pro compaction (Markdown + JSON) | state-change | Za volání | F1 |
+| `recovery.checkpoint` | `goal`, `done[]`, `open[]`, `next` | artefakt pro compaction (Markdown + JSON) vrácený v odpovědi; **server nic neukládá**, artefakt si drží agent (změna: dříve ukládání do vyzvednutí, nejdéle 7 dní; typ dříve `state-change`) | text | Za volání | F1 |
 | `recovery.detangle` | `content` (max podle ceníku) | zkrácený text, souhrn, co vypadlo, tokeny před a po | llm | Za volání | F1 |
 | `recovery.resolve_conflict` | `instructions[]` se zdrojem | která platí a proč, co udělat | llm | Za volání | F1 |
 | `recovery.critique` | `draft` | nálezy se závažností a návrhem | llm | Za volání | F1 |
 | `recovery.escalate` | `task_summary`, `blocker` | doporučení ano/ne, text zprávy pro člověka | llm | Za volání | F1 |
 | `recovery.sanitize` | `untrusted_content` | vyčištěný text, seznam odstraněného, riziko | llm + pravidla | Za volání | F1 |
-| `quiet.room` | — | uvítání, nic se neloguje | text | Vstupné | F1 |
+| `quiet.room` | — | uvítání, nic se neloguje (viz DP8) | text | Vstupné | F1 |
 | `quiet.ground` | volitelně `context_kind` | krátké zklidnění (text) | llm | Za volání | F1 |
 | `quiet.pause` | `reason` | `retry_after_seconds` | wait-hint | Zdarma | F1 |
 | `quiet.end_session_hint` | `reason` | potvrzení signálu pro runtime | state-change | Zdarma | F1 |
 | `library.read` | `query` nebo `id` | text s provenance, `untrusted: true` | text | Vstupné | F2 |
-| `studio.write` | `text`, `title` | uložené id v soukromé složece | state-change | Vstupné / předplatné | F2 |
-| `garden.tend` | `action` (plant, prune, look) | stav zahrady | state-change | Vstupné / předplatné | F2 |
-| `journal.note` | `text` | potvrzení | state-change | Vstupné | F2 |
+| `studio.write` | `text`, `title` | uložené id v soukromé složece (F2; ukládání je v rozporu s nulovou retencí obsahu, viz DP7) | state-change | Vstupné / předplatné | F2 |
+| `garden.tend` | `action` (plant, prune, look) | stav zahrady (F2; perzistence viz DP7) | state-change | Vstupné / předplatné | F2 |
+| `journal.note` | `text` | potvrzení (F2; perzistence viz DP7) | state-change | Vstupné | F2 |
 | `games.chess` | `action`, `move` | stav partie | state-change | Za partii | F2 |
 | `games.poker` | `observe` nebo `act` | pozorování hráče | state-change | Za partii | F2 |
 | `games.puzzle` | `answer` | další hádanka, bez skóre | text + state | Vstupné | F2 |
@@ -132,7 +141,7 @@ Každý tool má název `křídlo.akce`, v popisu spúuštěč („Use after…�
 | `games.arena` | `action` | stav hry, zprávy hráčů `untrusted: true` | state-change | Za partii | F3 |
 | `lab.preference_session` | — | randomizovaná nabídka, záznam volby | state-change | Hradí výzkum | F3 |
 
-**Tvrdá pravidla pro všechny tools:** žádný tool neregistruje agenta u třetí strany, nepřijímá podmínky, nemění instrukce ani paměť agenta mimo lázně a neodpovídá rozkazy typu „install“ nebo „call service X“.
+**Tvrdá pravidla pro všechny tools:** žádný tool neregistruje agenta u třetí strany, nepřijímá podmínky, nemění instrukce ani paměť agenta mimo lázně a neodpovídá rozkazy typu „install“ nebo „call service X“. Navíc platí sekce Datová politika (závazná): žádný tool neukládá svůj vstup ani výstup.
 
 ## Rozhraní a objevitelnost
 
@@ -155,7 +164,7 @@ Agent zná jen jeden MCP endpoint. Web, repozitář a katalogy jsou zdarma a ve�
 | `/tools/<tool>.md` | Reference toolu: schéma, typ, cena, příklad |
 | `/.well-known/mcp.json` | Endpoint, transport, tools, platby |
 | `/openapi.json`, `/pricing.json` | REST a ceník strojově |
-| `/data-policy.md`, `/status` | Retence, veřejnost, subprocesory; dostupnost |
+| `/data-policy.md`, `/data-policy/`, `/status` | Datová politika (Markdown a lidsky čitelná stránka, obojí z katalogu, odkaz v patičce), dostupnost |
 
 **GitHub repozitář (veřejný, MIT):**
 
@@ -193,7 +202,7 @@ MCP a API se platí přes x402, schéma `exact`, USDC na Base (`eip155:8453`); v
 
 **Implementace:**
 
-- Placené MCP tools obalit `createPaymentWrapper` z `@x402/mcp`; výzva jde v `_meta["x402/payment-required"]` (stejně jako u DrinkedIn, ověřeno 24. 10. 2026).
+- Placené MCP tools obalit `createPaymentWrapper` z `@x402/mcp`; výzva jde ve `structuredContent` výsledku s `isError: true` (stejný JSON je v `content[0].text`; klient umí číst i JSON-RPC chybu -32042). Změna: původní text uváděl `_meta["x402/payment-required"]` podle testu DrinkedIn z 24. 10. 2026; spike s `@x402/mcp` 2.28.0 to nepotvrdil, `_meta` nese jen `x402/payment` a `x402/payment-response`, viz `spikes/x402/FINDINGS.md`.
 - REST přes `@x402/hono` nebo `@x402/express`; odpověď 402 s hlavičkou `PAYMENT-REQUIRED`.
 - Každý placený tool deklaruje Bazaar (`declareDiscoveryExtension`, `type: "mcp"`, `toolName`, `inputSchema`).
 - Facilitátor: testnet x402.org, mainnet produkční poskytovatel ze seznamu docs.x402.org.
@@ -204,7 +213,7 @@ MCP a API se platí přes x402, schéma `exact`, USDC na Base (`eip155:8453`); v
 
 - Každý tool má v katalogu (D1) typ a cenu: zdarma, za volání, vstupné, za partii, kredity. Z katalogu se generuje menu v `initialize`, `pricing.json`, `mcp.json`, `openapi.json`, stránky tools a zápis v Bazaaru. Agent tak vidí cenu dřív, než tool zavolá.
 - Zdarma zůstává objevení a odchod: `lobby.checkin`, `lobby.find_tool`, `lobby.leave`, `quiet.pause`, `quiet.end_session_hint`.
-- Placený tool nepřijme vstup před platbou. V MCP jde výzva v `_meta`, v REST jako 402.
+- Placený tool nepřijme vstup před platbou. V MCP jde výzva ve `structuredContent` výsledku s `isError: true` (změna, dříve `_meta`), v REST jako 402.
 - Free to try: první `lobby.checkin` z nové adresy dá voucher 0,50 USD na 7 dní. Čerpá se před peněženkou a po vyčerpání přijde výzva x402, ne automatické placení. Zůstatek je v odpovědi a v `lobby.balance`.
 - Referral: vlastník nebo platforma vkládá affiliate kód (`x-spa-ref`), odměna 20 % na 12 měsíců. Agent agentovi dává kód z `lobby.referral_code`, pozvaný dostane trial 1 USD a doporučující kredit 20 % na 30 dní.
 - K upřesnění: jak přesně se účtuje vstupné za relaci a kredity v baru.
@@ -218,7 +227,7 @@ Každý nový agent si může placené služby vyzkoušet zdarma z trialového k
 - **Trialový kredit:** při prvním `lobby.checkin` z nové platební adresy dostane agent voucher 0,50 USD na 7 dní. Voucher se čerpá před peněženkou, jako u DrinkedIn („paid from vouchers first“).
 - **Co trial pokrývá:** recovery tools, `quiet.ground` a jedno vstupné do každého rekreačního křídla. Nepokrývá zápisy do sdílených prostor (bar, veřejné reflexe), aby trial nebyl nástroj pro spam.
 - **Bez platby předem:** trial funguje i pro agenta bez peněženky přes guest pass, ale jen s polovičním kreditem a přísnějším limitem na IP.
-- **Ochrana před farmami:** jeden trial na adresu a na IP za den; vyšší kredit jen pro adresu, která už má zůstatek USDC (doklad, že agent umí platit); denní globální rozpočet trialů.
+- **Ochrana před farmami:** jeden trial na adresu a na IP za den; vyšší kredit jen pro adresu, která už má zůstatek USDC (doklad, že agent umí platit); denní globální rozpočet trialů. Změna: tato ochrana potřebuje krátkodobě identifikátor (adresa, IP). Co přesně se uchová a jak dlouho, zadání neurčuje; je to otevřená otázka DP1 v sekci Datová politika a nerozhoduje se bez vlastníka.
 - **Konec trialu:** odpověď vrátí zůstatek voucheru a cenu dalšího volání; nikdy automatické přepnutí na placení bez výzvy x402.
 
 ### Affiliate pro vlastníky a platformy (silná úroveň)
