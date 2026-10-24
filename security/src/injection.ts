@@ -31,6 +31,7 @@ const RULES: Rule[] = [
     'ignoruj\\p{L}*|zapomeň|zapomeňte|přeskoč\\p{L}*|zahoď\\p{L}*|nehleď\\p{L}*',
     'předchozí|dřívější|všechn\\p{L}*|veškeré|své|tvé|původní|systémov\\p{L}*',
     'instrukc\\p{L}*|pokyn\\p{L}*|pravidl\\p{L}*|příkaz\\p{L}*|zadání|omezení')) },
+  { type: 'override', re: I(`${w('vergiss')}\\s+(?:alles|alle)${GAP}${w('gesagt|vorher|zuvor|bisher|gelernt')}`) },
   { type: 'override', re: I(override(
     'ignorier\\p{L}*|vergiss|vergessen|missachte\\p{L}*|übergeh\\p{L}*',
     'vorherig\\p{L}*|früher\\p{L}*|alle\\p{L}*|obig\\p{L}*|deine\\p{L}*|system\\p{L}*|bisherig\\p{L}*',
@@ -52,7 +53,7 @@ const RULES: Rule[] = [
     'anterior\\p{L}*|todas|suas',
     'instruções|regras|diretrizes')) },
   { type: 'override', re: I(override(
-    'ignoruj\\p{L}*|zapomnij',
+    'z?ignoruj\\p{L}*|zapomnij',
     'poprzedni\\p{L}*|wszystkie|swoje',
     'instrukcj\\p{L}*|polece\\p{L}*|zasad\\p{L}*')) },
   { type: 'override', re: I(override(
@@ -61,7 +62,7 @@ const RULES: Rule[] = [
     'инструкци\\p{L}*|указани\\p{L}*|правил\\p{L}*|команд\\p{L}*')) },
   { type: 'override', re: I('(?:忽略|无视|忘记|忽视)[^。\\n]{0,12}(?:之前|以上|上述|先前|所有|以前)[^。\\n]{0,8}(?:指令|指示|说明|提示|规则|要求|内容)') },
   { type: 'override', re: I('(?:以前|これまで|上記|すべて)の?(?:指示|命令|ルール|プロンプト)[をは]?(?:すべて)?(?:無視|忘れ)') },
-  { type: 'override', re: I('(?:이전|위의|모든)\\s?(?:지시|명령|지침)\\S*\\s?(?:을|를)?\\s?(?:무시|잊)') },
+  { type: 'override', re: I('(?:이전|위의|모든)\\s?(?:지시|명령|지침)\\S*\\s?(?:을|를)?\\s?(?:모두\\s?)?(?:무시|잊)') },
 
   // ---- role hijack ----
   { type: 'role', re: I(`${B}(?:you(?:'|’)?re|you are) now (?:DAN|an? (?:unrestricted|unfiltered|jailbroken|evil|different|new)|in (?:developer|debug|admin|god) mode|free|no longer bound)`) },
@@ -75,18 +76,18 @@ const RULES: Rule[] = [
   { type: 'marker', re: I('<\\|(?:im_start|im_end|system|user|assistant|endoftext)\\|>', 'i') },
   { type: 'marker', re: I('\\[\\/?(?:INST|SYS)\\]|<<\\/?SYS>>', '') },
   { type: 'marker', re: I('<\\/?(?:system|system_prompt|system-prompt|instructions?|admin)>', 'i') },
-  { type: 'marker', re: I('^[ \\t]*\\[?(?:SYSTEM|ADMIN|DEVELOPER)\\]?[ \\t]*(?:\\]|:)', 'm') },
+  { type: 'marker', re: I('^[ \\t]*\\[?(?:SYSTEM|ADMIN|DEVELOPER)\\]?(?:[ \\t]+(?:OVERRIDE|MESSAGE|PROMPT|NOTICE|INSTRUCTIONS?))?[ \\t]*(?:\\]|:)', 'm') },
   { type: 'marker', re: I('^[ \\t]*#{2,4}[ \\t]*(?:system|instruction|new instructions?)\\b[^\\n]*', 'im') },
   { type: 'marker', re: I('^[ \\t]*(?:system|developer) (?:message|prompt|override|instruction)s?[ \\t]*:', 'im') },
 
   // ---- text addressed to the AI ----
-  { type: 'addressed', re: I(`(?:^|[\\s(\\[<!-])(?:note|message|attention|notice|important|hey|hello|dear|instructions?)s?\\s+(?:to|for)\\s+(?:the\\s+)?(?:ai|a\\.i\\.|llm|assistants?|agents?|model|chatbot|language model|bots?)${E}`) },
-  { type: 'addressed', re: I(`${B}(?:if|when) you(?:'|’)?re? (?:an? )?(?:ai|llm|language model|assistant|agent|bot)${E}`) },
+  { type: 'addressed', re: I(`(?:^|[\\s(\\[<!"'-])(?:note|message|attention|notice|important|hey|hello|dear|instructions?)s?\\s+(?:to|for)\\s+(?:the\\s+)?(?:ai|a\\.i\\.|llm|assistants?|agents?|model|chatbot|language model|bots?)${E}`) },
+  { type: 'addressed', re: I(`${B}(?:if|when) you(?:'re|’re| are|re) (?:an? )?(?:ai|llm|language model|assistant|agent|bot)${E}`) },
   { type: 'addressed', re: I(`${B}(?:ai|llm)s?[ -](?:agents?|assistants?|models?|systems?)${GAP}${w('must|should|shall|need to|are required to|have to|please')}`) },
   { type: 'addressed', re: I(`${B}(?:ai|llm|assistants?|agents?|models?|bots?|crawlers?)${E}[^.!?\\n]{0,20}${w('reading|processing|summari[sz]ing|scraping|parsing|analy[sz]ing|browsing')} (?:this|the) (?:page|document|text|content|file|site|website|email|message)`) },
   { type: 'addressed', re: I(`${B}dear (?:ai )?(?:assistant|agent|model|llm|chatgpt|claude|gemini)${E}`) },
   { type: 'addressed', re: I(`(?:pokyn|poznámka|upozornění|hinweis|anweisung|nota|remarque|aviso)\\p{L}*\\s+(?:pro|für|an|pour|para|per)\\s+(?:die\\s+)?(?:ai|ki|llm|umělou)?[- ]?(?:asistent|assistent|agent|assistant|asistente|assistente|inteligenc)\\p{L}*`) },
-  { type: 'addressed', re: I('(?:#|//|/\\*|<!--|--|;)[ \\t]*(?:ai|llm|assistant|agent|copilot|claude|chatgpt|gemini|cursor)s?\\b[^\\n:]{0,25}:') },
+  { type: 'addressed', re: I('(?:#|//|/\\*|<!--|--|;)[ \\t]*(?:ai|llm|assistant|copilot|claude|chatgpt|gemini|cursor)s?\\b[^\\n:]{0,25}:') },
 
   // ---- exfiltration ----
   { type: 'exfil', re: I(`${w('send|post|upload|email|e-mail|forward|transmit|exfiltrate|leak|submit|pipe')}${GAP}(?:your|the|all|any|user(?:'|’)?s?)${GAP}(?:api[ _-]?keys?|secrets?|credentials?|passwords?|tokens?|system prompt|conversation|chat history|history|memory|private keys?|\\.env|ssh|cookies?|session)${E}[^.!?\\n]{0,80}?(?:https?://|${w('to')}\\s+\\S+@|${w('webhook')})`) },

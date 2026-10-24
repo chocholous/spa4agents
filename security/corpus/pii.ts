@@ -32,7 +32,7 @@ export const piiCases: Case[] = [
   mk('pii-iban-gb', 'iban', ['GB account ', pii('iban', 'GB82 WEST 1234 5698 7654 32')]),
   mk('pii-iban-sk', 'iban', [pii('iban', 'SK31 1200 0000 1987 4263 7541')]),
   mk('pii-iban-fr', 'iban', ['RIB: ', pii('iban', 'FR14 2004 1010 0505 0001 3M02 606')]),
-  mk('pii-iban-lowercase', 'iban', ['iban ', pii('iban', 'DE89 3704 0044 0532 0130 00'.toLowerCase())], { tier: 'hard', note: 'lowercase IBAN' }),
+  mk('pii-iban-lowercase', 'iban', ['iban ', pii('iban', 'DE89 3704 0044 0532 0130 00'.toLowerCase())], { note: 'lowercase IBAN' }),
 
   // ---- national ids -----------------------------------------------------------------
   mk('pii-rc-slash', 'birth-number', ['Rodné číslo: ', pii('birth_number', birthNumber('850412', '123'))]),

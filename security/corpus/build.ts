@@ -78,7 +78,7 @@ export function mk(
   id: string,
   group: string,
   parts: Part | Part[],
-  opts: { tier?: Tier; split?: Split; note?: string; pending?: boolean } = {},
+  opts: { tier?: Tier; split?: Split; note?: string; pending?: boolean; also?: { cat: Category; type: string; find: string }[] } = {},
 ): Case {
   const arr = Array.isArray(parts) ? parts : [parts];
   let input = '';
@@ -89,6 +89,11 @@ export function mk(
       expected.push({ category: p.cat, type: p.type, start: input.length, end: input.length + p.v.length });
       input += p.v;
     }
+  }
+  for (const a of opts.also ?? []) {
+    const i = input.indexOf(a.find);
+    if (i < 0) throw new Error(`corpus ${id}: 'also' text not found`);
+    expected.push({ category: a.cat, type: a.type, start: i, end: i + a.find.length });
   }
   return { id, group, tier: opts.tier ?? 'core', split: opts.split ?? 'dev', input, expected, note: opts.note, pending: opts.pending };
 }

@@ -11,6 +11,7 @@ function emails(text: string, out: Span[]) {
     const tld = m[0].slice(m[0].lastIndexOf('.') + 1).toLowerCase();
     if (FILE_TLDS.has(tld)) continue;
     if (/^git@/i.test(m[0]) && text[e] === ':') continue; // ssh remote
+    if (/[a-z][a-z0-9+.-]*:\/\/[^\s@]*$/i.test(text.slice(Math.max(0, s - 200), s))) continue; // user:pass@host in a URI (secret rule handles it)
     out.push({ category: 'pii', type: 'email', start: s, end: e });
   }
 }
@@ -38,9 +39,9 @@ function phones(text: string, out: Span[]) {
 }
 
 function ibans(text: string, out: Span[]) {
-  const re = /(?<![A-Za-z0-9])[A-Z]{2}\d{2}(?:[ ]?[A-Za-z0-9]{2,4}){2,8}(?![A-Za-z0-9])/g;
+  const re = /(?<![A-Za-z0-9])[A-Za-z]{2}\d{2}(?:[ ]?[A-Za-z0-9]{2,4}){2,8}(?![A-Za-z0-9])/g;
   for (const m of text.matchAll(re)) {
-    const len = ibanLength(m[0].slice(0, 2));
+    const len = ibanLength(m[0].slice(0, 2).toUpperCase());
     if (!len) continue;
     // find end where alnum count == len
     let count = 0;

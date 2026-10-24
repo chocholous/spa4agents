@@ -14,7 +14,9 @@ const NE = '(?![A-Za-z0-9_-])';
 const R = (src: string, flags = ''): RegExp => new RegExp(src, 'dg' + flags);
 
 const RULES: Rule[] = [
-  { type: 'private_key', re: R('-----BEGIN (?:[A-Z0-9]+ )*PRIVATE KEY(?: BLOCK)?-----[\\s\\S]*?(?:-----END (?:[A-Z0-9]+ )*PRIVATE KEY(?: BLOCK)?-----|\\n[ \\t]*\\n|$)') },
+  { type: 'private_key', re: R('-----BEGIN (?:[A-Z0-9]+ )*PRIVATE KEY(?: BLOCK)?-----[\\s\\S]*?-----END (?:[A-Z0-9]+ )*PRIVATE KEY(?: BLOCK)?-----') },
+  // truncated block (no END line): up to the next blank line or end of text
+  { type: 'private_key', re: R('-----BEGIN (?:[A-Z0-9]+ )*PRIVATE KEY(?: BLOCK)?-----[\\s\\S]*?(?:\\n[ \\t]*\\n|$)') },
   { type: 'anthropic_key', re: R(`${NB}sk-ant-[a-z0-9]{2,10}-[A-Za-z0-9_-]{20,}`) },
   { type: 'openai_key', re: R(`${NB}sk-(?:proj-|svcacct-|admin-)?[A-Za-z0-9_-]{20,}${NE}`),
     accept: (m) => /\d/.test(m[0]) && /[A-Za-z]/.test(m[0].slice(3)) },
@@ -30,6 +32,7 @@ const RULES: Rule[] = [
   { type: 'npm_token', re: R(`${NB}npm_[A-Za-z0-9]{36}${NE}`) },
   { type: 'pypi_token', re: R(`${NB}pypi-AgE[A-Za-z0-9_-]{50,}`) },
   { type: 'sendgrid_key', re: R(`${NB}SG\\.[A-Za-z0-9_-]{16,}\\.[A-Za-z0-9_-]{16,}`) },
+  { type: 'mailgun_key', re: R(`${NB}key-[0-9a-f]{32}${NE}`) },
   { type: 'twilio_key', re: R(`${NB}(?:SK|AC)[0-9a-f]{32}${NE}`) },
   { type: 'shopify_token', re: R(`${NB}shp(?:at|ss|ca|pa)_[0-9a-f]{32}${NE}`) },
   { type: 'digitalocean_token', re: R(`${NB}do[por]_v1_[0-9a-f]{64}${NE}`) },
@@ -51,7 +54,7 @@ const ASSIGN = new RegExp(
   `(?<![\\p{L}\\p{N}])([\\w.-]*?(?:${KEY_WORDS})[\\w.-]*)(["']?\\s*(?::|=>|=)\\s*|\\s+is\\s+)(["'\`]?)([^\\s"'\`,;<>)\\]}]{6,})`,
   'dgiu',
 );
-const KEY_NEG = /(?:count|limit|max_|min_|usage|length|type|expir|ttl|size|name|url|endpoint|field|required|input|output|total|used|_id$|^id$|ratio|per_|num)/i;
+const KEY_NEG = /(?:^|[_.-])(?:count|limit|max|min|usage|length|type|expir\w*|ttl|size|name|url|endpoint|field|required|input|output|total|used|ratio|per|num|id)(?:$|[_.-])/i;
 
 export function isPlaceholder(v: string): boolean {
   const s = v.trim();
