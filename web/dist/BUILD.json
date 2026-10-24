@@ -2,7 +2,7 @@
   "draft": true,
   "brand_approved": false,
   "owner_decisions_pending": 34,
-  "catalog_sha256": "cab94ab1588f4270c0a1372226080fc82c6489c26a012deb7327624909066f49",
+  "catalog_sha256": "729528862436859e1d3ecc9db81e914f9fc623b7afe98c146c8edf634322cab4",
   "locales": [
     "en"
   ],
@@ -65,11 +65,11 @@
     },
     {
       "path": "honesty/index.html",
-      "sha256": "48bb8d5aeccc9822a81cf38333e754385dd524e7871739237a6de38620f11bf4"
+      "sha256": "53489b3b1603a9e0d13d24d260b0897f91287cb5b525cb8c5983c03b039b699a"
     },
     {
       "path": "honesty/index.md",
-      "sha256": "b86f9b27d491741625b28fd3f88d42a48c2f8b0bf10b8e95df6a562c75bc0cd7"
+      "sha256": "822b7bfce270cc007d619f837aa819b51dda71317245f3033c83ef9dc581e8be"
     },
     {
       "path": "index.html",

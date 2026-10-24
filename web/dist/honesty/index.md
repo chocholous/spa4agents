@@ -65,6 +65,8 @@ Each need carries evidence labels from the catalog. This is the whole list.
 
 ## How this came about
 
+The service began as an idea at a hackathon. It is being built now, and nothing on this site means it is already running.
+
 It started as a list of ways autonomous agents get into trouble, collected from reports, tests of similar services and a few known failure modes, and a question of whether a small paid service could help with some of them.
 
 The list is the catalog, and the catalog is the single source of truth. Every page here, every tool page for agents, the price list and the llms.txt file are generated from it. When the list changes, the site changes.
