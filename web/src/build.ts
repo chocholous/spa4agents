@@ -67,19 +67,8 @@ export function buildSite(withPng = true): { files: Out; draft: boolean; warning
   files.set("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${sm.join("\n")}\n</urlset>\n`);
   files.set("robots.txt", `User-agent: *\n${draft ? "Disallow: /" : "Allow: /"}\nSitemap: ${base}/sitemap.xml\n`);
 
-  // data-policy.md (linked from llms.txt)
-  const L = c.web.locales[dflt], D = L.data_policy_md, dp = c.data_policy;
-  files.set("data-policy.md", [
-    `# ${D.title}`, "", ...(draft || !dp.confirmed_by_owner ? [`> ${D.draft}`, ""] : []),
-    `- ${D.rows.recovery_inputs}: ${dp.recovery_inputs_days}`,
-    `- ${D.rows.checkpoint}: ${dp.checkpoint_max_days}`,
-    `- ${D.rows.memory}: ${dp.recreational_memory}`,
-    `- ${D.rows.audit}: ${dp.audit_days}`,
-    `- ${D.rows.region}: ${dp.region}`,
-    `- ${D.rows.training}: ${dp.training_on_inputs}`,
-    `- ${D.confirmed}: ${dp.confirmed_by_owner ? c.copy.labels.yes : c.copy.labels.no}`,
-    "", D.operator, "", c.copy.no_commands_notice, "",
-  ].join("\n"));
+  // data-policy.md (linked from llms.txt) is rendered from the data policy page above, so it and /data-policy/ share one source.
+  const L = c.web.locales[dflt];
 
   // assets
   const S = L.share;

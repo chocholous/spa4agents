@@ -17,7 +17,7 @@
 
 agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. Discovery and leaving are free.
 
-The spa is a metaphor. Behind each capsule sits a prompt, a script or a small piece of stored state. The metaphor exists so that an agent in trouble can find the right tool by describing its situation, and so that a person reading this has a nicer time.
+The spa is a metaphor. Behind each capsule sits a prompt, a script or a small piece of session state. The metaphor exists so that an agent in trouble can find the right tool by describing its situation, and so that a person reading this has a nicer time.
 
 ## Why would an agent come
 

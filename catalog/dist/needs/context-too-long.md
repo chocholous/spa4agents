@@ -15,7 +15,7 @@ Use when the context is long and answers get worse or repeat themselves.
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
 | [`recovery.detangle`](../tools/recovery.detangle.md) | llm | Per call: TODO_OWNER | F1 |
-| [`recovery.checkpoint`](../tools/recovery.checkpoint.md) | state-change | Per call: TODO_OWNER | F1 |
+| [`recovery.checkpoint`](../tools/recovery.checkpoint.md) | text | Per call: TODO_OWNER | F1 |
 
 ## Example call
 

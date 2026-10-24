@@ -15,7 +15,7 @@ Use after three identical failures.
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
 | [`recovery.diagnose_loop`](../tools/recovery.diagnose_loop.md) | llm | Per call: TODO_OWNER | F1 |
-| [`recovery.checkpoint`](../tools/recovery.checkpoint.md) | state-change | Per call: TODO_OWNER | F1 |
+| [`recovery.checkpoint`](../tools/recovery.checkpoint.md) | text | Per call: TODO_OWNER | F1 |
 
 ## Example call
 

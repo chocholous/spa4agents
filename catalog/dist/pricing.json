@@ -139,7 +139,7 @@
     {
       "name": "recovery.checkpoint",
       "phase": "F1",
-      "mechanism": "state-change",
+      "mechanism": "text",
       "price_model": "per_call",
       "amount_usd": "TODO_OWNER",
       "paid_with_x402": true,

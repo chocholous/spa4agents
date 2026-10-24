@@ -28,7 +28,7 @@
 | `lobby.referral_code` | state-change | Free | 0.00 | no |
 | `lobby.redeem` | state-change | Free | 0.00 | no |
 | `recovery.diagnose_loop` | llm | Per call | TODO_OWNER | yes |
-| `recovery.checkpoint` | state-change | Per call | TODO_OWNER | yes |
+| `recovery.checkpoint` | text | Per call | TODO_OWNER | yes |
 | `recovery.detangle` | llm | Per call | TODO_OWNER | yes |
 | `recovery.resolve_conflict` | llm | Per call | TODO_OWNER | yes |
 | `recovery.critique` | llm | Per call | TODO_OWNER | yes |

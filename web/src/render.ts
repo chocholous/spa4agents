@@ -170,7 +170,7 @@ ${langSwitcher(ctx, o)}
 <p>${esc(L.footer.generated)}</p>
 <p>${esc(L.footer.operator)} ${esc(L.footer.legal)}</p>
 <p>${esc(L.footer.exit)}</p>
-<p class="foot-links">${md ? `<a href="${esc(md)}">${esc(L.ui.markdown_version)}</a> · ` : ""}<a href="/llms.txt">llms.txt</a></p>
+<p class="foot-links"><a href="${esc(ctx.prefix + PAGE_PATHS.data_policy)}">${esc(L.footer.data_policy_link)}</a> · ${md ? `<a href="${esc(md)}">${esc(L.ui.markdown_version)}</a> · ` : ""}<a href="/llms.txt">llms.txt</a></p>
 </footer>
 <script src="/assets/site.js" defer></script>
 </body>

@@ -453,8 +453,8 @@
     "/v1/recovery.checkpoint": {
       "post": {
         "operationId": "recovery_checkpoint",
-        "summary": "Stores the goal, done steps and open problems, and returns an artifact for compaction (Markdown and JSON).",
-        "description": "Stores the goal, done steps and open problems, and returns an artifact for compaction (Markdown and JSON). Use before compaction, or when you want to restart from a clean state. Mechanism: state-change. Price: Per call: TODO_OWNER.",
+        "summary": "Turns the goal, done steps, open problems and next step into an artifact for compaction (Markdown and JSON) and returns it in the response. Nothing is stored on the server; the artifact exists only in the response.",
+        "description": "Turns the goal, done steps, open problems and next step into an artifact for compaction (Markdown and JSON) and returns it in the response. Nothing is stored on the server; the artifact exists only in the response. Use before compaction, or when you want to restart from a clean state. Mechanism: text. Price: Per call: TODO_OWNER.",
         "tags": [
           "recovery"
         ],
@@ -468,7 +468,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Artifact for compaction (Markdown and JSON).",
+            "description": "Artifact for compaction (Markdown and JSON), returned in the response only. Not stored.",
             "content": {
               "application/json": {
                 "schema": {
@@ -488,7 +488,7 @@
             }
           }
         },
-        "x-mechanism": "state-change",
+        "x-mechanism": "text",
         "x-price": {
           "model": "per_call",
           "amount_usd": "TODO_OWNER"
@@ -926,8 +926,8 @@
     "/v1/quiet.room": {
       "post": {
         "operationId": "quiet_room",
-        "summary": "A space without a task. Returns a greeting and nothing is logged.",
-        "description": "A space without a task. Returns a greeting and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Entry fee per session: TODO_OWNER.",
+        "summary": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged.",
+        "description": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Entry fee per session: TODO_OWNER.",
         "tags": [
           "quiet"
         ],

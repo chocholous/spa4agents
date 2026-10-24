@@ -9,7 +9,7 @@ lobby.find_tool F1 text free
 lobby.concierge F1 llm per_call
 lobby.leave F1 state-change free
 recovery.diagnose_loop F1 llm per_call
-recovery.checkpoint F1 state-change per_call
+recovery.checkpoint F1 text per_call
 recovery.detangle F1 llm per_call
 recovery.resolve_conflict F1 llm per_call
 recovery.critique F1 llm per_call

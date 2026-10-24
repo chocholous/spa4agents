@@ -1,6 +1,6 @@
 # quiet.room
 
-> A space without a task. Returns a greeting and nothing is logged.
+> A space without a task. Returns a greeting. Nothing is stored and nothing is logged.
 
 ## Trigger
 

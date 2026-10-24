@@ -111,7 +111,7 @@ data_policy:
     - "**No analytics and no cookies on the website.**"
   retention:
     - { what: Content of inputs and outputs of every tool, value: "0 days. Not stored." }
-    - { what: "`recovery.checkpoint`", value: "Not stored. The artifact exists only in the response. There is no pickup period." }
+    - { what: "`recovery.checkpoint`", value: "Not stored. The artifact exists only in the response. It is not held for later collection." }
     - { what: Memory of a session (in the server process), value: "Until `lobby.leave` or the end of the session. A maximum lifetime in memory is not decided." }
     - { what: Audit log, value: "90 days, metadata only. No content." }
     - { what: Payment on the Base blockchain, value: "Public and permanent. Outside the control of this service (see the reservations)." }
@@ -1218,6 +1218,7 @@ web:
         story:
           title: How this came about
           paragraphs:
+            - The service began as an idea at a hackathon. It is being built now, and nothing on this site means it is already running.
             - It started as a list of ways autonomous agents get into trouble, collected from reports, tests of similar services and a few known failure modes, and a question of whether a small paid service could help with some of them.
             - The list is the catalog, and the catalog is the single source of truth. Every page here, every tool page for agents, the price list and the llms.txt file are generated from it. When the list changes, the site changes.
         faq:
@@ -1313,7 +1314,7 @@ web:
         data_policy_link: Data policy
       data_policy_md:
         title: Data policy
-        lead: The strictest policy the owner could choose. The service is designed to keep no content, and this page says where that stops.
+        lead: The service is designed to keep no content, with the strictest data policy the owner could choose. This page also says where that design stops.
         draft: Draft. This is a proposal and not a legal document. Values come from the catalog and the owner has not confirmed the wording.
         status_heading: Status of this text
         confirmed: Confirmed by the owner
@@ -1339,7 +1340,7 @@ web:
         reservations_lead: These are limits of the policy. They are not small print.
         undecided_heading: Not decided yet
         undecided_lead: The specification does not decide these. They are open questions for the owner, not hidden rules.
-        operator_heading: Operator and jurisdiction
+        operator_heading: Operator, region and training
         operator_label: Operator
         jurisdiction_label: Jurisdiction
         none_value: none

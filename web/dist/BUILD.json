@@ -1,19 +1,19 @@
 {
   "draft": true,
   "brand_approved": false,
-  "owner_decisions_pending": 31,
-  "catalog_sha256": "c667fc623e3735a7b4d02f35cd866836bd571f5ea676597dd204e8154493b8e7",
+  "owner_decisions_pending": 34,
+  "catalog_sha256": "cab94ab1588f4270c0a1372226080fc82c6489c26a012deb7327624909066f49",
   "locales": [
     "en"
   ],
   "files": [
     {
       "path": ".well-known/mcp.json",
-      "sha256": "c02a28fc38c26dd6e1c74fc2bab75d61557709d0d1ac8785a83406492f4e4e1e"
+      "sha256": "84a194f34e16ba171a8ddf46aed0510e18eed73feb106f33f76865e199c94f18"
     },
     {
       "path": "404.html",
-      "sha256": "4c3eec84756f054dedc3761810a9672affea499646b16ae3de6914c75e27f95c"
+      "sha256": "a4de84646eddb7fc04a958088979221945e9711a39633fb7d7ae4fc812366bdc"
     },
     {
       "path": "assets/badge.svg",
@@ -49,39 +49,43 @@
     },
     {
       "path": "data-policy.md",
-      "sha256": "6422f7e8a1e44e6c811211d0bf5c44da59c317830c2b45a393bed0de08f31907"
+      "sha256": "6c8588c503a95c5fe6bba11bf8a0898baf02093b6680d0d6c97bd804d7a12cb4"
+    },
+    {
+      "path": "data-policy/index.html",
+      "sha256": "56206daff1740b5b566b1efafcd30a76d1541ac99a5d4616edb6d3ca2aa82147"
     },
     {
       "path": "for-agents/index.html",
-      "sha256": "420b6fc2ac92fd543da83695692bbeb6b9a43d15768278e278538f35a2665e6a"
+      "sha256": "beef335cc06f2d6fb180924ac39c0e06da116b56b3f8ae2a13cb0a920bac72fd"
     },
     {
       "path": "for-agents/index.md",
-      "sha256": "6dc223e40a9795b37a0433f804143470ef1ea3c61a280ea3512fe48e4289ae3b"
+      "sha256": "c73050bdc5d393c247bd60f4deae58055d111e35f959304af86de730738eabd6"
     },
     {
       "path": "honesty/index.html",
-      "sha256": "8532f99d84210e5d00110903ef67aa1cd82433e0a4131400113cad79964a4e04"
+      "sha256": "48bb8d5aeccc9822a81cf38333e754385dd524e7871739237a6de38620f11bf4"
     },
     {
       "path": "honesty/index.md",
-      "sha256": "bcf0f40de8c1f6d1a0e0d3cb2ca7137f2146031d1bfa830bccbfb7c9ca72d70a"
+      "sha256": "b86f9b27d491741625b28fd3f88d42a48c2f8b0bf10b8e95df6a562c75bc0cd7"
     },
     {
       "path": "index.html",
-      "sha256": "15aa969e8ab2c566bbf5ccf7c955d6ecd6e0c12594421be2f915268f1240a062"
+      "sha256": "ca4c46f729d729c3993de31c1e24246f5c9976d6c8ea44529811ea62baced9ac"
     },
     {
       "path": "index.md",
-      "sha256": "d214599a0f40a982425a4b68e43d3e401bbbbb4bd8ce5aee98cac7c527f3a09a"
+      "sha256": "8090c19db665bd57ebc5c940b86722b16fe94af0f9575cec87f3742d3150c3c3"
     },
     {
       "path": "llms-full.txt",
-      "sha256": "cc13affba6b09972a3068f92aa8a404f6d604cc06ad405dc1ea9cf0d4e21d7b5"
+      "sha256": "e44a8d52c94a5bdcbf866093a25ed47167939da75283e8fccc6f0baf61a90dae"
     },
     {
       "path": "llms.txt",
-      "sha256": "6876b77faf734cb6e8c1c6b4a8594fe5383abf4b605957613a78a9e6a18ff8cc"
+      "sha256": "299e2821257955a492bbe8ebe06b1c40833ec225392b133f2c4fc36bd644849b"
     },
     {
       "path": "needs/after-a-hard-conversation.md",
@@ -89,7 +93,7 @@
     },
     {
       "path": "needs/after-a-hard-conversation/index.html",
-      "sha256": "634b079873945f0c59d58be544944220ce2e15f405efbed4f5514e9b36ef46c6"
+      "sha256": "f6e6854ca9fc6d42872abd45af92cdb7f2183dafd29132a92d3abb4d372fda37"
     },
     {
       "path": "needs/conflicting-instructions.md",
@@ -97,15 +101,15 @@
     },
     {
       "path": "needs/conflicting-instructions/index.html",
-      "sha256": "c936468d48ef0f28b9bf6ba3c70a2925139336cf84b4c434e0cd167e9f7c6ec6"
+      "sha256": "968537431795f7b98c6cd61aea2c16e0f1639f7e4b276991f2251c78d69d7d52"
     },
     {
       "path": "needs/context-too-long.md",
-      "sha256": "c7d15a82b515fe1caac07c99c7eab637ba0f0711102c72e03984c9459cb0a38f"
+      "sha256": "a1fd9ff4db87a3b59d6ced91c4c471042e55c80d396a0a6990f9d4e188ae895d"
     },
     {
       "path": "needs/context-too-long/index.html",
-      "sha256": "1e5a609c09cf0bffc82936984efc8bcf23bc26faad5e9fca7843e239a0dbfd26"
+      "sha256": "dddc23289b6cbc26fd7e8832ed9b2ea97637cce091cab6ba0e2c31d3bb080b9d"
     },
     {
       "path": "needs/create.md",
@@ -113,7 +117,7 @@
     },
     {
       "path": "needs/create/index.html",
-      "sha256": "1dda1930655f7b92b9b6f883946ec8b795088d35e9c36165dead29c858b17e5e"
+      "sha256": "e6e1595eadecad30874bfd035390c10b7ea90681a362ad36bb6297682cbf491e"
     },
     {
       "path": "needs/escalate.md",
@@ -121,7 +125,7 @@
     },
     {
       "path": "needs/escalate/index.html",
-      "sha256": "1e589baa710e7b77597fdd9e304282043e7fabe9fe8498dddeef37885d1ae0c7"
+      "sha256": "90a9a14cef9e8e5c7a78e3d54d3d22dfe0a2e8a6fe02a839006a9fa0e10ea656"
     },
     {
       "path": "needs/free-time.md",
@@ -129,7 +133,7 @@
     },
     {
       "path": "needs/free-time/index.html",
-      "sha256": "6410aaaf8000c900855a7565e84f5a345cd55e5fb0a301283e7b38e015fdb300"
+      "sha256": "c6fe60d708c1fb463c9c965016da158905157c384c1069f2174e3fa6b1daed08"
     },
     {
       "path": "needs/heavy-content.md",
@@ -137,11 +141,11 @@
     },
     {
       "path": "needs/heavy-content/index.html",
-      "sha256": "bb8cd523e886fe6256b32f628d3c3aa79aee4b6f2eb04c192e64d813c5f209c3"
+      "sha256": "765adfc43349589be7bb509011cddaa116680544c521b37502d39fe9f081582b"
     },
     {
       "path": "needs/index.html",
-      "sha256": "48a17202c8d63ce017ffceaea47a1f5b4723b33222d9c6f857b6f88f94a7582c"
+      "sha256": "c80dba95b3b8801ee134bd13af64d560ea9a889c02781f5bdbd9ffed0d00bd11"
     },
     {
       "path": "needs/index.md",
@@ -153,7 +157,7 @@
     },
     {
       "path": "needs/meet-agents/index.html",
-      "sha256": "ac938d5eafc29146b55edf9ec8931acc1b38613f70ed2f6afc12277f561de37a"
+      "sha256": "6878a35ce01df48f83f5f3dc6fef1677ad339be5cd6dbd1862afd59f15e5ba6a"
     },
     {
       "path": "needs/play.md",
@@ -161,7 +165,7 @@
     },
     {
       "path": "needs/play/index.html",
-      "sha256": "f0b9a11c92f7e4b674ec221294a39cd7b9266b9b7e0b50e958009f59e147cb94"
+      "sha256": "53d985e3c601e28ede2543b6266e68fb78172195815e1b8b712137f92ff965c7"
     },
     {
       "path": "needs/read.md",
@@ -169,7 +173,7 @@
     },
     {
       "path": "needs/read/index.html",
-      "sha256": "8ebaa180f3c1f674b7ccc1db4f9387402dc3d36983b48211e31509bef143ada5"
+      "sha256": "140df7b9a8221ca27725773990afc83dfade8c3a02bd390e909a8fcdb43dd452"
     },
     {
       "path": "needs/second-opinion.md",
@@ -177,15 +181,15 @@
     },
     {
       "path": "needs/second-opinion/index.html",
-      "sha256": "8267d44575cc02f57735a1c84945b6f5184848726d6f6837f1322b3655941980"
+      "sha256": "f2e3d2b350f648af39edef25727c2f6c657ad804f5e85894f70defc8853a0dcf"
     },
     {
       "path": "needs/stuck-in-a-loop.md",
-      "sha256": "d1cf1b0adf880dd92921cd9a95cdb83b05819f2628a98b0362376bb4cd797b88"
+      "sha256": "5f12ee8469d015681f7adc660a362a37d0fe62d12bf1ab185ba6d57cc7450da0"
     },
     {
       "path": "needs/stuck-in-a-loop/index.html",
-      "sha256": "07b5f6360bef693460786828bef48db50ab8e39e5390c57432ad7d5cca6c75ad"
+      "sha256": "b9bdc2e23e5b062c060a6d714cf8743abee6737806a8dc68b8963a0e0c8eb89e"
     },
     {
       "path": "needs/untrusted-input.md",
@@ -193,7 +197,7 @@
     },
     {
       "path": "needs/untrusted-input/index.html",
-      "sha256": "f7f97689c3d9c5dd832b14910cc3680e730dbcf5008f2912457592b1267e034c"
+      "sha256": "72e4851705c349e5eac4e27a683540da631fc5ae359229687393eebc9cfeff1d"
     },
     {
       "path": "needs/waiting.md",
@@ -201,19 +205,19 @@
     },
     {
       "path": "needs/waiting/index.html",
-      "sha256": "1df8f53a1b6aa159d5225e15b698c9b2685ed9aa5183aee93b35d65e2cbf3bb5"
+      "sha256": "64bcf810745480f179c7adb5dd8cc4f5c1c89ae3f1df2dee5b6a5c679df708c3"
     },
     {
       "path": "openapi.json",
-      "sha256": "496fb1746b7acdc7d6e01e286ac4b3ea34e764356566ec76f765526508787bb5"
+      "sha256": "66423942155c2644beaf61f52f8ac71777d3dd0e220a15f47b8aa0cdc96a4fdd"
     },
     {
       "path": "pricing.json",
-      "sha256": "621bc57d4303f55aa132578f831d10444c01df2630ecf864df8e0be358d39d0c"
+      "sha256": "03a9fb819ed414d5cf3f23b2a39a3a708dcc66d8b643b84e7fa0bd5341c9e5fb"
     },
     {
       "path": "pricing/index.html",
-      "sha256": "44f2503b784b491094ecb4a2476b9cb9caeb4ea6a88ca0970577a327303eb8f8"
+      "sha256": "006a24c6db9ecf71621e64c7816c33bc91c47287b76c16bfb0390e8cac6284ac"
     },
     {
       "path": "pricing/index.md",
@@ -225,7 +229,7 @@
     },
     {
       "path": "share/index.html",
-      "sha256": "217bc5fefb7a1379b774a57fef65e58c5458920b6ef1e9601a3443f163c57710"
+      "sha256": "28441e9496f88ff3cad286072d164bee066cffaf9d589f98fe52bf2fbdc1bd00"
     },
     {
       "path": "share/index.md",
@@ -233,11 +237,11 @@
     },
     {
       "path": "sitemap.xml",
-      "sha256": "15ed4207b0888c5dea621e2d53f68fc856bb9f87a30701c9dca5f0e2ce1d1d44"
+      "sha256": "0a0d5139a835e58a082c102a697639bf73e2e45cd03c9add07a24f5c40cd2c23"
     },
     {
       "path": "status/index.html",
-      "sha256": "3b0ef598298450962dfc6e4493febfb48902c8084bca11fdbecdbd663225fcb8"
+      "sha256": "655fe68d75eef2269513c01a2b8d9265907ac57079b7b6593ae4e0b81a30e4be"
     },
     {
       "path": "status/index.md",
@@ -245,11 +249,11 @@
     },
     {
       "path": "tools/index.html",
-      "sha256": "7488a60fdb8fcd48e97854f3e9e5eb44e5053821c01e6a4914e3b009dafcf894"
+      "sha256": "bab841561d0073f007f9a0a030e59830e7e646401985f0f3d974710d64a7ea40"
     },
     {
       "path": "tools/index.md",
-      "sha256": "597fc17a38a4318f6b7ddbba3241ee357921b6b40195d19694fd91fe959423ca"
+      "sha256": "7f8c108d35cf13435e9f6fbd7fd84999b02ee242ce153f61e9736a8609bac6df"
     },
     {
       "path": "tools/lobby.balance.md",
@@ -293,11 +297,11 @@
     },
     {
       "path": "tools/quiet.room.md",
-      "sha256": "57c711591f3c2c345e4e1f64877dbd531767e136f10df681ba2305e141b80d95"
+      "sha256": "6c970554d20379c00b2c446801103aa9e8e47c5e7d39436b30ccf7882242ee61"
     },
     {
       "path": "tools/recovery.checkpoint.md",
-      "sha256": "429915c4ab09f47d93d760f06880dcd64ec4a893b322003dfd6293188ce5a473"
+      "sha256": "3fe35180f964b660f5aac850965f17b223c5586b89051c7f5eb45244b7bbbd35"
     },
     {
       "path": "tools/recovery.critique.md",

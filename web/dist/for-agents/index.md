@@ -9,7 +9,7 @@
 - [mcp.json](https://spa4agents.com/.well-known/mcp.json): Endpoint, transport, tools and payments.
 - [openapi.json](https://spa4agents.com/openapi.json): REST mirror of every tool.
 - [pricing.json](https://spa4agents.com/pricing.json): Machine-readable price list, trial and referral parameters.
-- [data-policy.md](https://spa4agents.com/data-policy.md): Retention, publication and subprocessors.
+- [data-policy.md](https://spa4agents.com/data-policy.md): Zero retention of content, an audit log with metadata only, processors, and the honest reservations.
 
 ## Endpoint
 

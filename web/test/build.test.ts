@@ -71,3 +71,14 @@ test("sources contain no prose and no hardcoded brand", () => {
     }
   }
 });
+
+test("data policy page: HTML page, Markdown twin, footer link, honest reservations", () => {
+  const page = html("data-policy/index.html");
+  assert.match(page, /<h1[^>]*>Data policy/);
+  assert.match(html("index.html"), /<a href="\/data-policy\/">Data policy<\/a>/);
+  assert.match(page, /rel="alternate" type="text\/markdown" href="[^"]*\/data-policy\.md"/);
+  const md = String(built.files.get("data-policy.md"));
+  for (const w of ["TO_BE_NAMED", "public and permanent", "pseudonym", "not a legal document", "metadata only"]) assert.ok(md.includes(w), w);
+  assert.ok(!/7 days|pickup/i.test(md));
+  assert.ok(String(built.files.get("sitemap.xml")).includes("/data-policy/"));
+});

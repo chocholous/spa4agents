@@ -103,3 +103,35 @@ test("unmeasured label where the spec has no source: conflicting-instructions an
     assert.ok(n.evidence.some((e: any) => e.label === "unmeasured"), id);
   }
 });
+
+test("data policy: zero retention, checkpoint not stored, audit metadata only", () => {
+  const dp = loadRaw().raw.data_policy;
+  assert.equal(dp.content_retention_days, 0);
+  assert.equal(dp.checkpoint_stored, false);
+  assert.equal(dp.audit_content, "none");
+  assert.equal(dp.audit_days, 90);
+  assert.ok(!("checkpoint_max_days" in dp));
+  const cp = loadRaw().raw.tools.find((t: any) => t.name === "recovery.checkpoint");
+  assert.equal(cp.mechanism, "text");
+  assert.match(cp.description, /Nothing is stored/);
+});
+
+test("data policy: changing the zero-retention values is rejected by the schema", () => {
+  for (const [k, v] of [["content_retention_days", 7], ["checkpoint_stored", true], ["audit_content", "inputs"]] as const) {
+    const d = clone();
+    (d.data_policy as any)[k] = v;
+    assert.ok(validateDoc(d).errors.length > 0, k);
+  }
+});
+
+test("data policy: undecided parties stay TO_BE_NAMED and are counted as pending", () => {
+  const raw = loadRaw().raw;
+  assert.equal(raw.llm.provider, "TO_BE_NAMED");
+  assert.equal(raw.data_policy.operator, "TO_BE_NAMED");
+  assert.ok(validateDoc(raw).todos.some((t) => t.includes("llm.provider")));
+});
+
+test("data policy: states the honest reservations", () => {
+  const text = JSON.stringify(loadRaw().raw.data_policy.reservations).toLowerCase();
+  for (const w of ["public and permanent", "pseudonym", "short-lived identifier", "while processing", "hosting", "legal"]) assert.ok(text.includes(w), w);
+});

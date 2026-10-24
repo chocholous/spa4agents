@@ -57,7 +57,10 @@ export interface Ctx {
 export const PAGE_PATHS: Record<string, string> = {
   home: "/", needs: "/needs/", tools: "/tools/", pricing: "/pricing/",
   honesty: "/honesty/", for_agents: "/for-agents/", share: "/share/", status: "/status/",
+  data_policy: "/data-policy/",
 };
+/** Markdown paths that differ from the `<html path>index.md` rule (the spec names /data-policy.md). */
+export const MD_PATHS: Record<string, string> = { data_policy: "/data-policy.md" };
 export const NAV_ORDER = ["needs", "tools", "pricing", "honesty", "for_agents", "share", "status"];
 
 export function mdPathOf(htmlPath: string): string {
@@ -78,7 +81,7 @@ export function href(ctx: Ctx, ref: string, mode: "html" | "md"): string {
   const [kind, rest] = ref.includes(":") && !ref.startsWith("http") ? [ref.slice(0, ref.indexOf(":")), ref.slice(ref.indexOf(":") + 1)] : ["", ref];
   if (kind === "page") {
     const p = PAGE_PATHS[rest];
-    return abs(ctx.prefix + (mode === "md" ? mdPathOf(p) : p));
+    return abs(ctx.prefix + (mode === "md" ? (MD_PATHS[rest] ?? mdPathOf(p)) : p));
   }
   if (kind === "need") return mode === "md" ? ctx.base + `/needs/${rest}.md` : `${ctx.prefix}/needs/${rest}/`;
   if (kind === "tool") return mode === "md" ? ctx.base + `/tools/${rest}.md` : `${ctx.prefix}/tools/#${rest}`;
@@ -108,7 +111,7 @@ const hostOf = (u: string) => new URL(u).host;
 
 function plain(id: string, ctx: Ctx, hero: Hero, blocks: Block[], extra: Partial<Page> = {}): Page {
   const p = ctx.L.pages[id];
-  return { id, path: PAGE_PATHS[id], mdPath: mdPathOf(PAGE_PATHS[id]), title: p.title, description: p.description, hero, blocks, sitemap: id !== "status", ...extra };
+  return { id, path: PAGE_PATHS[id], mdPath: MD_PATHS[id] ?? mdPathOf(PAGE_PATHS[id]), title: p.title, description: p.description, hero, blocks, sitemap: id !== "status", ...extra };
 }
 
 function toolCards(ctx: Ctx, names: string[]): Card[] {
@@ -360,6 +363,52 @@ export function buildPages(ctx: Ctx): Page[] {
     { t: "links", items: S.files.map((f: any) => ({ label: f.label, href: f.href, desc: "" })) },
     { t: "p", text: `**${S.dont_heading}**` },
     { t: "ul", items: S.dont_items },
+  ]));
+
+  // ---- data policy (the same content is rendered as /data-policy/ and /data-policy.md)
+  const D = L.data_policy_md, dp = c.data_policy, yn = (b: boolean) => (b ? c.copy.labels.yes : c.copy.labels.no);
+  const sub = (text: string): Block => ({ t: "p", text: `**${text}**` });
+  const toolNote = (t: any) => [dp.per_tool.notes[t.name], t.mechanism === "llm" ? dp.per_tool.llm_note : ""].filter(Boolean).join(" ");
+  pages.push(plain("data_policy", ctx, { kind: "plain", kicker: L.pages.data_policy.nav, title: D.title, lead: D.lead }, [
+    ...(dp.confirmed_by_owner ? [] : [{ t: "callout", text: D.draft } as Block]),
+    { t: "h2", id: "status", text: D.status_heading },
+    { t: "p", text: dp.status },
+    { t: "p", text: dp.decision },
+    { t: "dl", rows: [[D.confirmed, yn(dp.confirmed_by_owner)]] },
+    { t: "h2", id: "principles", text: D.principles_heading },
+    { t: "ul", items: dp.principles },
+    { t: "h2", id: "retention", text: D.retention_heading },
+    { t: "table", head: [D.retention_columns.what, D.retention_columns.value], rows: dp.retention.map((r: any) => [r.what, r.value]) },
+    { t: "h2", id: "tools", text: D.tools_heading },
+    { t: "p", text: D.tools_lead },
+    { t: "table", head: [D.tools_columns.tool, D.tools_columns.content, D.tools_columns.note], rows: live.map((t: any) => [`\`${t.name}\``, dp.per_tool.default, toolNote(t)]) },
+    { t: "h2", id: "audit", text: D.audit_heading },
+    { t: "p", text: dp.audit.purpose },
+    { t: "dl", rows: [[D.audit_days_label, String(dp.audit_days)], [D.audit_content_label, D.none_value]] },
+    { t: "callout", text: dp.audit.proposal_notice },
+    sub(D.audit_fields_heading),
+    { t: "ul", items: dp.audit.fields },
+    sub(D.audit_excluded_heading),
+    { t: "ul", items: dp.audit.excluded },
+    { t: "h2", id: "llm", text: D.llm_heading },
+    { t: "dl", rows: [[D.llm_provider_label, c.llm.provider], [D.llm_region_label, c.llm.region]] },
+    sub(D.llm_requirements_heading),
+    { t: "ul", items: c.llm.requirements },
+    sub(D.llm_operation_heading),
+    { t: "p", text: c.llm.proxy_logging },
+    { t: "h2", id: "processors", text: D.processors_heading },
+    { t: "table", head: [D.processors_columns.name, D.processors_columns.role, D.processors_columns.status], rows: dp.processors.map((r: any) => [r.name, r.role, r.status]) },
+    { t: "h2", id: "reservations", text: D.reservations_heading },
+    { t: "p", text: D.reservations_lead },
+    { t: "ul", items: dp.reservations.map((r: any) => `**${r.title}.** ${r.text}`) },
+    { t: "h2", id: "undecided", text: D.undecided_heading },
+    { t: "p", text: D.undecided_lead },
+    { t: "ul", items: dp.undecided },
+    { t: "h2", id: "operator", text: D.operator_heading },
+    { t: "dl", rows: [[D.operator_label, dp.operator], [D.jurisdiction_label, dp.jurisdiction], [D.region_label, dp.region], [D.training_label, dp.training_on_inputs]] },
+    { t: "h2", id: "site", text: D.site_heading },
+    { t: "p", text: D.site_text },
+    { t: "p", text: c.copy.no_commands_notice },
   ]));
 
   // ---- status

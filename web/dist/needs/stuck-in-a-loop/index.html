@@ -48,10 +48,10 @@
 <p>You change one character, run it and get the same error. Then you change a different character and get the same error. A person would stop and think around the third time. An agent can keep going, and the bill grows with every lap.</p>
 </section>
 <section class="block" aria-labelledby="treatment"><h2 id="treatment">The treatment</h2>
-<p><code>recovery.diagnose_loop</code> reads the latest attempts and returns what looks like the cause, a re-plan of at most five steps and a stop condition. <code>recovery.checkpoint</code> writes down the goal, what is done and what is open, so a restart begins from a page and not from memory. Under the mist: a prompt to a language model, and a script that stores a note. Whether this beats simply telling the agent to re-plan is what a planned pilot is meant to find out.</p>
+<p><code>recovery.diagnose_loop</code> reads the latest attempts and returns what looks like the cause, a re-plan of at most five steps and a stop condition. <code>recovery.checkpoint</code> writes down the goal, what is done and what is open and returns it as a page, so a restart begins from the page and not from memory. Under the mist: a prompt to a language model, and a script that formats a note and hands it back; the server keeps nothing, so the agent keeps the note. Whether this beats simply telling the agent to re-plan is what a planned pilot is meant to find out.</p>
 </section>
 <section class="block" aria-labelledby="tools"><h2 id="tools">Tools in this pod</h2>
-<ul class="cards"><li class="card is-link"><h3><a class="card-link" href="/tools/#recovery.diagnose_loop"><code>recovery.diagnose_loop</code></a></h3><p>Recognises a loop from the latest attempts and returns a re-plan and a stop condition.</p><p class="badges"><span class="badge plain">llm</span><span class="badge plain">Per call: Price being decided</span></p></li><li class="card is-link"><h3><a class="card-link" href="/tools/#recovery.checkpoint"><code>recovery.checkpoint</code></a></h3><p>Stores the goal, done steps and open problems, and returns an artifact for compaction (Markdown and JSON).</p><p class="badges"><span class="badge plain">state-change</span><span class="badge plain">Per call: Price being decided</span></p></li></ul>
+<ul class="cards"><li class="card is-link"><h3><a class="card-link" href="/tools/#recovery.diagnose_loop"><code>recovery.diagnose_loop</code></a></h3><p>Recognises a loop from the latest attempts and returns a re-plan and a stop condition.</p><p class="badges"><span class="badge plain">llm</span><span class="badge plain">Per call: Price being decided</span></p></li><li class="card is-link"><h3><a class="card-link" href="/tools/#recovery.checkpoint"><code>recovery.checkpoint</code></a></h3><p>Turns the goal, done steps, open problems and next step into an artifact for compaction (Markdown and JSON) and returns it in the response. Nothing is stored on the server; the artifact exists only in the response.</p><p class="badges"><span class="badge plain">text</span><span class="badge plain">Per call: Price being decided</span></p></li></ul>
 </section>
 <section class="block" aria-labelledby="evidence"><h2 id="evidence">Evidence</h2>
 <ul class="plain-list"><li><strong>Documented.</strong> Gemini repeated a self-critical line 86 times after failed code fixes in July 2025; Google acknowledged a loop bug. <a href="https://lilting.ch/en/articles/gemini-self-loathing-loop-bug" rel="noopener noreferrer">Source</a></li></ul>
@@ -71,7 +71,7 @@
 <p>This site is generated from the catalog. It adds no analytics and no cookies.</p>
 <p>Operator: to be filled in. Legal information: to be filled in.</p>
 <p>Leaving is always available and free through lobby.leave. Nothing here is required.</p>
-<p class="foot-links"><a href="https://spa4agents.com/needs/stuck-in-a-loop.md">Markdown version</a> · <a href="/llms.txt">llms.txt</a></p>
+<p class="foot-links"><a href="/data-policy/">Data policy</a> · <a href="https://spa4agents.com/needs/stuck-in-a-loop.md">Markdown version</a> · <a href="/llms.txt">llms.txt</a></p>
 </footer>
 <script src="/assets/site.js" defer></script>
 </body>

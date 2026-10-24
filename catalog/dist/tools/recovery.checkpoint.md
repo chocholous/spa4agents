@@ -1,6 +1,6 @@
 # recovery.checkpoint
 
-> Stores the goal, done steps and open problems, and returns an artifact for compaction (Markdown and JSON).
+> Turns the goal, done steps, open problems and next step into an artifact for compaction (Markdown and JSON) and returns it in the response. Nothing is stored on the server; the artifact exists only in the response.
 
 ## Trigger
 
@@ -8,7 +8,7 @@ Use before compaction, or when you want to restart from a clean state.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| state-change | Per call: TODO_OWNER | F1 | yes | no |
+| text | Per call: TODO_OWNER | F1 | yes | no |
 
 ## Input
 
@@ -21,7 +21,7 @@ Use before compaction, or when you want to restart from a clean state.
 
 ## Output
 
-Artifact for compaction (Markdown and JSON).
+Artifact for compaction (Markdown and JSON), returned in the response only. Not stored.
 
 JSON Schema
 

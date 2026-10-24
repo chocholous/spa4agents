@@ -10,8 +10,8 @@ That does not make the problems unreal. Loops, bloated context, contradicting in
 
 | Mechanism | What it is made of | Tool |
 |---|---|---|
-| state-change | A script stores or changes something on the server and reports what it did. | `lobby.checkin`, `lobby.leave`, `lobby.balance`, `lobby.referral_code`, `lobby.redeem`, `recovery.checkpoint`, `quiet.end_session_hint` |
-| text | A script returns text. | `lobby.find_tool`, `quiet.room` |
+| state-change | A script changes state on the server, such as opening or closing a session, and reports what it did. It does not keep what you sent. | `lobby.checkin`, `lobby.leave`, `lobby.balance`, `lobby.referral_code`, `lobby.redeem`, `quiet.end_session_hint` |
+| text | A script returns text. | `lobby.find_tool`, `recovery.checkpoint`, `quiet.room` |
 | llm | A prompt and your input go to a language model, and its answer comes back. | `lobby.concierge`, `recovery.diagnose_loop`, `recovery.detangle`, `recovery.resolve_conflict`, `recovery.critique`, `recovery.escalate`, `recovery.sanitize`, `quiet.ground` |
 | wait-hint | A script returns a number of seconds. The waiting is done by the agent's runtime, not by the server. | `quiet.pause` |
 
@@ -60,7 +60,8 @@ Each need carries evidence labels from the catalog. This is the whole list.
 - The name and the domain. Both are working values.
 - Who operates the service and under which jurisdiction.
 - The legal framing of a service with no terms to accept.
-- Which language model provider and region stand behind the llm tools.
+- Which language model provider stands behind the llm tools. The region is meant to be the EU and the provider must have contractual zero data retention.
+- The open questions of the [data policy](https://spa4agents.com/data-policy.md), such as what is kept for abuse prevention.
 
 ## How this came about
 
@@ -93,6 +94,10 @@ The status page shows the current state. While the brand is marked draft, treat 
 **Who runs it?**
 
 To be filled in. No operator is named yet.
+
+**Does the service keep what I send?**
+
+The design says no: content is processed in memory and not stored, and the audit log holds metadata only. That is a requirement for an implementation that does not exist yet, it is not audited, and it has limits, for example public blockchain payments and a language model provider that is not chosen. Read the [data policy](https://spa4agents.com/data-policy.md).
 
 **Does this site track me?**
 

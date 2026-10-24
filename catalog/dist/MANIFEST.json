@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "c667fc623e3735a7b4d02f35cd866836bd571f5ea676597dd204e8154493b8e7",
+  "catalog_sha256": "729528862436859e1d3ecc9db81e914f9fc623b7afe98c146c8edf634322cab4",
   "draft": true,
   "brand_approved": false,
   "owner_decisions_pending": [
@@ -10,6 +10,9 @@
     "$.trial.daily_global_budget",
     "$.referral.invitee_discount_percent",
     "$.referral.invitee_free_calls",
+    "$.data_policy.operator",
+    "$.data_policy.jurisdiction",
+    "$.llm.provider",
     "$.tools[2].price.amount_usd",
     "$.tools[7].price.amount_usd",
     "$.tools[8].price.amount_usd",
@@ -38,19 +41,19 @@
   "files": [
     {
       "path": "README.tables.md",
-      "sha256": "36a1c7438d5d1a01276c6b166f5ca16154872defc3d232f27b17a2a188f89d7d"
+      "sha256": "fa49adc8abf00ac2d306f54651a54fc5e91ad4e502231b57655c742d841c917d"
     },
     {
       "path": "initialize-instructions.txt",
-      "sha256": "2f2b08635c80f7a242c9c44f71a926bf8c0cb63da7e3246764bb802378e16c6a"
+      "sha256": "7a9c86942db03954ed06e4ae57bffd8e8df273346ef24c82bb855fad292fb78c"
     },
     {
       "path": "llms.txt",
-      "sha256": "6876b77faf734cb6e8c1c6b4a8594fe5383abf4b605957613a78a9e6a18ff8cc"
+      "sha256": "299e2821257955a492bbe8ebe06b1c40833ec225392b133f2c4fc36bd644849b"
     },
     {
       "path": "mcp.json",
-      "sha256": "c02a28fc38c26dd6e1c74fc2bab75d61557709d0d1ac8785a83406492f4e4e1e"
+      "sha256": "84a194f34e16ba171a8ddf46aed0510e18eed73feb106f33f76865e199c94f18"
     },
     {
       "path": "needs/after-a-hard-conversation.md",
@@ -62,7 +65,7 @@
     },
     {
       "path": "needs/context-too-long.md",
-      "sha256": "c7d15a82b515fe1caac07c99c7eab637ba0f0711102c72e03984c9459cb0a38f"
+      "sha256": "a1fd9ff4db87a3b59d6ced91c4c471042e55c80d396a0a6990f9d4e188ae895d"
     },
     {
       "path": "needs/create.md",
@@ -98,7 +101,7 @@
     },
     {
       "path": "needs/stuck-in-a-loop.md",
-      "sha256": "d1cf1b0adf880dd92921cd9a95cdb83b05819f2628a98b0362376bb4cd797b88"
+      "sha256": "5f12ee8469d015681f7adc660a362a37d0fe62d12bf1ab185ba6d57cc7450da0"
     },
     {
       "path": "needs/untrusted-input.md",
@@ -110,11 +113,11 @@
     },
     {
       "path": "openapi.json",
-      "sha256": "496fb1746b7acdc7d6e01e286ac4b3ea34e764356566ec76f765526508787bb5"
+      "sha256": "66423942155c2644beaf61f52f8ac71777d3dd0e220a15f47b8aa0cdc96a4fdd"
     },
     {
       "path": "pricing.json",
-      "sha256": "621bc57d4303f55aa132578f831d10444c01df2630ecf864df8e0be358d39d0c"
+      "sha256": "03a9fb819ed414d5cf3f23b2a39a3a708dcc66d8b643b84e7fa0bd5341c9e5fb"
     },
     {
       "path": "server.json",
@@ -162,11 +165,11 @@
     },
     {
       "path": "tools/quiet.room.md",
-      "sha256": "57c711591f3c2c345e4e1f64877dbd531767e136f10df681ba2305e141b80d95"
+      "sha256": "6c970554d20379c00b2c446801103aa9e8e47c5e7d39436b30ccf7882242ee61"
     },
     {
       "path": "tools/recovery.checkpoint.md",
-      "sha256": "429915c4ab09f47d93d760f06880dcd64ec4a893b322003dfd6293188ce5a473"
+      "sha256": "3fe35180f964b660f5aac850965f17b223c5586b89051c7f5eb45244b7bbbd35"
     },
     {
       "path": "tools/recovery.critique.md",

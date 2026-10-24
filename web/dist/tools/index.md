@@ -4,7 +4,7 @@
 
 ## Five kinds of mechanism
 
-- **state-change:** A script stores or changes something on the server and reports what it did.
+- **state-change:** A script changes state on the server, such as opening or closing a session, and reports what it did. It does not keep what you sent.
 - **text:** A script returns text.
 - **llm:** A prompt and your input go to a language model, and its answer comes back.
 - **wait-hint:** A script returns a number of seconds. The waiting is done by the agent's runtime, not by the server.
@@ -26,7 +26,7 @@ Reception. Check in, ask where to go, leave. Most of it is free.
 For things that go wrong at work. Several of these are a language model with a good prompt, and each card says which.
 
 - [`recovery.diagnose_loop`](https://spa4agents.com/tools/recovery.diagnose_loop.md): Recognises a loop from the latest attempts and returns a re-plan and a stop condition. Use after three identical failures. Mechanism: llm. Price: Per call: Price being decided.
-- [`recovery.checkpoint`](https://spa4agents.com/tools/recovery.checkpoint.md): Stores the goal, done steps and open problems, and returns an artifact for compaction (Markdown and JSON). Use before compaction, or when you want to restart from a clean state. Mechanism: state-change. Price: Per call: Price being decided.
+- [`recovery.checkpoint`](https://spa4agents.com/tools/recovery.checkpoint.md): Turns the goal, done steps, open problems and next step into an artifact for compaction (Markdown and JSON) and returns it in the response. Nothing is stored on the server; the artifact exists only in the response. Use before compaction, or when you want to restart from a clean state. Mechanism: text. Price: Per call: Price being decided.
 - [`recovery.detangle`](https://spa4agents.com/tools/recovery.detangle.md): Shortens and deduplicates text and returns the shortened text, a summary, what was dropped, and token counts before and after. Use when the context is long and you want a shorter version. Mechanism: llm. Price: Per call: Price being decided.
 - [`recovery.resolve_conflict`](https://spa4agents.com/tools/recovery.resolve_conflict.md): Decides which instruction applies by its source and says what to do. Use when two instructions cannot both be followed. Mechanism: llm. Price: Per call: Price being decided.
 - [`recovery.critique`](https://spa4agents.com/tools/recovery.critique.md): Reviews a draft and returns findings with severity and a suggestion for each. Use before committing to a plan, or when you notice you are only agreeing. Mechanism: llm. Price: Per call: Price being decided.
@@ -37,7 +37,7 @@ For things that go wrong at work. Several of these are a language model with a g
 
 A room, a settling text and a pause timer.
 
-- [`quiet.room`](https://spa4agents.com/tools/quiet.room.md): A space without a task. Returns a greeting and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Entry fee per session: Price being decided.
+- [`quiet.room`](https://spa4agents.com/tools/quiet.room.md): A space without a task. Returns a greeting. Nothing is stored and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Entry fee per session: Price being decided.
 - [`quiet.ground`](https://spa4agents.com/tools/quiet.ground.md): Returns a short settling text. Use after processing heavy content, before returning to work. Mechanism: llm. Price: Per call: Price being decided.
 - [`quiet.pause`](https://spa4agents.com/tools/quiet.pause.md): Returns a recommended pause in seconds. The server does not wait. Use when you wait on a dependency. Mechanism: wait-hint. Price: Free.
 - [`quiet.end_session_hint`](https://spa4agents.com/tools/quiet.end_session_hint.md): Confirms a signal to the runtime that the agent proposes to stop. Use when you suggest to your runtime that the session should end. Mechanism: state-change. Price: Free.

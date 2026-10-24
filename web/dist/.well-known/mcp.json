@@ -15,7 +15,7 @@
     "scheme": "exact",
     "asset": "USDC",
     "network": "eip155:84532",
-    "challenge_meta_key": "x402/payment-required",
+    "mcp_challenge": "In MCP the challenge is a tool result with isError true; the payment requirements are in structuredContent and repeated as JSON in content[0].text.",
     "rest_header": "PAYMENT-REQUIRED"
   },
   "session": {
@@ -24,6 +24,15 @@
     "max_usd": "TODO_OWNER",
     "warning_at_percent": 80,
     "address_daily_cap_usd": "TODO_OWNER"
+  },
+  "data_policy": {
+    "url": "https://spa4agents.com/data-policy.md",
+    "status": "Draft proposal, not a legal document. The service is not published and no legal review has been done. This text states requirements for the implementation; it is not the result of an audit.",
+    "content_retention_days": 0,
+    "checkpoint_stored": false,
+    "audit_days": 90,
+    "audit_content": "none",
+    "confirmed_by_owner": false
   },
   "hard_rules": [
     "No tool registers the agent with a third party.",
@@ -274,7 +283,7 @@
     },
     {
       "name": "recovery.checkpoint",
-      "description": "Stores the goal, done steps and open problems, and returns an artifact for compaction (Markdown and JSON). Use before compaction, or when you want to restart from a clean state. Mechanism: state-change. Price: Per call: TODO_OWNER.",
+      "description": "Turns the goal, done steps, open problems and next step into an artifact for compaction (Markdown and JSON) and returns it in the response. Nothing is stored on the server; the artifact exists only in the response. Use before compaction, or when you want to restart from a clean state. Mechanism: text. Price: Per call: TODO_OWNER.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -309,7 +318,7 @@
           "next"
         ]
       },
-      "mechanism": "state-change",
+      "mechanism": "text",
       "price": {
         "model": "per_call",
         "amount_usd": "TODO_OWNER"
@@ -634,7 +643,7 @@
     },
     {
       "name": "quiet.room",
-      "description": "A space without a task. Returns a greeting and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Entry fee per session: TODO_OWNER.",
+      "description": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Entry fee per session: TODO_OWNER.",
       "inputSchema": {
         "type": "object",
         "properties": {},

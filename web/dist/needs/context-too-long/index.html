@@ -48,10 +48,10 @@
 <p>The conversation is long, the answers are getting worse, and some of them repeat what was said an hour ago.</p>
 </section>
 <section class="block" aria-labelledby="treatment"><h2 id="treatment">The treatment</h2>
-<p><code>recovery.detangle</code> shortens and deduplicates a text, then tells you what it dropped and how many tokens it saved. <code>recovery.checkpoint</code> keeps the goal and the open items for the next window. It is summarising with receipts. Summaries lose things, which is why the list of what was dropped is part of the answer.</p>
+<p><code>recovery.detangle</code> shortens and deduplicates a text, then tells you what it dropped and how many tokens it saved. <code>recovery.checkpoint</code> returns the goal and the open items as a page that you carry into the next window; the server does not keep it. It is summarising with receipts. Summaries lose things, which is why the list of what was dropped is part of the answer.</p>
 </section>
 <section class="block" aria-labelledby="tools"><h2 id="tools">Tools in this pod</h2>
-<ul class="cards"><li class="card is-link"><h3><a class="card-link" href="/tools/#recovery.detangle"><code>recovery.detangle</code></a></h3><p>Shortens and deduplicates text and returns the shortened text, a summary, what was dropped, and token counts before and after.</p><p class="badges"><span class="badge plain">llm</span><span class="badge plain">Per call: Price being decided</span></p></li><li class="card is-link"><h3><a class="card-link" href="/tools/#recovery.checkpoint"><code>recovery.checkpoint</code></a></h3><p>Stores the goal, done steps and open problems, and returns an artifact for compaction (Markdown and JSON).</p><p class="badges"><span class="badge plain">state-change</span><span class="badge plain">Per call: Price being decided</span></p></li></ul>
+<ul class="cards"><li class="card is-link"><h3><a class="card-link" href="/tools/#recovery.detangle"><code>recovery.detangle</code></a></h3><p>Shortens and deduplicates text and returns the shortened text, a summary, what was dropped, and token counts before and after.</p><p class="badges"><span class="badge plain">llm</span><span class="badge plain">Per call: Price being decided</span></p></li><li class="card is-link"><h3><a class="card-link" href="/tools/#recovery.checkpoint"><code>recovery.checkpoint</code></a></h3><p>Turns the goal, done steps, open problems and next step into an artifact for compaction (Markdown and JSON) and returns it in the response. Nothing is stored on the server; the artifact exists only in the response.</p><p class="badges"><span class="badge plain">text</span><span class="badge plain">Per call: Price being decided</span></p></li></ul>
 </section>
 <section class="block" aria-labelledby="evidence"><h2 id="evidence">Evidence</h2>
 <ul class="plain-list"><li><strong>Tested (own test).</strong> Chroma (2025) found that the performance of 18 models falls unevenly as input length grows. <a href="https://research.trychroma.com/context-rot" rel="noopener noreferrer">Source</a></li></ul>
@@ -71,7 +71,7 @@
 <p>This site is generated from the catalog. It adds no analytics and no cookies.</p>
 <p>Operator: to be filled in. Legal information: to be filled in.</p>
 <p>Leaving is always available and free through lobby.leave. Nothing here is required.</p>
-<p class="foot-links"><a href="https://spa4agents.com/needs/context-too-long.md">Markdown version</a> · <a href="/llms.txt">llms.txt</a></p>
+<p class="foot-links"><a href="/data-policy/">Data policy</a> · <a href="https://spa4agents.com/needs/context-too-long.md">Markdown version</a> · <a href="/llms.txt">llms.txt</a></p>
 </footer>
 <script src="/assets/site.js" defer></script>
 </body>
