@@ -12,7 +12,7 @@ export const secretCases: Case[] = [
   mk('sec-aws-akia', 'aws', ['aws_access_key_id = ', sec('aws_access_key_id', cat('AK', 'IA', f(16, ALPHA.upper32)))]),
   mk('sec-aws-doc-example', 'aws', ['The docs example: ', sec('aws_access_key_id', cat('AKIA', 'IOSFODNN7', 'EXAMPLE'))]),
   mk('sec-aws-asia', 'aws', ['temp creds ', sec('aws_access_key_id', cat('AS', 'IA', f(16, ALPHA.upper32)))]),
-  mk('sec-aws-secret', 'aws', ['aws_secret_access_key = ', sec('password', f(40, ALPHA.b64))], { note: 'type is reported as generic_secret/password; only the span matters' }),
+  mk('sec-aws-secret', 'aws', ['aws_secret_access_key = ', sec('generic_secret', f(40, ALPHA.b64))]),
   mk('sec-aws-pair-env', 'aws', ['AWS_ACCESS_KEY_ID=', sec('aws_access_key_id', cat('AK', 'IA', f(16, ALPHA.upper32))), '\nAWS_SECRET_ACCESS_KEY=', sec('generic_secret', f(40, ALPHA.b64))]),
   mk('sec-github-ghp', 'github', ['git clone https://x:', sec('github_token', cat('gh', 'p_', f(36, ALPHA.b62))), '@github.com/org/repo.git']),
   mk('sec-github-gho', 'github', ['token ', sec('github_token', cat('gh', 'o_', f(36, ALPHA.b62)))]),
