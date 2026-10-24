@@ -20,13 +20,14 @@
     "catalog_version": { "type": "integer", "minimum": 1 },
     "brand": {
       "type": "object", "additionalProperties": false,
-      "required": ["name", "slug", "domain", "approved", "tagline"],
+      "required": ["name", "slug", "domain", "approved", "tagline", "short_description"],
       "properties": {
         "name": { "$ref": "#/definitions/text" },
         "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
         "domain": { "type": "string", "pattern": "^[a-z0-9.-]+$" },
         "approved": { "type": "boolean" },
         "tagline": { "$ref": "#/definitions/text" },
+        "short_description": { "type": "string", "minLength": 1, "maxLength": 100 },
         "summary": { "$ref": "#/definitions/text" },
         "registry_namespace": { "$ref": "#/definitions/ownerString" },
         "version": { "$ref": "#/definitions/text" },
