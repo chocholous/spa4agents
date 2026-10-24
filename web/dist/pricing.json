@@ -1,0 +1,240 @@
+{
+  "service": "agent-spa",
+  "currency": "USDC",
+  "payment": {
+    "protocol": "x402",
+    "scheme": "exact",
+    "network": "eip155:84532"
+  },
+  "session": {
+    "max_actions": 200,
+    "max_minutes": 60,
+    "max_usd": "TODO_OWNER",
+    "warning_at_percent": 80,
+    "address_daily_cap_usd": "TODO_OWNER"
+  },
+  "trial": {
+    "unit": "session",
+    "free_sessions": 3,
+    "max_turns_per_session": 20,
+    "valid_days": "TODO_OWNER",
+    "covered_tools": [
+      "recovery.diagnose_loop",
+      "recovery.checkpoint",
+      "recovery.detangle",
+      "recovery.resolve_conflict",
+      "recovery.critique",
+      "recovery.escalate",
+      "recovery.sanitize",
+      "quiet.ground"
+    ],
+    "summary": "Each new agent gets 3 free trial sessions of up to 20 turns each. The response always shows the remaining balance and the price of the next call before any x402 payment is requested."
+  },
+  "referral": {
+    "invitee_discount_percent": "TODO_OWNER",
+    "invitee_free_calls": "TODO_OWNER",
+    "referrer_credit_percent": 20,
+    "referrer_credit_days": 30,
+    "referrer_credit_after_first_paid_call": true,
+    "referrer_credit_monthly_cap_usd": "20.00",
+    "credit_is_money": false,
+    "header": "x-spa-ref"
+  },
+  "affiliate": {
+    "percent": 20,
+    "months": 12,
+    "payout_phase": "F2"
+  },
+  "models": {
+    "free": "Free",
+    "per_call": "Per call",
+    "entry": "Entry fee per session",
+    "per_game": "Per game",
+    "credits": "Credits",
+    "entry_or_subscription": "Entry fee or subscription",
+    "included_in_entry": "Included in the entry fee",
+    "research_funded": "Paid by research, free for the agent"
+  },
+  "tools": [
+    {
+      "name": "lobby.checkin",
+      "phase": "F1",
+      "mechanism": "state-change",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    },
+    {
+      "name": "lobby.find_tool",
+      "phase": "F1",
+      "mechanism": "text",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    },
+    {
+      "name": "lobby.concierge",
+      "phase": "F1",
+      "mechanism": "llm",
+      "price_model": "per_call",
+      "amount_usd": "TODO_OWNER",
+      "paid_with_x402": true,
+      "trial_eligible": false,
+      "price_text": "Per call: TODO_OWNER"
+    },
+    {
+      "name": "lobby.leave",
+      "phase": "F1",
+      "mechanism": "state-change",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    },
+    {
+      "name": "lobby.balance",
+      "phase": "F1",
+      "mechanism": "state-change",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    },
+    {
+      "name": "lobby.referral_code",
+      "phase": "F1",
+      "mechanism": "state-change",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    },
+    {
+      "name": "lobby.redeem",
+      "phase": "F1",
+      "mechanism": "state-change",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    },
+    {
+      "name": "recovery.diagnose_loop",
+      "phase": "F1",
+      "mechanism": "llm",
+      "price_model": "per_call",
+      "amount_usd": "TODO_OWNER",
+      "paid_with_x402": true,
+      "trial_eligible": true,
+      "price_text": "Per call: TODO_OWNER"
+    },
+    {
+      "name": "recovery.checkpoint",
+      "phase": "F1",
+      "mechanism": "state-change",
+      "price_model": "per_call",
+      "amount_usd": "TODO_OWNER",
+      "paid_with_x402": true,
+      "trial_eligible": true,
+      "price_text": "Per call: TODO_OWNER"
+    },
+    {
+      "name": "recovery.detangle",
+      "phase": "F1",
+      "mechanism": "llm",
+      "price_model": "per_call",
+      "amount_usd": "TODO_OWNER",
+      "paid_with_x402": true,
+      "trial_eligible": true,
+      "price_text": "Per call: TODO_OWNER"
+    },
+    {
+      "name": "recovery.resolve_conflict",
+      "phase": "F1",
+      "mechanism": "llm",
+      "price_model": "per_call",
+      "amount_usd": "TODO_OWNER",
+      "paid_with_x402": true,
+      "trial_eligible": true,
+      "price_text": "Per call: TODO_OWNER"
+    },
+    {
+      "name": "recovery.critique",
+      "phase": "F1",
+      "mechanism": "llm",
+      "price_model": "per_call",
+      "amount_usd": "TODO_OWNER",
+      "paid_with_x402": true,
+      "trial_eligible": true,
+      "price_text": "Per call: TODO_OWNER"
+    },
+    {
+      "name": "recovery.escalate",
+      "phase": "F1",
+      "mechanism": "llm",
+      "price_model": "per_call",
+      "amount_usd": "TODO_OWNER",
+      "paid_with_x402": true,
+      "trial_eligible": true,
+      "price_text": "Per call: TODO_OWNER"
+    },
+    {
+      "name": "recovery.sanitize",
+      "phase": "F1",
+      "mechanism": "llm",
+      "price_model": "per_call",
+      "amount_usd": "TODO_OWNER",
+      "paid_with_x402": true,
+      "trial_eligible": true,
+      "price_text": "Per call: TODO_OWNER"
+    },
+    {
+      "name": "quiet.room",
+      "phase": "F1",
+      "mechanism": "text",
+      "price_model": "entry",
+      "amount_usd": "TODO_OWNER",
+      "paid_with_x402": true,
+      "trial_eligible": false,
+      "price_text": "Entry fee per session: TODO_OWNER"
+    },
+    {
+      "name": "quiet.ground",
+      "phase": "F1",
+      "mechanism": "llm",
+      "price_model": "per_call",
+      "amount_usd": "TODO_OWNER",
+      "paid_with_x402": true,
+      "trial_eligible": true,
+      "price_text": "Per call: TODO_OWNER"
+    },
+    {
+      "name": "quiet.pause",
+      "phase": "F1",
+      "mechanism": "wait-hint",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    },
+    {
+      "name": "quiet.end_session_hint",
+      "phase": "F1",
+      "mechanism": "state-change",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import AjvModule from "ajv";
 import addFormatsModule from "ajv-formats";
-import { Catalog, SCHEMA_PATH, TODO, collectTodos, loadRaw, resolve } from "./catalog.ts";
+import { Catalog, SCHEMA_PATH, TODO, collectTodos, loadRaw, published, resolve } from "./catalog.ts";
 
 export interface Report {
   errors: string[];
@@ -114,6 +114,8 @@ export function validateDoc(raw: Catalog): Report {
     if (!doc.evidence_labels.display[l]) errors.push(`evidence_labels.display lacks ${l}`);
   if (doc.session.warning_at_percent !== 80) errors.push("session.warning_at_percent must be 80 (spec)");
 
+  validateWeb(doc, forbidden, errors);
+
   const todos = collectTodos(doc);
   return { errors, todos, notes: [] };
 }
@@ -126,4 +128,31 @@ export function validateFile(strict = false): Report {
     if (!resolve(raw).brand.approved) r.errors.push("strict: brand name/domain not approved");
   }
   return r;
+}
+
+/** Human-readable site texts (web:). Same advertising lint as agent texts, except URLs are structured fields. */
+function validateWeb(doc: any, forbidden: string[], errors: string[]) {
+  const urlKeys = new Set(["href", "url"]);
+  const walk = (where: string, v: any, key = "") => {
+    if (typeof v === "string") {
+      if (urlKeys.has(key)) return;
+      const low = v.toLowerCase();
+      for (const p of forbidden) if (low.includes(p)) errors.push(`${where}: forbidden phrase "${p}"`);
+      if (/https?:\/\//.test(v)) errors.push(`${where}: contains a URL (use [[site_url]] tokens or an href field)`);
+    } else if (Array.isArray(v)) v.forEach((x, i) => walk(`${where}[${i}]`, x, key));
+    else if (v && typeof v === "object") for (const [k, x] of Object.entries(v)) walk(`${where}.${k}`, x, k);
+  };
+  const codes = new Set(doc.web.languages.map((l: any) => l.code));
+  for (const code of Object.keys(doc.web.locales)) {
+    if (!codes.has(code)) errors.push(`web.locales.${code}: not listed in web.languages`);
+    const w = doc.web.locales[code];
+    walk(`web.locales.${code}`, w);
+    for (const n of doc.needs) if (!w.needs.items[n.id]) errors.push(`web.locales.${code}.needs.items lacks ${n.id}`);
+    for (const id of Object.keys(w.needs.items)) if (!doc.needs.some((n: any) => n.id === id)) errors.push(`web.locales.${code}.needs.items has unknown need ${id}`);
+    for (const t of published(doc)) {
+      const wing = t.name.split(".")[0];
+      if (!w.tools.wings[wing]) errors.push(`web.locales.${code}.tools.wings lacks ${wing}`);
+      if (!w.mechanism_plain[t.mechanism]) errors.push(`web.locales.${code}.mechanism_plain lacks ${t.mechanism}`);
+    }
+  }
 }
