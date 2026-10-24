@@ -1,0 +1,249 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "catalog.schema.json",
+  "title": "Catalog D1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["catalog_version", "brand", "copy", "generation", "payments", "session", "trial", "referral", "affiliate", "data_policy", "llm", "lint", "types", "evidence_labels", "needs", "tools"],
+  "definitions": {
+    "owner": { "const": "TODO_OWNER", "description": "Value not decided by the owner yet." },
+    "ownerNumber": { "oneOf": [{ "type": "number", "minimum": 0 }, { "$ref": "#/definitions/owner" }] },
+    "ownerInt": { "oneOf": [{ "type": "integer", "minimum": 0 }, { "$ref": "#/definitions/owner" }] },
+    "ownerString": { "oneOf": [{ "type": "string", "minLength": 1 }, { "$ref": "#/definitions/owner" }] },
+    "usd": { "oneOf": [{ "type": "string", "pattern": "^[0-9]+\\.[0-9]{2,}$" }, { "$ref": "#/definitions/owner" }] },
+    "phase": { "enum": ["F1", "F2", "F3"] },
+    "text": { "type": "string", "minLength": 1 },
+    "toolName": { "type": "string", "pattern": "^[a-z]+\\.[a-z_]+$" },
+    "mechanism": { "enum": ["text", "llm", "state-change", "wait-hint", "publish"] }
+  },
+  "properties": {
+    "catalog_version": { "type": "integer", "minimum": 1 },
+    "brand": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "slug", "domain", "approved", "tagline"],
+      "properties": {
+        "name": { "$ref": "#/definitions/text" },
+        "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "domain": { "type": "string", "pattern": "^[a-z0-9.-]+$" },
+        "approved": { "type": "boolean" },
+        "tagline": { "$ref": "#/definitions/text" },
+        "summary": { "$ref": "#/definitions/text" },
+        "registry_namespace": { "$ref": "#/definitions/ownerString" },
+        "version": { "$ref": "#/definitions/text" },
+        "license": { "$ref": "#/definitions/text" }
+      }
+    },
+    "copy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["labels", "sections", "install", "hard_rules", "exit_rule", "no_commands_notice", "initialize", "mechanism_names", "price_model_names", "planned_notice", "trial_summary", "llms"],
+      "properties": {
+        "labels": { "type": "object", "additionalProperties": { "$ref": "#/definitions/text" } },
+        "sections": { "type": "object", "additionalProperties": { "$ref": "#/definitions/text" } },
+        "install": { "type": "object", "additionalProperties": { "$ref": "#/definitions/text" } },
+        "hard_rules": { "type": "array", "minItems": 1, "items": { "$ref": "#/definitions/text" } },
+        "exit_rule": { "$ref": "#/definitions/text" },
+        "no_commands_notice": { "$ref": "#/definitions/text" },
+        "planned_notice": { "$ref": "#/definitions/text" },
+        "trial_summary": { "$ref": "#/definitions/text" },
+        "initialize": { "type": "object", "additionalProperties": { "$ref": "#/definitions/text" } },
+        "llms": { "type": "object", "additionalProperties": { "$ref": "#/definitions/text" } },
+        "mechanism_names": { "type": "object", "additionalProperties": { "$ref": "#/definitions/text" } },
+        "price_model_names": { "type": "object", "additionalProperties": { "$ref": "#/definitions/text" } }
+      }
+    },
+    "generation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["publish_phases"],
+      "properties": { "publish_phases": { "type": "array", "minItems": 1, "items": { "$ref": "#/definitions/phase" } } }
+    },
+    "payments": {
+      "type": "object", "additionalProperties": false,
+      "required": ["protocol", "scheme", "asset", "mainnet", "testnet", "active_network", "facilitator_testnet", "response_header", "mcp_meta_key"],
+      "properties": {
+        "protocol": { "const": "x402" },
+        "scheme": { "const": "exact" },
+        "asset": { "const": "USDC" },
+        "mainnet": { "const": "eip155:8453" },
+        "testnet": { "const": "eip155:84532" },
+        "active_network": { "enum": ["eip155:8453", "eip155:84532"] },
+        "facilitator_testnet": { "type": "string", "format": "uri" },
+        "response_header": { "type": "string" },
+        "mcp_meta_key": { "type": "string" }
+      }
+    },
+    "session": {
+      "type": "object", "additionalProperties": false,
+      "required": ["max_actions", "max_minutes", "max_usd", "warning_at_percent", "address_daily_cap_usd", "guest_pass_header", "referral_header", "mcp_protocol_version"],
+      "properties": {
+        "max_actions": { "$ref": "#/definitions/ownerInt" },
+        "max_minutes": { "$ref": "#/definitions/ownerInt" },
+        "max_usd": { "$ref": "#/definitions/usd" },
+        "warning_at_percent": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "address_daily_cap_usd": { "$ref": "#/definitions/usd" },
+        "guest_pass_header": { "type": "string" },
+        "referral_header": { "type": "string" },
+        "mcp_protocol_version": { "type": "string" }
+      }
+    },
+    "trial": {
+      "type": "object", "additionalProperties": false,
+      "required": ["unit", "free_sessions", "max_turns_per_session", "valid_days", "covers", "excludes", "guest_pass_rule", "anti_farm", "end_rule"],
+      "properties": {
+        "unit": { "const": "session" },
+        "free_sessions": { "type": "integer", "minimum": 0 },
+        "max_turns_per_session": { "$ref": "#/definitions/ownerInt" },
+        "valid_days": { "$ref": "#/definitions/ownerInt" },
+        "covers": { "type": "array", "items": { "$ref": "#/definitions/text" } },
+        "excludes": { "type": "array", "items": { "$ref": "#/definitions/text" } },
+        "guest_pass_rule": { "$ref": "#/definitions/text" },
+        "anti_farm": { "type": "array", "items": { "$ref": "#/definitions/text" } },
+        "daily_global_budget": { "$ref": "#/definitions/ownerString" },
+        "end_rule": { "$ref": "#/definitions/text" }
+      }
+    },
+    "referral": {
+      "type": "object", "additionalProperties": false,
+      "required": ["invitee_discount_percent", "invitee_free_calls", "referrer_credit_percent", "referrer_credit_days", "referrer_credit_after_first_paid_call", "referrer_credit_monthly_cap_usd", "credit_is_money", "allowed_channels", "forbidden_channels", "enforcement", "rules_are_data_not_promotion"],
+      "properties": {
+        "invitee_discount_percent": { "$ref": "#/definitions/ownerNumber" },
+        "invitee_free_calls": { "$ref": "#/definitions/ownerInt" },
+        "referrer_credit_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "referrer_credit_days": { "type": "integer", "minimum": 1 },
+        "referrer_credit_after_first_paid_call": { "type": "boolean" },
+        "referrer_credit_monthly_cap_usd": { "$ref": "#/definitions/usd" },
+        "credit_is_money": { "type": "boolean" },
+        "allowed_channels": { "type": "array", "items": { "$ref": "#/definitions/text" } },
+        "forbidden_channels": { "type": "array", "items": { "$ref": "#/definitions/text" } },
+        "enforcement": { "type": "array", "items": { "$ref": "#/definitions/text" } },
+        "rules_are_data_not_promotion": { "type": "boolean" }
+      }
+    },
+    "affiliate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["percent", "months", "payout_phase"],
+      "properties": {
+        "percent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "months": { "type": "integer", "minimum": 1 },
+        "payout_phase": { "$ref": "#/definitions/phase" }
+      }
+    },
+    "data_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["confirmed_by_owner", "recovery_inputs_days", "checkpoint_max_days", "recreational_memory", "audit_days", "region", "training_on_inputs"],
+      "properties": {
+        "confirmed_by_owner": { "type": "boolean" },
+        "recovery_inputs_days": { "type": "integer", "minimum": 0 },
+        "checkpoint_max_days": { "type": "integer", "minimum": 0 },
+        "recreational_memory": { "$ref": "#/definitions/text" },
+        "audit_days": { "type": "integer", "minimum": 0 },
+        "region": { "$ref": "#/definitions/text" },
+        "training_on_inputs": { "$ref": "#/definitions/text" }
+      }
+    },
+    "llm": {
+      "type": "object", "additionalProperties": false,
+      "required": ["via", "proxy_url_env", "model_env"],
+      "properties": { "via": { "const": "litellm-proxy" }, "proxy_url_env": { "type": "string" }, "model_env": { "type": "string" } }
+    },
+    "lint": {
+      "type": "object", "additionalProperties": false,
+      "required": ["forbidden_phrases"],
+      "properties": { "forbidden_phrases": { "type": "array", "minItems": 1, "items": { "type": "string" } } }
+    },
+    "types": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mechanisms", "price_models"],
+      "properties": {
+        "mechanisms": { "type": "array", "items": { "$ref": "#/definitions/mechanism" }, "minItems": 5 },
+        "price_models": {
+          "type": "array", "minItems": 1,
+          "items": { "enum": ["free", "per_call", "entry", "per_game", "credits", "entry_or_subscription", "included_in_entry", "research_funded"] }
+        }
+      }
+    },
+    "evidence_labels": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_required", "display"],
+      "properties": {
+        "source_required": { "type": "array", "items": { "type": "string" } },
+        "display": { "type": "object", "additionalProperties": { "$ref": "#/definitions/text" } }
+      }
+    },
+    "needs": {
+      "type": "array", "minItems": 14, "maxItems": 14,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "situation", "search_phrases", "trigger", "invitation", "tools", "evidence", "not_claimed", "phase"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z]+(-[a-z]+)*$" },
+          "situation": { "$ref": "#/definitions/text" },
+          "search_phrases": { "type": "array", "minItems": 1, "items": { "$ref": "#/definitions/text" } },
+          "trigger": { "$ref": "#/definitions/text" },
+          "invitation": { "$ref": "#/definitions/text" },
+          "tools": { "type": "array", "minItems": 1, "items": { "$ref": "#/definitions/toolName" } },
+          "evidence": {
+            "type": "array", "minItems": 1,
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["label"],
+              "properties": {
+                "label": { "enum": ["documented", "tested", "observed", "self-report", "known-failure", "concept", "inspiration", "unmeasured"] },
+                "source": { "type": "string", "format": "uri" },
+                "note": { "$ref": "#/definitions/text" }
+              }
+            }
+          },
+          "not_claimed": { "$ref": "#/definitions/text" },
+          "phase": { "$ref": "#/definitions/phase" }
+        }
+      }
+    },
+    "tools": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["name", "phase", "mechanism", "price", "trigger", "description", "inputs", "output", "example"],
+        "properties": {
+          "name": { "$ref": "#/definitions/toolName" },
+          "phase": { "$ref": "#/definitions/phase" },
+          "mechanism": { "$ref": "#/definitions/mechanism" },
+          "mechanism_note": { "$ref": "#/definitions/text" },
+          "price": {
+            "type": "object", "additionalProperties": false,
+            "required": ["model", "amount_usd"],
+            "properties": {
+              "model": { "enum": ["free", "per_call", "entry", "per_game", "credits", "entry_or_subscription", "included_in_entry", "research_funded"] },
+              "amount_usd": { "$ref": "#/definitions/usd" },
+              "note": { "$ref": "#/definitions/text" }
+            }
+          },
+          "trial_eligible": { "type": "boolean" },
+          "untrusted": { "type": "boolean" },
+          "trigger": { "$ref": "#/definitions/text" },
+          "description": { "$ref": "#/definitions/text" },
+          "inputs": {
+            "type": "array",
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["name", "type", "required", "description"],
+              "properties": {
+                "name": { "type": "string", "pattern": "^[a-z_]+$" },
+                "type": { "enum": ["string", "boolean", "array"] },
+                "required": { "type": "boolean" },
+                "description": { "$ref": "#/definitions/text" },
+                "max_length": { "$ref": "#/definitions/ownerInt" },
+                "max_items": { "type": "integer", "minimum": 1 },
+                "items": { "enum": ["string", "object"] },
+                "item_fields": { "type": "array", "items": { "type": "string" } },
+                "enum": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          },
+          "one_of_required": { "type": "array", "items": { "type": "array", "items": { "type": "string" } } },
+          "output": { "$ref": "#/definitions/text" },
+          "example": { "type": "object" }
+        }
+      }
+    }
+  }
+}

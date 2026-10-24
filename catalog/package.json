@@ -1,0 +1,24 @@
+{
+  "name": "spa-catalog",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Catalog D1 (single source of truth) and generator of public texts and machine-readable outputs.",
+  "scripts": {
+    "validate": "tsx src/cli.ts validate",
+    "validate:strict": "tsx src/cli.ts validate --strict",
+    "generate": "tsx src/cli.ts generate",
+    "check": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "dependencies": {
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1",
+    "yaml": "2.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.0",
+    "tsx": "4.20.5",
+    "typescript": "5.9.2"
+  }
+}
