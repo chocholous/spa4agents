@@ -19,7 +19,7 @@ export interface Config {
   /** Strop na adresu za den: zatím jen konfigurace (stub). */
   perAddressDaily: { maxActions: number | null; maxUsd: string | null };
   /** Trial: jen konfigurační default, logika je WP4. */
-  trial: { free_sessions: number; max_turns_per_session: number | null };
+  trial: { free_sessions: number; max_turns_per_session: number };
   timeoutMs: Record<string, number>;
   /** Doba, po kterou smí `lobby.leave` ukončit relaci (cíl < 1 s). */
   leaveBudgetMs: number;
@@ -54,10 +54,10 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
       maxActions: env.ADDRESS_DAILY_MAX_ACTIONS ? num(env.ADDRESS_DAILY_MAX_ACTIONS, 0) : null,
       maxUsd: env.ADDRESS_DAILY_MAX_USD ?? null,
     },
-    // max_turns_per_session: hodnota neurčena (TODO_OWNER), nenastaveno = null; logika trialu je WP4.
+    // Rozhodnutí vlastníka: 3 zkušební session, 20 turns na session. Jen default, logika trialu je WP4.
     trial: {
       free_sessions: num(env.TRIAL_FREE_SESSIONS, 3),
-      max_turns_per_session: env.TRIAL_MAX_TURNS_PER_SESSION ? num(env.TRIAL_MAX_TURNS_PER_SESSION, 0) : null,
+      max_turns_per_session: num(env.TRIAL_MAX_TURNS_PER_SESSION, 20),
     },
     timeoutMs: {
       text: num(env.TIMEOUT_MS_TEXT, 5_000),
