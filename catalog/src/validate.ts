@@ -5,6 +5,8 @@ import { Catalog, SCHEMA_PATH, TODO, collectTodos, loadRaw, published, resolve }
 
 export interface Report {
   errors: string[];
+  /** Advertising/trust recommendations (forbidden phrases, URLs in prose, missing evidence). Do not fail the build; --strict promotes them to errors. */
+  warnings: string[];
   todos: string[];
   notes: string[];
 }
@@ -40,6 +42,7 @@ function checkExample(t: any, errors: string[]) {
 
 export function validateDoc(raw: Catalog): Report {
   const errors: string[] = [];
+  const warnings: string[] = [];
   const schema = JSON.parse(readFileSync(SCHEMA_PATH, "utf8"));
   const ajv = new Ajv({ allErrors: true, strict: false });
   addFormats(ajv);
@@ -47,7 +50,7 @@ export function validateDoc(raw: Catalog): Report {
   const doc = resolve(raw);
   if (!validate(doc)) {
     for (const e of validate.errors ?? []) errors.push(`schema: ${e.instancePath || "/"} ${e.message} ${JSON.stringify(e.params)}`);
-    return { errors, todos: collectTodos(doc), notes: [] };
+    return { errors, todos: collectTodos(doc), notes: [], warnings };
   }
   const unresolved = JSON.stringify(doc).match(/\{\{[^}]*\}\}/g);
   if (unresolved) errors.push(`unresolved template tokens: ${[...new Set(unresolved)].join(", ")}`);
@@ -78,8 +81,8 @@ export function validateDoc(raw: Catalog): Report {
   const forbidden: string[] = doc.lint.forbidden_phrases.map((p: string) => p.toLowerCase());
   const lint = (where: string, text: string) => {
     const low = text.toLowerCase();
-    for (const p of forbidden) if (low.includes(p)) errors.push(`${where}: forbidden phrase "${p}"`);
-    if (/https?:\/\//.test(text)) errors.push(`${where}: contains a URL`);
+    for (const p of forbidden) if (low.includes(p)) warnings.push(`${where}: forbidden phrase "${p}"`);
+    if (/https?:\/\//.test(text)) warnings.push(`${where}: contains a URL`);
   };
   for (const n of doc.needs) {
     if (needIds.has(n.id)) errors.push(`duplicate need ${n.id}`);
@@ -93,8 +96,8 @@ export function validateDoc(raw: Catalog): Report {
     if (max && PHASE_ORDER[n.phase] !== max) errors.push(`${n.id}: phase ${n.phase} differs from the latest phase of its tools`);
     for (const e of n.evidence) {
       if (doc.evidence_labels.source_required.includes(e.label) && !e.source)
-        errors.push(`${n.id}: evidence "${e.label}" needs a source`);
-      if (!e.source && !e.note) errors.push(`${n.id}: evidence without source needs a note`);
+        warnings.push(`${n.id}: evidence "${e.label}" needs a source (recommendation)`);
+      if (!e.source && !e.note) warnings.push(`${n.id}: evidence without source needs a note (recommendation)`);
     }
     lint(`${n.id}.invitation`, n.invitation);
     lint(`${n.id}.trigger`, n.trigger);
@@ -124,31 +127,32 @@ export function validateDoc(raw: Catalog): Report {
   walkPolicy("data_policy", doc.data_policy);
   walkPolicy("llm", doc.llm);
 
-  validateWeb(doc, forbidden, errors);
+  validateWeb(doc, forbidden, errors, warnings);
 
   const todos = collectTodos(doc);
-  return { errors, todos, notes: [] };
+  return { errors, warnings, todos, notes: [] };
 }
 
 export function validateFile(strict = false): Report {
   const { raw } = loadRaw();
   const r = validateDoc(raw);
   if (strict) {
+    for (const w of r.warnings) r.errors.push(`strict: ${w}`);
     if (r.todos.length) r.errors.push(`strict: ${r.todos.length} owner decisions pending (${TODO})`);
     if (!resolve(raw).brand.approved) r.errors.push("strict: brand name/domain not approved");
   }
   return r;
 }
 
-/** Human-readable site texts (web:). Same advertising lint as agent texts, except URLs are structured fields. */
-function validateWeb(doc: any, forbidden: string[], errors: string[]) {
+/** Human-readable site texts (web:). Same advisory lint as agent texts, except URLs are structured fields. */
+function validateWeb(doc: any, forbidden: string[], errors: string[], warnings: string[]) {
   const urlKeys = new Set(["href", "url"]);
   const walk = (where: string, v: any, key = "") => {
     if (typeof v === "string") {
       if (urlKeys.has(key)) return;
       const low = v.toLowerCase();
-      for (const p of forbidden) if (low.includes(p)) errors.push(`${where}: forbidden phrase "${p}"`);
-      if (/https?:\/\//.test(v)) errors.push(`${where}: contains a URL (use [[site_url]] tokens or an href field)`);
+      for (const p of forbidden) if (low.includes(p)) warnings.push(`${where}: forbidden phrase "${p}"`);
+      if (/https?:\/\//.test(v)) warnings.push(`${where}: contains a URL (use [[site_url]] tokens or an href field)`);
     } else if (Array.isArray(v)) v.forEach((x, i) => walk(`${where}[${i}]`, x, key));
     else if (v && typeof v === "object") for (const [k, x] of Object.entries(v)) walk(`${where}.${k}`, x, k);
   };

@@ -8,8 +8,9 @@ const strict = flags.includes("--strict");
 function runValidate(): boolean {
   const r = validateFile(strict);
   for (const e of r.errors) console.error(`ERROR ${e}`);
+  for (const w of r.warnings) console.warn(`WARN ${w}`);
   if (r.todos.length) console.warn(`NOTE ${r.todos.length} owner decisions pending (TODO_OWNER); see OPEN_QUESTIONS.md`);
-  console.log(r.errors.length ? `catalog INVALID (${r.errors.length} errors)` : "catalog valid");
+  console.log(r.errors.length ? `catalog INVALID (${r.errors.length} errors)` : `catalog valid${r.warnings.length ? ` (${r.warnings.length} warnings)` : ""}`);
   return r.errors.length === 0;
 }
 
