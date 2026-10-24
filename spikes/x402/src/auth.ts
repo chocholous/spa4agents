@@ -8,11 +8,19 @@ import { GUEST_PASS_HEADER } from "./config.js";
  * so an unauthenticated caller never reaches payment verification or the handler.
  */
 export class GuestPasses {
-  private passes = new Set<string>();
+  private passes = new Map<string, number>(); // pass -> remaining free calls (stand-in for a voucher)
+  constructor(private freeCalls = 0) {}
   issue(): string {
     const pass = `gp_${randomBytes(18).toString("base64url")}`;
-    this.passes.add(pass);
+    this.passes.set(pass, this.freeCalls);
     return pass;
+  }
+  /** Spend one free call if the pass has any. Returns whether the call is free. */
+  consumeFree(pass: string | undefined | null): boolean {
+    const left = pass ? this.passes.get(pass) ?? 0 : 0;
+    if (left <= 0 || !pass) return false;
+    this.passes.set(pass, left - 1);
+    return true;
   }
   has(pass: string | undefined | null): boolean {
     return !!pass && this.passes.has(pass);

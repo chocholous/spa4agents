@@ -39,4 +39,4 @@ export const restDiscovery = declareDiscoveryExtension({
   input: { query: "loop" },
   inputSchema: lookupInputJsonSchema as unknown as Record<string, unknown>,
   output: { example: { query: "loop", matches: ["..."] } },
-} as never);
+});

@@ -60,7 +60,7 @@ export function renderTools(c: Catalog, files: Files) {
         `\`${i.name}\``,
         i.type === "array" ? `${l.array_of} ${i.items}` : i.type,
         i.required ? l.required : l.optional,
-        [i.description,
+        [i.description.replace(/\.$/, ""),
           i.max_length !== undefined ? `${l.max_length}: ${i.max_length}` : "",
           i.max_items ? `${l.max_items}: ${i.max_items}` : "",
           i.enum ? `${l.allowed_values}: ${i.enum.join(", ")}` : "",

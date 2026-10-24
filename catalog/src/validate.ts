@@ -46,7 +46,7 @@ export function validateDoc(raw: Catalog): Report {
   const validate = ajv.compile(schema);
   const doc = resolve(raw);
   if (!validate(doc)) {
-    for (const e of validate.errors ?? []) errors.push(`schema: ${e.instancePath || "/"} ${e.message}`);
+    for (const e of validate.errors ?? []) errors.push(`schema: ${e.instancePath || "/"} ${e.message} ${JSON.stringify(e.params)}`);
     return { errors, todos: collectTodos(doc), notes: [] };
   }
   const unresolved = JSON.stringify(doc).match(/\{\{[^}]*\}\}/g);

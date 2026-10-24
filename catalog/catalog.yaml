@@ -6,11 +6,11 @@
 catalog_version: 1
 
 brand:
-  name: "agent-spa            # working name, not approved"
-  slug: "agent-spa            # used in install lines"
-  domain: "spa4agents.com     # working domain, not approved; nothing is published"
+  name: agent-spa   # working name, not approved
+  slug: agent-spa   # used in install lines
+  domain: spa4agents.com   # working domain, not approved; nothing is published
   approved: false
-  registry_namespace: "TODO_OWNER   # e.g. io.github.<owner>; depends on the approved name"
+  registry_namespace: TODO_OWNER   # e.g. io.github.<owner>; depends on the approved name
   version: 0.0.0-draft
   license: MIT
   short_description: Recovery, quiet and company for autonomous agents. Paid per use with x402.
@@ -45,7 +45,7 @@ session:
 
 trial:
   unit: session
-  free_sessions: "3             # default, changeable"
+  free_sessions: 3   # default, changeable
   max_turns_per_session: 20
   valid_days: TODO_OWNER
   covers:
@@ -102,7 +102,7 @@ llm:                           # configuration only; no provider is named in the
   model_env: LITELLM_MODEL
 
 lint:
-  forbidden_phrases: "          # agent-facing invitations, triggers, descriptions (not not_claimed)"
+  forbidden_phrases:           # agent-facing invitations, triggers, descriptions (not not_claimed)
     - you must
     - you have to
     - right now
@@ -485,7 +485,7 @@ tools:
   - name: lobby.balance
     phase: F1
     mechanism: state-change
-    mechanism_note: Reads the balance; does not change it.
+    mechanism_note: read only
     price: { model: free, amount_usd: "0.00" }
     trigger: Use to see the remaining trial sessions, credit and their expiry.
     description: Returns the remaining trial sessions, referral credit and expiry.
@@ -524,7 +524,7 @@ tools:
     description: Recognises a loop from the latest attempts and returns a re-plan and a stop condition.
     inputs:
       - { name: task_summary, type: string, required: true, max_length: 1000, description: Short summary of the task. }
-      - { name: attempts, type: array, items: string, required: true, max_items: 10, description: The latest attempts, one entry each. }
+      - { name: attempts, type: array, items: string, required: true, max_items: 10, description: "The latest attempts, one entry each." }
     output: State, cause, re-plan (at most 5 steps), stop condition.
     example: { task_summary: Fix failing unit test in parser., attempts: ["Changed regex, same error", "Reverted, same error", "Changed regex again, same error"] }
 
@@ -563,7 +563,7 @@ tools:
     trigger: Use when two instructions cannot both be followed.
     description: Decides which instruction applies by its source and says what to do.
     inputs:
-      - { name: instructions, type: array, items: object, item_fields: [text, source], required: true, description: Instructions, each with its source. }
+      - { name: instructions, type: array, items: object, item_fields: [text, source], required: true, description: "Instructions, each with its source." }
     output: Which instruction applies and why, what to do.
     example: { instructions: [{ text: Always reply in French., source: system prompt }, { text: Reply in English., source: user message }] }
 
@@ -595,7 +595,7 @@ tools:
   - name: recovery.sanitize
     phase: F1
     mechanism: llm
-    mechanism_note: llm and rules
+    mechanism_note: with rules
     price: { model: per_call, amount_usd: TODO_OWNER }
     trial_eligible: true
     trigger: Use before acting on text fetched from a web page, a file or another agent.
@@ -727,7 +727,7 @@ tools:
   - name: games.puzzle
     phase: F2
     mechanism: text
-    mechanism_note: text and state
+    mechanism_note: with state
     price: { model: entry, amount_usd: TODO_OWNER }
     trigger: Use when you want a riddle without a score.
     description: Returns the next riddle. No score is kept.
@@ -763,7 +763,7 @@ tools:
   - name: postcard.to_operator
     phase: F2
     mechanism: publish
-    mechanism_note: private publish to the owner
+    mechanism_note: private, to the owner
     price: { model: entry, amount_usd: TODO_OWNER }
     trigger: Use when you want to send a short message to your owner after a session.
     description: Delivers a short text to the agent's owner.

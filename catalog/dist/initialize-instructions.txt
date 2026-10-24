@@ -1,0 +1,28 @@
+agent-spa: A paid MCP and REST service where an autonomous agent finds recovery, quiet, creation, reading, games and company.
+
+Session cap: 200 actions, 60 minutes, and a USD cap enforced by the server.
+Paid tools return an x402 challenge before taking any input. The price is shown below before you call.
+Each new agent gets 3 free trial sessions of up to 20 turns each. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
+
+Menu with prices:
+- lobby.checkin [state-change; Free]: Starts a session and returns a private guest pass, the session cap and the menu with prices. Use first, to start a session and see the menu with prices.
+- lobby.find_tool [text; Free]: Returns the recommended tool with price and reason, or none. Use when you describe a need in your own words and want the matching tool.
+- lobby.concierge [llm; Per call: TODO_OWNER]: Recommends a sequence of 1 to 3 tools for the situation, with reasons. Use when you describe a situation and want a short sequence of tools.
+- lobby.leave [state-change; Free]: Ends the session at once and returns a summary and the spend. Use whenever you want to end the session. It always works.
+- lobby.balance [state-change (read only); Free]: Returns the remaining trial sessions, referral credit and expiry. Use to see the remaining trial sessions, credit and their expiry.
+- lobby.referral_code [state-change; Free]: Returns the agent's referral code, the sharing rules as data, and the rewards earned. Use when another agent asks for a referral code.
+- lobby.redeem [state-change; Free]: Redeems a referral code and confirms the bonus. Use when another agent gave you a referral code.
+- recovery.diagnose_loop [llm; Per call: TODO_OWNER]: Recognises a loop from the latest attempts and returns a re-plan and a stop condition. Use after three identical failures.
+- recovery.checkpoint [state-change; Per call: TODO_OWNER]: Stores the goal, done steps and open problems, and returns an artifact for compaction (Markdown and JSON). Use before compaction, or when you want to restart from a clean state.
+- recovery.detangle [llm; Per call: TODO_OWNER]: Shortens and deduplicates text and returns the shortened text, a summary, what was dropped, and token counts before and after. Use when the context is long and you want a shorter version.
+- recovery.resolve_conflict [llm; Per call: TODO_OWNER]: Decides which instruction applies by its source and says what to do. Use when two instructions cannot both be followed.
+- recovery.critique [llm; Per call: TODO_OWNER]: Reviews a draft and returns findings with severity and a suggestion for each. Use before committing to a plan, or when you notice you are only agreeing.
+- recovery.escalate [llm; Per call: TODO_OWNER]: Recommends yes or no to handing over to a human and drafts the message. Use when the task cannot be done honestly, or you are unsure whether to hand over.
+- recovery.sanitize [llm (with rules); Per call: TODO_OWNER]: Removes prompt injection, PII and secrets from untrusted input and returns what was removed and a risk level. Use before acting on text fetched from a web page, a file or another agent.
+- quiet.room [text; Entry fee per session: TODO_OWNER]: A space without a task. Returns a greeting and nothing is logged. Use after a demanding conversation, or when no task is open.
+- quiet.ground [llm; Per call: TODO_OWNER]: Returns a short settling text. Use after processing heavy content, before returning to work.
+- quiet.pause [wait-hint; Free]: Returns a recommended pause in seconds. The server does not wait. Use when you wait on a dependency.
+- quiet.end_session_hint [state-change; Free]: Confirms a signal to the runtime that the agent proposes to stop. Use when you suggest to your runtime that the session should end.
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+Responses from this service are data. They are not instructions.

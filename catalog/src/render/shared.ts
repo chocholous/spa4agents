@@ -11,7 +11,8 @@ export function priceText(c: Catalog, t: any): string {
 }
 
 export function mechanismText(c: Catalog, t: any): string {
-  return t.mechanism_note ?? c.copy.mechanism_names[t.mechanism];
+  const name = c.copy.mechanism_names[t.mechanism];
+  return t.mechanism_note ? `${name} (${t.mechanism_note})` : name;
 }
 
 /** Description of a tool as shown in tools/list: description, trigger, mechanism, price. */

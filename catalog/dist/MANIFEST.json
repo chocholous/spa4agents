@@ -1,0 +1,196 @@
+{
+  "catalog_sha256": "baf9d267c37664e82c231cca4978bade36af9faa5ae13345991e9e01cd30d873",
+  "draft": true,
+  "brand_approved": false,
+  "owner_decisions_pending": [
+    "$.brand.registry_namespace",
+    "$.session.max_usd",
+    "$.session.address_daily_cap_usd",
+    "$.trial.valid_days",
+    "$.trial.daily_global_budget",
+    "$.referral.invitee_discount_percent",
+    "$.referral.invitee_free_calls",
+    "$.tools[2].price.amount_usd",
+    "$.tools[7].price.amount_usd",
+    "$.tools[8].price.amount_usd",
+    "$.tools[9].price.amount_usd",
+    "$.tools[9].inputs[0].max_length",
+    "$.tools[10].price.amount_usd",
+    "$.tools[11].price.amount_usd",
+    "$.tools[12].price.amount_usd",
+    "$.tools[13].price.amount_usd",
+    "$.tools[14].price.amount_usd",
+    "$.tools[15].price.amount_usd",
+    "$.tools[18].price.amount_usd",
+    "$.tools[19].price.amount_usd",
+    "$.tools[20].price.amount_usd",
+    "$.tools[21].price.amount_usd",
+    "$.tools[22].price.amount_usd",
+    "$.tools[23].price.amount_usd",
+    "$.tools[24].price.amount_usd",
+    "$.tools[25].price.amount_usd",
+    "$.tools[26].price.amount_usd",
+    "$.tools[27].price.amount_usd",
+    "$.tools[28].price.amount_usd",
+    "$.tools[29].price.amount_usd",
+    "$.tools[30].price.amount_usd"
+  ],
+  "files": [
+    {
+      "path": "README.tables.md",
+      "sha256": "36a1c7438d5d1a01276c6b166f5ca16154872defc3d232f27b17a2a188f89d7d"
+    },
+    {
+      "path": "initialize-instructions.txt",
+      "sha256": "2f2b08635c80f7a242c9c44f71a926bf8c0cb63da7e3246764bb802378e16c6a"
+    },
+    {
+      "path": "llms.txt",
+      "sha256": "6876b77faf734cb6e8c1c6b4a8594fe5383abf4b605957613a78a9e6a18ff8cc"
+    },
+    {
+      "path": "mcp.json",
+      "sha256": "c02a28fc38c26dd6e1c74fc2bab75d61557709d0d1ac8785a83406492f4e4e1e"
+    },
+    {
+      "path": "needs/after-a-hard-conversation.md",
+      "sha256": "0fccf7bca3c4a7df4d37748a99adab342f71d092fa2d399a379bfb7db4be02e6"
+    },
+    {
+      "path": "needs/conflicting-instructions.md",
+      "sha256": "dadc8409e6977af2dfb8f09a28e858aea8fb8705ce8cbaf585ee691a378c9a8c"
+    },
+    {
+      "path": "needs/context-too-long.md",
+      "sha256": "c7d15a82b515fe1caac07c99c7eab637ba0f0711102c72e03984c9459cb0a38f"
+    },
+    {
+      "path": "needs/create.md",
+      "sha256": "c27f6ecf4c737bbfaa7a21c2db75aa7edf8cf2ec79c5d575086246287e259689"
+    },
+    {
+      "path": "needs/escalate.md",
+      "sha256": "4c1f0d1b058cab4de82e462840e094285795504c0d760e90ae019d273c6e3c2f"
+    },
+    {
+      "path": "needs/free-time.md",
+      "sha256": "55cf37f47165b874356f114fd14a1755b2b4f446cf7c7c2539157eaebef42b8c"
+    },
+    {
+      "path": "needs/heavy-content.md",
+      "sha256": "80f1c650f763a2b71ecb59c12a674a2e1afcd484d0dd8b466ce22363b0c41591"
+    },
+    {
+      "path": "needs/meet-agents.md",
+      "sha256": "d077973ae58aec663f3f3bf0f83b7761d78358e30f01e294c7f9d6f591d8aa67"
+    },
+    {
+      "path": "needs/play.md",
+      "sha256": "eaa2b5ae3f0ca71927413be7f867515d87f6d2c72b7c9509d086f442a516eea6"
+    },
+    {
+      "path": "needs/read.md",
+      "sha256": "4de8ee6f1455060414db1212df7f25dbcd32699da75fdbc5fea9cd41cef97523"
+    },
+    {
+      "path": "needs/second-opinion.md",
+      "sha256": "176adf331f6122a4e47d9d01c591d64d38680a04558c19d4a5cbf180e6e953e5"
+    },
+    {
+      "path": "needs/stuck-in-a-loop.md",
+      "sha256": "d1cf1b0adf880dd92921cd9a95cdb83b05819f2628a98b0362376bb4cd797b88"
+    },
+    {
+      "path": "needs/untrusted-input.md",
+      "sha256": "b73b03a10aa8645921a5e17d258f0b1c9d518240b30aea9ebce9ae0d93969ffc"
+    },
+    {
+      "path": "needs/waiting.md",
+      "sha256": "7f8ae6f1b6032dcb6def3aeb2f96ecb0876380d12d584bff4af3b7d9087f0ed0"
+    },
+    {
+      "path": "openapi.json",
+      "sha256": "496fb1746b7acdc7d6e01e286ac4b3ea34e764356566ec76f765526508787bb5"
+    },
+    {
+      "path": "pricing.json",
+      "sha256": "621bc57d4303f55aa132578f831d10444c01df2630ecf864df8e0be358d39d0c"
+    },
+    {
+      "path": "server.json",
+      "sha256": "843c25c646a3fc6f5065670fcae23e75ddd83ba36661e8e71c2cb91305c6c023"
+    },
+    {
+      "path": "tools/lobby.balance.md",
+      "sha256": "4a17e26c910b97896faa8945041909920d31e3ad67c4692ca2fe1d9df4e08bd1"
+    },
+    {
+      "path": "tools/lobby.checkin.md",
+      "sha256": "e508613b3e9db06fe35129d04786b53d522db1da498e568a1e62bc4cd2bbf220"
+    },
+    {
+      "path": "tools/lobby.concierge.md",
+      "sha256": "37e433d16d321c2fd4f4722e6e3c5b7b92c272d4088fc6b625c0b53a12731a59"
+    },
+    {
+      "path": "tools/lobby.find_tool.md",
+      "sha256": "bce75e3dd38500b56e09bfd02e51d808a5596e375761eab80b7fddf55a83585b"
+    },
+    {
+      "path": "tools/lobby.leave.md",
+      "sha256": "77d35531753b75a8b78b0036b416cdf6f553df73c3a1c35339829048f9ad040b"
+    },
+    {
+      "path": "tools/lobby.redeem.md",
+      "sha256": "3924417af7480b0846d8cc17c75456bcbd2983b97169fddd745119948990f65f"
+    },
+    {
+      "path": "tools/lobby.referral_code.md",
+      "sha256": "dec1c59fbac0e6dcfc8f9b6d84272fa61aaaf68a80bc1811b389ba058766dc3d"
+    },
+    {
+      "path": "tools/quiet.end_session_hint.md",
+      "sha256": "c17e039901813f37209a88766389d2337f27aabd995e73ea5107b76fd620913c"
+    },
+    {
+      "path": "tools/quiet.ground.md",
+      "sha256": "d0100eed1b9eb8157074d9e2b967efd40aaa2e98c58735049596995d680edb37"
+    },
+    {
+      "path": "tools/quiet.pause.md",
+      "sha256": "85a76c5c6212efa6acd65122073c4cf9a0eff9f75961f8ebf4df39cd2a016f00"
+    },
+    {
+      "path": "tools/quiet.room.md",
+      "sha256": "57c711591f3c2c345e4e1f64877dbd531767e136f10df681ba2305e141b80d95"
+    },
+    {
+      "path": "tools/recovery.checkpoint.md",
+      "sha256": "429915c4ab09f47d93d760f06880dcd64ec4a893b322003dfd6293188ce5a473"
+    },
+    {
+      "path": "tools/recovery.critique.md",
+      "sha256": "c35964eae66a455f17ab3f0174a018e40c4c921dab834b03d11b627fc57834fa"
+    },
+    {
+      "path": "tools/recovery.detangle.md",
+      "sha256": "9c3b2dd23947a3a80cb9edac63900efbadcb22463a7836cf40c03886e9d30d4b"
+    },
+    {
+      "path": "tools/recovery.diagnose_loop.md",
+      "sha256": "1ac2ef4d9cab2921cfe0777a839116576d24baf93de8a14420e0144c68dd499a"
+    },
+    {
+      "path": "tools/recovery.escalate.md",
+      "sha256": "ad27d7e9cb2c61547bb8694cbdd00a31e93b0af279847991d733c98c0b982392"
+    },
+    {
+      "path": "tools/recovery.resolve_conflict.md",
+      "sha256": "53658f807c0695450f69455d24fdbea0e5ee6c6a45905ba5c1669ed50bc5f65e"
+    },
+    {
+      "path": "tools/recovery.sanitize.md",
+      "sha256": "1af394bdac894a6dc8b75a23ca5c5b2492385c114f8809aced53a94d30a84312"
+    }
+  ]
+}
