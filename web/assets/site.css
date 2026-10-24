@@ -186,3 +186,5 @@ dt { color: var(--muted); font-family: var(--mono); font-size: .85rem; } dd { ma
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 @media print { .fog, .theme-btn { display: none; } }
+td code { white-space: nowrap; overflow-wrap: normal; }
+.code.is-text code { font-family: var(--sans); }

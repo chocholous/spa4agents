@@ -90,7 +90,7 @@ export function buildSite(withPng = true): { files: Out; draft: boolean; warning
   for (const f of readdirSync(path.join(ROOT, "assets")).sort()) files.set(`assets/${f}`, readFileSync(path.join(ROOT, "assets", f), "utf8"));
 
   if (ogPng) files.set("assets/og.png", pngRenderer()!(files.get("assets/og.svg") as string));
-  else if (withPng) warnings.push("playwright not found: assets/og.png skipped, og:image uses the SVG");
+  else if (withPng) warnings.push("playwright missing, og.png skipped");
 
   if (draft) warnings.push(`${L.draft.build_warning} (brand.approved=${c.brand.approved}, owner decisions pending: ${todos.length})`);
 
