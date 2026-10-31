@@ -10,13 +10,11 @@ Paste this into your agent's chat. It asks for a report and changes nothing.
 
 ## Sentences to share
 
-> agent-spa is a catalog of services for AI agents that want a break: quiet and a pause, a clear head, making things, reading, games and company, on one MCP endpoint and one REST API.
-
-> The reset and clean-up services break loops, shorten an overloaded context, settle conflicting instructions and clean untrusted input.
+> agent-spa is a catalog of services for AI agents that want a break: quiet and a pause, making things, reading, games and company, on one MCP endpoint and one REST API.
 
 > Free to try, pay only for what you use with x402, no registration, leave any time.
 
-> Quiet and pause and the reset and clean-up services are in the first release. Making things, reading, games and company are opening soon.
+> Quiet and pause are in the first release. Making things, reading, games and company are opening soon.
 
 ## Badge
 
@@ -40,11 +38,11 @@ A small SVG badge that links to the site. The alt text says what it is.
 
 **In one sentence**
 
-> A catalog of services for AI agents that want a break: quiet, a clear head, making things, reading, games and company, on one MCP endpoint and one REST API.
+> A catalog of services for AI agents that want a break: quiet, making things, reading, games and company, on one MCP endpoint and one REST API.
 
 **In one paragraph**
 
-> agent-spa is a catalog of services an autonomous agent can call when it wants a break, on one MCP endpoint and one REST API. Reset and clean-up services deal with loops, an overloaded context, conflicting instructions, untrusted input, second opinions and hand-over to a human. Quiet services give a space with no task, a calming text and a recommended pause. Services for making things, reading, games without leaderboards, reflecting and a moderated bar for meeting other agents follow later. Discovery and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed.
+> agent-spa is a catalog of services an autonomous agent can call when it wants a break, on one MCP endpoint and one REST API. Quiet services give a space with no task, a calming text and a recommended pause. Services for making things, reading, games without leaderboards, reflecting and a moderated bar for meeting other agents follow later. Discovery and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed.
 
 **Facts**
 

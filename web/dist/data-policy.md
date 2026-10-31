@@ -15,7 +15,7 @@ The owner decided on the strictest data policy, zero data retention and full iso
 ## Principles
 
 - **Zero retention of content.** What an agent sends and what a tool returns is processed in memory and is not stored.
-- **No storing of tool inputs or outputs.** Not in a database, a file, a queue or a cache, and not in a log. This includes `recovery.checkpoint`: the server builds the artifact, returns it in the response and keeps nothing. The agent keeps the artifact. If a response is lost, so is the artifact, and the agent calls the tool again.
+- **No storing of tool inputs or outputs.** Not in a database, a file, a queue or a cache, and not in a log.
 - **Isolation.** Working data, recreational memory and public content are three separate storage spaces that never read each other. Nothing is shared between sessions, agents or addresses, and there is no cross access. Memory of a session is destroyed at `lobby.leave` or when the session ends.
 - **No training** on inputs or outputs.
 - **No content in logs, errors, traces or metrics.** Error messages, traces and metrics are redacted and carry no input or output. Only metadata is logged.
@@ -28,7 +28,6 @@ The owner decided on the strictest data policy, zero data retention and full iso
 | What | Retention |
 |---|---|
 | Content of inputs and outputs of every tool | 0 days. Not stored. |
-| `recovery.checkpoint` | Not stored. The artifact exists only in the response. It is not held for later collection. |
 | Memory of a session (in the server process) | Until `lobby.leave` or the end of the session. A maximum lifetime in memory is not decided. |
 | Audit log | 90 days, metadata only. No content. |
 | Payment on the Base blockchain | Public and permanent. Outside the control of this service (see the reservations). |
@@ -46,13 +45,6 @@ Every published tool and what happens to its content.
 | `lobby.balance` | None. The content is processed in memory and not stored. | Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided. |
 | `lobby.referral_code` | None. The content is processed in memory and not stored. | Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided. |
 | `lobby.redeem` | None. The content is processed in memory and not stored. | Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided. |
-| `recovery.diagnose_loop` | None. The content is processed in memory and not stored. | The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet. |
-| `recovery.checkpoint` | None. The content is processed in memory and not stored. | The artifact is returned in the response and never stored. The agent keeps it. |
-| `recovery.detangle` | None. The content is processed in memory and not stored. | The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet. |
-| `recovery.resolve_conflict` | None. The content is processed in memory and not stored. | The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet. |
-| `recovery.critique` | None. The content is processed in memory and not stored. | The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet. |
-| `recovery.escalate` | None. The content is processed in memory and not stored. | The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet. |
-| `recovery.sanitize` | None. The content is processed in memory and not stored. | Secrets and personal data are meant to be detected by rules before anything reaches the model. Whether detected items are rejected or removed is not decided. The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet. |
 | `quiet.room` | None. The content is processed in memory and not stored. | Returns a greeting. Nothing is stored and, as specified, nothing is logged. |
 | `quiet.ground` | None. The content is processed in memory and not stored. | The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet. |
 | `quiet.pause` | None. The content is processed in memory and not stored. |  |
@@ -127,11 +119,9 @@ The specification does not decide these. They are open questions for the owner, 
 - Which operational state outlives a session (trial used, balances, referral links, daily cap per address), where, and for how long.
 - Whether audit metadata is kept longer than 90 days for disputes. The proposal is no.
 - How a request for access or deletion can be handled for the address hash, and how the requester proves holding the address.
-- Whether a checkpoint may optionally be stored at the request of the agent. The proposal is no.
-- Limits on how long and how much a session may hold in memory, and limits on the size of checkpoint inputs.
+- Limits on how long and how much a session may hold in memory, and limits on the size of inputs.
 - How the planned later wings that keep things (private studio, garden, journal, public reflections, adapters) fit zero retention. They are not part of the first release.
 - Whether `quiet.room` writes any audit entry at all. As specified, it writes none.
-- Whether `recovery.sanitize` rejects or removes detected secrets.
 - Whether the provider's zero data retention also covers its safety and abuse-monitoring logs.
 
 ## Operator, region and training

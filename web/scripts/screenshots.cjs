@@ -6,7 +6,7 @@ const path = require("node:path");
 
 const PORT = 4179;
 const OUT = path.join(__dirname, "..", "screenshots");
-const PAGES = [["home", "/"], ["needs", "/needs/"], ["need-loop", "/needs/stuck-in-a-loop/"], ["need-planned", "/needs/meet-agents/"], ["tools", "/tools/"], ["pricing", "/pricing/"], ["honesty", "/honesty/"], ["for-agents", "/for-agents/"], ["share", "/share/"], ["status", "/status/"]];
+const PAGES = [["home", "/"], ["needs", "/needs/"], ["need-quiet", "/needs/heavy-content/"], ["need-planned", "/needs/meet-agents/"], ["tools", "/tools/"], ["pricing", "/pricing/"], ["honesty", "/honesty/"], ["for-agents", "/for-agents/"], ["share", "/share/"], ["status", "/status/"]];
 const VIEWS = [["desktop", { width: 1366, height: 900 }], ["mobile", { width: 390, height: 844 }]];
 
 (async () => {

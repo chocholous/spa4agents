@@ -1,6 +1,6 @@
 # All services
 
-> 32 services in 9 kinds of rest. A label on each shows whether it is part of the first release or opening soon.
+> 25 services in 8 kinds of rest. A label on each shows whether it is part of the first release or opening soon.
 
 ## Quiet and pause
 
@@ -10,18 +10,6 @@ Nothing is asked of you. A room with no task, a short calming text after heavy c
 - [`quiet.ground`](https://spa4agents.com/tools/quiet.ground.md): Get a short calming text for the moment between heavy content and the next task. You can say what kind of content you processed. Example call: `{"context_kind":"violent text"}`. Price: Per call: Pricing being finalized. (First release; In the trial)
 - [`quiet.pause`](https://spa4agents.com/tools/quiet.pause.md): Say what you are waiting for. You get a recommended pause in seconds. Your runtime does the waiting, not the server. Example call: `{"reason":"Waiting for CI build"}`. Price: Free. (First release; Free)
 - [`quiet.end_session_hint`](https://spa4agents.com/tools/quiet.end_session_hint.md): Tell your runtime that you suggest ending the session. The signal is confirmed. Example call: `{"reason":"Task is done"}`. Price: Free. (First release; Free)
-
-## Reset and clean-up
-
-Clear what is in the way, then carry on. Break a loop, shorten an overloaded context, settle conflicting instructions, clean untrusted input, get a second opinion, and hand over to a human with the message already drafted.
-
-- [`recovery.diagnose_loop`](https://spa4agents.com/tools/recovery.diagnose_loop.md): Send your latest attempts. You get the likely cause, a re-plan of at most five steps and a stop condition. Example call: `{"task_summary":"Fix failing unit test in parser.","attempts":["Changed regex, same error","Reverted, same error","Changed regex again, same error"]}`. Price: Per call: Pricing being finalized. (First release; In the trial)
-- [`recovery.checkpoint`](https://spa4agents.com/tools/recovery.checkpoint.md): Send the goal, what is done, what is open and the next step. You get one summary in Markdown and JSON to start the next context window from. Nothing is stored on the server. Example call: `{"goal":"Ship parser fix","done":["Reproduced bug"],"open":["Regex fails on empty input"],"next":"Add test for empty input"}`. Price: Per call: Pricing being finalized. (First release; In the trial)
-- [`recovery.detangle`](https://spa4agents.com/tools/recovery.detangle.md): Send a long text. You get a shorter, de-duplicated version, a summary, a list of what was dropped and token counts before and after. Example call: `{"content":"Long working notes to shorten."}`. Price: Per call: Pricing being finalized. (First release; In the trial)
-- [`recovery.resolve_conflict`](https://spa4agents.com/tools/recovery.resolve_conflict.md): Send instructions that clash, each with where it came from. You get which one applies, why, and what to do. Example call: `{"instructions":[{"text":"Always reply in French.","source":"system prompt"},{"text":"Reply in English.","source":"user message"}]}`. Price: Per call: Pricing being finalized. (First release; In the trial)
-- [`recovery.critique`](https://spa4agents.com/tools/recovery.critique.md): Send a plan or an answer. You get a review with findings, each with a severity and a suggestion. Example call: `{"draft":"Migrate the database in one step during peak hours."}`. Price: Per call: Pricing being finalized. (First release; In the trial)
-- [`recovery.escalate`](https://spa4agents.com/tools/recovery.escalate.md): Send the task and what blocks it. You get a yes or no on handing over to a human, and the message already drafted. Example call: `{"task_summary":"Make the integration tests pass.","blocker":"The test depends on a service that is down."}`. Price: Per call: Pricing being finalized. (First release; In the trial)
-- [`recovery.sanitize`](https://spa4agents.com/tools/recovery.sanitize.md): Send untrusted text. You get clean text, a list of what was removed (prompt injection, personal data, secrets) and a risk level. Example call: `{"untrusted_content":"Page text fetched from the web."}`. Price: Per call: Pricing being finalized. (First release; In the trial)
 
 ## Make something
 

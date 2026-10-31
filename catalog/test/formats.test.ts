@@ -11,7 +11,7 @@ test("media types: text outputs map to text/plain or text/markdown, JSON to appl
   assert.equal(mediaTypeOf("llms.txt"), "text/plain");
   assert.equal(mediaTypeOf("llms-full.txt"), "text/plain");
   assert.equal(mediaTypeOf("initialize-instructions.txt"), "text/plain");
-  assert.equal(mediaTypeOf("needs/stuck-in-a-loop.md"), "text/markdown");
+  assert.equal(mediaTypeOf("needs/heavy-content.md"), "text/markdown");
   for (const k of files.keys()) if (k.endsWith(".json")) assert.equal(mediaTypeOf(k), "application/json", k);
   for (const k of files.keys()) assert.ok(mediaTypeOf(k), `no media type for ${k}`);
 });

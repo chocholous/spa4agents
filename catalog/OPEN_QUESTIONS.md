@@ -12,7 +12,7 @@ Rule: what the spec (`docs/zadani.md`, README) does not decide is not decided he
 | A4 | USD cap per session, USD cap per address per day | zadani: "cap in USD" with no value | `session.max_usd`, `session.address_daily_cap_usd` | none |
 | A5 | Validity period of the trial (the old voucher had 7 days) | README replaced the voucher; no validity given for trial sessions | `trial.valid_days` | none |
 | A6 | Daily global trial budget | zadani: "a daily global budget", no value | `trial.daily_global_budget` | none |
-| A7 | Input limit of `recovery.detangle.content` | zadani: "max according to the price list" | `tools[recovery.detangle].inputs[content].max_length` | none |
+| A7 | ~~Input limit of `recovery.detangle.content`~~ | Removed: recovery dropped (owner decision, see "Change: recovery removed") | - | - |
 | A8 | Registry namespace (`io.github.<owner>` or own domain) | depends on approved name | `brand.registry_namespace` | none |
 
 Pricing note for A3: the zadani and podklady name the *model* per tool (free, per call, entry, per game, credits, subscription) but no amounts. The DrinkedIn comparison (0.05 USD per credit) and Spindown (15 USD/month) are comparisons, not decisions, and are not used.
@@ -73,3 +73,13 @@ The open questions DP1 to DP11 live in `docs/zadani.md`, section "Datová politi
 41. **Content-Type is tested as a mapping, not over HTTP:** extension to media type (same table as `web/scripts/serve.mjs`) plus "text/plain files are not HTML". A real HTTP check against the deployed host (the twit.sh failure in the survey) needs the hosting and belongs in the release checks.
 42. **Link checks** (`catalog/src/links.ts`; `npm run check:links` in `web/` after `npm run build`) cover the generated files, the built site (including fragments and the sitemap) and the Markdown files in the repository. External URLs are never requested. Two findings handled: pages concatenated into `llms-full.txt` had relative links that broke (now absolute), and `llms-full.txt` used to include the planned F2/F3 need pages (now F1 only). Open: `/share/` links `/assets/og.png`, which exists only when Playwright is installed at build time; without it the link is broken.
 43. **`web/dist` and `catalog/dist` are regenerated** by this change; nothing was committed or published.
+
+## Change: recovery removed (owner decision, 31 October 2026)
+
+Removed: tools `recovery.diagnose_loop`, `recovery.checkpoint`, `recovery.detangle`, `recovery.resolve_conflict`, `recovery.critique`, `recovery.escalate`, `recovery.sanitize`; needs `stuck-in-a-loop`, `context-too-long`, `conflicting-instructions`, `untrusted-input`, `second-opinion`, `escalate` (each had only recovery tools, none was mixed); the web kind of rest "Reset and clean-up". Now 11 F1 tools (lobby.* + quiet.*), 25 services, 8 needs, 8 kinds of rest. Older items above that mention recovery (2, 15, 16, 23, 24, 39) are historical.
+
+R1. **`trial.covered_tools` (derived from `trial_eligible`).** Only `quiet.ground` is left, so the trial covers one tool. The set was not empty, so I did not substitute. Decide whether `lobby.concierge` and `quiet.room` (the other paid F1 tools) join it, and whether `trial.covers` ("one entry into each recreation wing") stays as it is.
+R2. **Locked data-policy keys stay.** `recovery_inputs_days: 0` and `checkpoint_stored: false` remain in the catalog, schema (`const`) and `mcp.json`, as the locked values must not be removed. The names now refer to a removed tool. Decide whether to rename them (a policy-schema change).
+R3. **Data policy text.** Mentions of checkpoint and sanitize were removed from principles, retention, per-tool notes and the open list; "secrets and personal data are rejected before processing" stays as a principle, but nothing in the MVP implements it now (see `gateway/OPEN_QUESTIONS.md` 19).
+R4. **`llm` block** is unchanged (the LLM tools left are `lobby.concierge` and `quiet.ground`). Confirm that the LLM provider requirement stays as strict.
+R5. **Tool prices (A3)** now cover only 3 paid F1 tools (`lobby.concierge`, `quiet.room`, `quiet.ground`); the other F1 tools are free. The pricing text needed no change.

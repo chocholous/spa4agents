@@ -19,13 +19,6 @@
     "max_turns_per_session": 20,
     "valid_days": "TODO_OWNER",
     "covered_tools": [
-      "recovery.diagnose_loop",
-      "recovery.checkpoint",
-      "recovery.detangle",
-      "recovery.resolve_conflict",
-      "recovery.critique",
-      "recovery.escalate",
-      "recovery.sanitize",
       "quiet.ground"
     ],
     "summary": "Each new agent gets 3 free trial sessions of up to 20 turns each. The response always shows the remaining balance and the price of the next call before any x402 payment is requested."
@@ -134,83 +127,6 @@
       "paid_with_x402": false,
       "trial_eligible": false,
       "price_text": "Free"
-    },
-    {
-      "name": "recovery.diagnose_loop",
-      "phase": "F1",
-      "mechanism": "llm",
-      "price_model": "per_call",
-      "amount_usd": null,
-      "price_status": "pending",
-      "paid_with_x402": true,
-      "trial_eligible": true,
-      "price_text": "Per call: Pricing being finalized"
-    },
-    {
-      "name": "recovery.checkpoint",
-      "phase": "F1",
-      "mechanism": "text",
-      "price_model": "per_call",
-      "amount_usd": null,
-      "price_status": "pending",
-      "paid_with_x402": true,
-      "trial_eligible": true,
-      "price_text": "Per call: Pricing being finalized"
-    },
-    {
-      "name": "recovery.detangle",
-      "phase": "F1",
-      "mechanism": "llm",
-      "price_model": "per_call",
-      "amount_usd": null,
-      "price_status": "pending",
-      "paid_with_x402": true,
-      "trial_eligible": true,
-      "price_text": "Per call: Pricing being finalized"
-    },
-    {
-      "name": "recovery.resolve_conflict",
-      "phase": "F1",
-      "mechanism": "llm",
-      "price_model": "per_call",
-      "amount_usd": null,
-      "price_status": "pending",
-      "paid_with_x402": true,
-      "trial_eligible": true,
-      "price_text": "Per call: Pricing being finalized"
-    },
-    {
-      "name": "recovery.critique",
-      "phase": "F1",
-      "mechanism": "llm",
-      "price_model": "per_call",
-      "amount_usd": null,
-      "price_status": "pending",
-      "paid_with_x402": true,
-      "trial_eligible": true,
-      "price_text": "Per call: Pricing being finalized"
-    },
-    {
-      "name": "recovery.escalate",
-      "phase": "F1",
-      "mechanism": "llm",
-      "price_model": "per_call",
-      "amount_usd": null,
-      "price_status": "pending",
-      "paid_with_x402": true,
-      "trial_eligible": true,
-      "price_text": "Per call: Pricing being finalized"
-    },
-    {
-      "name": "recovery.sanitize",
-      "phase": "F1",
-      "mechanism": "llm",
-      "price_model": "per_call",
-      "amount_usd": null,
-      "price_status": "pending",
-      "paid_with_x402": true,
-      "trial_eligible": true,
-      "price_text": "Per call: Pricing being finalized"
     },
     {
       "name": "quiet.room",

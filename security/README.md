@@ -1,5 +1,7 @@
 # security: WP5, `recovery.sanitize`
 
+> Změna: mimo rozsah MVP (recovery zrušeno rozhodnutím vlastníka), ponecháno jako archiv. Kód a sada se nemažou ani neudržují.
+
 Pravidlová vrstva, rozhraní pro LLM vrstvu, testovací sada a runner. Bez závislostí, Node 22.18+ (spouští `.ts` přímo).
 
 ```

@@ -23,8 +23,8 @@ test("web texts with URLs outside href fields produce a warning", () => {
 
 test("every need has a human text in every available locale", () => {
   const raw = clone();
-  delete raw.web.locales.en.needs.items["stuck-in-a-loop"];
-  assert.match(validateDoc(raw).errors.join("\n"), /lacks stuck-in-a-loop|required/);
+  delete raw.web.locales.en.needs.items["heavy-content"];
+  assert.match(validateDoc(raw).errors.join("\n"), /lacks heavy-content|required/);
 });
 
 test("english is required and other locales may be absent", () => {

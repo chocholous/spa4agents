@@ -19,7 +19,7 @@ const slow = async (_a: unknown, ctx: { signal: AbortSignal }) => {
 };
 
 function start(env: Record<string, string> = {}) {
-  const gw = new Gateway({ config: loadConfig({ ...env }), catalog, handlers: { "recovery.diagnose_loop": slow as never } });
+  const gw = new Gateway({ config: loadConfig({ ...env }), catalog, handlers: { "quiet.ground": slow as never } });
   const s = createHttpServer(gw);
   return new Promise<{ s: Server; url: string; gw: Gateway }>((res) =>
     s.listen(0, "127.0.0.1", () => res({ s, url: `http://127.0.0.1:${(s.address() as AddressInfo).port}`, gw })),
@@ -44,13 +44,13 @@ describe("MCP", () => {
     const ins = c.getInstructions()!;
     expect(ins).toContain("lobby.leave");
     expect(ins).toContain("200 actions, 60 minutes");
-    expect(ins).toContain("recovery.diagnose_loop (llm): per_call 0.05 USD");
+    expect(ins).toContain("quiet.ground (llm): per_call 0.05 USD");
     expect(ins).not.toMatch(/install|you must/i);
     const { tools } = await c.listTools();
     const names = tools.map((t) => t.name);
     expect(names).toContain("lobby.checkin");
     expect(names).not.toContain("library.read"); // F2
-    expect(tools.find((t) => t.name === "recovery.checkpoint")!.inputSchema.required).toContain("goal");
+    expect(tools.find((t) => t.name === "lobby.concierge")!.inputSchema.required).toContain("situation");
     await c.close();
   });
 
@@ -68,7 +68,7 @@ describe("MCP", () => {
 
   it("lobby.leave answers < 1 s during a running long call and cancels it", async () => {
     const c = await connect(base);
-    const long = c.callTool({ name: "recovery.diagnose_loop", arguments: { task_summary: "x", attempts: [] } });
+    const long = c.callTool({ name: "quiet.ground", arguments: {} });
     await new Promise((r) => setTimeout(r, 300));
     const t0 = Date.now();
     const leave = env(await c.callTool({ name: "lobby.leave", arguments: {} }));
@@ -85,7 +85,7 @@ describe("MCP", () => {
   it("client-side MCP cancellation aborts the call", async () => {
     const c = await connect(base);
     const ac = new AbortController();
-    const p = c.callTool({ name: "recovery.diagnose_loop", arguments: { task_summary: "x", attempts: [] } }, undefined, { signal: ac.signal });
+    const p = c.callTool({ name: "quiet.ground", arguments: {} }, undefined, { signal: ac.signal });
     await new Promise((r) => setTimeout(r, 200));
     ac.abort();
     await expect(p).rejects.toBeTruthy();
@@ -118,7 +118,7 @@ describe("REST mirror", () => {
     const e = await r.json();
     expect(r.status).toBe(200);
     expect(e.tool).toBe("lobby.find_tool");
-    expect(e.data.tool).toBe("recovery.diagnose_loop");
+    expect(e.data.tool).toBe("quiet.ground");
     expect((await post("nope.tool", {})).status).toBe(404);
     expect((await post("quiet.pause", {})).status).toBe(400);
   });
@@ -126,7 +126,7 @@ describe("REST mirror", () => {
   it("lobby.leave via REST cancels a long call of the same guest pass in < 1 s", async () => {
     const pass = (await (await post("lobby.checkin", {})).json()).data.guest_pass;
     const h = { "x-spa-guest-pass": pass };
-    const long = post("recovery.diagnose_loop", { task_summary: "x", attempts: [] }, h);
+    const long = post("quiet.ground", {}, h);
     await new Promise((r) => setTimeout(r, 300));
     const t0 = Date.now();
     const leave = await (await post("lobby.leave", {}, h)).json();
@@ -159,7 +159,7 @@ describe("caps and timeout", () => {
 
   it("times out a call", async () => {
     const { s, url } = await start({ TIMEOUT_MS_LLM: "200" });
-    const r = await fetch(`${url}/v1/recovery.diagnose_loop`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ task_summary: "x", attempts: [] }) });
+    const r = await fetch(`${url}/v1/quiet.ground`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({}) });
     expect(r.status).toBe(504);
     s.closeAllConnections(); s.close();
   });

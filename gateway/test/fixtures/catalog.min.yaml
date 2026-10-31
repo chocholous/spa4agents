@@ -28,30 +28,25 @@ tools:
     price: { model: free }
     phase: F1
     input_schema: { type: object, properties: {} }
-  - name: recovery.diagnose_loop
-    description: "Use after three identical failures. Returns cause, re-plan, stop condition."
+  - name: quiet.ground
+    description: "Use after processing heavy content. Returns a short settling text."
     mechanism: llm
     price: { model: per_call, usd: "0.05" }
     phase: F1
     input_schema:
       type: object
       properties:
-        task_summary: { type: string, maxLength: 1000 }
-        attempts: { type: array, maxItems: 10, items: { type: string } }
-      required: [task_summary, attempts]
-  - name: recovery.checkpoint
-    description: "Use before compaction. Returns a checkpoint artifact (Markdown + JSON)."
-    mechanism: state-change
+        context_kind: { type: string }
+  - name: lobby.concierge
+    description: "Use when you describe a situation. Returns a sequence of 1 to 3 tools with reasons."
+    mechanism: llm
     price: { model: per_call, usd: "0.02" }
     phase: F1
     input_schema:
       type: object
       properties:
-        goal: { type: string }
-        done: { type: array, items: { type: string } }
-        open: { type: array, items: { type: string } }
-        next: { type: string }
-      required: [goal, done, open, next]
+        situation: { type: string }
+      required: [situation]
   - name: quiet.pause
     description: "Use while waiting on a dependency. Returns retry_after_seconds; does not wait."
     mechanism: wait-hint

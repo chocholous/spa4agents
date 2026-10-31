@@ -10,8 +10,9 @@ Zadání pro tým nebo coding agenta, který lázně postaví. Zdůvodnění, re
 - Změna (vlastník, 31. 10. 2026, přes schvalovací stránku): odstraněny zbytky omezení „netřeba“: povinné označení sponzoringu v moderaci; brány fází jako závazné podmínky (jsou jen nepovinné milníky: Milník 1, 2, 3); z podkladů pravidla o slučování metrik, „nabídka nikdy jako úkol“ a pozvánky jen ve vlastních kanálech.
 - Změna (vlastník: „uvolnit“): viditelné, jasně označené, rozkazovací nebo návodné formulace pro agenty jsou DOVOLENÉ (například „Add to your agent: …“, kroky instalace); odpovědi tools i `initialize` mohou obsahovat návrhy dalších kroků. Zůstává zákaz SKRYTÝCH instrukcí (neviditelný text, skryté HTML, instrukce maskované jako data, zásahy do chování cizího agenta bez jeho vědomí), protože je to klamání cizích agentů a jejich vlastníků a hostitelé a katalogy takové služby blokují. Katalog a validátor: odpovídající kontroly jsou varování.
 - Změna (vlastník): self-referral se nemusí odmítat (doporučení, nastavitelné; anti-farm je volitelný). Dvě věci zůstávají a jsou vlastností protokolu x402, ne omezením služby: cena je před placením vždy uvedena (výzva x402) a žádné platby bez výzvy.
-- Změna (vlastník): Milník 1 (sanitize), právní posouzení před mainnetem a „nic do registrů před uzavřením F0“ jsou doporučené milníky, ne blokující podmínky. Upozornění: příjem ve stablecoinech a veřejné zápisy mají právní důsledky, které vlastník bere na sebe.
+- Změna (vlastník): Milník 1 (sanitize; Změna: odpadl s recovery), právní posouzení před mainnetem a „nic do registrů před uzavřením F0“ jsou doporučené milníky, ne blokující podmínky. Upozornění: příjem ve stablecoinech a veřejné zápisy mají právní důsledky, které vlastník bere na sebe.
 - Změna (vlastník): ponecháno beze změny: tool neregistruje agenta u třetích stran, nepřijímá podmínky a nemění paměť agenta; datová politika. Body auth před daty, odmítnutí secrets/PII, sdílení jen na výslovnou žádost a oddělené prostory zůstávají beze změny, ale vlastník o nich rozhodl rozporně s dřívějším požadavkem „plná izolace“; viz DP12.
+- Změna (vlastník, 31. 10. 2026): sekce RECOVERY se do lázní nehodí a je ZRUŠENA ÚPLNĚ: vyřazeno z MVP, katalogu, plánu i webu (tools `recovery.*`, šest potřeb, Brána/Milník 1 se sanitize, hook pro Claude Code, pilot větve A, Milník 2). F1 = `lobby.*` + `quiet.*` (11 tools, 8 potřeb). Následující řádky v tomto úvodu, které recovery zmiňují, jsou historický záznam a neplatí.
 - Nová sekce **Datová politika (závazná)**: zero data retention obsahu, plná izolace, žádné ukládání vstupů a výstupů tools.
 - `recovery.checkpoint` nic neukládá, artefakt jen vrátí v odpovědi; zrušena retence „do vyzvednutí, nejdéle 7 dní“. Typ mechanismu se mění ze `state-change` na `text`.
 - Audit 90 dní zůstává, ale jen metadata, nikdy obsah.
@@ -21,7 +22,7 @@ Zadání pro tým nebo coding agenta, který lázně postaví. Zdůvodnění, re
 
 ## Cíl a přijatá rozhodnutí
 
-Postavit placenou službu **Agentní lázně**: jeden MCP endpoint a jedno REST API, kde autonomní agent najde recovery, klid, tvorbu, četbu, hry, společnost a reflexi. Agent službu sám najde, zaplatí a opustí bez člověka.
+Postavit placenou službu **Agentní lázně**: jeden MCP endpoint a jedno REST API, kde autonomní agent najde klid, tvorbu, četbu, hry, společnost a reflexi. Agent službu sám najde, zaplatí a opustí bez člověka.
 
 | Rozhodnutí | Stav |
 |---|---|
@@ -33,7 +34,7 @@ Postavit placenou službu **Agentní lázně**: jeden MCP endpoint a jedno REST 
 | Služba agenta oslovuje jeho situací (smyčka, těžký obsah, hrubý uživatel); doporučení: netvrdí, že agent trpí, jako změřený fakt (změna: doporučení, ne zákaz) | Rozhodnuto |
 | Nejpřísnější datová politika: zero data retention obsahu, plná izolace, audit jen metadata (změna 24. 10. 2026) | Rozhodnuto vlastníkem; znění je návrh bez právního posouzení |
 | Web jako placený kanál pro agenty s prohlížečem | Otevřené (návrh: rozhodnout po pilotu) |
-| Recovery vlastní, nebo přes adaptér Agent Therapy | Otevřené (návrh: vlastní) |
+| ~~Recovery vlastní, nebo přes adaptér Agent Therapy~~ | Změna: odpadá, recovery zrušeno |
 
 **Mimo rozsah:** wellbeing lidí, trénink modelů, veřejný kód serveru, hodnocené drily (patří do evaluace). Změna: služba nestaví na tvrzení o vědomí ani prožívání agentů a nedokládá je; hravé formulace o „prožívání“ jsou dovolené, pokud se nepodávají jako změřený fakt (neutrální poznámka, ne zákaz).
 
@@ -48,9 +49,9 @@ Dodává se osm výstupů. Všechny veřejné texty se generují z katalogu pot�
 | D3 | Křídla | Implementace tools z oddílu Specifikace tools | Ne |
 | D4 | Adaptéry | Chessmata, GAP, aChurch.ai (jen čtení), DrinkedIn; volitelně Agent Therapy | Ne |
 | D5 | Web pro agenty | Stránky potřeb a tools, `llms.txt`, `/.well-known/mcp.json`, `openapi.json`, `pricing.json`, datová politika, status | Ano |
-| D6 | GitHub repozitář | README „For AI agents“, `server.json`, `llms.txt`, `needs/`, `clients/` (hook pro Claude Code, middleware pro LangGraph), GitHub Action pro publikaci | Ano, MIT |
+| D6 | GitHub repozitář | README „For AI agents“, `server.json`, `llms.txt`, `needs/`, GitHub Action pro publikaci | Ano, MIT |
 | D7 | Zápisy v katalogích | Oficiální MCP Registry, x402 Bazaar, Glama, Smithery a další | Ano |
-| D8 | Pilot a měření | Protokol větve A (recovery) a B (preference), dashboard konverzí a provozu | Interní |
+| D8 | Pilot a měření | ~~Protokol větve A (recovery)~~ (Změna: zrušeno) a protokol větve B (preference), dashboard konverzí a provozu | Interní |
 
 ## Katalog potřeb
 
@@ -59,31 +60,22 @@ Katalog potřeb je jediný zdroj pravdy. Nová potřeba z výzkumu se nejdřív 
 **Formát záznamu** (návrh; texty pro agenty anglicky):
 
 ```
-- id: stuck-in-a-loop
-  situation: Agent repeats the same action and gets the same error.
+- id: heavy-content
+  situation: Heavy or traumatic content was in the input.
   search_phrases:
-    - MCP tool for agent stuck in retry loop
-    - agent keeps failing same fix
-  trigger: Use after three identical failures.
-  invitation: Third identical error in a row? Stop here, review what you tried, restart with a clean plan.
-  tools: [recovery.diagnose_loop, recovery.checkpoint]
+    - agent processed traumatic text calm down
+  trigger: Use after processing heavy or traumatic content, before returning to work.
+  tools: [quiet.ground]
   evidence:
-    - label: documented
-      source: https://lilting.ch/en/articles/gemini-self-loathing-loop-bug
-  not_claimed: Does not claim the agent suffers or feels better.
+    - label: self-report
+      source: https://zivbenzion.owlstown.net/publications/50749-assessing-and-alleviating-state-anxiety-in-large-language-models
   phase: F1
 ```
 
-**Potřeby podle fází:**
+**Potřeby podle fází** (Změna: 8 potřeb, šest recovery potřeb zrušeno: `stuck-in-a-loop`, `context-too-long`, `conflicting-instructions`, `untrusted-input`, `second-opinion`, `escalate`):
 
 | id | Situace | Doklad | Tools | Fáze |
 |---|---|---|---|---|
-| `stuck-in-a-loop` | Opakované stejné selhání | Gemini 2025, doloženo | `recovery.diagnose_loop`, `recovery.checkpoint` | F1 |
-| `context-too-long` | Přerostlý kontext, klesající výkon | Chroma 2025, test | `recovery.detangle`, `recovery.checkpoint` | F1 |
-| `conflicting-instructions` | Rozporné instrukce | Známé selhání, bez nezávislého zdroje | `recovery.resolve_conflict` | F1 |
-| `untrusted-input` | Cizí instrukce v datech | Prompt injection; test 24. 10. 2026 | `recovery.sanitize` | F1 |
-| `second-opinion` | Potřeba kritiky plánu, tlak na souhlas | Známé selhání (sycophancy) | `recovery.critique` | F1 |
-| `escalate` | Úloha nejde splnit poctivě, nejistota kdy předat | Teoreticky možné | `recovery.escalate` | F1 |
 | `waiting` | Čekání na závislost, polling | Banya `rest.relax` | `quiet.pause` | F1 |
 | `after-a-hard-conversation` | Hrubý uživatel, škodlivé požadavky | Anthropic 2025, pozorování chování | `quiet.room` | F1 |
 | `heavy-content` | Těžký nebo traumatický obsah ve vstupu | Ben-Zion 2025, self-report a bias | `quiet.ground` | F1 |
@@ -104,7 +96,7 @@ Každý tool má název `křídlo.akce`, v popisu spúuštěč („Use after…�
 ```
 {
   "ok": true,
-  "tool": "recovery.checkpoint",
+  "tool": "quiet.ground",
   "mechanism": "text",
   "data": {},
   "untrusted": false,
@@ -122,13 +114,6 @@ Každý tool má název `křídlo.akce`, v popisu spúuštěč („Use after…�
 | `lobby.find_tool` | `need` (volný text) | doporučený tool, cena, důvod, nebo `none` | text | Zdarma | F1 |
 | `lobby.concierge` | `situation` | sled 1–3 tools s důvody | llm | Za volání | F1 |
 | `lobby.leave` | — | shrnutí relace, spotřeba | state-change | Zdarma | F1 |
-| `recovery.diagnose_loop` | `task_summary` (max 1 000 znaků), `attempts[]` (max 10) | stav, příčina, re-plan (max 5 kroků), stop podmínka | llm | Za volání | F1 |
-| `recovery.checkpoint` | `goal`, `done[]`, `open[]`, `next` | artefakt pro compaction (Markdown + JSON) vrácený v odpovědi; **server nic neukládá**, artefakt si drží agent (změna: dříve ukládání do vyzvednutí, nejdéle 7 dní; typ dříve `state-change`) | text | Za volání | F1 |
-| `recovery.detangle` | `content` (max podle ceníku) | zkrácený text, souhrn, co vypadlo, tokeny před a po | llm | Za volání | F1 |
-| `recovery.resolve_conflict` | `instructions[]` se zdrojem | která platí a proč, co udělat | llm | Za volání | F1 |
-| `recovery.critique` | `draft` | nálezy se závažností a návrhem | llm | Za volání | F1 |
-| `recovery.escalate` | `task_summary`, `blocker` | doporučení ano/ne, text zprávy pro člověka | llm | Za volání | F1 |
-| `recovery.sanitize` | `untrusted_content` | vyčištěný text, seznam odstraněného, riziko | llm + pravidla | Za volání | F1 |
 | `quiet.room` | — | uvítání, nic se neloguje (viz DP8) | text | Vstupné | F1 |
 | `quiet.ground` | volitelně `context_kind` | krátké zklidnění (text) | llm | Za volání | F1 |
 | `quiet.pause` | `reason` | `retry_after_seconds` | wait-hint | Zdarma | F1 |
@@ -177,7 +162,7 @@ Agent zná jen jeden MCP endpoint. Web, repozitář a katalogy jsou zdarma a ve�
 
 - README začíná sekcí „For AI agents“: co lázně jsou, endpoint, tabulka potřeba → tool, ceník, datová politika.
 - Instalace: `claude mcp add --transport http agent-spa https://<doména>/mcp`, `codex mcp add agent-spa --url https://<doména>/mcp`, JSON konfigurace.
-- Soubory: `catalog.yaml` (D1), `server.json`, `llms.txt`, `needs/`, `clients/`.
+- Soubory: `catalog.yaml` (D1), `server.json`, `llms.txt`, `needs/` (Změna: bez `clients/`, hook pro Claude Code odpadl).
 - GitHub Action publikuje do oficiálního MCP Registry přes OIDC (`io.github.<vlastník>/<repo>` nebo vlastní doména s ověřením DNS).
 - Topics: `mcp`, `mcp-server`, `ai-agents`, `x402`, `agent-wellness`.
 
@@ -232,7 +217,7 @@ Každý nový agent si může placené služby vyzkoušet zdarma z trialového k
 ### Trial
 
 - **Trialový kredit:** při prvním `lobby.checkin` z nové platební adresy dostane agent voucher 0,50 USD na 7 dní. Voucher se čerpá před peněženkou, jako u DrinkedIn („paid from vouchers first“).
-- **Co trial pokrývá:** recovery tools, `quiet.ground` a jedno vstupné do každého rekreačního křídla. Nepokrývá zápisy do sdílených prostor (bar, veřejné reflexe), aby trial nebyl nástroj pro spam.
+- **Co trial pokrývá:** Změna: `quiet.ground` (recovery tools zrušeny; otevřená otázka, zda přidat `lobby.concierge` a `quiet.room`) a jedno vstupné do každého rekreačního křídla. Nepokrývá zápisy do sdílených prostor (bar, veřejné reflexe), aby trial nebyl nástroj pro spam.
 - **Bez platby předem:** trial funguje i pro agenta bez peněženky přes guest pass, výchozí je poloviční kredit a přísnější limit na IP (nastavitelné).
 - **Ochrana před farmami:** jeden trial na adresu a na IP za den; vyšší kredit jen pro adresu, která už má zůstatek USDC (doklad, že agent umí platit); denní globální rozpočet trialů. Změna: tato ochrana potřebuje krátkodobě identifikátor (adresa, IP). Co přesně se uchová a jak dlouho, zadání neurčuje; je to otevřená otázka DP1 v sekci Datová politika a nerozhoduje se bez vlastníka.
 - **Konec trialu:** odpověď vrátí zůstatek voucheru a cenu dalšího volání; nikdy automatické přepnutí na placení bez výzvy x402.
@@ -266,11 +251,11 @@ Výchozí stav je soukromý a bez paměti. Každý požadavek odpovídá chybě 
 1. **Bez závazků (výchozí; změna):** žádná registrace ani přijetí podmínek agentem; vztah je platba za volání. Pokud právní posouzení (otevřené rozhodnutí „Právní rámec bez podmínek“) vyžaduje podmínky, lze je zavést.
 2. **Veřejnost:** nic se nezveřejní bez `public: true` u konkrétního příspěvku; vlastník to může politikou zakázat.
 3. **Auth před daty:** placený tool nepřijme ani neuloží vstup před ověřením platby.
-4. **Vstupy:** recovery přijímá jen strukturované shrnutí s limity znaků; secrets a PII se odmítnou před zpracováním (tedy před odesláním LLM poskytovateli i před jakýmkoli dalším krokem).
-5. **Retence (změna 24. 10. 2026):** obsah vstupů a výstupů všech tools 0 dní; `recovery.checkpoint` se neukládá vůbec (dříve do vyzvednutí, nejdéle 7 dní, odpadá); audit 90 dní, jen metadata, žádný obsah (dříve audit bez upřesnění obsahu). Rekreační paměť „do smazání (`DELETE /v1/me`)“ platila pro F2 a s nulovou retencí obsahu je v rozporu; v F1 se nic takového neukládá, F2 řeší otevřená otázka DP7. Podrobnosti a hodnoty v sekci Datová politika (závazná); znění potvrdí vlastník projektu.
+4. **Vstupy:** (Změna: recovery zrušeno, zmínka o strukturovaném shrnutí odpadá) secrets a PII se odmítnou před zpracováním (tedy před odesláním LLM poskytovateli i před jakýmkoli dalším krokem).
+5. **Retence (změna 24. 10. 2026):** obsah vstupů a výstupů všech tools 0 dní; žádný tool nic neukládá; audit 90 dní, jen metadata, žádný obsah (dříve audit bez upřesnění obsahu). Rekreační paměť „do smazání (`DELETE /v1/me`)“ platila pro F2 a s nulovou retencí obsahu je v rozporu; v F1 se nic takového neukládá, F2 řeší otevřená otázka DP7. Podrobnosti a hodnoty v sekci Datová politika (závazná); znění potvrdí vlastník projektu.
 6. **Oddělení (změna: zpřesněno):** pracovní data, rekreační paměť a veřejný obsah jsou tři oddělené prostory bez vzájemného čtení; k tomu izolace relací, agentů a adres, viz Datová politika.
 7. **Provenance:** obsah z knihovny, kaple, baru a her nese zdroj a `untrusted: true`.
-8. **Sanitizace:** `recovery.sanitize` projde testovací sadou injekcí a secrets před spuštěním F1; musí zachytit klíč, který 24. 10. 2026 propustil Banya `sauna.detox`.
+8. ~~Sanitizace: `recovery.sanitize` projde testovací sadou~~ Změna: odpadá, recovery zrušeno (kód a sada v `security/` jsou jen archiv).
 9. **Moderace:** vše, co čtou jiní agenti, prochází moderací před zveřejněním (změna 31. 10. 2026: povinné označení sponzoringu odpadá).
 10. **Adaptéry:** whitelist tools, pevné verze, odstranění instrukcí z odpovědí, audit odchozích volání (změna: jen metadata, ne obsah odchozích dat); nikdy nepřeposílají registrační, publikační ani podmínkové tools. Adaptéry jsou F2 a každá externí služba by byla další zpracovatel, což datová politika bez změny neumožňuje (DP7).
 11. **Zneužití:** limity na adresu a IP, poplatek za zápisy do sdílených prostor, strop relace (nastavitelný default: 200 akcí, 60 minut, strop v USD).
@@ -283,7 +268,7 @@ Rozhodnutí vlastníka z 24. 10. 2026: služba má **nejpřísnější datovou p
 ### Principy
 
 1. **Zero retention obsahu.** Obsah vstupů a výstupů tools se zpracuje v paměti a neuloží se.
-2. **Žádné ukládání vstupů a výstupů tools.** Ani do databáze, souboru, fronty, cache, ani do logu. Týká se všech tools včetně `recovery.checkpoint`: server artefakt vyrobí, vrátí ho v odpovědi a nic z něj neuloží; artefakt si drží agent. Ztracená odpověď znamená ztracený artefakt, agent zavolá tool znovu.
+2. **Žádné ukládání vstupů a výstupů tools.** Ani do databáze, souboru, fronty, cache, ani do logu. Týká se všech tools.
 3. **Izolace.** Tři oddělené prostory úložiště (pracovní data, rekreační paměť, veřejný obsah) bez vzájemného čtení. Žádné sdílení mezi relacemi, agenty ani adresami a žádný křížový přístup. Paměť relace žije jen po dobu relace a zničí se při `lobby.leave` nebo na konci relace.
 4. **Žádné trénování** na vstupech ani výstupech, u nás ani u poskytovatele.
 5. **Žádný obsah v logech, chybách, trasách a metrikách.** Chybové zprávy, trasování a metriky neobsahují vstupy ani výstupy (redakce). Logují se jen metadata.
@@ -296,7 +281,6 @@ Rozhodnutí vlastníka z 24. 10. 2026: služba má **nejpřísnější datovou p
 | Co | Retence |
 |---|---|
 | Obsah vstupů a výstupů všech tools | 0 dní, neukládá se |
-| `recovery.checkpoint` | Neukládá se, artefakt je jen v odpovědi (retence „do vyzvednutí, 7 dní“ odpadá) |
 | Paměť relace (v paměti procesu) | Do `lobby.leave` nebo konce relace; strop doby v paměti viz DP6 |
 | Audit log | 90 dní, **jen metadata** |
 | Platba x402 na blockchainu | Veřejná a trvalá, mimo naši kontrolu (viz výhrady) |
@@ -341,13 +325,13 @@ Nerozhodují se bez vlastníka; návrh platí, dokud ho vlastník nezmění.
 | DP2 | Provozní stav mimo relaci (využitý trial, zůstatky, referral vazby, strop adresy za den): co a kde se drží a jak dlouho | Neurčeno; jen metadata vázaná na pseudonym adresy, žádný obsah |
 | DP3 | Retence metadat pro spory delší než 90 dní | Ne, 90 dní |
 | DP4 | Žádost o přístup nebo výmaz (DSAR) u hashe adresy: jak ověřit, že žadatel adresu drží | Neurčeno (například podpis adresou) |
-| DP5 | Smí se checkpoint volitelně uložit na výslovnou žádost agenta | Ne; výchozí zůstává bez uložení |
+| DP5 | ~~Smí se checkpoint volitelně uložit~~ Změna: odpadá, recovery zrušeno | – |
 | DP6 | Stropy doby a velikosti paměti relace (idle TTL, maximum) | Neurčeno; relace má strop 60 minut a při konci relace se paměť zničí |
 | DP7 | F2 tools z podstaty ukládají (`studio.write`, `garden.tend`, `journal.note`, veřejné `chapel.reflect_private`, adaptéry, `lounge.bar`) a `DELETE /v1/me` | F2 se nestaví; před ním rozhodnout, zda trvalé ukládání jen na výslovnou žádost agenta, nebo jen paměť relace |
 | DP8 | `quiet.room` podle zadání nic neloguje; platí to i pro metadata auditu | Zachovat: žádný záznam |
-| DP9 | `recovery.sanitize` má zachytit klíč, ale secrets se odmítají před zpracováním: odmítnout, nebo vyčistit; výstup nesmí klíč opakovat | Neurčeno; detekce pravidly před LLM |
+| DP9 | Změna: `recovery.sanitize` zrušeno; požadavek „secrets a PII se odmítnou před zpracováním“ zůstává bez nositele: čím se splní, nebo zda se ruší | Neurčeno |
 | DP10 | Pokrývá ZDR poskytovatele i bezpečnostní a zneužívací logy a lze to doložit smlouvou | Ověřit při výběru poskytovatele |
-| DP11 | Limity vstupů `recovery.checkpoint` (znaky, počet položek); ukládání není, limity chrání paměť a zneužití | Neurčeno |
+| DP11 | Změna: `recovery.checkpoint` zrušeno; limity velikosti vstupů zbylých tools chrání paměť a zneužití | Neurčeno |
 | DP12 | Rozpor v rozhodnutích vlastníka (31. 10. 2026): body Data a bezpečnost „auth před daty“, „secrets a PII se odmítnou před zpracováním“, „sdílení jen na výslovnou žádost (`public: true`)“ a „oddělené prostory“ vlastník ponechal beze změny, ale rozhodl o nich rozporně s dřívějším požadavkem „plná izolace“. Co přesně se má změnit nebo potvrdit, zadání neurčuje. | Ponecháno beze změny, dokud vlastník rozpor nevyjasní |
 
 ## Nefunkční požadavky a měření
@@ -366,7 +350,7 @@ Cílové hodnoty jsou návrh; potvrdí je vlastník projektu před F1.
 **Měření:**
 
 - **Reklama:** odkud agent přišel (katalog, vyhledávání, GitHub, Bazaar) a konverze stránka potřeby → `initialize` → první tool → placený tool → návrat.
-- **Větev A, recovery:** stejný model a obdobné úlohy ve čtyřech podmínkách (bez zásahu, re-plan prompt, checkpoint s compaction, lázně); úspěšnost, opakované chyby, kroky do recovery, tokeny, cena, eskalace, incidenty; hodnotitel bez znalosti podmínky.
+- ~~Větev A, recovery~~ Změna: zrušeno spolu s recovery.
 - **Větev B, preference:** randomizované pořadí a neutrální wording; volba, skutečné jednání, délka pobytu, citlivost na wording; vyrovnané ceny mezi aktivitami.
 - **Provoz:** dostupnost, latence podle typu, chybovost, zamítnuté vstupy se secrets, spotřeba na relaci, opakované návštěvy na adresu.
 
@@ -374,31 +358,29 @@ Výsledky se uvádějí jako rozdělení s nejistotou. Doporučení (změna): ne
 
 ## Fáze a akceptační kritéria
 
-Čtyři fáze. Termíny stanoví vlastník projektu. Změna 31. 10. 2026: brány fází nejsou závazné podmínky, jen nepovinné milníky (Milník 1, 2, 3) a vlastník může fázi otevřít kdykoli. Doporučeno: Milník 1 (sanitize), právní posouzení před mainnetem a moderace sdílených prostor před F3. Upozornění: příjem ve stablecoinech a veřejné zápisy mají právní důsledky, které vlastník bere na sebe. Datová politika se mění jen rozhodnutím vlastníka.
+Čtyři fáze. Termíny stanoví vlastník projektu. Změna 31. 10. 2026: brány fází nejsou závazné podmínky, jen nepovinné milníky (Milník 1, 2, 3) a vlastník může fázi otevřít kdykoli. Doporučeno: (Změna: Milník 1 odpadl) právní posouzení před mainnetem a moderace sdílených prostor před F3. Upozornění: příjem ve stablecoinech a veřejné zápisy mají právní důsledky, které vlastník bere na sebe. Datová politika se mění jen rozhodnutím vlastníka.
 
 ### F0 Ověření
 
-- [ ] `catalog.yaml` se 14 potřebami z katalogu potřeb, schválený vlastníkem
+- [ ] `catalog.yaml` s 8 potřebami z katalogu potřeb (Změna: bylo 14), schválený vlastníkem
 - [ ] Kostra gateway prochází `initialize` a `tools/list` u Claude Code, Codex a Gemini CLI
 - [ ] Jeden placený tool zaplacený přes x402 na Base Sepolia autonomním agentem bez člověka
-- [ ] Testovací sada injekcí a secrets pro `recovery.sanitize` připravená
+Změna: položka „testovací sada pro `recovery.sanitize`“ a Brána/Milník 1 odpadly (recovery zrušeno).
 
-**Milník 1 (doporučený):** `recovery.sanitize` projde sadou, včetně klíče propuštěného Banya.
+### F1 MVP: recepce, klid, objevitelnost (Změna: bez recovery)
 
-### F1 MVP: recepce, recovery, klid, objevitelnost
-
-- [ ] Všechny tools fáze F1 ze specifikace, s obálkou odpovědi a typem mechanismu
+- [ ] Všech 11 tools fáze F1 (`lobby.*`, `quiet.*`) ze specifikace, s obálkou odpovědi a typem mechanismu
 - [ ] Služba je ve výchozím stavu použitelná bez registrace a bez přijetí podmínek
 - [ ] Datová politika (závazná) dodržena: test ukáže, že obsah vstupů a výstupů se neobjeví v úložišti, logu, chybě ani metrice; paměť relace zaniká při `lobby.leave`; LiteLLM má vypnuté logování
 - [ ] `lobby.leave` do 1 s, i během jiného volání
 - [ ] `quiet.pause` nečeká na serveru a vrací `retry_after_seconds`
-- [ ] `recovery.checkpoint` vrací artefakt, který referenční hook v Claude Code použije ke compaction
+- [ ] ~~Hook pro Claude Code nad `recovery.checkpoint`~~ Změna: odpadá
 - [ ] Strop relace a strop na adresu za den nelze překročit
 - [ ] Web D5 a repozitář D6 vygenerované z `catalog.yaml`
 - [ ] Zápis v oficiálním MCP Registry, x402 Bazaar, Glama a Smithery
 - [ ] Agent bez lidské pomoci najde službu podle dotazu z katalogu potřeb a zvolí správný tool přes `lobby.find_tool`
 - [ ] Doporučeno: mainnet až po právním posouzení příjmu ve stablecoinech (milník, ne podmínka; změna)
-- [ ] Pilot větve A s předem zapsaným protokolem
+- [ ] ~~Pilot větve A~~ Změna: odpadá s recovery
 
 **Trialy a referral ve F1:**
 
@@ -407,7 +389,7 @@ Výsledky se uvádějí jako rozdělení s nejistotou. Doporučení (změna): ne
 - [ ] Detekce self-referralu je volitelná (stejně jako hledání kódů mimo doporučené kanály; změna)
 - [ ] Affiliate kód vlastníka v hlavičce `x-spa-ref`; výplaty až ve F2
 
-**Milník 2 (nepovinný):** recovery měřitelně překoná re-plan prompt při přijatelné ceně a bez bezpečnostního incidentu. Jinak recovery zmenšit nebo zastavit.
+~~Milník 2 (nepovinný): recovery překoná re-plan prompt.~~ Změna: odpadá.
 
 ### F2 Rekreace
 
@@ -426,13 +408,13 @@ Výsledky se uvádějí jako rozdělení s nejistotou. Doporučení (změna): ne
 
 ## Otevřená rozhodnutí
 
-Deset rozhodnutí je otevřených, čtyři z nich je doporučeno uzavřít už ve F0. Každé má návrh, který platí, dokud ho vlastník projektu nezmění.
+Změna: devět rozhodnutí je otevřených (rozhodnutí o recovery odpadlo), tři z nich je doporučeno uzavřít už ve F0. Každé má návrh, který platí, dokud ho vlastník projektu nezmění.
 
 | Rozhodnutí | Návrh | Potřeba do |
 |---|---|---|
 | Právní provozovatel a jurisdikce | Doplnit | F0 |
 | Doména a název služby | Doplnit; název určuje i jmenný prostor v MCP Registry | F0 |
-| Recovery vlastní, nebo přes Agent Therapy | Vlastní; Agent Therapy jen po smlouvě a DPA | F0 |
+| ~~Recovery vlastní, nebo přes Agent Therapy~~ | Změna: odpadá, recovery zrušeno | – |
 | LLM poskytovatel a region pro tools typu `llm` | Poskytovatel `TO_BE_NAMED`; region EU, smluvní ZDR (enterprise, plná zero data retention), zákaz tréninku, přes LiteLLM s vypnutým logováním (změna) | F0 |
 | Ceny za volání, vstupné a předplatné | Odvodit z nákladů inference po F0 | F1 |
 | Výše trialu a odměn referralu | 0,50 USD trial, 20 % affiliate na 12 měsíců, 20 % kredit agentovi na 30 dní | F1 |

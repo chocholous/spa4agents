@@ -38,11 +38,11 @@ Zdroj: `docs/zadani.md`, sekce "Datová politika (závazná)" (rozhodnutí vlast
 Co musí implementace dodržet:
 - **Logování jen metadata.** Audit 90 dní, pole (návrh): čas UTC, tool a mechanismus, cena a model platby, výsledek (ok, kód chyby, timeout, zrušeno, odmítnutý vstup s kódem důvodu bez odmítnutého textu), hash platební adresy (pseudonym, ne anonymizace), náhodné id relace, velikosti vstupu a výstupu a doba trvání. Nikdy obsah, guest pass, hlavičky ani IP (DP1). `quiet.room` nic neloguje (DP8).
 - **Redakce.** Chyby (včetně validační zprávy Ajv, výjimek, `stderr`, `unhandledRejection`), trasy a metriky neobsahují vstup ani výstup. Chybové kódy a obecné zprávy, nikdy text z vstupu. Logger přes jednu funkci s whitelistem polí.
-- **Žádný persistentní obsah.** Vstupy a výstupy tools se nezapisují do DB, souboru, fronty ani cache. `recovery.checkpoint` artefakt vyrobí, vrátí v odpovědi a nic neuloží; typ mechanismu je `text`.
+- **Žádný persistentní obsah.** Vstupy a výstupy tools se nezapisují do DB, souboru, fronty ani cache. Žádný tool nic z odpovědi neukládá. Změna: recovery nástroje (včetně `recovery.checkpoint`) byly vyřazeny rozhodnutím vlastníka.
 - **Izolace.** Tři oddělené prostory úložiště (pracovní, rekreační, veřejný), žádné čtení napříč; žádné sdílení mezi relacemi, agenty a adresami; klíče a mapy vždy v rozsahu jedné relace.
 - **Paměť relace.** Žije jen v procesu, zničí se při `lobby.leave`, na konci relace (strop minut, zavření MCP session) a po idle TTL; po zničení se z `Map` odstraní (ne jen `closed = true`).
-- **Timeouty a stropy paměti.** Idle TTL a maximální velikost paměti relace (hodnoty neurčeny, DP6), limity vstupu checkpointu (DP11), limit těla požadavku.
-- **Secrets a PII** se odmítnou před zpracováním, tedy před voláním LLM; pravidlová detekce nesmí nalezený text vracet ani logovat (DP9).
+- **Timeouty a stropy paměti.** Idle TTL a maximální velikost paměti relace (hodnoty neurčeny, DP6), limity velikosti vstupu (DP11), limit těla požadavku.
+- **Secrets a PII** se odmítnou před zpracováním, tedy před voláním LLM; pravidlová detekce nesmí nalezený text vracet ani logovat (DP9). Změna: bezpečnostní sada `sanitize` je vyřazena z rozsahu MVP (recovery zrušeno rozhodnutím vlastníka), takže pravidlová detekce v MVP není; viz otevřená otázka v `gateway/OPEN_QUESTIONS.md`.
 - **LLM jen přes LiteLLM proxy** s vypnutým logováním požadavků a odpovědí (včetně DB logování, callbacků a nástrojů třetích stran); do požadavku neposílat adresu ani jiný identifikátor uživatele. Poskytovatel je `TO_BE_NAMED`; smluvní ZDR, EU, bez trénování.
 - **Žádní další zpracovatelé** a žádná analytika.
 - **x402:** výzva v MCP je ve `structuredContent` výsledku s `isError: true`, ne v `_meta` (`spikes/x402/FINDINGS.md`).
@@ -55,5 +55,4 @@ Místa v kódu, kde je dnes nesoulad (nic jsem neměnil):
 - `src/index.ts`, `src/server.ts`: chybí process-level handler `uncaughtException`/`unhandledRejection` s redakcí (výchozí výpis Node může obsahovat text výjimky se vstupem). `server.ts` `readJson` nemá redakci chyb parsování (chyba se zahazuje, to je v pořádku) a limit 1 MB je jen u těla.
 - `src/llm.ts`: klient posílá celé `messages` na `LITELLM_BASE_URL`; logování vypnout na straně proxy (provozní požadavek, v kódu nelze ověřit). Chybová zpráva `LLM backend returned HTTP n` neobsahuje tělo, tak ponechat.
 - `src/payments.ts` (ř. 7, 28) a `src/server.ts` (ř. ~50): výzva v `_meta["x402/payment-required"]`, podle spiku má být `structuredContent` s `isError: true`. Hlavičky s platebním podpisem (`PAYMENT-SIGNATURE`) se nesmí logovat.
-- `lobby.checkin` a `catalog` `recovery.checkpoint`: katalog už má mechanismus `text`; stub handler pro checkpoint zatím není.
 - Hosting: reverzní proxy a platforma před serverem (README předpokládá TLS před ním) mají vlastní přístupové logy; ověřit před slibem v datové politice.

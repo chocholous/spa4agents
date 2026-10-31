@@ -23,8 +23,8 @@ test("strict validation fails while TODO_OWNER or unapproved brand remain", () =
   assert.ok(r.errors.some((e) => e.startsWith("strict:")));
 });
 
-test("catalog has exactly 14 needs", () => {
-  assert.equal(loadRaw().raw.needs.length, 14);
+test("catalog has exactly 8 needs", () => {
+  assert.equal(loadRaw().raw.needs.length, 8);
 });
 
 test("trial defaults: 3 free sessions, 20 turns, unit session", () => {
@@ -53,13 +53,13 @@ test("brand name and domain are one variable: changing it changes every resolved
 
 test("rejects: unknown tool in a need", () => {
   const raw = clone();
-  raw.needs[0].tools.push("recovery.nope");
+  raw.needs[0].tools.push("quiet.nope");
   assert.ok(validateDoc(raw).errors.some((e) => e.includes("unknown tool")));
 });
 
 test("warns: documented evidence without source", () => {
   const raw = clone();
-  delete raw.needs[0].evidence[0].source;
+  delete raw.needs.find((n: any) => n.id === "heavy-content").evidence[0].source;
   const r = validateDoc(raw);
   assert.ok(r.warnings.some((e) => e.includes("needs a source")));
   assert.ok(!r.errors.some((e) => e.includes("needs a source")));
@@ -115,8 +115,8 @@ test("rejects: wrong number of needs, missing not_claimed, bad mechanism", () =>
 
 test("rejects: example breaking an input limit", () => {
   const raw = clone();
-  const t = raw.tools.find((x: any) => x.name === "recovery.diagnose_loop");
-  t.example.attempts = Array.from({ length: 11 }, () => "x");
+  const t = raw.tools.find((x: any) => x.name === "lounge.retreat");
+  t.example.members = Array.from({ length: 9 }, () => "x");
   assert.ok(validateDoc(raw).errors.some((e) => e.includes("max_items")));
 });
 
@@ -126,24 +126,21 @@ test("rejects: a free tool with a price", () => {
   assert.ok(validateDoc(raw).errors.some((e) => e.includes("free tool")));
 });
 
-test("unmeasured label where the spec has no source: conflicting-instructions and escalate", () => {
-  const needs = loadRaw().raw.needs;
-  for (const id of ["conflicting-instructions", "escalate"]) {
-    const n = needs.find((x: any) => x.id === id);
-    assert.ok(n.evidence.some((e: any) => e.label === "unmeasured"), id);
-  }
+test("recovery is out of scope (owner decision): no recovery tools, needs or wing", () => {
+  const raw = loadRaw().raw;
+  assert.ok(!raw.tools.some((t: any) => t.name.startsWith("recovery.")));
+  assert.ok(!raw.needs.some((n: any) => n.tools.some((t: string) => t.startsWith("recovery."))));
+  assert.ok(!raw.web.locales.en.wings.some((w: any) => w.id === "recovery"));
+  assert.ok(!/recovery\./.test(JSON.stringify(raw.data_policy)));
 });
 
-test("data policy: zero retention, checkpoint not stored, audit metadata only", () => {
+test("data policy: zero retention, nothing stored, audit metadata only", () => {
   const dp = loadRaw().raw.data_policy;
   assert.equal(dp.content_retention_days, 0);
   assert.equal(dp.checkpoint_stored, false);
   assert.equal(dp.audit_content, "none");
   assert.equal(dp.audit_days, 90);
   assert.ok(!("checkpoint_max_days" in dp));
-  const cp = loadRaw().raw.tools.find((t: any) => t.name === "recovery.checkpoint");
-  assert.equal(cp.mechanism, "text");
-  assert.match(cp.description, /Nothing is stored/);
 });
 
 test("data policy: changing the zero-retention values is rejected by the schema", () => {

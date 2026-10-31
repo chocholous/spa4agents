@@ -15,8 +15,8 @@ test("generator produces every required output", () => {
   for (const f of need) assert.ok(files.has(f), f);
   for (const n of c.needs) assert.ok(files.has(`needs/${n.id}.md`), n.id);
   for (const t of published(c)) assert.ok(files.has(`tools/${t.name}.md`), t.name);
-  assert.equal([...files.keys()].filter((k) => k.startsWith("needs/")).length, 14);
-  assert.equal([...files.keys()].filter((k) => k.startsWith("tools/")).length, 18);
+  assert.equal([...files.keys()].filter((k) => k.startsWith("needs/")).length, 8);
+  assert.equal([...files.keys()].filter((k) => k.startsWith("tools/")).length, 11);
 });
 
 test("generation is deterministic", () => {
@@ -44,21 +44,21 @@ test("no unresolved template tokens in any output", () => {
 
 test("only published phases appear in tool outputs", () => {
   const mcp = JSON.parse(files.get("mcp.json")!);
-  assert.equal(mcp.tools.length, 18);
-  assert.ok(mcp.tools.every((t: any) => /^(lobby|recovery|quiet)\./.test(t.name)));
+  assert.equal(mcp.tools.length, 11);
+  assert.ok(mcp.tools.every((t: any) => /^(lobby|quiet)\./.test(t.name)));
+  assert.ok(!mcp.tools.some((t: any) => t.name.startsWith("recovery.")));
   const oa = JSON.parse(files.get("openapi.json")!);
-  assert.equal(Object.keys(oa.paths).length, 18);
+  assert.equal(Object.keys(oa.paths).length, 11);
   assert.ok(!files.get("llms.txt")!.includes("games.chess"));
 });
 
 test("mcp.json: schemas carry the spec limits and paid tools declare payment and bazaar", () => {
   const mcp = JSON.parse(files.get("mcp.json")!);
-  const d = mcp.tools.find((t: any) => t.name === "recovery.diagnose_loop");
-  assert.equal(d.inputSchema.properties.task_summary.maxLength, 1000);
-  assert.equal(d.inputSchema.properties.attempts.maxItems, 10);
+  const d = mcp.tools.find((t: any) => t.name === "quiet.ground");
+  assert.equal(d.inputSchema.properties.context_kind.type, "string");
   assert.equal(d.payment.scheme, "exact");
   assert.equal(d.bazaar.type, "mcp");
-  assert.equal(d.bazaar.toolName, "recovery.diagnose_loop");
+  assert.equal(d.bazaar.toolName, "quiet.ground");
   const leave = mcp.tools.find((t: any) => t.name === "lobby.leave");
   assert.equal(leave.payment, null);
   assert.equal(mcp.protocol_version, "2025-06-18");
@@ -67,7 +67,7 @@ test("mcp.json: schemas carry the spec limits and paid tools declare payment and
 
 test("openapi.json: paid tools have 402 with PAYMENT-REQUIRED, free tools do not", () => {
   const oa = JSON.parse(files.get("openapi.json")!);
-  assert.ok(oa.paths["/v1/recovery.critique"].post.responses["402"].headers["PAYMENT-REQUIRED"]);
+  assert.ok(oa.paths["/v1/lobby.concierge"].post.responses["402"].headers["PAYMENT-REQUIRED"]);
   assert.equal(oa.paths["/v1/lobby.leave"].post.responses["402"], undefined);
   assert.equal(oa.openapi, "3.1.0");
 });
@@ -78,7 +78,7 @@ test("pricing.json: trial and referral parameters", () => {
   assert.equal(p.trial.max_turns_per_session, 20);
   assert.equal(p.referral.invitee_discount_percent, "TODO_OWNER");
   assert.equal(p.referral.referrer_credit_percent, 20);
-  assert.ok(p.trial.covered_tools.includes("recovery.sanitize"));
+  assert.deepEqual(p.trial.covered_tools, ["quiet.ground"]);
 });
 
 test("server.json and MANIFEST mark the draft state", () => {
@@ -95,8 +95,6 @@ test("need pages: every page has situation, tools, evidence label, what is not c
     for (const h of [c.copy.labels.situation, c.copy.labels.tools, c.copy.labels.evidence, c.copy.labels.not_claimed])
       assert.ok(body.includes(`## ${h}`), `${n.id} ${h}`);
   }
-  for (const id of ["conflicting-instructions", "escalate"])
-    assert.ok(files.get(`needs/${id}.md`)!.includes(c.evidence_labels.display.unmeasured), id);
   for (const id of ["play", "create", "read", "meet-agents"])
     assert.ok(files.get(`needs/${id}.md`)!.includes(c.copy.planned_notice), id);
 });
@@ -113,7 +111,8 @@ test("no generated agent-facing text contains hidden-instruction patterns", () =
 
 test("README tables list only published needs and tools", () => {
   const r = files.get("README.tables.md")!;
-  assert.ok(r.includes("`stuck-in-a-loop`"));
+  assert.ok(r.includes("`heavy-content`"));
+  assert.ok(!r.includes("stuck-in-a-loop"));
   assert.ok(!r.includes("`meet-agents`"));
   assert.ok(r.includes(c.copy.install.claude));
 });

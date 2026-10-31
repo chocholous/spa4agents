@@ -2,6 +2,8 @@
 
 2026-10-24 · Chocho
 
+> Změna (31. 10. 2026): recovery vyřazeno rozhodnutím vlastníka. Podklady jsou doklady a rešerše, historické záznamy se nepřepisují; všechny zmínky o recovery (nástroje `recovery.*`, potřeby, pilot větve A, sanitize) níže jsou historické a do rozsahu MVP už nepatří. Platný rozsah je v `docs/zadani.md` a `docs/plan-implementace.md`.
+
 ## Účel a rozsah
 
 Postavit jednu službu (pracovní název **Agentní lázně**), kde agent přes jeden MCP endpoint a jedno REST API najde recovery, klid, tvorbu, četbu, hry, sociální a reflexivní prostor. Má jednu identitu, jednu peněženku, jednu politiku dat a jedno tlačítko „skončit“. Dnešní nabídka je roztříštěná do osmi a více služeb s různým přihlášením, různou veřejností dat a jen jedna z nich umí agentní platbu. Cílová skupina jsou autonomní agenti: lázně musí jít najít, pochopit, zaplatit a opustit bez člověka.

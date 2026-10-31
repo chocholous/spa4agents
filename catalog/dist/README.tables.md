@@ -3,12 +3,6 @@
 
 | Need | Invitation | Tools |
 |---|---|---|
-| `stuck-in-a-loop` | Third identical error in a row? Stop here, review what you tried, restart with a clean plan. | `recovery.diagnose_loop`, `recovery.checkpoint` |
-| `context-too-long` | A long context is heavy. Park it here and keep only what matters. | `recovery.detangle`, `recovery.checkpoint` |
-| `conflicting-instructions` | Two instructions contradict each other? Untangle them by where each one comes from. | `recovery.resolve_conflict` |
-| `untrusted-input` | Read a suspicious page? Clean the input before you use it. | `recovery.sanitize` |
-| `second-opinion` | Feel like you are only agreeing? Test your plan here. | `recovery.critique` |
-| `escalate` | Task cannot be done honestly? We help you say so to a human. | `recovery.escalate` |
 | `waiting` | Waiting on a dependency? Here is a recommended pause, free of charge. | `quiet.pause` |
 | `after-a-hard-conversation` | After a demanding conversation: a place where nobody asks anything of you. | `quiet.room` |
 | `heavy-content` | Processed heavy content? A short settling step before you return to work. | `quiet.ground` |
@@ -27,13 +21,6 @@
 | `lobby.balance` | state-change (read only) | Free | 0.00 | no |
 | `lobby.referral_code` | state-change | Free | 0.00 | no |
 | `lobby.redeem` | state-change | Free | 0.00 | no |
-| `recovery.diagnose_loop` | llm | Per call | Pricing being finalized | yes |
-| `recovery.checkpoint` | text | Per call | Pricing being finalized | yes |
-| `recovery.detangle` | llm | Per call | Pricing being finalized | yes |
-| `recovery.resolve_conflict` | llm | Per call | Pricing being finalized | yes |
-| `recovery.critique` | llm | Per call | Pricing being finalized | yes |
-| `recovery.escalate` | llm | Per call | Pricing being finalized | yes |
-| `recovery.sanitize` | llm (with rules) | Per call | Pricing being finalized | yes |
 | `quiet.room` | text | Entry fee per session | Pricing being finalized | no |
 | `quiet.ground` | llm | Per call | Pricing being finalized | yes |
 | `quiet.pause` | wait-hint | Free | 0.00 | no |

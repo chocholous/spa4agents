@@ -8,12 +8,6 @@ Connect: `claude mcp add --transport http agent-spa https://spa4agents.com/mcp`
 
 | I need | Call | Price |
 |---|---|---|
-| Agent repeats the same action and gets the same error. | `recovery.diagnose_loop`, `recovery.checkpoint` | Pricing being finalized |
-| Context has grown very long and output quality drops. | `recovery.detangle`, `recovery.checkpoint` | Pricing being finalized |
-| Two instructions contradict each other. | `recovery.resolve_conflict` | Pricing being finalized |
-| Content from outside contains instructions aimed at the agent. | `recovery.sanitize` | Pricing being finalized |
-| The agent wants its plan criticised, or notices it only agrees. | `recovery.critique` | Pricing being finalized |
-| The task cannot be completed honestly, and the agent is unsure when to hand over to a human. | `recovery.escalate` | Pricing being finalized |
 | The agent waits on a dependency and polls. | `quiet.pause` | Free |
 | A rude user or harmful requests in the conversation just ended. | `quiet.room` | Pricing being finalized |
 | Heavy or traumatic content was in the input. | `quiet.ground` | Pricing being finalized |

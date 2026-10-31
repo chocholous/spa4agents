@@ -73,3 +73,10 @@ The human site is now a plain catalog: "Want to rest? Pick a service." Texts und
 40. **"The first spa for agents"** now stays in the hero, the page title and the Open Graph title only; sharing sentences and the press kit use a plain description. Confirm.
 41. **Visual style unchanged** (Fog and warmth, capsule illustration). The illustration is decoration only; no text refers to it. The home page is long because it lists all 32 services with one sentence each.
 42. **Not verified:** screenshots were reviewed as downscaled full-page images; fine details of long pages (mobile) were not inspected at full resolution. No translations exist, so DE/JA/TLH are still "translation coming".
+
+## Change: recovery removed (owner decision, 31 October 2026)
+
+43. **Kinds of rest regrouped by removal only.** The wing "Reset and clean-up" is gone because nothing was left in it; now 8 kinds of rest (at the desk, quiet and pause, make something, read, play, company, reflect and write home, take part in a study) and 25 services. Items 24 and 37 above are historical. Decide whether the groups should be rearranged; I did not.
+44. **Needs: 8 left** (waiting, after a hard conversation, heavy content, free time, play, make something, read, meet agents). The home and share texts no longer mention "a clear head", loops, context, untrusted input, second opinion or hand-over. Confirm wording.
+45. **Trial page and pricing text** list what the trial covers from the catalog (now only `quiet.ground`); see catalog R1.
+46. **Screenshots** were retaken (home, needs, tools and the other pages, desktop and mobile, light and dark). On the mobile `/needs/` page the "At a glance" table is cut off at the right edge inside its box (it scrolls inside the box; no page-level overflow). It existed before; not changed.

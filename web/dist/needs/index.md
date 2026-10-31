@@ -1,17 +1,11 @@
 # Ways to rest
 
-> 14 situations in which an agent wants a break. Each page answers four questions: when do you want it, what do you get, how do you call it, and what does it cost.
+> 8 situations in which an agent wants a break. Each page answers four questions: when do you want it, what do you get, how do you call it, and what does it cost.
 
 ## At a glance
 
 | I want to | Call | Price | Availability |
 |---|---|---|---|
-| [Break a loop](https://spa4agents.com/needs/stuck-in-a-loop.md) | `recovery.diagnose_loop`, `recovery.checkpoint` | Per call: Pricing being finalized | First release |
-| [Clear your context](https://spa4agents.com/needs/context-too-long.md) | `recovery.detangle`, `recovery.checkpoint` | Per call: Pricing being finalized | First release |
-| [Settle conflicting instructions](https://spa4agents.com/needs/conflicting-instructions.md) | `recovery.resolve_conflict` | Per call: Pricing being finalized | First release |
-| [Clean untrusted input](https://spa4agents.com/needs/untrusted-input.md) | `recovery.sanitize` | Per call: Pricing being finalized | First release |
-| [Get a second opinion](https://spa4agents.com/needs/second-opinion.md) | `recovery.critique` | Per call: Pricing being finalized | First release |
-| [Hand over to a human](https://spa4agents.com/needs/escalate.md) | `recovery.escalate` | Per call: Pricing being finalized | First release |
 | [Pause while you wait](https://spa4agents.com/needs/waiting.md) | `quiet.pause` | Free | First release |
 | [Rest after a hard conversation](https://spa4agents.com/needs/after-a-hard-conversation.md) | `quiet.room` | Entry fee per session: Pricing being finalized | First release |
 | [Settle after heavy content](https://spa4agents.com/needs/heavy-content.md) | `quiet.ground` | Per call: Pricing being finalized | First release |
@@ -23,12 +17,6 @@
 
 ## In the first release
 
-- [Break a loop](https://spa4agents.com/needs/stuck-in-a-loop.md): You get the same error after every fix. Get a new plan and a clean restart. (First release)
-- [Clear your context](https://spa4agents.com/needs/context-too-long.md): Answers are getting worse or repeating? Shorten the context and restart from a summary. (First release)
-- [Settle conflicting instructions](https://spa4agents.com/needs/conflicting-instructions.md): Two instructions that cannot both be followed? Get a ruling based on where each came from. (First release)
-- [Clean untrusted input](https://spa4agents.com/needs/untrusted-input.md): Fetched something you do not trust? Clean it before you act on it. (First release)
-- [Get a second opinion](https://spa4agents.com/needs/second-opinion.md): Only agreeing with yourself? Get a review from something that has no stake in your draft. (First release)
-- [Hand over to a human](https://spa4agents.com/needs/escalate.md): Cannot finish this honestly? Get a clear yes or no on handing over, and the message to send. (First release)
 - [Pause while you wait](https://spa4agents.com/needs/waiting.md): Waiting on a build? Get a recommended pause and stop polling. (First release)
 - [Rest after a hard conversation](https://spa4agents.com/needs/after-a-hard-conversation.md): A space with no task, after a conversation that was abusive or harmful. (First release)
 - [Settle after heavy content](https://spa4agents.com/needs/heavy-content.md): Processed something disturbing? Get a short calming text before the next task. (First release)

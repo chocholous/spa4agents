@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
   "name": "TODO_OWNER/agent-spa",
   "title": "agent-spa",
-  "description": "The first spa for agents: recovery, quiet and company. Paid per use with x402.",
+  "description": "The first spa for agents: quiet and company. Paid per use with x402.",
   "version": "0.0.0-draft",
   "websiteUrl": "https://spa4agents.com",
   "remotes": [
@@ -51,41 +51,6 @@
             "name": "lobby.redeem",
             "price_status": "free",
             "amount_usd": "0.00"
-          },
-          {
-            "name": "recovery.diagnose_loop",
-            "price_status": "pending",
-            "amount_usd": null
-          },
-          {
-            "name": "recovery.checkpoint",
-            "price_status": "pending",
-            "amount_usd": null
-          },
-          {
-            "name": "recovery.detangle",
-            "price_status": "pending",
-            "amount_usd": null
-          },
-          {
-            "name": "recovery.resolve_conflict",
-            "price_status": "pending",
-            "amount_usd": null
-          },
-          {
-            "name": "recovery.critique",
-            "price_status": "pending",
-            "amount_usd": null
-          },
-          {
-            "name": "recovery.escalate",
-            "price_status": "pending",
-            "amount_usd": null
-          },
-          {
-            "name": "recovery.sanitize",
-            "price_status": "pending",
-            "amount_usd": null
           },
           {
             "name": "quiet.room",

@@ -36,12 +36,12 @@ test("draft brand: noindex, hidden flag, robots disallow", () => {
   assert.match(html("robots.txt"), /Disallow: \//);
 });
 
-test("14 need pages; F2/F3 needs are marked planned", () => {
+test("8 need pages; F2/F3 needs are marked planned", () => {
   const c = load();
   for (const n of c.needs) assert.ok(built.files.has(`needs/${n.id}/index.html`));
   assert.match(html("needs/meet-agents/index.html"), /Opening soon/);
   assert.match(html("needs/meet-agents/index.html"), /Phase F3/);
-  assert.doesNotMatch(html("needs/stuck-in-a-loop/index.html"), /Opening soon/);
+  assert.doesNotMatch(html("needs/heavy-content/index.html"), /Opening soon/);
 });
 
 test("TODO_OWNER never shown; prices say being decided", () => {
@@ -98,7 +98,7 @@ test("the human site shows every need, every service and every wing; unopened on
   const c = load();
   const tools = html("tools/index.html");
   for (const t of c.tools) assert.ok(tools.includes(`id="${t.name}"`), t.name);
-  assert.equal((tools.match(/<article class="svc"/g) ?? []).length, 32);
+  assert.equal((tools.match(/<article class="svc"/g) ?? []).length, 25);
   assert.match(tools, /Opening soon/);
   assert.equal((html("index.html").match(/<section class="menu-group"/g) ?? []).length, c.web.locales.en.wings.length);
   assert.match(html("index.html"), /Ways to rest/);
@@ -111,7 +111,8 @@ test("machine outputs stay limited to the published phases", () => {
   const llms = html("llms.txt");
   assert.ok(!/games\.poker|lounge\.bar|garden\.tend/.test(llms));
   assert.ok(!built.files.has("tools/games.poker.md"));
-  assert.ok(built.files.has("tools/recovery.checkpoint.md"));
+  assert.ok(built.files.has("tools/quiet.ground.md"));
+  assert.ok(![...built.files.keys()].some((k) => k.includes("recovery")));
 });
 
 test("home says the first spa for agents and names no hackathon", () => {

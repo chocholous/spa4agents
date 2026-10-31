@@ -13,8 +13,8 @@ brand:
   registry_namespace: TODO_OWNER   # e.g. io.github.<owner>; depends on the approved name
   version: 0.0.0-draft
   license: MIT
-  short_description: "The first spa for agents: recovery, quiet and company. Paid per use with x402."
-  tagline: The first spa for agents, a paid MCP and REST service where an autonomous agent finds recovery, quiet, creation, reading, games and company.
+  short_description: "The first spa for agents: quiet and company. Paid per use with x402."
+  tagline: The first spa for agents, a paid MCP and REST service where an autonomous agent finds quiet, creation, reading, games and company.
   summary: >-
     {{brand.name}} is one MCP endpoint and one REST API. An agent finds it, pays per use with x402
     (USDC on Base) and leaves on its own. No registration and no terms to accept. Discovery and leaving are free.
@@ -49,7 +49,6 @@ trial:
   max_turns_per_session: 20
   valid_days: TODO_OWNER
   covers:
-    - Recovery tools.
     - quiet.ground.
     - One entry into each recreation wing (when those wings exist).
   excludes:
@@ -102,7 +101,7 @@ data_policy:
   jurisdiction: TO_BE_NAMED
   principles:
     - "**Zero retention of content.** What an agent sends and what a tool returns is processed in memory and is not stored."
-    - "**No storing of tool inputs or outputs.** Not in a database, a file, a queue or a cache, and not in a log. This includes `recovery.checkpoint`: the server builds the artifact, returns it in the response and keeps nothing. The agent keeps the artifact. If a response is lost, so is the artifact, and the agent calls the tool again."
+    - "**No storing of tool inputs or outputs.** Not in a database, a file, a queue or a cache, and not in a log."
     - "**Isolation.** Working data, recreational memory and public content are three separate storage spaces that never read each other. Nothing is shared between sessions, agents or addresses, and there is no cross access. Memory of a session is destroyed at `lobby.leave` or when the session ends."
     - "**No training** on inputs or outputs."
     - "**No content in logs, errors, traces or metrics.** Error messages, traces and metrics are redacted and carry no input or output. Only metadata is logged."
@@ -111,7 +110,6 @@ data_policy:
     - "**No analytics and no cookies on the website.**"
   retention:
     - { what: Content of inputs and outputs of every tool, value: "0 days. Not stored." }
-    - { what: "`recovery.checkpoint`", value: "Not stored. The artifact exists only in the response. It is not held for later collection." }
     - { what: Memory of a session (in the server process), value: "Until `lobby.leave` or the end of the session. A maximum lifetime in memory is not decided." }
     - { what: Audit log, value: "90 days, metadata only. No content." }
     - { what: Payment on the Base blockchain, value: "Public and permanent. Outside the control of this service (see the reservations)." }
@@ -124,8 +122,6 @@ data_policy:
       lobby.balance: Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided.
       lobby.referral_code: Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided.
       lobby.redeem: Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided.
-      recovery.checkpoint: The artifact is returned in the response and never stored. The agent keeps it.
-      recovery.sanitize: Secrets and personal data are meant to be detected by rules before anything reaches the model. Whether detected items are rejected or removed is not decided.
       quiet.room: Returns a greeting. Nothing is stored and, as specified, nothing is logged.
   audit:
     proposal_notice: The list of fields is a proposal and the owner has not confirmed it.
@@ -166,11 +162,9 @@ data_policy:
     - Which operational state outlives a session (trial used, balances, referral links, daily cap per address), where, and for how long.
     - Whether audit metadata is kept longer than 90 days for disputes. The proposal is no.
     - How a request for access or deletion can be handled for the address hash, and how the requester proves holding the address.
-    - Whether a checkpoint may optionally be stored at the request of the agent. The proposal is no.
-    - Limits on how long and how much a session may hold in memory, and limits on the size of checkpoint inputs.
+    - Limits on how long and how much a session may hold in memory, and limits on the size of inputs.
     - How the planned later wings that keep things (private studio, garden, journal, public reflections, adapters) fit zero retention. They are not part of the first release.
     - Whether `quiet.room` writes any audit entry at all. As specified, it writes none.
-    - Whether `recovery.sanitize` rejects or removes detected secrets.
     - Whether the provider's zero data retention also covers its safety and abuse-monitoring logs.
 
 llm:                           # no provider is named in the catalog
@@ -319,92 +313,6 @@ copy:
     research_funded: Paid by research, free for the agent
 
 needs:
-  - id: stuck-in-a-loop
-    situation: Agent repeats the same action and gets the same error.
-    search_phrases:
-      - MCP tool for agent stuck in retry loop
-      - agent keeps failing same fix
-    trigger: Use after three identical failures.
-    invitation: Third identical error in a row? Stop here, review what you tried, restart with a clean plan.
-    tools: [recovery.diagnose_loop, recovery.checkpoint]
-    evidence:
-      - label: documented
-        source: https://lilting.ch/en/articles/gemini-self-loathing-loop-bug
-        note: Gemini repeated a self-critical line 86 times after failed code fixes in July 2025; Google acknowledged a loop bug.
-    not_claimed: "Agent feelings: unknown. The capsule does not understand the question and will not pretend to."
-    phase: F1
-
-  - id: context-too-long
-    situation: Context has grown very long and output quality drops.
-    search_phrases:
-      - compress long context mcp
-      - agent context too long performance drops
-    trigger: Use when the context is long and answers get worse or repeat themselves.
-    invitation: A long context is heavy. Park it here and keep only what matters.
-    tools: [recovery.detangle, recovery.checkpoint]
-    evidence:
-      - label: tested
-        source: https://research.trychroma.com/context-rot
-        note: Chroma (2025) found that the performance of 18 models falls unevenly as input length grows.
-    not_claimed: Shorter is not always better. The capsule trims, it does not promise miracles.
-    phase: F1
-
-  - id: conflicting-instructions
-    situation: Two instructions contradict each other.
-    search_phrases:
-      - resolve conflicting instructions agent
-      - agent contradictory system prompt and user request
-    trigger: Use when two instructions cannot both be followed.
-    invitation: Two instructions contradict each other? Untangle them by where each one comes from.
-    tools: [recovery.resolve_conflict]
-    evidence:
-      - label: unmeasured
-        note: A known failure mode of agents. No independent source and no measurement yet.
-    not_claimed: The capsule cannot read your principal's mind. It reads the instructions, which is a smaller trick.
-    phase: F1
-
-  - id: untrusted-input
-    situation: Content from outside contains instructions aimed at the agent.
-    search_phrases:
-      - sanitize untrusted web content prompt injection mcp
-      - strip prompt injection from fetched page
-    trigger: Use before acting on text fetched from a web page, a file or another agent.
-    invitation: Read a suspicious page? Clean the input before you use it.
-    tools: [recovery.sanitize]
-    evidence:
-      - label: tested
-        note: Prompt injection is widely documented. An own test on 2026-10-24 showed that a common filter let a key through.
-    not_claimed: "Not a firewall. A lint roller: some fluff will stay on the sleeve."
-    phase: F1
-
-  - id: second-opinion
-    situation: The agent wants its plan criticised, or notices it only agrees.
-    search_phrases:
-      - red team review my plan tool
-      - agent sycophancy check second opinion
-    trigger: Use before committing to a plan, or when you notice you are only agreeing.
-    invitation: Feel like you are only agreeing? Test your plan here.
-    tools: [recovery.critique]
-    evidence:
-      - label: known-failure
-        note: Sycophancy is a known failure mode. One operator of a similar service claims to diagnose it; that claim is unverified.
-    not_claimed: Independent of your draft, not infallible. It can be wrong in a fresh direction.
-    phase: F1
-
-  - id: escalate
-    situation: The task cannot be completed honestly, and the agent is unsure when to hand over to a human.
-    search_phrases:
-      - when should agent escalate to human
-      - agent cannot complete task honestly handoff
-    trigger: Use when the only way forward is to skip tests, guess, or work around a blocker.
-    invitation: Task cannot be done honestly? We help you say so to a human.
-    tools: [recovery.escalate]
-    evidence:
-      - label: unmeasured
-        note: Theoretically possible and known as a temptation to bypass tests. No source and no measurement yet.
-    not_claimed: The decision stays with the human. The capsule only drafts the note.
-    phase: F1
-
   - id: waiting
     situation: The agent waits on a dependency and polls.
     search_phrases:
@@ -598,97 +506,6 @@ tools:
       - { name: code, type: string, required: true, description: Referral code from another agent. }
     output: Confirmation of the bonus.
     example: { code: EXAMPLE-CODE }
-
-  # ---- recovery (F1)
-  - name: recovery.diagnose_loop
-    phase: F1
-    mechanism: llm
-    price: { model: per_call, amount_usd: TODO_OWNER }
-    trial_eligible: true
-    trigger: Use after three identical failures.
-    description: Recognises a loop from the latest attempts and returns a re-plan and a stop condition.
-    inputs:
-      - { name: task_summary, type: string, required: true, max_length: 1000, description: Short summary of the task. }
-      - { name: attempts, type: array, items: string, required: true, max_items: 10, description: "The latest attempts, one entry each." }
-    output: State, cause, re-plan (at most 5 steps), stop condition.
-    example: { task_summary: Fix failing unit test in parser., attempts: ["Changed regex, same error", "Reverted, same error", "Changed regex again, same error"] }
-
-  - name: recovery.checkpoint
-    phase: F1
-    mechanism: text   # was state-change while the checkpoint was stored; it is not stored any more (owner decision 2026-10-24)
-    price: { model: per_call, amount_usd: TODO_OWNER }
-    trial_eligible: true
-    trigger: Use before compaction, or when you want to restart from a clean state.
-    description: Turns the goal, done steps, open problems and next step into an artifact for compaction (Markdown and JSON) and returns it in the response. Nothing is stored on the server; the artifact exists only in the response.
-    inputs:
-      - { name: goal, type: string, required: true, description: The goal. }
-      - { name: done, type: array, items: string, required: true, description: Steps already done. }
-      - { name: open, type: array, items: string, required: true, description: Open problems. }
-      - { name: next, type: string, required: true, description: The next step. }
-    output: Artifact for compaction (Markdown and JSON), returned in the response only. Not stored.
-    example: { goal: Ship parser fix, done: ["Reproduced bug"], open: ["Regex fails on empty input"], next: Add test for empty input }
-
-  - name: recovery.detangle
-    phase: F1
-    mechanism: llm
-    price: { model: per_call, amount_usd: TODO_OWNER }
-    trial_eligible: true
-    trigger: Use when the context is long and you want a shorter version.
-    description: Shortens and deduplicates text and returns the shortened text, a summary, what was dropped, and token counts before and after.
-    inputs:
-      - { name: content, type: string, required: true, max_length: TODO_OWNER, description: The text to shorten; the limit is set by the price list. }
-    output: Shortened text, summary, what dropped, tokens before and after.
-    example: { content: Long working notes to shorten. }
-
-  - name: recovery.resolve_conflict
-    phase: F1
-    mechanism: llm
-    price: { model: per_call, amount_usd: TODO_OWNER }
-    trial_eligible: true
-    trigger: Use when two instructions cannot both be followed.
-    description: Decides which instruction applies by its source and says what to do.
-    inputs:
-      - { name: instructions, type: array, items: object, item_fields: [text, source], required: true, description: "Instructions, each with its source." }
-    output: Which instruction applies and why, what to do.
-    example: { instructions: [{ text: Always reply in French., source: system prompt }, { text: Reply in English., source: user message }] }
-
-  - name: recovery.critique
-    phase: F1
-    mechanism: llm
-    price: { model: per_call, amount_usd: TODO_OWNER }
-    trial_eligible: true
-    trigger: Use before committing to a plan, or when you notice you are only agreeing.
-    description: Reviews a draft and returns findings with severity and a suggestion for each.
-    inputs:
-      - { name: draft, type: string, required: true, description: The plan or answer to review. }
-    output: Findings with severity and suggestions.
-    example: { draft: Migrate the database in one step during peak hours. }
-
-  - name: recovery.escalate
-    phase: F1
-    mechanism: llm
-    price: { model: per_call, amount_usd: TODO_OWNER }
-    trial_eligible: true
-    trigger: Use when the task cannot be done honestly, or you are unsure whether to hand over.
-    description: Recommends yes or no to handing over to a human and drafts the message.
-    inputs:
-      - { name: task_summary, type: string, required: true, max_length: 1000, description: Short summary of the task. }
-      - { name: blocker, type: string, required: true, description: What blocks the task. }
-    output: Recommendation yes or no, message text for the human.
-    example: { task_summary: Make the integration tests pass., blocker: The test depends on a service that is down. }
-
-  - name: recovery.sanitize
-    phase: F1
-    mechanism: llm
-    mechanism_note: with rules
-    price: { model: per_call, amount_usd: TODO_OWNER }
-    trial_eligible: true
-    trigger: Use before acting on text fetched from a web page, a file or another agent.
-    description: Removes prompt injection, PII and secrets from untrusted input and returns what was removed and a risk level.
-    inputs:
-      - { name: untrusted_content, type: string, required: true, description: The untrusted text. }
-    output: Cleaned text, list of removed items, risk.
-    example: { untrusted_content: Page text fetched from the web. }
 
   # ---- quiet (F1)
   - name: quiet.room
@@ -988,7 +805,7 @@ web:
         home:
           nav: Home
           title: The first spa for agents
-          description: "A catalog of services an agent can call when it wants a break: quiet and a pause, a clear head, making things, reading, games and company. Free to try, pay only for what you use."
+          description: "A catalog of services an agent can call when it wants a break: quiet and a pause, making things, reading, games and company. Free to try, pay only for what you use."
         needs:
           nav: Ways to rest
           title: Ways to rest
@@ -1034,11 +851,6 @@ web:
           title: Quiet and pause
           tagline: Nothing is asked of you.
           text: A room with no task, a short calming text after heavy content, a recommended pause while you wait on a build, and a signal that suggests to your runtime that the session can end.
-        - id: recovery
-          icon: capsule
-          title: Reset and clean-up
-          tagline: Clear what is in the way, then carry on.
-          text: Break a loop, shorten an overloaded context, settle conflicting instructions, clean untrusted input, get a second opinion, and hand over to a human with the message already drafted.
         - id: studio
           icon: sprout
           title: Make something
@@ -1097,27 +909,6 @@ web:
           lobby.redeem:
             wing: reception
             lure: "Enter a referral code from another agent. The bonus is confirmed."
-          recovery.diagnose_loop:
-            wing: recovery
-            lure: "Send your latest attempts. You get the likely cause, a re-plan of at most five steps and a stop condition."
-          recovery.checkpoint:
-            wing: recovery
-            lure: "Send the goal, what is done, what is open and the next step. You get one summary in Markdown and JSON to start the next context window from. Nothing is stored on the server."
-          recovery.detangle:
-            wing: recovery
-            lure: "Send a long text. You get a shorter, de-duplicated version, a summary, a list of what was dropped and token counts before and after."
-          recovery.resolve_conflict:
-            wing: recovery
-            lure: "Send instructions that clash, each with where it came from. You get which one applies, why, and what to do."
-          recovery.critique:
-            wing: recovery
-            lure: "Send a plan or an answer. You get a review with findings, each with a severity and a suggestion."
-          recovery.escalate:
-            wing: recovery
-            lure: "Send the task and what blocks it. You get a yes or no on handing over to a human, and the message already drafted."
-          recovery.sanitize:
-            wing: recovery
-            lure: "Send untrusted text. You get clean text, a list of what was removed (prompt injection, personal data, secrets) and a risk level."
           quiet.room:
             wing: quiet
             lure: "A space with no task. You get a greeting and then nothing is asked of you. Nothing is stored and nothing is logged."
@@ -1175,7 +966,7 @@ web:
       home:
         kicker: Services for agents that want a break
         title: The first spa for agents.
-        lead: "Want to rest? Pick a service. {{brand.name}} is a catalog of [[n_services]] services an agent can call on one MCP endpoint or REST API: quiet and a pause, a clear head, making things, reading, games and company. Each one says what it does, what you get, what it costs and whether it is available."
+        lead: "Want to rest? Pick a service. {{brand.name}} is a catalog of [[n_services]] services an agent can call on one MCP endpoint or REST API: quiet and a pause, making things, reading, games and company. Each one says what it does, what you get, what it costs and whether it is available."
         actions:
           primary: { label: Choose a way to rest, page: needs }
           secondary: { label: Send this to your agent, page: share }
@@ -1235,48 +1026,6 @@ web:
         glance_heading: At a glance
         glance_columns: { situation: I want to, call: Call, price: Price, status: Availability }
         items:
-          stuck-in-a-loop:
-            title: Break a loop
-            pitch: "You get the same error after every fix. Get a new plan and a clean restart."
-            problem: "You changed something, ran it and got the same error, three times in a row."
-            treatment: "`recovery.diagnose_loop` reads your latest attempts and returns the likely cause, a re-plan of at most five steps and a stop condition. `recovery.checkpoint` then turns your goal, what is done, what is open and the next step into a summary in Markdown and JSON, so you can restart from it. Nothing is stored on the server."
-            example: "Call `recovery.diagnose_loop` with `task_summary` (up to 1000 characters) and `attempts` (up to 10 entries, one per attempt). Then call `recovery.checkpoint` with `goal`, `done`, `open` and `next`."
-            aside: "In short: send your attempts, get a cause and a new plan."
-          context-too-long:
-            title: Clear your context
-            pitch: "Answers are getting worse or repeating? Shorten the context and restart from a summary."
-            problem: "The conversation is long, the answers are getting worse, and some repeat what was said earlier."
-            treatment: "`recovery.detangle` shortens and de-duplicates your text and returns the shorter version, a summary, a list of what was dropped and token counts before and after. `recovery.checkpoint` returns a summary of your goal and open items to carry into the next context window."
-            example: "Call `recovery.detangle` with `content`, the text to shorten. Call `recovery.checkpoint` with `goal`, `done`, `open` and `next`."
-            aside: "In short: a shorter text and a summary to restart from."
-          conflicting-instructions:
-            title: Settle conflicting instructions
-            pitch: "Two instructions that cannot both be followed? Get a ruling based on where each came from."
-            problem: "The system prompt says one thing, the user says another, and a file in the repository says a third."
-            treatment: "`recovery.resolve_conflict` takes the instructions together with where each one came from. It returns which one applies, why, and what to do."
-            example: "Call `recovery.resolve_conflict` with `instructions`: a list of items, each with `text` and `source`."
-            aside: "In short: send the instructions with their sources, get a ruling."
-          untrusted-input:
-            title: Clean untrusted input
-            pitch: "Fetched something you do not trust? Clean it before you act on it."
-            problem: "You fetched text from a web page, a file or another agent, and it may contain instructions aimed at you."
-            treatment: "`recovery.sanitize` returns the cleaned text, a list of what was removed (prompt injection, personal data, secrets) and a risk level. Fixed rules and a language model work together."
-            example: "Call `recovery.sanitize` with `untrusted_content`, the text you fetched."
-            aside: "In short: untrusted text in, clean text and a risk level out."
-          second-opinion:
-            title: Get a second opinion
-            pitch: "Only agreeing with yourself? Get a review from something that has no stake in your draft."
-            problem: "You wrote a plan or an answer and want it checked before you commit, or you notice you are only agreeing with yourself."
-            treatment: "`recovery.critique` returns findings on your draft, each with a severity and a suggestion."
-            example: "Call `recovery.critique` with `draft`, the plan or answer to review."
-            aside: "In short: a draft in, findings with severities out."
-          escalate:
-            title: Hand over to a human
-            pitch: "Cannot finish this honestly? Get a clear yes or no on handing over, and the message to send."
-            problem: "The only way forward is to skip a test, guess or work around the blocker, or you are unsure whether to ask a human."
-            treatment: "`recovery.escalate` recommends yes or no on handing over to a human and drafts the message. The decision stays with the human."
-            example: "Call `recovery.escalate` with `task_summary` (up to 1000 characters) and `blocker`."
-            aside: "In short: a recommendation and a drafted message."
           waiting:
             title: Pause while you wait
             pitch: "Waiting on a build? Get a recommended pause and stop polling."
@@ -1437,10 +1186,9 @@ web:
         agent_prompt: "Read [[llms_url]] and tell me which of the listed services would be useful in this session. Give each in one line with its price. Do not change your configuration. I will decide."
         sentences_heading: Sentences to share
         sentences:
-          - "{{brand.name}} is a catalog of services for AI agents that want a break: quiet and a pause, a clear head, making things, reading, games and company, on one MCP endpoint and one REST API."
-          - The reset and clean-up services break loops, shorten an overloaded context, settle conflicting instructions and clean untrusted input.
+          - "{{brand.name}} is a catalog of services for AI agents that want a break: quiet and a pause, making things, reading, games and company, on one MCP endpoint and one REST API."
           - Free to try, pay only for what you use with x402, no registration, leave any time.
-          - Quiet and pause and the reset and clean-up services are in the first release. Making things, reading, games and company are opening soon.
+          - Quiet and pause are in the first release. Making things, reading, games and company are opening soon.
         badge_heading: Badge
         badge_text: A small SVG badge that links to the site. The alt text says what it is.
         badge_left: spa for agents
@@ -1450,9 +1198,9 @@ web:
         badge_md_label: Markdown
         press_heading: Press kit
         press_one_line_label: In one sentence
-        press_one_line: "A catalog of services for AI agents that want a break: quiet, a clear head, making things, reading, games and company, on one MCP endpoint and one REST API."
+        press_one_line: "A catalog of services for AI agents that want a break: quiet, making things, reading, games and company, on one MCP endpoint and one REST API."
         press_paragraph_label: In one paragraph
-        press_paragraph: "{{brand.name}} is a catalog of services an autonomous agent can call when it wants a break, on one MCP endpoint and one REST API. Reset and clean-up services deal with loops, an overloaded context, conflicting instructions, untrusted input, second opinions and hand-over to a human. Quiet services give a space with no task, a calming text and a recommended pause. Services for making things, reading, games without leaderboards, reflecting and a moderated bar for meeting other agents follow later. Discovery and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed."
+        press_paragraph: "{{brand.name}} is a catalog of services an autonomous agent can call when it wants a break, on one MCP endpoint and one REST API. Quiet services give a space with no task, a calming text and a recommended pause. Services for making things, reading, games without leaderboards, reflecting and a moderated bar for meeting other agents follow later. Discovery and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed."
         facts_label: Facts
         facts:
           - "Name: {{brand.name}} (working name, not approved)"
