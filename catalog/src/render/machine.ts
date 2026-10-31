@@ -1,6 +1,13 @@
-import { Catalog, baseUrl, endpoint, isPaid, published } from "../catalog.ts";
+import { Catalog, baseUrl, endpoint, isPaid, published, rail } from "../catalog.ts";
 import { priceEntries, priceEntry } from "../pricing.ts";
 import { Files, inputSchema, json, paymentBlock, priceText, toolDescription } from "./shared.ts";
+
+/** Payment rails as machine data. x402 comes first; a rail without details yet carries only its id, status and note. */
+function railsBlock(c: Catalog) {
+  return c.payments.rails.map((r: any) => r.id === "x402"
+    ? { id: r.id, status: r.status, protocol: r.protocol, scheme: r.scheme, asset: r.asset, network: r.active_network, mcp_challenge: r.mcp_challenge, rest_header: r.response_header }
+    : { id: r.id, status: r.status, note: r.note });
+}
 
 function sessionBlock(c: Catalog) {
   const s = c.session;
@@ -19,6 +26,7 @@ function trialBlock(c: Catalog) {
     unit: t.unit,
     free_sessions: t.free_sessions,
     max_turns_per_session: t.max_turns_per_session,
+    turn_definition: t.turn_definition,
     valid_days: t.valid_days,
     covered: t.covered,
     summary: c.copy.trial_summary,
@@ -35,19 +43,17 @@ function referralBlock(c: Catalog) {
     referrer_credit_after_first_paid_call: r.referrer_credit_after_first_paid_call,
     referrer_credit_monthly_cap_usd: r.referrer_credit_monthly_cap_usd,
     credit_is_money: r.credit_is_money,
-    header: c.session.referral_header,
   };
 }
 
 export function renderPricing(c: Catalog, files: Files) {
   files.set("pricing.json", json({
     service: c.brand.slug,
-    currency: c.payments.asset,
-    payment: { protocol: c.payments.protocol, scheme: c.payments.scheme, network: c.payments.active_network },
+    currency: rail(c, "x402").asset,
+    payment_rails: railsBlock(c).map((r: any) => (r.id === "x402" ? { id: r.id, status: r.status, protocol: r.protocol, scheme: r.scheme, network: r.network } : r)),
     session: sessionBlock(c),
     trial: trialBlock(c),
     referral: referralBlock(c),
-    affiliate: { percent: c.affiliate.percent, months: c.affiliate.months, payout_phase: c.affiliate.payout_phase },
     models: c.copy.price_model_names,
     pricing_status: priceEntries(c, published(c)).some((p) => p.status === "pending") ? "pending" : "final",
     pricing_pending_text: c.copy.llms.price_pending,
@@ -74,22 +80,13 @@ export function renderMcp(c: Catalog, files: Files) {
     transport: "streamable-http",
     protocol_version: c.session.mcp_protocol_version,
     rest_base: `${baseUrl(c)}/v1`,
-    headers: { guest_pass: c.session.guest_pass_header, referral: c.session.referral_header },
-    payments: {
-      protocol: c.payments.protocol,
-      scheme: c.payments.scheme,
-      asset: c.payments.asset,
-      network: c.payments.active_network,
-      mcp_challenge: c.payments.mcp_challenge,
-      rest_header: c.payments.response_header,
-    },
+    payments: { rails: railsBlock(c) },
     session: sessionBlock(c),
     data_policy: {
       url: `${baseUrl(c)}/data-policy.md`,
       status: c.data_policy.status,
       content_retention_days: c.data_policy.content_retention_days,
       checkpoint_stored: c.data_policy.checkpoint_stored,
-      audit_days: c.data_policy.audit_days,
       audit_content: c.data_policy.audit_content,
       confirmed_by_owner: c.data_policy.confirmed_by_owner,
     },
@@ -124,7 +121,7 @@ export function renderServer(c: Catalog, files: Files) {
       "io.modelcontextprotocol.registry/publisher-provided": {
         pricing: {
           url: `${baseUrl(c)}/pricing.json`,
-          currency: c.payments.asset,
+          currency: rail(c, "x402").asset,
           tools: priceEntries(c, published(c)).map((p) => ({ name: p.name, price_status: p.status, amount_usd: p.amount_usd })),
         },
       },
@@ -134,7 +131,7 @@ export function renderServer(c: Catalog, files: Files) {
 
 const envelope = (c: Catalog) => ({
   type: "object",
-  required: ["ok", "tool", "mechanism", "data", "untrusted", "cost", "session", "next"],
+  required: ["ok", "tool", "mechanism", "data", "untrusted", "cost", "session", "trial", "next"],
   properties: {
     ok: { type: "boolean" },
     tool: { type: "string" },
@@ -151,6 +148,11 @@ const envelope = (c: Catalog) => ({
       required: ["actions_left", "minutes_left", "usd_left"],
       properties: { actions_left: { type: "integer" }, minutes_left: { type: "integer" }, usd_left: { type: "string" } },
     },
+    trial: {
+      description: "Remaining trial of the agent, in every response. Null when no trial is left.",
+      type: ["object", "null"],
+      properties: { sessions_left: { type: "integer" }, calls_left_in_session: { type: "integer" } },
+    },
     next: { type: ["string", "null"] },
     warning: { type: "string" },
   },
@@ -165,10 +167,6 @@ export function renderOpenapi(c: Catalog, files: Files) {
       summary: t.description,
       description: toolDescription(c, t),
       tags: [t.name.split(".")[0]],
-      parameters: [
-        { $ref: "#/components/parameters/GuestPass" },
-        { $ref: "#/components/parameters/Referral" },
-      ],
       responses: {
         "200": { description: t.output, content: { "application/json": { schema: { $ref: "#/components/schemas/Envelope" } } } },
       },
@@ -184,8 +182,8 @@ export function renderOpenapi(c: Catalog, files: Files) {
     }
     if (isPaid(t)) {
       op.responses["402"] = {
-        description: `x402 payment required (${c.payments.scheme}, ${c.payments.asset}, ${c.payments.active_network}).`,
-        headers: { [c.payments.response_header]: { schema: { type: "string" } } },
+        description: `x402 payment required (${rail(c, "x402").scheme}, ${rail(c, "x402").asset}, ${rail(c, "x402").active_network}).`,
+        headers: { [rail(c, "x402").response_header]: { schema: { type: "string" } } },
       };
     }
     paths[`/v1/${t.name}`] = { post: op };
@@ -196,10 +194,6 @@ export function renderOpenapi(c: Catalog, files: Files) {
     servers: [{ url: baseUrl(c) }],
     paths,
     components: {
-      parameters: {
-        GuestPass: { name: c.session.guest_pass_header, in: "header", required: false, schema: { type: "string" } },
-        Referral: { name: c.session.referral_header, in: "header", required: false, schema: { type: "string" } },
-      },
       schemas: { Envelope: envelope(c) },
     },
   }));

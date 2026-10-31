@@ -1,18 +1,18 @@
-import { Catalog, TODO, isPaid } from "./catalog.ts";
+import { Catalog, TODO, isPaid, rail } from "./catalog.ts";
 
 /**
  * The one price model. Every output that shows a price (pricing.json, llms.txt, llms-full.txt, tools/*.md,
  * needs/*.md, mcp.json, openapi.json, server.json, initialize instructions, the web /pricing/ page) reads it from here.
  * pricing.json is this model serialised; nothing else computes or formats an amount.
  */
-export type PriceStatus = "free" | "included" | "pending" | "set";
+export type PriceStatus = "free" | "pending" | "set";
 
 export interface PriceEntry {
   name: string;
   phase: string;
   mechanism: string;
   price_model: string;
-  /** Amount in USD as written in the catalog, "0.00" when free or included, null when not decided yet. */
+  /** Amount in USD as written in the catalog, "0.00" when free, null when not decided yet. */
   amount_usd: string | null;
   status: PriceStatus;
   paid_with_x402: boolean;
@@ -31,17 +31,14 @@ export function priceEntry(c: Catalog, t: any): PriceEntry {
   let status: PriceStatus;
   let amount: string | null = null;
   if (model === "free") { status = "free"; amount = "0.00"; }
-  else if (model === "research_funded" || model === "included_in_entry") { status = "included"; amount = "0.00"; }
   else if (t.price.amount_usd === TODO || t.price.amount_usd === undefined || t.price.amount_usd === null) status = "pending";
   else { status = "set"; amount = String(t.price.amount_usd); }
   const price_text = status === "free" ? modelName
-    : status === "included" ? modelName
     : status === "pending" ? `${modelName}: ${pendingText}`
     : `${modelName}: ${amount}`;
   const price_short = status === "free" ? modelName
-    : status === "included" ? modelName
     : status === "pending" ? pendingText
-    : `${amount} ${c.payments.asset}`;
+    : `${amount} ${rail(c, "x402").asset}`;
   return {
     name: t.name, phase: t.phase, mechanism: t.mechanism, price_model: model, amount_usd: amount, status,
     paid_with_x402: isPaid(t), trial_eligible: isPaid(t), price_text, price_short,

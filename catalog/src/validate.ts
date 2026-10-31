@@ -72,7 +72,7 @@ export function validateDoc(raw: Catalog): Report {
     if (!doc.types.mechanisms.includes(t.mechanism)) errors.push(`${t.name}: unknown mechanism`);
     if (!doc.types.price_models.includes(t.price.model)) errors.push(`${t.name}: unknown price model`);
     if (t.price.model === "free" && t.price.amount_usd !== "0.00") errors.push(`${t.name}: free tool must cost 0.00`);
-    if (t.price.model !== "free" && t.price.model !== "research_funded" && t.price.amount_usd === "0.00")
+    if (t.price.model !== "free" && t.price.amount_usd === "0.00")
       errors.push(`${t.name}: paid tool with price 0.00`);
     const names = new Set<string>();
     for (const i of t.inputs) {

@@ -4,7 +4,7 @@
   "title": "Catalog D1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["catalog_version", "brand", "copy", "generation", "payments", "session", "trial", "referral", "affiliate", "data_policy", "llm", "lint", "types", "evidence_labels", "needs", "tools", "web"],
+  "required": ["catalog_version", "brand", "copy", "generation", "payments", "session", "trial", "referral", "data_policy", "llm", "lint", "types", "evidence_labels", "needs", "tools", "web"],
   "definitions": {
     "owner": { "const": "TODO_OWNER", "description": "Value not decided by the owner yet." },
     "ownerNumber": { "oneOf": [{ "type": "number", "minimum": 0 }, { "$ref": "#/definitions/owner" }] },
@@ -60,44 +60,75 @@
     },
     "payments": {
       "type": "object", "additionalProperties": false,
-      "required": ["protocol", "scheme", "asset", "mainnet", "testnet", "active_network", "facilitator_testnet", "response_header", "mcp_challenge"],
+      "required": ["rails"],
       "properties": {
-        "protocol": { "const": "x402" },
-        "scheme": { "const": "exact" },
-        "asset": { "const": "USDC" },
-        "mainnet": { "const": "eip155:8453" },
-        "testnet": { "const": "eip155:84532" },
-        "active_network": { "enum": ["eip155:8453", "eip155:84532"] },
-        "facilitator_testnet": { "type": "string", "format": "uri" },
-        "response_header": { "type": "string" },
-        "mcp_challenge": { "$ref": "#/definitions/text" }
+        "rails": {
+          "description": "Payment rails. x402 is first (MVP); more rails are appended after the survey.",
+          "type": "array", "minItems": 1,
+          "items": [
+            {
+              "type": "object", "additionalProperties": false,
+              "required": ["id", "status", "protocol", "scheme", "asset", "mainnet", "testnet", "active_network", "facilitator_testnet", "response_header", "mcp_challenge"],
+              "properties": {
+                "id": { "const": "x402" },
+                "status": { "const": "mvp" },
+                "protocol": { "const": "x402" },
+                "scheme": { "const": "exact" },
+                "asset": { "const": "USDC" },
+                "mainnet": { "const": "eip155:8453" },
+                "testnet": { "const": "eip155:84532" },
+                "active_network": { "enum": ["eip155:8453", "eip155:84532"] },
+                "facilitator_testnet": { "type": "string", "format": "uri" },
+                "response_header": { "type": "string" },
+                "mcp_challenge": { "$ref": "#/definitions/text" }
+              }
+            }
+          ],
+          "additionalItems": {
+            "type": "object", "additionalProperties": true,
+            "required": ["id", "status"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z0-9_-]+$", "not": { "const": "x402" } },
+              "status": { "enum": ["to_be_added_after_survey", "planned", "mvp"] },
+              "note": { "$ref": "#/definitions/text" }
+            }
+          }
+        }
       }
     },
     "session": {
       "type": "object", "additionalProperties": false,
-      "required": ["max_actions", "max_minutes", "max_usd", "warning_at_percent", "address_daily_cap_usd", "guest_pass_header", "referral_header", "mcp_protocol_version"],
+      "required": ["max_actions", "max_minutes", "max_usd", "warning_at_percent", "address_daily_cap_usd", "mcp_protocol_version"],
       "properties": {
         "max_actions": { "$ref": "#/definitions/ownerInt" },
         "max_minutes": { "$ref": "#/definitions/ownerInt" },
         "max_usd": { "$ref": "#/definitions/usd" },
         "warning_at_percent": { "type": "integer", "minimum": 1, "maximum": 100 },
         "address_daily_cap_usd": { "$ref": "#/definitions/usd" },
-        "guest_pass_header": { "type": "string" },
-        "referral_header": { "type": "string" },
         "mcp_protocol_version": { "type": "string" }
       }
     },
     "trial": {
       "type": "object", "additionalProperties": false,
-      "required": ["unit", "free_sessions", "max_turns_per_session", "valid_days", "covered", "guest_pass_rule", "anti_farm", "end_rule"],
+      "required": ["unit", "free_sessions", "max_turns_per_session", "turn_definition", "valid_days", "covered", "anti_farm", "end_rule"],
       "properties": {
         "unit": { "const": "session" },
         "free_sessions": { "type": "integer", "minimum": 0 },
         "max_turns_per_session": { "$ref": "#/definitions/ownerInt" },
+        "turn_definition": { "$ref": "#/definitions/text" },
         "valid_days": { "$ref": "#/definitions/ownerInt" },
         "covered": { "const": "all_paid" },
-        "guest_pass_rule": { "$ref": "#/definitions/text" },
-        "anti_farm": { "type": "array", "items": { "$ref": "#/definitions/text" } },
+        "anti_farm": {
+          "type": "object", "additionalProperties": false,
+          "required": ["per_address_per_day", "per_ip_per_day", "identifier_storage", "ttl_hours", "rules"],
+          "properties": {
+            "per_address_per_day": { "type": "integer", "minimum": 1 },
+            "per_ip_per_day": { "type": "integer", "minimum": 1 },
+            "identifier_storage": { "$ref": "#/definitions/text" },
+            "ttl_hours": { "type": "integer", "minimum": 1 },
+            "rules": { "type": "array", "minItems": 1, "items": { "$ref": "#/definitions/text" } }
+          }
+        },
         "daily_global_budget": { "$ref": "#/definitions/ownerString" },
         "end_rule": { "$ref": "#/definitions/text" }
       }
@@ -119,18 +150,9 @@
         "rules_are_data_not_promotion": { "type": "boolean" }
       }
     },
-    "affiliate": {
-      "type": "object", "additionalProperties": false,
-      "required": ["percent", "months", "payout_phase"],
-      "properties": {
-        "percent": { "type": "number", "minimum": 0, "maximum": 100 },
-        "months": { "type": "integer", "minimum": 1 },
-        "payout_phase": { "$ref": "#/definitions/phase" }
-      }
-    },
     "data_policy": {
       "type": "object", "additionalProperties": false,
-      "required": ["status", "decision", "confirmed_by_owner", "content_retention_days", "recovery_inputs_days", "checkpoint_stored", "audit_days", "audit_content", "region", "training_on_inputs", "operator", "jurisdiction", "principles", "retention", "per_tool", "audit", "processors", "reservations", "undecided"],
+      "required": ["status", "decision", "confirmed_by_owner", "content_retention_days", "recovery_inputs_days", "checkpoint_stored", "audit_content", "region", "training_on_inputs", "operator", "jurisdiction", "principles", "retention", "per_tool", "processors", "reservations", "undecided"],
       "properties": {
         "status": { "$ref": "#/definitions/text" },
         "decision": { "$ref": "#/definitions/text" },
@@ -138,8 +160,7 @@
         "content_retention_days": { "const": 0, "description": "Owner decision: zero data retention of content. Changing this is a policy change, not an edit." },
         "recovery_inputs_days": { "const": 0 },
         "checkpoint_stored": { "const": false, "description": "Locked: no artifact or tool output is stored on the server." },
-        "audit_days": { "type": "integer", "minimum": 0 },
-        "audit_content": { "const": "none", "description": "The audit log holds metadata only." },
+        "audit_content": { "const": "none", "description": "There is no persistent audit log; nothing about content is kept." },
         "region": { "$ref": "#/definitions/text" },
         "training_on_inputs": { "$ref": "#/definitions/text" },
         "operator": { "$ref": "#/definitions/text" },
@@ -156,16 +177,6 @@
             "default": { "$ref": "#/definitions/text" },
             "llm_note": { "$ref": "#/definitions/text" },
             "notes": { "type": "object", "propertyNames": { "$ref": "#/definitions/toolName" }, "additionalProperties": { "$ref": "#/definitions/text" } }
-          }
-        },
-        "audit": {
-          "type": "object", "additionalProperties": false,
-          "required": ["proposal_notice", "purpose", "fields", "excluded"],
-          "properties": {
-            "proposal_notice": { "$ref": "#/definitions/text" },
-            "purpose": { "$ref": "#/definitions/text" },
-            "fields": { "type": "array", "minItems": 1, "items": { "$ref": "#/definitions/text" } },
-            "excluded": { "type": "array", "minItems": 1, "items": { "$ref": "#/definitions/text" } }
           }
         },
         "processors": {
@@ -204,7 +215,7 @@
         "mechanisms": { "type": "array", "items": { "$ref": "#/definitions/mechanism" }, "minItems": 5 },
         "price_models": {
           "type": "array", "minItems": 1,
-          "items": { "enum": ["free", "per_call", "entry", "per_game", "credits", "entry_or_subscription", "included_in_entry", "research_funded"] }
+          "items": { "enum": ["free", "per_call"] }
         }
       }
     },
@@ -259,7 +270,7 @@
             "type": "object", "additionalProperties": false,
             "required": ["model", "amount_usd"],
             "properties": {
-              "model": { "enum": ["free", "per_call", "entry", "per_game", "credits", "entry_or_subscription", "included_in_entry", "research_funded"] },
+              "model": { "enum": ["free", "per_call"] },
               "amount_usd": { "$ref": "#/definitions/usd" },
               "note": { "$ref": "#/definitions/text" }
             }

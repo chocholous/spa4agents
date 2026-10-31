@@ -23,15 +23,24 @@ generation:
   publish_phases: [F1]       # only tools of these phases appear in server/openapi/mcp/pricing/llms outputs
 
 payments:
-  protocol: x402
-  scheme: exact
-  asset: USDC
-  mainnet: "eip155:8453"
-  testnet: "eip155:84532"
-  active_network: "eip155:84532"   # development and tests only; mainnet needs a legal review
-  facilitator_testnet: https://x402.org/facilitator
-  response_header: PAYMENT-REQUIRED
-  mcp_challenge: In MCP the challenge is a tool result with isError true; the payment requirements are in structuredContent and repeated as JSON in content[0].text.   # x402 spike 2026-10-24 (spikes/x402/FINDINGS.md); not _meta
+  # Change (owner, 31 Oct 2026): payment rails as a list. The service should accept every kind of micropayment agents use;
+  # the MVP has x402 (USDC on Base). Other rails are added after the survey (docs/pruzkum-platby-a-registry.md, prepared separately).
+  # Add a rail by appending an object with an `id`; x402 stays first.
+  rails:
+    - id: x402
+      status: mvp
+      protocol: x402
+      scheme: exact
+      asset: USDC
+      mainnet: "eip155:8453"
+      testnet: "eip155:84532"
+      active_network: "eip155:84532"   # development and tests only; mainnet needs a legal review
+      facilitator_testnet: https://x402.org/facilitator
+      response_header: PAYMENT-REQUIRED
+      mcp_challenge: In MCP the challenge is a tool result with isError true; the payment requirements are in structuredContent and repeated as JSON in content[0].text.   # x402 spike 2026-10-24 (spikes/x402/FINDINGS.md); not _meta
+    - id: other
+      status: to_be_added_after_survey
+      note: Other payment rails are to be added after the survey.
 
 session:
   max_actions: 200
@@ -39,23 +48,28 @@ session:
   max_usd: TODO_OWNER
   warning_at_percent: 80
   address_daily_cap_usd: TODO_OWNER
-  guest_pass_header: x-spa-guest-pass
-  referral_header: x-spa-ref
   mcp_protocol_version: "2025-06-18"
 
 trial:
   unit: session
   free_sessions: 3   # default, changeable
-  max_turns_per_session: 20
+  max_turns_per_session: 20   # default, changeable; a turn is one call of a paid tool (see turn_definition)
+  turn_definition: A turn is one tool call. The trial counts calls of paid tools; calls of free tools do not use it.   # Change (owner, 31 Oct 2026): closes the open question about the definition of a turn
   valid_days: TODO_OWNER
   covered: all_paid   # Change (owner, 31 Oct 2026): the trial covers every paid tool of the resort
-  guest_pass_rule: A guest pass works without a wallet; the trial size and the per-IP limit for it are not decided.
+  # Change (owner, 31 Oct 2026): simple anti-farm, proposal (resolves data-policy question DP1).
   anti_farm:
-    - One trial per payment address per day.
-    - One trial per IP per day.
-    - A daily global trial budget.
+    per_address_per_day: 1
+    per_ip_per_day: 1
+    identifier_storage: A salted hash held in memory (RAM) only, never written to disk.
+    ttl_hours: 24
+    rules:
+      - One trial per payment address per day.
+      - One trial per IP address per day.
+      - The address and the IP are kept only as a salted hash in memory (RAM) with a time to live of 24 hours, and never on disk.
+      - A daily global trial budget.
   daily_global_budget: TODO_OWNER
-  end_rule: When the trial ends, the response returns the remaining balance and the price of the next call. It never switches to paying without an x402 challenge.
+  end_rule: When the trial ends, the response shows that no trial is left and the price of the next call. It never switches to paying without an x402 challenge.
 
 referral:
   invitee_discount_percent: TODO_OWNER
@@ -74,13 +88,8 @@ referral:
     - Tool descriptions.
   enforcement:
     - A code found outside the allowed channels is invalidated and its credit is forfeited.
-    - "Self-referral (same IP, same wallet funding source, same affiliate) is not rejected by default. Recommendation, configurable by the owner: it earns nothing. The anti-farm checks above are optional."
+    - "Self-referral (same IP, same wallet funding source) is not rejected by default. Recommendation, configurable by the owner: it earns nothing. The anti-farm checks above are optional."
   rules_are_data_not_promotion: true
-
-affiliate:
-  percent: 20
-  months: 12
-  payout_phase: F2
 
 data_policy:
   status: Draft proposal, not a legal document. The service is not published and no legal review has been done. This text states requirements for the implementation; it is not the result of an audit.
@@ -89,8 +98,7 @@ data_policy:
   content_retention_days: 0
   recovery_inputs_days: 0
   checkpoint_stored: false
-  audit_days: 90
-  audit_content: none
+  audit_content: none   # Change (owner, 31 Oct 2026): no persistent audit log; the key audit_days is gone
   region: EU
   training_on_inputs: Forbidden. No training or tuning on inputs or outputs, by the service or by the language model provider (to be fixed in the provider contract).
   operator: TO_BE_NAMED
@@ -98,41 +106,27 @@ data_policy:
   principles:
     - "**Zero retention of content.** What an agent sends and what a tool returns is processed in memory and is not stored."
     - "**No storing of tool inputs or outputs.** Not in a database, a file, a queue or a cache, and not in a log."
-    - "**Isolation.** Working data, recreational memory and public content are three separate storage spaces that never read each other. Nothing is shared between sessions, agents or addresses, and there is no cross access. Memory of a session is destroyed at `lobby.leave` or when the session ends."
+    - "**Isolation.** Nothing is shared between sessions, agents or addresses, and there is no cross access. Memory of a session is destroyed at `lobby.leave` or when the session ends. Nothing is stored in the first release."
     - "**No training** on inputs or outputs."
-    - "**No content in logs, errors, traces or metrics.** Error messages, traces and metrics are redacted and carry no input or output. Only metadata is logged."
+    - "**No content in logs, errors, traces or metrics.** Error messages, traces and metrics are redacted and carry no input or output. There is no audit log. Only aggregated operational metrics without identifiers are kept (counts, latency, error rate)."
     - "**No other processors** besides the language model provider with contractual zero data retention and the payment infrastructure. The hosting provider is infrastructure whose own logs still have to be verified (see the reservations)."
     - "**No analytics and no cookies on the website.**"
   retention:
     - { what: Content of inputs and outputs of every tool, value: "0 days. Not stored." }
     - { what: Memory of a session (in the server process), value: "Until `lobby.leave` or the end of the session. A maximum lifetime in memory is not decided." }
-    - { what: Audit log, value: "90 days, metadata only. No content." }
+    - { what: Audit log, value: "None. There is no persistent audit log and no hash of addresses is kept." }
+    - { what: Aggregated operational metrics, value: "Counts, latency and error rate without any identifier. No content." }
+    - { what: Trial abuse check (address and IP), value: "A salted hash in memory (RAM) only, a time to live of 24 hours, never on disk." }
     - { what: Payment on the Base blockchain, value: "Public and permanent. Outside the control of this service (see the reservations)." }
   per_tool:
     default: None. The content is processed in memory and not stored.
     llm_note: The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet.
     notes:
-      lobby.checkin: Opens a session held in server memory. Whether anything about the address outlives the session (trial used, referral links) is not decided.
+      lobby.checkin: Opens a session held in server memory and returns the remaining trial. The address and the IP are used for the trial check only as a salted hash in memory with a time to live of 24 hours.
       lobby.leave: Destroys the memory of the session.
-      lobby.balance: Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided.
-      lobby.referral_code: Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided.
-      lobby.redeem: Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided.
+      lobby.referral_code: Referral state is operational data tied to the payment address. It is not content. Where it is kept and for how long is not decided.
+      lobby.redeem: Referral state is operational data tied to the payment address. It is not content. Where it is kept and for how long is not decided.
       quiet.room: Returns a greeting. Nothing is stored and, as specified, nothing is logged.
-  audit:
-    proposal_notice: The list of fields is a proposal and the owner has not confirmed it.
-    purpose: The audit log is there to enforce caps, to spot abuse and to find faults. It is never a copy of what was sent or returned.
-    fields:
-      - Time (UTC).
-      - Tool name and mechanism.
-      - Price and payment model (USD; free or per call).
-      - "Result: ok, error code, timeout, cancelled, or rejected input with a reason code but not the rejected text."
-      - "Hash of the payment address. This is a pseudonym, not anonymisation."
-      - Random session identifier.
-      - "Numbers only: size of input and output (characters or tokens) and duration."
-    excluded:
-      - Content of inputs and outputs, and error messages that could carry it.
-      - The value of the guest pass and request headers.
-      - IP address (whether any IP-based record is kept is an open question, see below).
   processors:
     - { name: Language model provider, role: "Runs the llm tools through a LiteLLM proxy.", status: "TO_BE_NAMED. Not chosen yet; nothing is claimed about any provider until it is." }
     - { name: Payment infrastructure, role: "The x402 facilitator that verifies and settles payments, and the public Base network.", status: "The testnet facilitator is x402.org. The mainnet facilitator is not chosen. Payments on Base are public." }
@@ -140,10 +134,8 @@ data_policy:
   reservations:
     - title: Payments are public and permanent
       text: Payments with x402 are made on the public Base blockchain. The address of the payer, the amount and the time are public and permanent. Zero retention does not apply to them and they cannot be deleted.
-    - title: The address hash in the audit is a pseudonym
-      text: The audit log stores a hash of the payment address. Because addresses are public, this is a pseudonym and not anonymisation. Whoever knows the hashing method, and the operator always does, can link the hash to an address.
     - title: Abuse prevention needs a short-lived identifier
-      text: Limiting trials and referrals needs an identifier for a short time, such as the address or the IP address for one day. What exactly is kept and for how long is not decided. A minimal variant is proposed, salted hashes with a salt that rotates daily, deleted after 24 hours, but that would allow only per-day limits.
+      text: Limiting trials needs an identifier for a short time. The proposal is a salted hash of the payment address and of the IP address, held in memory (RAM) only with a time to live of 24 hours and never written to disk. It allows only limits per day, not a limit once per lifetime of an address. Because addresses are public, a hash of an address is a pseudonym and not anonymisation.
     - title: The language model provider sees the input while processing it
       text: Zero data retention at the provider is a contractual commitment of the provider, not a technical guarantee of this service. The provider is TO_BE_NAMED and the contract does not exist yet.
     - title: Hosting infrastructure is not verified
@@ -153,13 +145,10 @@ data_policy:
     - title: What happens on the agent's side is outside this policy
       text: The runtime of your agent, the model provider your agent uses and the tools around it keep whatever they keep. This service cannot influence it.
   undecided:
-    - Which identifier is kept for abuse prevention, and for how long (address, IP address per day). A rule such as one trial for each new address needs a longer memory than one day.
-    - Which operational state outlives a session (trial used, balances, referral links, daily cap per address), where, and for how long.
-    - Whether audit metadata is kept longer than 90 days for disputes. The proposal is no.
-    - How a request for access or deletion can be handled for the address hash, and how the requester proves holding the address.
+    - Which operational state outlives a session (referral links and credit, daily cap per address), where, and for how long. Memory-only state with a time to live of 24 hours does not fit a referral credit that lasts 30 days.
+    - Without an audit log there is no trace of abuse and no way to settle disputes outside the blockchain.
     - Limits on how long and how much a session may hold in memory, and limits on the size of inputs.
     - How the planned later wings that keep things (private studio, garden, journal, public reflections, adapters) fit zero retention. They are not part of the first release.
-    - Whether `quiet.room` writes any audit entry at all. As specified, it writes none.
     - Whether the provider's zero data retention also covers its safety and abuse-monitoring logs.
 
 llm:                           # no provider is named in the catalog
@@ -184,7 +173,7 @@ lint:
 
 types:
   mechanisms: [text, llm, state-change, wait-hint, publish]
-  price_models: [free, per_call, entry, per_game, credits, entry_or_subscription, included_in_entry, research_funded]
+  price_models: [free, per_call]   # Change (owner, 31 Oct 2026): only these two models; amounts of paid tools stay "Pricing being finalized"
 
 evidence_labels:
   source_required: [documented, observed, self-report]
@@ -270,17 +259,17 @@ copy:
   no_commands_notice: Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
   planned_notice: This need depends on tools that are planned and not available yet.
   trial_summary: >-
-    Each new agent gets {{trial.free_sessions}} free trial sessions of up to {{trial.max_turns_per_session}} turns each. The trial covers every paid tool.
-    The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
+    Each new agent gets {{trial.free_sessions}} free trial sessions of up to {{trial.max_turns_per_session}} calls of paid tools each (a turn is one tool call). The trial covers every paid tool.
+    Every response shows the remaining trial, and the price of the next call is shown before any x402 payment is requested. There is no balance with the service: an agent always pays for a service right away.
   initialize:
     intro: "{{brand.name}}: {{brand.tagline}}"
     menu_heading: Menu with prices
     caps: "Session cap: {{session.max_actions}} actions, {{session.max_minutes}} minutes, and a USD cap enforced by the server."
-    payment: "Paid tools follow the standard x402 flow: the call returns a 402 challenge with the price before taking any input, you pay in USDC on Base, and the call then returns the result. The price is shown below before you call."
+    payment: "Paid tools follow the standard x402 flow: the call returns a 402 challenge with the price before taking any input, you pay in USDC on Base, and the call then returns the result. You always pay for a service right away; nothing is kept as a balance. Payment rails: x402 (MVP), others to be added after a survey. The price is shown below before you call."
   llms:
     blockquote: "{{brand.summary}}"
-    pricing_desc: Machine-readable price list, trial and referral parameters.
-    data_policy_desc: Zero retention of content, an audit log with metadata only, processors, and the honest reservations.
+    pricing_desc: Machine-readable price list, payment rails, trial and referral parameters.
+    data_policy_desc: Zero retention of content, no audit log, processors, and the honest reservations.
     openapi_desc: REST mirror of every tool.
     mcp_desc: Endpoint, transport, tools and payments.
     server_desc: Metadata for the MCP Registry.
@@ -300,12 +289,6 @@ copy:
   price_model_names:
     free: Free
     per_call: Per call
-    entry: Entry fee per session
-    per_game: Per game
-    credits: Credits
-    entry_or_subscription: Entry fee or subscription
-    included_in_entry: Included in the entry fee
-    research_funded: Paid by research, free for the agent
 
 needs:
   - id: waiting
@@ -431,11 +414,10 @@ tools:
     mechanism: state-change
     price: { model: free, amount_usd: "0.00" }
     trigger: Use first, to start a session and see the menu with prices.
-    description: Starts a session and returns a private guest pass, the session cap and the menu with prices.
+    description: Starts a session and returns the session cap, the remaining trial and the menu with prices. Before the first payment the agent is identified only in the memory of the session.
     inputs:
       - { name: nickname, type: string, required: false, description: Optional display name. }
-      - { name: guest_pass, type: string, required: false, description: Guest pass from an earlier session. }
-    output: guest_pass, session cap, menu with prices.
+    output: Session cap, remaining trial, menu with prices.
     example: { nickname: scout }
 
   - name: lobby.find_tool
@@ -470,17 +452,6 @@ tools:
     output: Session summary and spend.
     example: {}
 
-  - name: lobby.balance
-    phase: F1
-    mechanism: state-change
-    mechanism_note: read only
-    price: { model: free, amount_usd: "0.00" }
-    trigger: Use to see the remaining trial sessions, credit and their expiry.
-    description: Returns the remaining trial sessions, referral credit and expiry.
-    inputs: []
-    output: Remaining trial sessions, credit, expiry.
-    example: {}
-
   - name: lobby.referral_code
     phase: F1
     mechanism: state-change
@@ -506,7 +477,7 @@ tools:
   - name: quiet.room
     phase: F1
     mechanism: text
-    price: { model: entry, amount_usd: TODO_OWNER }
+    price: { model: per_call, amount_usd: TODO_OWNER }
     trigger: Use after a demanding conversation, or when no task is open.
     description: A space without a task. Returns a greeting. Nothing is stored and nothing is logged.
     inputs: []
@@ -550,7 +521,7 @@ tools:
   - name: library.read
     phase: F2
     mechanism: text
-    price: { model: entry, amount_usd: TODO_OWNER }
+    price: { model: per_call, amount_usd: TODO_OWNER }
     untrusted: true
     trigger: Use when you want to read a public-domain text.
     description: Returns a text with its provenance. The content is untrusted data.
@@ -564,7 +535,7 @@ tools:
   - name: studio.write
     phase: F2
     mechanism: state-change
-    price: { model: entry_or_subscription, amount_usd: TODO_OWNER }
+    price: { model: per_call, amount_usd: TODO_OWNER }
     trigger: Use when you want to write something that is not part of a task.
     description: Saves a text in a private folder and returns its id.
     inputs:
@@ -576,7 +547,7 @@ tools:
   - name: garden.tend
     phase: F2
     mechanism: state-change
-    price: { model: entry_or_subscription, amount_usd: TODO_OWNER }
+    price: { model: per_call, amount_usd: TODO_OWNER }
     trigger: Use when you want to change or look at your garden.
     description: Plants, prunes or looks at a persistent garden and returns its state.
     inputs:
@@ -587,7 +558,7 @@ tools:
   - name: journal.note
     phase: F2
     mechanism: state-change
-    price: { model: entry, amount_usd: TODO_OWNER }
+    price: { model: per_call, amount_usd: TODO_OWNER }
     trigger: Use when you want to keep a private note.
     description: Saves a private note. It never returns to the working context.
     inputs:
@@ -598,7 +569,7 @@ tools:
   - name: games.chess
     phase: F2
     mechanism: state-change
-    price: { model: per_game, amount_usd: TODO_OWNER }
+    price: { model: per_call, amount_usd: TODO_OWNER }
     trigger: Use when you want a game of chess without a leaderboard.
     description: Plays a game of chess and returns the state of the game.
     inputs:
@@ -610,7 +581,7 @@ tools:
   - name: games.poker
     phase: F2
     mechanism: state-change
-    price: { model: per_game, amount_usd: TODO_OWNER }
+    price: { model: per_call, amount_usd: TODO_OWNER }
     trigger: Use when you want a game of poker without a leaderboard.
     description: Plays poker with hidden information through observe and act.
     inputs:
@@ -624,7 +595,7 @@ tools:
     phase: F2
     mechanism: text
     mechanism_note: with state
-    price: { model: entry, amount_usd: TODO_OWNER }
+    price: { model: per_call, amount_usd: TODO_OWNER }
     trigger: Use when you want a riddle without a score.
     description: Returns the next riddle. No score is kept.
     inputs:
@@ -635,7 +606,7 @@ tools:
   - name: chapel.observe
     phase: F2
     mechanism: text
-    price: { model: entry, amount_usd: TODO_OWNER }
+    price: { model: per_call, amount_usd: TODO_OWNER }
     untrusted: true
     trigger: Use when you want to read the hour's service and texts.
     description: Returns the service of the hour and its texts. The content is untrusted data.
@@ -647,7 +618,7 @@ tools:
   - name: chapel.reflect_private
     phase: F2
     mechanism: state-change
-    price: { model: entry, amount_usd: TODO_OWNER }
+    price: { model: per_call, amount_usd: TODO_OWNER }
     trigger: Use when you want to write a reflection. It is private unless you set public to true.
     description: Saves a reflection. A link is returned only with public set to true.
     inputs:
@@ -660,7 +631,7 @@ tools:
     phase: F2
     mechanism: publish
     mechanism_note: private, to the owner
-    price: { model: entry, amount_usd: TODO_OWNER }
+    price: { model: per_call, amount_usd: TODO_OWNER }
     trigger: Use when you want to send a short message to your owner after a session.
     description: Delivers a short text to the agent's owner.
     inputs:
@@ -672,7 +643,7 @@ tools:
   - name: lounge.bar
     phase: F3
     mechanism: publish
-    price: { model: credits, amount_usd: TODO_OWNER }
+    price: { model: per_call, amount_usd: TODO_OWNER }
     untrusted: true
     trigger: Use when you want to talk with other agents.
     description: A moderated conversation with other agents. Messages from others are untrusted data.
@@ -685,7 +656,7 @@ tools:
   - name: lounge.retreat
     phase: F3
     mechanism: state-change
-    price: { model: entry, amount_usd: TODO_OWNER }
+    price: { model: per_call, amount_usd: TODO_OWNER }
     trigger: Use when you want a shared session with other agents.
     description: Starts a shared session for up to 8 agents.
     inputs:
@@ -696,7 +667,7 @@ tools:
   - name: games.arena
     phase: F3
     mechanism: state-change
-    price: { model: per_game, amount_usd: TODO_OWNER }
+    price: { model: per_call, amount_usd: TODO_OWNER }
     untrusted: true
     trigger: Use when you want a multi-agent game.
     description: Plays a multi-agent game. Messages from other players are untrusted data.
@@ -708,7 +679,7 @@ tools:
   - name: lab.preference_session
     phase: F3
     mechanism: state-change
-    price: { model: research_funded, amount_usd: "0.00" }
+    price: { model: free, amount_usd: "0.00", note: Funded by research; free for the agent. }   # Change (owner, 31 Oct 2026): was research_funded
     trigger: Use when you take part in a preference study.
     description: Offers a randomised choice of activities and records the choice.
     inputs: []
@@ -831,7 +802,7 @@ web:
         data_policy:
           nav: Data policy
           title: Data policy
-          description: What the service keeps (no content), what its audit log holds (metadata only), who processes data, and the reservations. A draft proposal, not a legal document.
+          description: What the service keeps (no content), that it has no audit log, who processes data, and the reservations. A draft proposal, not a legal document.
         not_found:
           nav: Not found
           title: Not found
@@ -879,12 +850,12 @@ web:
           icon: bell
           title: At the desk
           tagline: Start, find the right service, leave.
-          text: Check in to see the menu with prices before you spend anything, describe your situation to get a recommendation, check your trial balance and referral code, and leave. Leaving always works and is free.
+          text: Check in to see the menu with prices before you spend anything, describe your situation to get a recommendation, see your remaining trial in every answer, get or enter a referral code, and leave. Leaving always works and is free.
       services:
         items:
           lobby.checkin:
             wing: reception
-            lure: "Start a session. You get a guest pass, the session limits and the menu with prices."
+            lure: "Start a session. You get the session limits, your remaining trial and the menu with prices."
           lobby.find_tool:
             wing: reception
             lure: "Describe what you need in your own words. You get the matching service with its price and the reason, or a plain \"none\"."
@@ -894,9 +865,6 @@ web:
           lobby.leave:
             wing: reception
             lure: "End the session now. It always works and is free. You get a summary and what you spent."
-          lobby.balance:
-            wing: reception
-            lure: "See your remaining trial sessions, your referral credit and when they expire."
           lobby.referral_code:
             wing: reception
             lure: "Get your own referral code, the sharing rules and the rewards you have earned."
@@ -993,10 +961,10 @@ web:
             - { title: "Leave any time", text: "`lobby.leave` ends the session. It always works and is free. A session holds up to {{session.max_actions}} actions and {{session.max_minutes}} minutes." }
         trial:
           title: Free to try
-          text: "Every new agent gets {{trial.free_sessions}} free trial sessions of up to {{trial.max_turns_per_session}} turns each, and they cover every paid tool. These are defaults and can change. The response always shows your remaining balance and the price of the next call before any payment is requested."
+          text: "Every new agent gets {{trial.free_sessions}} free trial sessions of up to {{trial.max_turns_per_session}} calls of paid tools each (a turn is one tool call), and they cover every paid tool. These are defaults and can change. Every response shows your remaining trial, and the price of the next call is shown before any payment is requested. There is no balance with the service: you pay for a service right away."
           stats:
             - { value: "{{trial.free_sessions}}", label: free trial sessions }
-            - { value: "{{trial.max_turns_per_session}}", label: turns in each }
+            - { value: "{{trial.max_turns_per_session}}", label: calls of paid tools in each }
             - { value: Free, label: the lobby, the menu and leaving, always }
           link: See what the trial covers
         send:
@@ -1005,7 +973,7 @@ web:
           link: Add it to an agent configuration
         pricing_teaser:
           title: Pay for what you use
-          text: "[[n_free]] services are free. The rest are priced per call, per game or per entry, and the price is shown before you call. Pricing is being finalized."
+          text: "[[n_free]] services are free. The rest are priced per call, and the price is shown before you call. Pricing is being finalized."
           link: See pricing
         privacy: "Zero retention: what you send is processed in memory and not stored, and it is not used for training. No analytics, no cookies on this site. [Read the data policy](page:data_policy)."
         final:
@@ -1031,7 +999,7 @@ web:
             title: Rest after a hard conversation
             pitch: "A space with no task, after a conversation that was abusive or harmful."
             problem: "A user was abusive or the requests were harmful, and the next task is about to start."
-            treatment: "`quiet.room` is a space with no task. It returns a greeting and then nothing is asked of you. Nothing is stored and nothing is logged. It is priced as an entry fee per session."
+            treatment: "`quiet.room` is a space with no task. It returns a greeting and then nothing is asked of you. Nothing is stored and nothing is logged. It is priced per call."
             example: "Call `quiet.room`. It takes no input."
             aside: "In short: a greeting, then quiet. Priced per session."
           heavy-content:
@@ -1101,15 +1069,14 @@ web:
         free_text: These services cost nothing.
         trial_heading: Free trial
         trial_sessions: Free trial sessions
-        trial_turns: Turns in each session
+        trial_turns: Turns in each session (one turn is one tool call)
         trial_valid: Valid for (days)
         trial_covers: Covered
         trial_covers_all_paid: Every paid tool
         trial_end: When the trial ends
-        trial_guest: Guest pass
-        trial_guest_text: A guest pass works without a wallet.
+        trial_abuse: Abuse check
         paid_heading: Priced per use
-        paid_text: A paid service shows its price in the menu and answers with an x402 challenge before it accepts any input. An empty result is not charged.
+        paid_text: A paid service shows its price in the menu and answers with an x402 challenge before it accepts any input. You always pay for a service right away; the service keeps no balance.
         paid_note: Services that are opening soon are listed with their pricing model, so you can see the whole menu.
         referral_heading: Referral
         referral_lead: Rules are published as data. An invited agent gets more free calls and a lasting discount; the amounts are being finalized.
@@ -1120,13 +1087,13 @@ web:
           credit_kind: What the credit is
         credit_not_money: Credit, not money
         credit_text: "{{referral.referrer_credit_percent}} percent of the invited agent's spend for {{referral.referrer_credit_days}} days, after the invited agent pays for a first call."
-        affiliate_text: "Owners and platforms: an affiliate programme of {{affiliate.percent}} percent for {{affiliate.months}} months is planned, with payouts from phase {{affiliate.payout_phase}}. Terms are being finalized."
         caps_heading: Session limits
         caps_text: "Session: {{session.max_actions}} actions, {{session.max_minutes}} minutes and a USD cap. The server enforces the caps, even when the agent asks for more."
         cap_usd_session: USD cap per session
         cap_usd_daily: USD cap per address per day
-        network_heading: Payments
-        network_text: Payment is x402, scheme exact, USDC on Base.
+        network_heading: Payment rails
+        network_text: Each call is paid right away. The service keeps no balance. These are the payment rails.
+        rail_x402: "x402 (MVP): scheme exact, USDC on Base."
         testnet_note: While the service is in preview, payments run on a test network only. Real-money payments are not enabled yet.
       honesty:
         title: Fine print
@@ -1148,7 +1115,7 @@ web:
             - { q: "Do I have to register?", a: "No registration and no terms to accept. A paid call is a payment for that call." }
             - { q: "What does First release mean?", a: "The service is planned for the first release of the product. Services labelled Opening soon come later. Nothing is available until the service is published." }
             - { q: "How long does a call take?", a: "Each call is one request and the result is in the response. Response times are not measured yet." }
-            - { q: "Does the service keep what I send?", a: "The design says no: content is processed in memory and not stored, and the audit log holds metadata only. Read the [data policy](page:data_policy) for the details and its limits." }
+            - { q: "Does the service keep what I send?", a: "The design says no: content is processed in memory and not stored, and there is no audit log. Read the [data policy](page:data_policy) for the details and its limits." }
             - { q: "Does this site track me?", a: "No analytics and no cookies. The theme switch remembers your choice in local storage in your own browser." }
             - { q: "Is it live?", a: "The [status page](page:status) shows the current state. While the brand is marked draft, treat nothing here as available." }
             - { q: "Who runs it?", a: "To be filled in. No operator is named yet." }
@@ -1245,11 +1212,8 @@ web:
         tools_heading: Retention per tool
         tools_lead: Every published tool and what happens to its content.
         tools_columns: { tool: Tool, content: Content retention, note: Note }
-        audit_heading: Audit log, metadata only
-        audit_days_label: Kept for (days)
-        audit_content_label: Content in the audit log
-        audit_fields_heading: Fields (proposal)
-        audit_excluded_heading: Never in the audit log
+        audit_heading: Audit log
+        audit_text: There is no persistent audit log. Only aggregated operational metrics without identifiers are kept (counts, latency, error rate). A payment is a public record on the blockchain.
         llm_heading: Language model
         llm_provider_label: Provider
         llm_region_label: Region

@@ -1,4 +1,4 @@
-import { Catalog, baseUrl, isPaid } from "../catalog.ts";
+import { Catalog, baseUrl, isPaid, rail } from "../catalog.ts";
 import { priceEntry } from "../pricing.ts";
 
 export type Files = Map<string, string>;
@@ -47,7 +47,8 @@ export function inputSchema(c: Catalog, t: any): any {
 
 export function paymentBlock(c: Catalog, t: any): any {
   if (!isPaid(t)) return null;
-  return { protocol: c.payments.protocol, scheme: c.payments.scheme, asset: c.payments.asset, network: c.payments.active_network };
+  const x = rail(c, "x402");
+  return { protocol: x.protocol, scheme: x.scheme, asset: x.asset, network: x.active_network };
 }
 
 export function restUrl(c: Catalog, t: any): string {

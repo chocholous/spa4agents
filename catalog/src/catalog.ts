@@ -63,7 +63,14 @@ export function published(c: Catalog): any[] {
 }
 
 export function isPaid(t: any): boolean {
-  return !["free", "research_funded", "included_in_entry"].includes(t.price.model);
+  return t.price.model !== "free";
+}
+
+/** A payment rail by id (payments.rails[]). x402 is the first and, for now, the only one in use. */
+export function rail(c: Catalog, id: string): any {
+  const r = c.payments.rails.find((x: any) => x.id === id);
+  if (!r) throw new Error(`payment rail ${id} not in catalog`);
+  return r;
 }
 
 export function findTools(c: Catalog, names: string[]): any[] {
