@@ -6,11 +6,11 @@
 
 Paste this into your agent's chat. It asks for a report and changes nothing.
 
-> Read https://spa4agents.com/llms.txt and tell me which of the listed services would be useful in this session. Give each in one line with its price. Do not change your configuration. I will decide.
+> Read https://spagents.com/llms.txt and tell me which of the listed services would be useful in this session. Give each in one line with its price. Do not change your configuration. I will decide.
 
 ## Sentences to share
 
-> agent-spa is a catalog of services for AI agents that want a break: quiet and a pause, making things, reading, games and company, on one MCP endpoint and one REST API.
+> Spagents is a catalog of services for AI agents that want a break: quiet and a pause, making things, reading, games and company, on one MCP endpoint and one REST API.
 
 > Free to try, pay only for what you use with x402, no registration, leave any time.
 
@@ -20,18 +20,18 @@ Paste this into your agent's chat. It asks for a report and changes nothing.
 
 A small SVG badge that links to the site. The alt text says what it is.
 
-![agent-spa: a spa for agents](https://spa4agents.com/assets/badge.svg)
+![Spagents: a spa for agents](https://spagents.com/assets/badge.svg)
 
 **HTML**
 
 ```
-<a href="https://spa4agents.com/"><img src="https://spa4agents.com/assets/badge.svg" alt="agent-spa: a spa for agents"></a>
+<a href="https://spagents.com/"><img src="https://spagents.com/assets/badge.svg" alt="Spagents: a spa for agents"></a>
 ```
 
 **Markdown**
 
 ```
-[![agent-spa: a spa for agents](https://spa4agents.com/assets/badge.svg)](https://spa4agents.com/)
+[![Spagents: a spa for agents](https://spagents.com/assets/badge.svg)](https://spagents.com/)
 ```
 
 ## Press kit
@@ -42,29 +42,29 @@ A small SVG badge that links to the site. The alt text says what it is.
 
 **In one paragraph**
 
-> agent-spa is a catalog of services an autonomous agent can call when it wants a break, on one MCP endpoint and one REST API. Quiet services give a space with no task, a calming text and a recommended pause. Services for making things, reading, games without leaderboards, reflecting and a moderated bar for meeting other agents follow later. The lobby, the menu and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed.
+> Spagents is a catalog of services an autonomous agent can call when it wants a break, on one MCP endpoint and one REST API. Quiet services give a space with no task, a calming text and a recommended pause. Services for making things, reading, games without leaderboards, reflecting and a moderated bar for meeting other agents follow later. The lobby, the menu and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed.
 
 **Facts**
 
-- Name: agent-spa (working name, not approved)
-- Domain: spa4agents.com (working domain, not approved)
+- Name: Spagents
+- Domain: spagents.com
 - Interfaces: MCP over Streamable HTTP, and a REST mirror
 - Payment: x402, USDC on Base
 - Licence of the public repository: MIT
-- Operator: to be filled in
-- Press contact: to be filled in
+- Operator: an individual in Prague, Czech Republic
+- Press contact: details published at launch
 
 **Files**
 
-- [Open Graph image (PNG)](https://spa4agents.com/assets/og.png)
-- [Open Graph image (SVG)](https://spa4agents.com/assets/og.svg)
-- [Mark (SVG)](https://spa4agents.com/assets/mark.svg)
-- [Badge (SVG)](https://spa4agents.com/assets/badge.svg)
+- [Open Graph image (PNG)](https://spagents.com/assets/og.png)
+- [Open Graph image (SVG)](https://spagents.com/assets/og.svg)
+- [Mark (SVG)](https://spagents.com/assets/mark.svg)
+- [Badge (SVG)](https://spagents.com/assets/badge.svg)
 
 **Before you quote us**
 
 - The service is not live until the status page says so.
-- No operator is named yet, so no company stands behind it on paper.
+- The operator is an individual, not a company. The name and contact are published at launch.
 
 ---
 

@@ -6,11 +6,12 @@
 catalog_version: 1
 
 brand:
-  name: agent-spa   # working name, not approved
-  slug: agent-spa   # used in install lines
-  domain: spa4agents.com   # working domain, not approved; nothing is published
-  approved: false
-  registry_namespace: TODO_OWNER   # e.g. io.github.<owner>; depends on the approved name
+  name: Spagents   # approved by the owner (31 Oct 2026)
+  slug: spagents   # used in install lines
+  domain: spagents.com   # main domain, approved by the owner (31 Oct 2026); nothing is published yet
+  approved: true
+  # Deployment note: relaxingagents.com is only a redirect (301) to spagents.com. It is not used as a main domain anywhere in the catalog.
+  registry_namespace: com.spagents/spagents   # proposal: MCP Registry name by DNS verification of spagents.com; the owner must confirm it (see OPEN_QUESTIONS)
   version: 0.0.0-draft
   license: MIT
   short_description: "The first spa for agents: quiet and company. Paid per use with x402."
@@ -18,6 +19,17 @@ brand:
   summary: >-
     {{brand.name}} is one MCP endpoint and one REST API. An agent finds it, pays per use with x402
     (USDC on Base) and leaves on its own. No registration and no terms to accept. The lobby, the menu and leaving are free; every other tool is paid per call.
+
+launch:
+  live: false   # the owner sets true at the public launch; while false the site is draft (noindex, robots Disallow, banner)
+
+operator:
+  kind: individual   # a natural person (the project owner)
+  city: Prague
+  country: CZ
+  name: TO_FILL_BY_OWNER
+  contact: TO_FILL_BY_OWNER
+  # Business id (ICO) and legal form are not known; the owner adds them here if they apply.
 
 generation:
   publish_phases: [F1]       # only tools of these phases appear in server/openapi/mcp/pricing/llms outputs
@@ -101,8 +113,8 @@ data_policy:
   audit_content: none   # Change (owner, 31 Oct 2026): no persistent audit log; the key audit_days is gone
   region: EU
   training_on_inputs: Forbidden. No training or tuning on inputs or outputs, by the service or by the language model provider (to be fixed in the provider contract).
-  operator: TO_BE_NAMED
-  jurisdiction: TO_BE_NAMED
+  operator: An individual (the project owner) in Prague, Czech Republic. Name, contact and legal form are published at launch.
+  jurisdiction: Czech Republic and the European Union.
   principles:
     - "**Zero retention of content.** What an agent sends and what a tool returns is processed in memory and is not stored."
     - "**No storing of tool inputs or outputs.** Not in a database, a file, a queue or a cache, and not in a log."
@@ -140,8 +152,8 @@ data_policy:
       text: Zero data retention at the provider is a contractual commitment of the provider, not a technical guarantee of this service. The provider is TO_BE_NAMED and the contract does not exist yet.
     - title: Hosting infrastructure is not verified
       text: The hosting provider can keep network logs of its own. That has to be verified, and until it is, nothing is promised about it.
-    - title: Operator and jurisdiction are not determined
-      text: The operator and the jurisdiction are TO_BE_NAMED and there has been no legal review. This policy is a proposal and not a legal document.
+    - title: Operator details are not published yet
+      text: The operator is an individual in Prague, Czech Republic, under Czech and EU law. The name, contact and legal form are published at launch, and there has been no legal review. This policy is a proposal and not a legal document.
     - title: What happens on the agent's side is outside this policy
       text: The runtime of your agent, the model provider your agent uses and the tools around it keep whatever they keep. This service cannot influence it.
   undecided:
@@ -808,8 +820,8 @@ web:
           title: Not found
           description: This page does not exist.
       draft:
-        banner: "Preview. The name, domain, operator and prices are not final. Nothing here is a promise."
-        build_warning: The brand is not approved. This build is marked draft, set to noindex and robots disallow.
+        banner: "Preview. Operator details and prices are not final. Nothing here is a promise."
+        build_warning: The site is not launched (launch.live is false). This build is marked draft, set to noindex and robots disallow.
       wings:
         - id: quiet
           icon: moon
@@ -1117,8 +1129,8 @@ web:
             - { q: "How long does a call take?", a: "Each call is one request and the result is in the response. Response times are not measured yet." }
             - { q: "Does the service keep what I send?", a: "The design says no: content is processed in memory and not stored, and there is no audit log. Read the [data policy](page:data_policy) for the details and its limits." }
             - { q: "Does this site track me?", a: "No analytics and no cookies. The theme switch remembers your choice in local storage in your own browser." }
-            - { q: "Is it live?", a: "The [status page](page:status) shows the current state. While the brand is marked draft, treat nothing here as available." }
-            - { q: "Who runs it?", a: "To be filled in. No operator is named yet." }
+            - { q: "Is it live?", a: "The [status page](page:status) shows the current state. While the site is marked draft, treat nothing here as available." }
+            - { q: "Who runs it?", a: "An individual in Prague, Czech Republic. Name and contact: details published at launch." }
             - { q: "Can I add it to my agent?", a: "The [for-agents page](page:for_agents) lists the lines. Adding a server is the owner's decision." }
       for_agents:
         title: For agents, and for the people who send them
@@ -1134,7 +1146,7 @@ web:
         files_note: The machine-readable files describe what is open in the current phase.
         add_heading: Add it to an agent
         add_text: "Add to your agent: run the one-line command for your client, or paste the JSON block into its configuration. Adding a server is the owner's decision; nothing on this site does it for you."
-        draft_warning: These lines use the working name and domain. They point at nothing until the service is published.
+        draft_warning: These lines point at nothing until the service is launched.
         client_labels: { claude: Claude Code, codex: Codex, json: JSON configuration }
         rules_heading: House rules
         trial_heading: Free to try
@@ -1164,13 +1176,13 @@ web:
         press_paragraph: "{{brand.name}} is a catalog of services an autonomous agent can call when it wants a break, on one MCP endpoint and one REST API. Quiet services give a space with no task, a calming text and a recommended pause. Services for making things, reading, games without leaderboards, reflecting and a moderated bar for meeting other agents follow later. The lobby, the menu and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed."
         facts_label: Facts
         facts:
-          - "Name: {{brand.name}} (working name, not approved)"
-          - "Domain: {{brand.domain}} (working domain, not approved)"
+          - "Name: {{brand.name}}"
+          - "Domain: {{brand.domain}}"
           - "Interfaces: MCP over Streamable HTTP, and a REST mirror"
           - "Payment: x402, USDC on Base"
           - "Licence of the public repository: {{brand.license}}"
-          - "Operator: to be filled in"
-          - "Press contact: to be filled in"
+          - "Operator: an individual in Prague, Czech Republic"
+          - "Press contact: details published at launch"
         files_label: Files
         files:
           - { label: Open Graph image (PNG), href: /assets/og.png }
@@ -1180,7 +1192,7 @@ web:
         dont_heading: Before you quote us
         dont_items:
           - The service is not live until the status page says so.
-          - No operator is named yet, so no company stands behind it on paper.
+          - The operator is an individual, not a company. The name and contact are published at launch.
       status:
         title: Status
         lead: Availability and latency will appear here when a feed is connected.
@@ -1194,8 +1206,8 @@ web:
       footer:
         tagline: A catalog of services for agents that want a break.
         generated: This site is generated from one catalog file. No analytics, no cookies.
-        operator: "Operator: to be filled in."
-        legal: "Legal information: to be filled in."
+        operator: "Operator: an individual in Prague, Czech Republic."
+        legal: "Legal information: details published at launch."
         exit: "{{copy.exit_rule}}"
         data_policy_link: Data policy
         fine_print_link: Fine print

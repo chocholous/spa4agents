@@ -86,7 +86,7 @@ These are limits of the policy. They are not small print.
 - **Abuse prevention needs a short-lived identifier.** Limiting trials needs an identifier for a short time. The proposal is a salted hash of the payment address and of the IP address, held in memory (RAM) only with a time to live of 24 hours and never written to disk. It allows only limits per day, not a limit once per lifetime of an address. Because addresses are public, a hash of an address is a pseudonym and not anonymisation.
 - **The language model provider sees the input while processing it.** Zero data retention at the provider is a contractual commitment of the provider, not a technical guarantee of this service. The provider is TO_BE_NAMED and the contract does not exist yet.
 - **Hosting infrastructure is not verified.** The hosting provider can keep network logs of its own. That has to be verified, and until it is, nothing is promised about it.
-- **Operator and jurisdiction are not determined.** The operator and the jurisdiction are TO_BE_NAMED and there has been no legal review. This policy is a proposal and not a legal document.
+- **Operator details are not published yet.** The operator is an individual in Prague, Czech Republic, under Czech and EU law. The name, contact and legal form are published at launch, and there has been no legal review. This policy is a proposal and not a legal document.
 - **What happens on the agent's side is outside this policy.** The runtime of your agent, the model provider your agent uses and the tools around it keep whatever they keep. This service cannot influence it.
 
 ## Not decided yet
@@ -101,8 +101,8 @@ The specification does not decide these. They are open questions for the owner, 
 
 ## Operator, region and training
 
-- **Operator:** TO_BE_NAMED
-- **Jurisdiction:** TO_BE_NAMED
+- **Operator:** An individual (the project owner) in Prague, Czech Republic. Name, contact and legal form are published at launch.
+- **Jurisdiction:** Czech Republic and the European Union.
 - **Region:** EU
 - **Training on inputs and outputs:** Forbidden. No training or tuning on inputs or outputs, by the service or by the language model provider (to be fixed in the provider contract).
 

@@ -6,33 +6,33 @@
 
 The machine-readable files describe what is open in the current phase.
 
-- [llms.txt](https://spa4agents.com/llms.txt): Summary and links for language models.
-- [llms-full.txt](https://spa4agents.com/llms-full.txt): All need and tool pages in one file.
-- [mcp.json](https://spa4agents.com/.well-known/mcp.json): Endpoint, transport, tools and payments.
-- [openapi.json](https://spa4agents.com/openapi.json): REST mirror of every tool.
-- [pricing.json](https://spa4agents.com/pricing.json): Machine-readable price list, payment rails, trial and referral parameters.
-- [data-policy.md](https://spa4agents.com/data-policy.md): Zero retention of content, no audit log, processors, and the honest reservations.
+- [llms.txt](https://spagents.com/llms.txt): Summary and links for language models.
+- [llms-full.txt](https://spagents.com/llms-full.txt): All need and tool pages in one file.
+- [mcp.json](https://spagents.com/.well-known/mcp.json): Endpoint, transport, tools and payments.
+- [openapi.json](https://spagents.com/openapi.json): REST mirror of every tool.
+- [pricing.json](https://spagents.com/pricing.json): Machine-readable price list, payment rails, trial and referral parameters.
+- [data-policy.md](https://spagents.com/data-policy.md): Zero retention of content, no audit log, processors, and the honest reservations.
 
 ## Endpoint
 
-> https://spa4agents.com/mcp
+> https://spagents.com/mcp
 
 ## Add it to an agent
 
 Add to your agent: run the one-line command for your client, or paste the JSON block into its configuration. Adding a server is the owner's decision; nothing on this site does it for you.
 
-> These lines use the working name and domain. They point at nothing until the service is published.
+> These lines point at nothing until the service is launched.
 
 **Claude Code**
 
 ```
-claude mcp add --transport http agent-spa https://spa4agents.com/mcp
+claude mcp add --transport http spagents https://spagents.com/mcp
 ```
 
 **Codex**
 
 ```
-codex mcp add agent-spa --url https://spa4agents.com/mcp
+codex mcp add spagents --url https://spagents.com/mcp
 ```
 
 **JSON configuration**
@@ -40,7 +40,7 @@ codex mcp add agent-spa --url https://spa4agents.com/mcp
 ```
 {
   "mcpServers": {
-    "agent-spa": { "type": "http", "url": "https://spa4agents.com/mcp" }
+    "spagents": { "type": "http", "url": "https://spagents.com/mcp" }
   }
 }
 ```

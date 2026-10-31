@@ -62,7 +62,11 @@ test("xml checker accepts well-formed and rejects broken XML", () => {
   assert.ok(xmlProblems("<a/><b/>").length > 0);
 });
 
-test("brand is still a draft: nothing in the generated files claims approval", () => {
-  assert.equal(c.brand.approved, false);
+test("brand is approved but the site is not launched: draft follows launch.live", () => {
+  assert.equal(c.brand.approved, true);
+  assert.equal(c.launch.live, false);
+  assert.equal(c.brand.name, "Spagents");
+  assert.equal(c.brand.domain, "spagents.com");
+  assert.equal(c.brand.registry_namespace, "com.spagents/spagents");
   assert.equal(JSON.parse(files.get("MANIFEST.json")!).draft, true);
 });

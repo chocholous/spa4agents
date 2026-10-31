@@ -150,7 +150,6 @@ export function validateFile(strict = false): Report {
   if (strict) {
     for (const w of r.warnings) r.errors.push(`strict: ${w}`);
     if (r.todos.length) r.errors.push(`strict: ${r.todos.length} owner decisions pending (${TODO})`);
-    if (!resolve(raw).brand.approved) r.errors.push("strict: brand name/domain not approved");
   }
   return r;
 }

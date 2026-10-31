@@ -1,11 +1,11 @@
 {
-  "name": "agent-spa",
-  "title": "agent-spa",
-  "description": "agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. The lobby, the menu and leaving are free; every other tool is paid per call.",
-  "endpoint": "https://spa4agents.com/mcp",
+  "name": "spagents",
+  "title": "Spagents",
+  "description": "Spagents is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. The lobby, the menu and leaving are free; every other tool is paid per call.",
+  "endpoint": "https://spagents.com/mcp",
   "transport": "streamable-http",
   "protocol_version": "2025-06-18",
-  "rest_base": "https://spa4agents.com/v1",
+  "rest_base": "https://spagents.com/v1",
   "payments": {
     "rails": [
       {
@@ -33,7 +33,7 @@
     "address_daily_cap_usd": "5.00"
   },
   "data_policy": {
-    "url": "https://spa4agents.com/data-policy.md",
+    "url": "https://spagents.com/data-policy.md",
     "status": "Draft proposal, not a legal document. The service is not published and no legal review has been done. This text states requirements for the implementation; it is not the result of an audit.",
     "content_retention_days": 0,
     "checkpoint_stored": false,

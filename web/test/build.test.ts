@@ -28,8 +28,8 @@ test("every page has a Markdown alternative and describedby llms.txt", () => {
   }
 });
 
-test("draft brand: noindex, hidden flag, robots disallow", () => {
-  assert.equal(load().brand.approved, false);
+test("not launched (launch.live false): noindex, hidden flag, robots disallow", () => {
+  assert.equal(load().launch.live, false);
   assert.ok(built.draft);
   assert.match(html("index.html"), /data-draft="true"/);
   assert.match(html("index.html"), /noindex/);

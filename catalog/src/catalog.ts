@@ -12,6 +12,8 @@ export const DIST = path.join(ROOT, "dist");
 export const TODO = "TODO_OWNER";
 /** Placeholder for a named party that is not chosen yet (operator, jurisdiction, LLM provider, hosting). */
 export const TO_BE_NAMED = "TO_BE_NAMED";
+/** Placeholder for a personal detail only the owner knows (operator name, contact). */
+export const TO_FILL_BY_OWNER = "TO_FILL_BY_OWNER";
 
 export function loadRaw(file = CATALOG_PATH): { raw: Catalog; text: string } {
   const text = readFileSync(file, "utf8");
@@ -78,7 +80,7 @@ export function findTools(c: Catalog, names: string[]): any[] {
 }
 
 export function collectTodos(value: any, p = "$"): string[] {
-  if (value === TODO || value === TO_BE_NAMED) return [p];
+  if (value === TODO || value === TO_BE_NAMED || value === TO_FILL_BY_OWNER) return [p];
   if (Array.isArray(value)) return value.flatMap((v, i) => collectTodos(v, `${p}[${i}]`));
   if (value && typeof value === "object") {
     return Object.entries(value).flatMap(([k, v]) => collectTodos(v, `${p}.${k}`));

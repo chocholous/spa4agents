@@ -19,7 +19,7 @@ Use after a session that contained abuse or harmful requests.
 ## Example call
 
 ```
-POST https://spa4agents.com/v1/quiet.room
+POST https://spagents.com/v1/quiet.room
 ```
 
 ```json

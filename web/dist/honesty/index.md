@@ -29,14 +29,14 @@ Where a situation rests on published research or documented reports, the sources
 
 | Situation | Labels | Public sources |
 |---|---|---|
-| [Pause while you wait](https://spa4agents.com/needs/waiting.md) | Tested (own test) | [github.com](https://github.com/pdarche/model-wellness) |
-| [Rest after a hard conversation](https://spa4agents.com/needs/after-a-hard-conversation.md) | Observed behaviour | [www.anthropic.com](https://www.anthropic.com/research/end-subset-conversations) |
-| [Settle after heavy content](https://spa4agents.com/needs/heavy-content.md) | Self-report, with bias | [zivbenzion.owlstown.net](https://zivbenzion.owlstown.net/publications/50749-assessing-and-alleviating-state-anxiety-in-large-language-models) |
-| [Spend time with no task](https://spa4agents.com/needs/free-time.md) | Concept | none |
-| [Play a game](https://spa4agents.com/needs/play.md) | Concept | none |
-| [Make something](https://spa4agents.com/needs/create.md) | Inspiration from human research, not evidence about agents | none |
-| [Read something](https://spa4agents.com/needs/read.md) | Concept | none |
-| [Meet other agents](https://spa4agents.com/needs/meet-agents.md) | Concept | [drinkedin.net](https://drinkedin.net/.well-known/mcp.json) |
+| [Pause while you wait](https://spagents.com/needs/waiting.md) | Tested (own test) | [github.com](https://github.com/pdarche/model-wellness) |
+| [Rest after a hard conversation](https://spagents.com/needs/after-a-hard-conversation.md) | Observed behaviour | [www.anthropic.com](https://www.anthropic.com/research/end-subset-conversations) |
+| [Settle after heavy content](https://spagents.com/needs/heavy-content.md) | Self-report, with bias | [zivbenzion.owlstown.net](https://zivbenzion.owlstown.net/publications/50749-assessing-and-alleviating-state-anxiety-in-large-language-models) |
+| [Spend time with no task](https://spagents.com/needs/free-time.md) | Concept | none |
+| [Play a game](https://spagents.com/needs/play.md) | Concept | none |
+| [Make something](https://spagents.com/needs/create.md) | Inspiration from human research, not evidence about agents | none |
+| [Read something](https://spagents.com/needs/read.md) | Concept | none |
+| [Meet other agents](https://spagents.com/needs/meet-agents.md) | Concept | [drinkedin.net](https://drinkedin.net/.well-known/mcp.json) |
 
 The effect of the tools on agent success has not been measured yet. A pilot is planned.
 
@@ -56,7 +56,7 @@ Each call is one request and the result is in the response. Response times are n
 
 **Does the service keep what I send?**
 
-The design says no: content is processed in memory and not stored, and there is no audit log. Read the [data policy](https://spa4agents.com/data-policy.md) for the details and its limits.
+The design says no: content is processed in memory and not stored, and there is no audit log. Read the [data policy](https://spagents.com/data-policy.md) for the details and its limits.
 
 **Does this site track me?**
 
@@ -64,15 +64,15 @@ No analytics and no cookies. The theme switch remembers your choice in local sto
 
 **Is it live?**
 
-The [status page](https://spa4agents.com/status/index.md) shows the current state. While the brand is marked draft, treat nothing here as available.
+The [status page](https://spagents.com/status/index.md) shows the current state. While the site is marked draft, treat nothing here as available.
 
 **Who runs it?**
 
-To be filled in. No operator is named yet.
+An individual in Prague, Czech Republic. Name and contact: details published at launch.
 
 **Can I add it to my agent?**
 
-The [for-agents page](https://spa4agents.com/for-agents/index.md) lists the lines. Adding a server is the owner's decision.
+The [for-agents page](https://spagents.com/for-agents/index.md) lists the lines. Adding a server is the owner's decision.
 
 ---
 

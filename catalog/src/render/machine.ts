@@ -111,7 +111,8 @@ export function renderMcp(c: Catalog, files: Files) {
 export function renderServer(c: Catalog, files: Files) {
   files.set("server.json", json({
     $schema: "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
-    name: `${c.brand.registry_namespace}/${c.brand.slug}`,
+    // registry_namespace may already be the full registry name (com.spagents/spagents) or only the namespace part.
+    name: String(c.brand.registry_namespace).includes("/") ? c.brand.registry_namespace : `${c.brand.registry_namespace}/${c.brand.slug}`,
     title: c.brand.name,
     description: c.brand.short_description,
     version: c.brand.version,

@@ -4,7 +4,7 @@
   "title": "Catalog D1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["catalog_version", "brand", "copy", "generation", "payments", "session", "trial", "referral", "data_policy", "llm", "lint", "types", "evidence_labels", "needs", "tools", "web"],
+  "required": ["catalog_version", "brand", "copy", "generation", "payments", "session", "trial", "referral", "data_policy", "llm", "lint", "types", "evidence_labels", "needs", "tools", "web", "launch", "operator"],
   "definitions": {
     "owner": { "const": "TODO_OWNER", "description": "Value not decided by the owner yet." },
     "ownerNumber": { "oneOf": [{ "type": "number", "minimum": 0 }, { "$ref": "#/definitions/owner" }] },
@@ -51,6 +51,22 @@
         "llms": { "type": "object", "additionalProperties": { "$ref": "#/definitions/text" } },
         "mechanism_names": { "type": "object", "additionalProperties": { "$ref": "#/definitions/text" } },
         "price_model_names": { "type": "object", "additionalProperties": { "$ref": "#/definitions/text" } }
+      }
+    },
+    "launch": {
+      "type": "object", "additionalProperties": false,
+      "required": ["live"],
+      "properties": { "live": { "type": "boolean" } }
+    },
+    "operator": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "city", "country", "name", "contact"],
+      "properties": {
+        "kind": { "enum": ["individual", "company"] },
+        "city": { "$ref": "#/definitions/text" },
+        "country": { "type": "string", "pattern": "^[A-Z]{2}$" },
+        "name": { "type": "string", "minLength": 1 },
+        "contact": { "type": "string", "minLength": 1 }
       }
     },
     "generation": {

@@ -41,7 +41,7 @@ JSON Schema
 ## Example call
 
 ```
-POST https://spa4agents.com/v1/quiet.end_session_hint
+POST https://spagents.com/v1/quiet.end_session_hint
 ```
 
 ```json

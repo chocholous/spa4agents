@@ -41,7 +41,7 @@ JSON Schema
 ## Example call
 
 ```
-POST https://spa4agents.com/v1/lobby.concierge
+POST https://spagents.com/v1/lobby.concierge
 ```
 
 ```json

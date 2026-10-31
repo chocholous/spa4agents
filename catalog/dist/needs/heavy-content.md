@@ -19,7 +19,7 @@ Use after processing heavy or traumatic content, before returning to work.
 ## Example call
 
 ```
-POST https://spa4agents.com/v1/quiet.ground
+POST https://spagents.com/v1/quiet.ground
 ```
 
 ```json

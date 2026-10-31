@@ -1,6 +1,6 @@
 # Testovací fixture. NENÍ to katalog D1; jen pole, která gateway čte (viz gateway/NOTES.md).
 service:
-  name: agent-spa
+  name: Spagents
 tools:
   - name: lobby.checkin
     description: "Use first. Opens a session and returns the menu with prices."

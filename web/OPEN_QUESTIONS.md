@@ -10,9 +10,9 @@ Rule: what the spec does not decide is not decided here. Human texts live in `ca
 
 ## Decisions the spec does not make
 
-4. **Draft handling.** While `brand.approved` is false or any `TODO_OWNER` remains, the build is a draft: `data-draft`, `noindex`, `robots.txt` with `Disallow: /`, a visible one-line draft banner, a build warning. Is a visible banner wanted, or only the hidden flag?
-5. **Domain in HTML.** Canonical, Open Graph and sitemap URLs use `brand.domain` (`spa4agents.com`, not approved). They change with the catalog.
-6. **Operator, legal information, press contact:** shown as "to be filled in". No jurisdiction or company is named.
+4. **Draft handling.** While `launch.live` is false (owner changes it to true at the public launch), the build is a draft: `data-draft`, `noindex`, `robots.txt` with `Disallow: /`, a visible one-line draft banner, a build warning. Is a visible banner wanted, or only the hidden flag?
+5. **Domain in HTML.** Canonical, Open Graph and sitemap URLs use `brand.domain` (`spagents.com`). They change with the catalog.
+6. **Operator, legal information, press contact:** the footer, FAQ and press fact sheet say "an individual in Prague, Czech Republic"; name, contact and legal form read "details published at launch" (catalog `operator.*` = `TO_FILL_BY_OWNER`).
 7. **Prices:** every `TODO_OWNER` is shown as "Price being decided" or "undecided". Free tools show "Free". Trial and referral numbers are shown as proposals.
 8. **Analytics and tracking:** none added; the footer and the data policy say so. The owner decision of 2026-10-24 is: no analytics on the website. Adding any would change the policy.
 9. **Hosting, headers, caching, CSP, cookie notice:** not decided. The site sets no cookies; the theme choice is kept in `localStorage` only.

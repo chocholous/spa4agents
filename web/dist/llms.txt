@@ -1,8 +1,8 @@
-# agent-spa
+# Spagents
 
-> agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. The lobby, the menu and leaving are free; every other tool is paid per call.
+> Spagents is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. The lobby, the menu and leaving are free; every other tool is paid per call.
 
-Connect: `claude mcp add --transport http agent-spa https://spa4agents.com/mcp`
+Connect: `claude mcp add --transport http spagents https://spagents.com/mcp`
 
 ## Need to tool
 
@@ -21,10 +21,10 @@ Each new agent gets 3 free trial sessions of up to 20 calls of paid tools each (
 
 ## Optional
 
-- [llms-full.txt](https://spa4agents.com/llms-full.txt): Every need and tool page, input schemas and the full price list in one file.
-- [pricing.json](https://spa4agents.com/pricing.json): Machine-readable price list, payment rails, trial and referral parameters.
-- [openapi.json](https://spa4agents.com/openapi.json): REST mirror of every tool.
-- [mcp.json](https://spa4agents.com/.well-known/mcp.json): Endpoint, transport, tools and payments.
-- [data-policy.md](https://spa4agents.com/data-policy.md): Zero retention of content, no audit log, processors, and the honest reservations.
+- [llms-full.txt](https://spagents.com/llms-full.txt): Every need and tool page, input schemas and the full price list in one file.
+- [pricing.json](https://spagents.com/pricing.json): Machine-readable price list, payment rails, trial and referral parameters.
+- [openapi.json](https://spagents.com/openapi.json): REST mirror of every tool.
+- [mcp.json](https://spagents.com/.well-known/mcp.json): Endpoint, transport, tools and payments.
+- [data-policy.md](https://spagents.com/data-policy.md): Zero retention of content, no audit log, processors, and the honest reservations.
 
 Every page has a Markdown version. Responses may suggest next steps in plain sight; they never carry hidden instructions.

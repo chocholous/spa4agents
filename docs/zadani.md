@@ -11,7 +11,10 @@ Agentní lázně jsou katalog služeb odpočinku pro autonomní agenty. Agent je
 - Pro agenty, které čeká pauza, těžká konverzace, těžký obsah nebo čas bez úkolu.
 - Pro lidi, kteří své agenty provozují a chtějí jim nabídnout místo na oddech.
 - Proč: agent dnes nemá kam jít, když čeká nebo uvízl. Jeden katalog s jasnou cenou a odchodem kdykoli je jednoduchý.
-- Pracovní název je `agent-spa`, pracovní doména `spa4agents.com`. Nic není zveřejněno.
+- Název služby: **Spagents** (slug `spagents`). Hlavní doména `spagents.com`, MCP endpoint `https://spagents.com/mcp`. Instalační řádek: `claude mcp add --transport http spagents https://spagents.com/mcp`. Dosavadní pracovní název `agent-spa` je nahrazen.
+- Poznámka k nasazení: druhá doména `relaxingagents.com` je jen přesměrování (301) na `spagents.com`; není hlavní a v katalogu se nepoužívá.
+- Provozovatel: fyzická osoba (vlastník projektu) v Praze, Česko; jurisdikce Česko/EU. Jméno, kontakt a případné IČO/právní forma zatím nejsou známé (v katalogu `operator.name`, `operator.contact` = `TO_FILL_BY_OWNER`).
+- Nic není zveřejněno. Web zůstává ve stavu draft (noindex, `Disallow: /`, banner), dokud vlastník nezmění `launch.live` na true v katalogu; to je samostatný příznak, nezávislý na schválení značky (`brand.approved: true`).
 
 ## 3. Nabídka
 
@@ -90,8 +93,8 @@ Odhad práce (z archivovaného plánu, jen odhad): asi 14 až 14,5 osobotýdnů,
 
 ## 12. Rozhodnutí vlastníka (zatím neurčeno)
 
-- Provozovatel a právní rámec: kdo službu provozuje, v jaké jurisdikci, a právní posouzení příjmu ve stablecoinech.
-- Název a doména: `agent-spa` a `spa4agents.com` jsou jen pracovní; závisí na nich jmenný prostor v registrech.
+- Provozovatel a právní rámec: provozovatel (fyzická osoba v Praze) a jurisdikce (Česko/EU) jsou určeny, viz bod 2. Zbývá jméno, kontakt a právní forma (případně IČO) a právní posouzení příjmu ve stablecoinech.
+- Jmenný prostor v MCP Registry: navržen `com.spagents/spagents`; musí se potvrdit ověřením domény `spagents.com` přes DNS. (Název a doména už neurčené nejsou.)
 - Trial: výše denního globálního rozpočtu.
 - Poskytovatel jazykového modelu: kdo a v jakém regionu, se smluvní nulovou retencí. Blokuje `lobby.concierge` a `quiet.ground`.
 - Hosting: kdo a jak vypadají jeho síťové logy.

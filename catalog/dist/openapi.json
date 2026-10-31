@@ -1,13 +1,13 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "agent-spa",
-    "description": "agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. The lobby, the menu and leaving are free; every other tool is paid per call.",
+    "title": "Spagents",
+    "description": "Spagents is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. The lobby, the menu and leaving are free; every other tool is paid per call.",
     "version": "0.0.0-draft"
   },
   "servers": [
     {
-      "url": "https://spa4agents.com"
+      "url": "https://spagents.com"
     }
   ],
   "paths": {

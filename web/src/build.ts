@@ -24,7 +24,7 @@ export function buildSite(withPng = true): { files: Out; draft: boolean; warning
   const c = load();
   const base = baseUrl(c);
   const todos = collectTodos(c);
-  const draft = !c.brand.approved || todos.length > 0;
+  const draft = !c.launch.live;
   const warnings: string[] = [];
   const dflt = c.web.default_locale;
   const available: string[] = c.web.languages.map((l: any) => l.code).filter((code: string) => !!c.web.locales[code]);
@@ -86,11 +86,11 @@ export function buildSite(withPng = true): { files: Out; draft: boolean; warning
   if (ogPng) files.set("assets/og.png", pngRenderer()!(files.get("assets/og.svg") as string));
   else if (withPng) warnings.push("playwright missing, og.png skipped");
 
-  if (draft) warnings.push(`${L.draft.build_warning} (brand.approved=${c.brand.approved}, owner decisions pending: ${todos.length})`);
+  if (draft) warnings.push(`${L.draft.build_warning} (launch.live=${c.launch.live}, owner decisions pending: ${todos.length})`);
 
   const sorted = [...files.entries()].sort(([a], [b]) => (a < b ? -1 : 1));
   files.set("BUILD.json", JSON.stringify({
-    draft, brand_approved: c.brand.approved, owner_decisions_pending: todos.length,
+    draft, launch_live: c.launch.live, brand_approved: c.brand.approved, owner_decisions_pending: todos.length,
     catalog_sha256: sha(text), locales: available,
     files: sorted.map(([p, b]) => ({ path: p, sha256: sha(b) })),
   }, null, 2) + "\n");

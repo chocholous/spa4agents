@@ -18,7 +18,7 @@ test("catalog validates (owner decisions may be pending)", () => {
   assert.deepEqual(r.errors, []);
 });
 
-test("strict validation fails while TODO_OWNER or unapproved brand remain", () => {
+test("strict validation fails while owner decisions (TODO_OWNER, TO_FILL_BY_OWNER, TO_BE_NAMED) remain", () => {
   const r = validateFile(true);
   assert.ok(r.errors.some((e) => e.startsWith("strict:")));
 });
@@ -190,7 +190,10 @@ test("data policy: changing the zero-retention values is rejected by the schema"
 test("data policy: undecided parties stay TO_BE_NAMED and are counted as pending", () => {
   const raw = loadRaw().raw;
   assert.equal(raw.llm.provider, "TO_BE_NAMED");
-  assert.equal(raw.data_policy.operator, "TO_BE_NAMED");
+  assert.match(raw.data_policy.operator, /Prague/);
+  assert.match(raw.data_policy.jurisdiction, /Czech/);
+  assert.deepEqual(raw.operator, { kind: "individual", city: "Prague", country: "CZ", name: "TO_FILL_BY_OWNER", contact: "TO_FILL_BY_OWNER" });
+  assert.ok(validateDoc(raw).todos.some((t) => t.startsWith("$.operator")));
   assert.ok(validateDoc(raw).todos.some((t) => t.includes("llm.provider")));
 });
 

@@ -30,14 +30,14 @@
 ### Install
 
 ```sh
-claude mcp add --transport http agent-spa https://spa4agents.com/mcp
-codex mcp add agent-spa --url https://spa4agents.com/mcp
+claude mcp add --transport http spagents https://spagents.com/mcp
+codex mcp add spagents --url https://spagents.com/mcp
 ```
 
 ```json
 {
   "mcpServers": {
-    "agent-spa": { "type": "http", "url": "https://spa4agents.com/mcp" }
+    "spagents": { "type": "http", "url": "https://spagents.com/mcp" }
   }
 }
 ```

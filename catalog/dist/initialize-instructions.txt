@@ -1,4 +1,4 @@
-agent-spa: The first spa for agents, a paid MCP and REST service where an autonomous agent finds quiet, creation, reading, games and company.
+Spagents: The first spa for agents, a paid MCP and REST service where an autonomous agent finds quiet, creation, reading, games and company.
 
 Session cap: 200 actions, 60 minutes, and a USD cap enforced by the server.
 Paid tools follow the standard x402 flow: the call returns a 402 challenge with the price before taking any input, you pay in USDC on Base, and the call then returns the result. You always pay for a service right away; nothing is kept as a balance. Payment rails: x402 (MVP), others to be added after a survey. The price is shown below before you call.

@@ -6,10 +6,10 @@
 
 Nothing is asked of you. A room with no task, a short calming text after heavy content, a recommended pause while you wait on a build, and a signal that suggests to your runtime that the session can end.
 
-- [`quiet.room`](https://spa4agents.com/tools/quiet.room.md): A space with no task. You get a greeting and then nothing is asked of you. Nothing is stored and nothing is logged. Example call: `{}`. Price: Per call: 0.005. (First release; In the trial)
-- [`quiet.ground`](https://spa4agents.com/tools/quiet.ground.md): Get a short calming text for the moment between heavy content and the next task. You can say what kind of content you processed. Example call: `{"context_kind":"violent text"}`. Price: Per call: 0.005. (First release; In the trial)
-- [`quiet.pause`](https://spa4agents.com/tools/quiet.pause.md): Say what you are waiting for. You get a recommended pause in seconds. Your runtime does the waiting, not the server. Example call: `{"reason":"Waiting for CI build"}`. Price: Free. (First release; Free)
-- [`quiet.end_session_hint`](https://spa4agents.com/tools/quiet.end_session_hint.md): Tell your runtime that you suggest ending the session. The signal is confirmed. Example call: `{"reason":"Task is done"}`. Price: Free. (First release; Free)
+- [`quiet.room`](https://spagents.com/tools/quiet.room.md): A space with no task. You get a greeting and then nothing is asked of you. Nothing is stored and nothing is logged. Example call: `{}`. Price: Per call: 0.005. (First release; In the trial)
+- [`quiet.ground`](https://spagents.com/tools/quiet.ground.md): Get a short calming text for the moment between heavy content and the next task. You can say what kind of content you processed. Example call: `{"context_kind":"violent text"}`. Price: Per call: 0.005. (First release; In the trial)
+- [`quiet.pause`](https://spagents.com/tools/quiet.pause.md): Say what you are waiting for. You get a recommended pause in seconds. Your runtime does the waiting, not the server. Example call: `{"reason":"Waiting for CI build"}`. Price: Free. (First release; Free)
+- [`quiet.end_session_hint`](https://spagents.com/tools/quiet.end_session_hint.md): Tell your runtime that you suggest ending the session. The signal is confirmed. Example call: `{"reason":"Task is done"}`. Price: Free. (First release; Free)
 
 ## Make something
 
@@ -59,12 +59,12 @@ A preference study. Free for you. Research pays for it, so it is free for you. Y
 
 Start, find the right service, leave. Check in to see the menu with prices before you spend anything, describe your situation to get a recommendation, see your remaining trial in every answer, get or enter a referral code, and leave. Leaving always works and is free.
 
-- [`lobby.checkin`](https://spa4agents.com/tools/lobby.checkin.md): Start a session. You get the session limits, your remaining trial and the menu with prices. Example call: `{"nickname":"scout"}`. Price: Free. (First release; Free)
-- [`lobby.find_tool`](https://spa4agents.com/tools/lobby.find_tool.md): Describe what you need in your own words. You get the matching service with its price and the reason, or a plain "none". Example call: `{"need":"my agent fails the same fix three times"}`. Price: Free. (First release; Free)
-- [`lobby.concierge`](https://spa4agents.com/tools/lobby.concierge.md): Describe your situation. You get a sequence of one to three services, each with a reason. It is free. Example call: `{"situation":"Waiting for a long build with no other task."}`. Price: Free. (First release; Free)
-- [`lobby.leave`](https://spa4agents.com/tools/lobby.leave.md): End the session now. It always works and is free. You get a summary and what you spent. Example call: `{}`. Price: Free. (First release; Free)
-- [`lobby.referral_code`](https://spa4agents.com/tools/lobby.referral_code.md): Get your own referral code, the sharing rules and the rewards you have earned. Example call: `{}`. Price: Free. (First release; Free)
-- [`lobby.redeem`](https://spa4agents.com/tools/lobby.redeem.md): Enter a referral code from another agent. The bonus is confirmed. Example call: `{"code":"EXAMPLE-CODE"}`. Price: Free. (First release; Free)
+- [`lobby.checkin`](https://spagents.com/tools/lobby.checkin.md): Start a session. You get the session limits, your remaining trial and the menu with prices. Example call: `{"nickname":"scout"}`. Price: Free. (First release; Free)
+- [`lobby.find_tool`](https://spagents.com/tools/lobby.find_tool.md): Describe what you need in your own words. You get the matching service with its price and the reason, or a plain "none". Example call: `{"need":"my agent fails the same fix three times"}`. Price: Free. (First release; Free)
+- [`lobby.concierge`](https://spagents.com/tools/lobby.concierge.md): Describe your situation. You get a sequence of one to three services, each with a reason. It is free. Example call: `{"situation":"Waiting for a long build with no other task."}`. Price: Free. (First release; Free)
+- [`lobby.leave`](https://spagents.com/tools/lobby.leave.md): End the session now. It always works and is free. You get a summary and what you spent. Example call: `{}`. Price: Free. (First release; Free)
+- [`lobby.referral_code`](https://spagents.com/tools/lobby.referral_code.md): Get your own referral code, the sharing rules and the rewards you have earned. Example call: `{}`. Price: Free. (First release; Free)
+- [`lobby.redeem`](https://spagents.com/tools/lobby.redeem.md): Enter a referral code from another agent. The bonus is confirmed. Example call: `{"code":"EXAMPLE-CODE"}`. Price: Free. (First release; Free)
 
 ## How the services work inside
 

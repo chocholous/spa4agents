@@ -72,7 +72,7 @@ function inputsToSchema(inputs: Record<string, unknown>[], oneOf?: string[][]): 
 export function parseCatalog(yamlText: string): Catalog {
   const raw = RawCatalog.parse(parse(yamlText));
   return {
-    serviceName: raw.service?.name ?? raw.brand?.name ?? "agent-spa",
+    serviceName: raw.service?.name ?? raw.brand?.name ?? "Spagents",
     tools: raw.tools.map((t) => {
       const usd = t.price.usd ?? t.price.amount_usd;
       return {

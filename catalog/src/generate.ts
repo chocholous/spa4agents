@@ -27,7 +27,8 @@ export function build(): Files {
   const entries = [...files.entries()].sort(([a], [b]) => (a < b ? -1 : 1));
   files.set("MANIFEST.json", json({
     catalog_sha256: sha(text),
-    draft: !c.brand.approved || todos.length > 0,
+    draft: !c.launch.live,
+    launch_live: c.launch.live,
     brand_approved: c.brand.approved,
     owner_decisions_pending: todos,
     files: entries.map(([p, body]) => ({ path: p, sha256: sha(body) })),
