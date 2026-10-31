@@ -100,7 +100,7 @@ main { flex: 1 0 auto; width: 100%; max-width: 1160px; margin: 0 auto; padding: 
 /* hero */
 .hero { position: relative; display: grid; gap: 28px; padding: 56px 0 24px; align-items: center; }
 @media (min-width: 940px) { .hero { grid-template-columns: 1.02fr 1fr; padding: 84px 0 40px; gap: 40px; } }
-.hero::before { content: ""; position: absolute; inset: -40px -60px auto -60px; height: 520px; z-index: -1; background: radial-gradient(60% 70% at 18% 20%, var(--fog-a), transparent 70%), radial-gradient(55% 70% at 85% 30%, var(--fog-b), transparent 70%); pointer-events: none; }
+.hero::before { content: ""; position: absolute; inset: -60px -50vw auto -50vw; height: 560px; z-index: -1; background: radial-gradient(60% 70% at 18% 20%, var(--fog-a), transparent 70%), radial-gradient(55% 70% at 85% 30%, var(--fog-b), transparent 70%); pointer-events: none; }
 .kicker { font-family: var(--mono); font-size: .8rem; color: var(--accent); margin: 0 0 16px; text-transform: uppercase; letter-spacing: .14em; }
 h1 { font-weight: 400; font-size: clamp(2.7rem, 8.4vw, 5.2rem); letter-spacing: -.03em; line-height: 1.02; margin-bottom: 22px; }
 .hero h1 { font-weight: 380; }
@@ -135,7 +135,7 @@ h1 { font-weight: 400; font-size: clamp(2.7rem, 8.4vw, 5.2rem); letter-spacing: 
 
 /* pages */
 .page-hero { position: relative; padding: 56px 0 16px; }
-.page-hero::before { content: ""; position: absolute; inset: -30px -60px auto -60px; height: 340px; z-index: -1; background: radial-gradient(50% 80% at 12% 10%, var(--fog-a), transparent 72%), radial-gradient(45% 80% at 90% 20%, var(--fog-b), transparent 72%); pointer-events: none; }
+.page-hero::before { content: ""; position: absolute; inset: -40px -50vw auto -50vw; height: 380px; z-index: -1; background: radial-gradient(50% 80% at 12% 10%, var(--fog-a), transparent 72%), radial-gradient(45% 80% at 90% 20%, var(--fog-b), transparent 72%); pointer-events: none; }
 .page-hero h1 { font-size: clamp(2.3rem, 6vw, 3.8rem); }
 .need-hero blockquote { margin: 0 0 18px; padding: 0 0 0 20px; border-left: 3px solid; border-image: linear-gradient(var(--peach), var(--lilac)) 1; font-family: var(--serif); font-style: italic; font-size: clamp(1.2rem, 2.8vw, 1.65rem); font-weight: 350; max-width: 34em; }
 .aside { color: var(--muted); font-family: var(--mono); font-size: .88rem; }

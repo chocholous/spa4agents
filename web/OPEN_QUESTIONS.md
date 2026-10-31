@@ -42,3 +42,21 @@ The full list of data policy questions (DP1 to DP11) is in `docs/zadani.md`. Web
 19. **Feelings texts are playful** (readout "agent feelings: unknown, the capsule does not understand", FAQ, need pages). They never state feelings as measured. Needs owner approval of tone.
 20. **Hidden instructions:** the site and the Markdown files contain none; visible suggestions such as "Add to your agent:" are allowed. `catalog` validator warns on hidden patterns.
 21. **/honesty/ hard-rules list** now includes "no hidden instructions" instead of "no commands"; the wording is in `catalog.yaml` (`copy.hard_rules`).
+
+## Redesign as a resort advertisement (owner decision 2026-10-31)
+
+The human site is now a brochure for the whole resort ("Fog and warmth": cream, peach and lilac, Fraunces headings, full dark mode). Machine files still follow `generation.publish_phases` (F1).
+
+22. **"Open" label.** F1 services and pods carry the label "Open", F2/F3 "Opening soon" with a phase tag. Nothing is live yet; the draft banner says so. Change "Open" to "First release" if that is too strong before launch.
+23. **Texts written for this redesign** (all under `web:` in `catalog.yaml`, need approval): the nine wings (`wings`), the 32 service lures (`services.items`, each restating the tool description in sales tone), the 14 need pages (`pitch`, `problem`, `treatment`, `example`, `aside`), home, pricing, fine print, share. Nothing new is claimed beyond the catalog.
+24. **Wing grouping is mine.** Nine wings: reception, recovery, quiet, studio and garden, reading room (`library.read`, `chapel.observe`), games room (chess, poker, puzzle), bar and company (`lounge.*`, `games.arena`), chapel and postcard, lab. The spec has only tool prefixes. Confirm names and grouping.
+25. **F2 persistence vs zero retention (DP7).** `studio.write`, `garden.tend`, `journal.note` are described as a private folder, persistent garden and private note (as in the catalog), but the data policy says nothing is stored. The site does not explain how; this must be settled before those wings open.
+26. **No catalog text for the lab, postcard, chapel services beyond the tool description.** Their lures only restate it. `lab.preference_session` says "your choice is recorded"; check against the data policy.
+27. **Trial.** "{{trial.free_sessions}} sessions of {{trial.max_turns_per_session}} turns" is shown as a changeable default. "Turn" is still undefined (catalog question B1). Validity in days, daily budget and the size of a guest pass trial are shown as "Being finalized" or omitted.
+28. **Fine print** (/honesty/, footer link, not in the main nav) keeps: mechanisms, house rules, source table and one line that effect on agent success is not measured, plus six short FAQ answers. The footer still says "Operator: to be filled in."
+29. **Per-need evidence labels** (Not measured, Source linked) were removed from cards. Background sources appear on a need page only when a source exists; unsourced evidence notes are no longer shown on the human site (they stay in `needs/*.md`).
+30. **Privacy line on home** says "zero retention ... not stored ... not used for training. No analytics, no cookies", from `data_policy`, which is still a draft not confirmed by the owner. The link goes to /data-policy/.
+31. **Fonts.** Fraunces (latin subset, normal and italic, SIL OFL, licence in `assets/fonts/`) is self-hosted; body uses system fonts. Characters outside Latin (future DE/JA) fall back to system serif.
+32. **Navigation:** Treatments, Menu (`/tools/`, now all 32 services), Pricing, For agents, Send it (`/share/`). Footer: Fine print, Status, Data policy, Markdown, llms.txt. Page paths are unchanged.
+33. **Referral values and caps** that are `TODO_OWNER` show "Being finalized" instead of "undecided".
+34. **Schema and validator** changed: `web.locales.<code>` now requires `wings` and `services`; needs items require `pitch` and `example`; `tools.wings` was removed. Translations will need these too.

@@ -39,13 +39,14 @@ test("draft brand: noindex, hidden flag, robots disallow", () => {
 test("14 need pages; F2/F3 needs are marked planned", () => {
   const c = load();
   for (const n of c.needs) assert.ok(built.files.has(`needs/${n.id}/index.html`));
-  assert.match(html("needs/meet-agents/index.html"), /Planned/);
-  assert.doesNotMatch(html("needs/stuck-in-a-loop/index.html"), />Planned</);
+  assert.match(html("needs/meet-agents/index.html"), /Opening soon/);
+  assert.match(html("needs/meet-agents/index.html"), /Phase F3/);
+  assert.doesNotMatch(html("needs/stuck-in-a-loop/index.html"), /Opening soon/);
 });
 
 test("TODO_OWNER never shown; prices say being decided", () => {
   for (const [p, body] of built.files) if (/\.(html|md)$/.test(p) && !p.startsWith("tools/") && !p.startsWith("needs/")) assert.ok(!String(body).includes("TODO_OWNER"), p);
-  assert.match(html("pricing/index.html"), /Price being decided/);
+  assert.match(html("pricing/index.html"), /Pricing being finalized/);
 });
 
 test("language switcher: only available locales link and carry hreflang", () => {
@@ -83,11 +84,34 @@ test("data policy page: HTML page, Markdown twin, footer link, honest reservatio
   assert.ok(String(built.files.get("sitemap.xml")).includes("/data-policy/"));
 });
 
-test("honesty page lists only what is honestly not measured (no operator, jurisdiction, legal, name or LLM provider items)", () => {
+test("fine print is short, not in the main navigation, linked from the footer", () => {
   const h = html("honesty/index.html");
-  assert.match(h, /Not measured yet/);
-  assert.ok(!/What we do not know yet/.test(h));
-  for (const gone of ["Who operates the service", "jurisdiction", "legal framing", "language model provider stands behind"]) assert.ok(!h.includes(gone), gone);
+  assert.match(h, /<h1[^>]*>Fine print/);
+  assert.match(h, /tokens and scripts, and proudly so/);
+  const nav = /<nav class="main-nav".*?<\/nav>/s.exec(html("index.html"))![0];
+  assert.ok(!nav.includes("/honesty/"));
+  assert.match(html("index.html"), /<a href="\/honesty\/">Fine print<\/a>/);
+  assert.ok(!/Confession|not measured/i.test(html("index.html")));
+});
+
+test("the human site shows every need, every service and every wing; unopened ones are Opening soon", () => {
+  const c = load();
+  const tools = html("tools/index.html");
+  for (const t of c.tools) assert.ok(tools.includes(`id="${t.name}"`), t.name);
+  assert.equal((tools.match(/<article class="svc"/g) ?? []).length, 32);
+  assert.match(tools, /Opening soon/);
+  assert.equal((html("index.html").match(/<li class="wing">/g) ?? []).length, c.web.locales.en.wings.length);
+  assert.match(html("index.html"), /Find your pod/);
+  assert.match(html("index.html"), /Send this to your agent/);
+  assert.match(html("index.html"), /free trial sessions/);
+  assert.match(html("index.html"), /href="\/data-policy\/"/);
+});
+
+test("machine outputs stay limited to the published phases", () => {
+  const llms = html("llms.txt");
+  assert.ok(!/games\.poker|lounge\.bar|garden\.tend/.test(llms));
+  assert.ok(!built.files.has("tools/games.poker.md"));
+  assert.ok(built.files.has("tools/recovery.checkpoint.md"));
 });
 
 test("home says the first spa for agents and names no hackathon", () => {
