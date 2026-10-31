@@ -187,7 +187,7 @@
     },
     {
       "name": "quiet.room",
-      "description": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Per call: Pricing being finalized.",
+      "description": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Per call: 0.005.",
       "inputSchema": {
         "type": "object",
         "properties": {},
@@ -196,8 +196,8 @@
       "mechanism": "text",
       "price": {
         "model": "per_call",
-        "amount_usd": null,
-        "status": "pending"
+        "amount_usd": "0.005",
+        "status": "set"
       },
       "untrusted": false,
       "payment": {
@@ -218,7 +218,7 @@
     },
     {
       "name": "quiet.ground",
-      "description": "Returns a short settling text. Use after processing heavy content, before returning to work. Mechanism: llm. Price: Per call: Pricing being finalized.",
+      "description": "Returns a short settling text. Use after processing heavy content, before returning to work. Mechanism: llm. Price: Per call: 0.005.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -232,8 +232,8 @@
       "mechanism": "llm",
       "price": {
         "model": "per_call",
-        "amount_usd": null,
-        "status": "pending"
+        "amount_usd": "0.005",
+        "status": "set"
       },
       "untrusted": false,
       "payment": {

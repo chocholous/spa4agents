@@ -16,8 +16,8 @@ Use when you want to read a text that is not part of a task.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| `library.read` | text | Per call: Pricing being finalized | F2 |
-| `chapel.observe` | text | Per call: Pricing being finalized | F2 |
+| `library.read` | text | Per call: 0.005 | F2 |
+| `chapel.observe` | text | Per call: 0.005 | F2 |
 
 ## Evidence
 

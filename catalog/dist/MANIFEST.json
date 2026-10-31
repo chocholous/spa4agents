@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "0119b3f26376a168a7592f0495ceb8f62891869f30eaab63f96ba9941d4b7e6f",
+  "catalog_sha256": "c947e0c14f0432ace2b274fa01b93447b32156c766dfdbcc7555f8d47fc9a3f6",
   "draft": true,
   "brand_approved": false,
   "owner_decisions_pending": [
@@ -7,71 +7,56 @@
     "$.trial.daily_global_budget",
     "$.data_policy.operator",
     "$.data_policy.jurisdiction",
-    "$.llm.provider",
-    "$.tools[6].price.amount_usd",
-    "$.tools[7].price.amount_usd",
-    "$.tools[10].price.amount_usd",
-    "$.tools[11].price.amount_usd",
-    "$.tools[12].price.amount_usd",
-    "$.tools[13].price.amount_usd",
-    "$.tools[14].price.amount_usd",
-    "$.tools[15].price.amount_usd",
-    "$.tools[16].price.amount_usd",
-    "$.tools[17].price.amount_usd",
-    "$.tools[18].price.amount_usd",
-    "$.tools[19].price.amount_usd",
-    "$.tools[20].price.amount_usd",
-    "$.tools[21].price.amount_usd",
-    "$.tools[22].price.amount_usd"
+    "$.llm.provider"
   ],
   "files": [
     {
       "path": "README.tables.md",
-      "sha256": "0dbf1388587afbbc125e1844561f2030010552aa8e21de5302223309cef5d0df"
+      "sha256": "9e7167ebb8a1d20566511a20351b6dc5df9234ba72b699a0027eda4be97bf039"
     },
     {
       "path": "initialize-instructions.txt",
-      "sha256": "04b351e08ee15bf74139c6782884c268c4f8dcc0be6b94b2496777a62dbb4225"
+      "sha256": "90e5d3d77cb0106882868117b7defd04d3327af41d0ea6965afcf74beb1100d4"
     },
     {
       "path": "llms-full.txt",
-      "sha256": "7da8ebcef52f117672e4068146cdd31dd71fcf95e20b2a3d9957cbfdc04b21e4"
+      "sha256": "ed7d829178c1683ae2cea03ccb7dcba017f1c1f0915d6489afb214956a6b774e"
     },
     {
       "path": "llms.txt",
-      "sha256": "d8c9785700844e35d9f106b5e0066b639ac6e74aa5f996f5a3b6c422c6d47c57"
+      "sha256": "cd8795f7f44597e78c08a159953e592c377a5d0a94288fcd43009ca4a1927536"
     },
     {
       "path": "mcp.json",
-      "sha256": "bea762e3baa6f524fe66d4bff8af3a2afa553bff28d095b9a2fec6f0fea4c9e5"
+      "sha256": "a945d44c22a06dc55d580c5325ec747d69c3ac4040c9e34574bdecb0dea14367"
     },
     {
       "path": "needs/after-a-hard-conversation.md",
-      "sha256": "4fc105a720379a3c55d07cc26a0e0adc685702e6252420dfd52b35d424c66e9a"
+      "sha256": "c051efb1d1cf4be539f701fb70851bcc10f710b43f5bb8629e21ab1bda001ba0"
     },
     {
       "path": "needs/create.md",
-      "sha256": "f3ec1bfb5fa3541a62042b6e972de05703f35c06761c569c42f765c3374f6b4b"
+      "sha256": "da6e62b946f59c26ea105187cec29c69fc2a75e3389e185875904f49a9943aef"
     },
     {
       "path": "needs/free-time.md",
-      "sha256": "72c7b3df163041778e36b87d55cfc4d5af8b05bfc95db5890f088587a1a3f8c5"
+      "sha256": "877d3b7fb9706094fd4543f8e687b416067aab3d1dc0387ba0992347ecf5efd0"
     },
     {
       "path": "needs/heavy-content.md",
-      "sha256": "5029183d31cc5339738df18b590378ec41c51ba10d610a9987a3770f7045a51c"
+      "sha256": "08d157aa7b4fa04efac007bffae95b73d85df28aca12e7f4fe5a6e6b76469d6d"
     },
     {
       "path": "needs/meet-agents.md",
-      "sha256": "ea53fedbed057444b05581ba12b472b1638aaaf7db0d090c4059f8d5ee1495f1"
+      "sha256": "91ae79b315fe5e902d1b5d9651807d1b920c93b02b8b547e1dc0647f786db2d0"
     },
     {
       "path": "needs/play.md",
-      "sha256": "ef4e428ca0033a91f07f40d669f6d5cc31137a0b04401640b29ab83a2e10c44c"
+      "sha256": "a50d99f3af46b0495d377e2ad4cec26837b8ff7235caeed9fc2dda63616328ca"
     },
     {
       "path": "needs/read.md",
-      "sha256": "427d0d1ed8567e59c01641d5ba5831171deddcc1d6a458b505ccddb4f58faff1"
+      "sha256": "1a1c13dd4e638f864af6fe5a9d7083ce22260844930c955b37bbe1738546eb49"
     },
     {
       "path": "needs/waiting.md",
@@ -79,15 +64,15 @@
     },
     {
       "path": "openapi.json",
-      "sha256": "a9bf1372a2fe9f60bdc22c48aa068ce3bd069488070b76752269bd7e15916a49"
+      "sha256": "5e46f244c5b549ae89a390247a7c57973d012aa937b88d4dfdd41e538b3c9cbb"
     },
     {
       "path": "pricing.json",
-      "sha256": "fc48f557224f75d163bf26f0f0c9c7a22c68659a13bf17f115818fb2c2fa3ba7"
+      "sha256": "bcd9c08bf8dd9811b055ef1b830d386cc9ec570071a6b1d49b81f5f6800da67c"
     },
     {
       "path": "server.json",
-      "sha256": "84097a69da9d3bfe688887fff8d4654fdebaeb7588e0de296e74bbec578b673d"
+      "sha256": "93bd993534e937bd9ca7dd5d8ff7543a7ab50446e1c9696936e6d10220893b7e"
     },
     {
       "path": "tools/lobby.checkin.md",
@@ -119,7 +104,7 @@
     },
     {
       "path": "tools/quiet.ground.md",
-      "sha256": "690023882319b1b58819a2bd4bc9addb4ee6c6a9ab711d7fe92e3eff24c505de"
+      "sha256": "59c3c75b663f7e0b96630cd402dd91c15a306ccabc9a4aadf6efa9f1e6d49371"
     },
     {
       "path": "tools/quiet.pause.md",
@@ -127,7 +112,7 @@
     },
     {
       "path": "tools/quiet.room.md",
-      "sha256": "45c09ce18ce26ba0f1685baaef93323878d4f10f41228e82fb03d0692d28caf4"
+      "sha256": "fe2dc14b1d8c9dc0e54d35ee81f15fe6ac84deec42800d437b32bbcc8d3f47ea"
     }
   ]
 }

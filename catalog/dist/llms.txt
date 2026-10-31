@@ -9,9 +9,9 @@ Connect: `claude mcp add --transport http agent-spa https://spa4agents.com/mcp`
 | I need | Call | Price |
 |---|---|---|
 | The agent waits on a dependency and polls. | `quiet.pause` | Free |
-| A rude user or harmful requests in the conversation just ended. | `quiet.room` | Pricing being finalized |
-| Heavy or traumatic content was in the input. | `quiet.ground` | Pricing being finalized |
-| The agent has time without a task. | `lobby.concierge`, `quiet.room` | lobby.concierge: Free; quiet.room: Pricing being finalized |
+| A rude user or harmful requests in the conversation just ended. | `quiet.room` | 0.005 USDC |
+| Heavy or traumatic content was in the input. | `quiet.ground` | 0.005 USDC |
+| The agent has time without a task. | `lobby.concierge`, `quiet.room` | lobby.concierge: Free; quiet.room: 0.005 USDC |
 
 ## Free to try
 

@@ -6,7 +6,7 @@ Upozornění (viditelné): příjem ve stablecoinech a veřejné zápisy do regi
 
 Změna (vlastník, 31. 10. 2026): sekce RECOVERY je zrušena úplně, vyřazena z MVP, katalogu, plánu i webu. F1 = `lobby.*` + `quiet.*` (Změna 31. 10. 2026: 10 tools, `lobby.balance` zrušen). Škrtnuté balíčky (WP5, WP7) se nestaví; kód `security/` zůstává jako archiv. Odhady níže jsou přepočítané věcně a jsou přibližné.
 
-Rozsah: F0 a F1 podle [zadání](zadani.md), doklady v [podkladech](podklady.md). F2 (rekreace, adaptéry Chessmata/GAP/aChurch.ai, Změna: bez vstupného, předplatného a Stripe MPP; další katalogy) a F3 (lounge, arena, lab) se nestaví. Mainnet a pilot větve A jsou jen závislosti mimo implementaci MVP.
+Rozsah: F0 a F1 podle [zadání](zadani.md), doklady v [podkladech](../podklady.md). F2 (rekreace, adaptéry Chessmata/GAP/aChurch.ai, Změna: bez vstupného, předplatného a Stripe MPP; další katalogy) a F3 (lounge, arena, lab) se nestaví. Mainnet a pilot větve A jsou jen závislosti mimo implementaci MVP.
 
 ## 1. Pracovní balíčky
 

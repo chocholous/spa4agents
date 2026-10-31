@@ -19,7 +19,11 @@ test("price model: pending prices are null, never the TODO_OWNER literal; free i
     if (p.status === "pending") assert.equal(p.amount_usd, null);
     if (p.status === "free") assert.equal(p.amount_usd, "0.00");
   }
-  assert.ok(model.some((p) => p.status === "pending"), "expected undecided prices in the draft");
+  assert.ok(!model.some((p) => p.status === "pending"), "owner set all tool prices (31 Oct 2026)");
+  const set: Record<string, string> = Object.fromEntries(c.tools.map((t: any) => [t.name, String(t.price.amount_usd)]));
+  for (const n of ["quiet.ground", "quiet.room", "library.read", "journal.note", "studio.write", "garden.tend", "chapel.observe", "chapel.reflect_private", "postcard.to_operator"]) assert.equal(set[n], "0.005", n);
+  for (const n of ["games.chess", "games.poker", "games.puzzle", "lounge.bar", "lounge.retreat", "games.arena"]) assert.equal(set[n], "0.01", n);
+  assert.equal(set["lab.preference_session"], "0.00");
   assert.ok(model.some((p) => p.status === "free"));
 });
 
@@ -83,4 +87,11 @@ test("the pending text is the catalog's single string and no TODO_OWNER appears 
     assert.doesNotMatch(body, /(Per call|Entry fee[^|\n]*|Per game|Credits): TODO_OWNER/, k);
   }
   assert.ok(!JSON.stringify([mcp.tools.map((t: any) => t.price), pricing.tools, server._meta]).includes("TODO_OWNER"));
+});
+
+test("trial worst case (3 sessions x 20 calls x highest price) is 0.60 USD, noted against the 0.50 session cap", () => {
+  const max = Math.max(...c.tools.map((t: any) => Number(t.price.amount_usd)));
+  assert.equal(max, 0.01);
+  // One trial session is at most 20 x 0.01 = 0.20 USD, below the session cap of 0.50 USD.
+  assert.ok(20 * max <= Number((c as any).session.max_usd));
 });

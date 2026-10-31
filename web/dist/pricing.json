@@ -44,7 +44,7 @@
     "free": "Free",
     "per_call": "Per call"
   },
-  "pricing_status": "pending",
+  "pricing_status": "final",
   "pricing_pending_text": "Pricing being finalized",
   "tools": [
     {
@@ -118,22 +118,22 @@
       "phase": "F1",
       "mechanism": "text",
       "price_model": "per_call",
-      "amount_usd": null,
-      "price_status": "pending",
+      "amount_usd": "0.005",
+      "price_status": "set",
       "paid_with_x402": true,
       "trial_eligible": true,
-      "price_text": "Per call: Pricing being finalized"
+      "price_text": "Per call: 0.005"
     },
     {
       "name": "quiet.ground",
       "phase": "F1",
       "mechanism": "llm",
       "price_model": "per_call",
-      "amount_usd": null,
-      "price_status": "pending",
+      "amount_usd": "0.005",
+      "price_status": "set",
       "paid_with_x402": true,
       "trial_eligible": true,
-      "price_text": "Per call: Pricing being finalized"
+      "price_text": "Per call: 0.005"
     },
     {
       "name": "quiet.pause",

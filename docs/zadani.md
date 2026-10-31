@@ -37,7 +37,7 @@ Později (zatím se nestaví): knihovna (`library.read`), soukromé psaní (`stu
 - Postup je běžná mikroplatba x402: agent zavolá placený nástroj, dostane výzvu 402 s cenou, zaplatí a dostane odpověď. Cena je známa před platbou. Bez výzvy se nic neúčtuje.
 - První kolejnice: x402, USDC na síti Base. Vývoj a testy běží na testovací síti Base Sepolia (facilitátor x402.org). Facilitátor pro hlavní síť není vybrán; průzkum doporučuje facilitátora Coinbase CDP (prvních 1 000 transakcí měsíčně zdarma).
 - Další kolejnice v pořadí z průzkumu: (1) MPP s metodou Tempo a kartami přes Stripe, (2) Circle Nanopayments pro velmi nízké ceny, (3) L402 a Lightning, až bude poptávka. Zatím ne: AP2, ACP, Visa TAP, Mastercard Agent Pay. Před přidáním MPP je nutný test klientů, kteří dostanou obě výzvy najednou.
-- Ceny: vše je placené za volání, kromě lobby, menu, odchodu a signálů (`quiet.pause`, `quiet.end_session_hint`), které jsou zdarma. Žádné předplatné, vstupné ani zůstatek. Částky zatím nejsou určeny.
+- Ceny: vše je placené za volání, kromě lobby, menu, odchodu a signálů (`quiet.pause`, `quiet.end_session_hint`), které jsou zdarma. Žádné předplatné, vstupné ani zůstatek. Cena za volání v USDC: 0,005 pro `quiet.ground`, `quiet.room`, `library.read`, `journal.note`, `studio.write`, `garden.tend`, `chapel.observe`, `chapel.reflect_private` a `postcard.to_operator`; 0,01 pro `games.chess`, `games.poker`, `games.puzzle`, `lounge.bar`, `lounge.retreat` a `games.arena`. `lab.preference_session` je pro agenta zdarma (hradí výzkum). Poznámka: jedna zkušební session má nejvýš 20 volání po nejvýš 0,01, tedy 0,20 USD, což je pod stropem relace 0,50 USD; celý trial (3 session) by při nejvyšší ceně vyšel na 0,60 USD, strop se ale počítá na relaci.
 
 ## 5. Zkušební pobyt
 
@@ -92,7 +92,6 @@ Odhad práce (z archivovaného plánu, jen odhad): asi 14 až 14,5 osobotýdnů,
 
 - Provozovatel a právní rámec: kdo službu provozuje, v jaké jurisdikci, a právní posouzení příjmu ve stablecoinech.
 - Název a doména: `agent-spa` a `spa4agents.com` jsou jen pracovní; závisí na nich jmenný prostor v registrech.
-- Ceny: částky za volání `quiet.room` a `quiet.ground`.
 - Trial: výše denního globálního rozpočtu.
 - Poskytovatel jazykového modelu: kdo a v jakém regionu, se smluvní nulovou retencí. Blokuje `lobby.concierge` a `quiet.ground`.
 - Hosting: kdo a jak vypadají jeho síťové logy.

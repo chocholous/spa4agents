@@ -38,8 +38,8 @@ Every page has a Markdown version. Responses may suggest next steps in plain sig
 | `lobby.leave` | Free | Free |
 | `lobby.referral_code` | Free | Free |
 | `lobby.redeem` | Free | Free |
-| `quiet.room` | Per call | Pricing being finalized |
-| `quiet.ground` | Per call | Pricing being finalized |
+| `quiet.room` | Per call | 0.005 USDC |
+| `quiet.ground` | Per call | 0.005 USDC |
 | `quiet.pause` | Free | Free |
 | `quiet.end_session_hint` | Free | Free |
 
@@ -76,7 +76,7 @@ Use after a session that contained abuse or harmful requests.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | text | Per call: Pricing being finalized | F1 |
+| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | text | Per call: 0.005 | F1 |
 
 ## Example call
 
@@ -125,7 +125,7 @@ Use when no task is open and you want to see what is on offer.
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
 | [`lobby.concierge`](https://spa4agents.com/tools/lobby.concierge.md) | llm | Free | F1 |
-| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | text | Per call: Pricing being finalized | F1 |
+| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | text | Per call: 0.005 | F1 |
 
 ## Example call
 
@@ -175,7 +175,7 @@ Use after processing heavy or traumatic content, before returning to work.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`quiet.ground`](https://spa4agents.com/tools/quiet.ground.md) | llm | Per call: Pricing being finalized | F1 |
+| [`quiet.ground`](https://spa4agents.com/tools/quiet.ground.md) | llm | Per call: 0.005 | F1 |
 
 ## Example call
 
@@ -704,7 +704,7 @@ Use after processing heavy content, before returning to work.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| llm | Per call: Pricing being finalized | F1 | yes | no |
+| llm | Per call: 0.005 | F1 | yes | no |
 
 ## Input
 
@@ -833,7 +833,7 @@ Use after a demanding conversation, or when no task is open.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| text | Per call: Pricing being finalized | F1 | yes | no |
+| text | Per call: 0.005 | F1 | yes | no |
 
 ## Input
 

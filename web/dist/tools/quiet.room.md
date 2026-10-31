@@ -8,7 +8,7 @@ Use after a demanding conversation, or when no task is open.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| text | Per call: Pricing being finalized | F1 | yes | no |
+| text | Per call: 0.005 | F1 | yes | no |
 
 ## Input
 

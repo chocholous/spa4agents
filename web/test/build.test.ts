@@ -44,9 +44,10 @@ test("8 need pages; F2/F3 needs are marked planned", () => {
   assert.doesNotMatch(html("needs/heavy-content/index.html"), /Opening soon/);
 });
 
-test("TODO_OWNER never shown; prices say being decided", () => {
+test("TODO_OWNER never shown; prices are shown", () => {
   for (const [p, body] of built.files) if (/\.(html|md)$/.test(p) && !p.startsWith("tools/") && !p.startsWith("needs/")) assert.ok(!String(body).includes("TODO_OWNER"), p);
-  assert.match(html("pricing/index.html"), /Pricing being finalized/);
+  assert.doesNotMatch(html("pricing/index.html"), /Pricing being finalized/);
+  assert.match(html("pricing/index.html"), /0\.005/);
 });
 
 test("language switcher: only available locales link and carry hreflang", () => {

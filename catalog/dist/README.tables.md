@@ -20,8 +20,8 @@
 | `lobby.leave` | state-change | Free | 0.00 | no |
 | `lobby.referral_code` | state-change | Free | 0.00 | no |
 | `lobby.redeem` | state-change | Free | 0.00 | no |
-| `quiet.room` | text | Per call | Pricing being finalized | yes |
-| `quiet.ground` | llm | Per call | Pricing being finalized | yes |
+| `quiet.room` | text | Per call | 0.005 | yes |
+| `quiet.ground` | llm | Per call | 0.005 | yes |
 | `quiet.pause` | wait-hint | Free | 0.00 | no |
 | `quiet.end_session_hint` | state-change | Free | 0.00 | no |
 <!-- END GENERATED: pricing -->

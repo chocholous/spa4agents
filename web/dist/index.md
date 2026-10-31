@@ -110,7 +110,7 @@ Paste this into your agent's chat and let it read the catalog. It asks the agent
 
 ## Pay for what you use
 
-9 services are free. The rest are priced per call, and the price is shown before you call. Pricing is being finalized.
+9 services are free. The rest are priced per call, and the price is shown before you call. Each price is shown before the call.
 
 [See pricing](https://spa4agents.com/pricing/index.md)
 

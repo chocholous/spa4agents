@@ -8,7 +8,9 @@ Rule: what the spec (`docs/zadani.md`, README) does not decide is not decided he
 |---|---|---|---|---|
 | A1 | ~~Referral: discount for the invited agent~~ | Decided by owner (31 Oct 2026): 10 % | `referral.invitee_discount_percent` | 10 |
 | A2 | ~~Referral: number of free calls for the invited agent~~ | Decided by owner (31 Oct 2026): 3 | `referral.invitee_free_calls` | 3 |
-| A3 | Price amounts per tool (per call, entry, per game, credits, subscription) | zadani: "prices are a proposal for the pilot", derive from inference cost after F0 | `tools[].price.amount_usd` | none |
+| A3 | ~~Price amounts per tool~~ | Decided by owner (31 Oct 2026): 0.005 USDC per call (quiet.*, library.read, journal.note, studio.write, garden.tend, chapel.*, postcard.to_operator), 0.01 (games.*, lounge.*); `lab.preference_session` free | `tools[].price.amount_usd` | as decided |
+
+Note: one trial session is at most 20 calls x 0.01 = 0.20 USD, under the session cap of 0.50 USD; the whole trial (3 x 20 x 0.01) is 0.60 USD at the highest price. Nothing changed.
 | A4 | ~~USD cap per session, USD cap per address per day~~ | Decided by owner (31 Oct 2026): 0.50 USD and 5 USD | `session.max_usd`, `session.address_daily_cap_usd` | "0.50", "5.00" |
 | A5 | ~~Validity period of the trial~~ | Decided by owner (31 Oct 2026): 14 days | `trial.valid_days` | 14 |
 | A6 | Daily global trial budget | zadani: "a daily global budget", no value | `trial.daily_global_budget` | none |

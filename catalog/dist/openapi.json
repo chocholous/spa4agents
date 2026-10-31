@@ -278,7 +278,7 @@
       "post": {
         "operationId": "quiet_room",
         "summary": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged.",
-        "description": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Per call: Pricing being finalized.",
+        "description": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Per call: 0.005.",
         "tags": [
           "quiet"
         ],
@@ -307,8 +307,8 @@
         "x-mechanism": "text",
         "x-price": {
           "model": "per_call",
-          "amount_usd": null,
-          "status": "pending"
+          "amount_usd": "0.005",
+          "status": "set"
         },
         "x-untrusted": false
       }
@@ -317,7 +317,7 @@
       "post": {
         "operationId": "quiet_ground",
         "summary": "Returns a short settling text.",
-        "description": "Returns a short settling text. Use after processing heavy content, before returning to work. Mechanism: llm. Price: Per call: Pricing being finalized.",
+        "description": "Returns a short settling text. Use after processing heavy content, before returning to work. Mechanism: llm. Price: Per call: 0.005.",
         "tags": [
           "quiet"
         ],
@@ -346,8 +346,8 @@
         "x-mechanism": "llm",
         "x-price": {
           "model": "per_call",
-          "amount_usd": null,
-          "status": "pending"
+          "amount_usd": "0.005",
+          "status": "set"
         },
         "x-untrusted": false,
         "requestBody": {

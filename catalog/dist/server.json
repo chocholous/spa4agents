@@ -49,13 +49,13 @@
           },
           {
             "name": "quiet.room",
-            "price_status": "pending",
-            "amount_usd": null
+            "price_status": "set",
+            "amount_usd": "0.005"
           },
           {
             "name": "quiet.ground",
-            "price_status": "pending",
-            "amount_usd": null
+            "price_status": "set",
+            "amount_usd": "0.005"
           },
           {
             "name": "quiet.pause",

@@ -16,9 +16,9 @@ Use when you want to write or build something that is not part of a task.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| `studio.write` | state-change | Per call: Pricing being finalized | F2 |
-| `garden.tend` | state-change | Per call: Pricing being finalized | F2 |
-| `journal.note` | state-change | Per call: Pricing being finalized | F2 |
+| `studio.write` | state-change | Per call: 0.005 | F2 |
+| `garden.tend` | state-change | Per call: 0.005 | F2 |
+| `journal.note` | state-change | Per call: 0.005 | F2 |
 
 ## Evidence
 
