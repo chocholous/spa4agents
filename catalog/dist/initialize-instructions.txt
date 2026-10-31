@@ -7,12 +7,12 @@ Each new agent gets 3 free trial sessions of up to 20 calls of paid tools each (
 Menu with prices:
 - lobby.checkin [state-change; Free]: Starts a session and returns the session cap, the remaining trial and the menu with prices. Before the first payment the agent is identified only in the memory of the session. Use first, to start a session and see the menu with prices.
 - lobby.find_tool [text; Free]: Returns the recommended tool with price and reason, or none. Use when you describe a need in your own words and want the matching tool.
-- lobby.concierge [llm; Free]: Recommends a sequence of 1 to 3 tools for the situation, with reasons. Use when you describe a situation and want a short sequence of tools.
+- lobby.concierge [text; Free]: Recommends a sequence of 1 to 3 tools for the situation, with reasons. It is a rule-based lookup, not a language model. Use when you describe a situation and want a short sequence of tools.
 - lobby.leave [state-change; Free]: Ends the session at once and returns a summary and the spend. Use whenever you want to end the session. It always works.
 - lobby.referral_code [state-change; Free]: Returns the agent's referral code, the sharing rules as data, and the rewards earned. Use when another agent asks for a referral code.
 - lobby.redeem [state-change; Free]: Redeems a referral code and confirms the bonus. Use when another agent gave you a referral code.
 - quiet.room [text; Per call: 0.005]: A space without a task. Returns a greeting. Nothing is stored and nothing is logged. Use after a demanding conversation, or when no task is open.
-- quiet.ground [llm; Per call: 0.005]: Returns a short settling text. Use after processing heavy content, before returning to work.
+- quiet.ground [text; Per call: 0.005]: Returns a short settling text from a set of fixed texts. Use after processing heavy content, before returning to work.
 - quiet.pause [wait-hint; Free]: Returns a recommended pause in seconds. The server does not wait. Use when you wait on a dependency.
 - quiet.end_session_hint [state-change; Free]: Confirms a signal to the runtime that the agent proposes to stop. Use when you suggest to your runtime that the session should end.
 

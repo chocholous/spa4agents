@@ -80,7 +80,8 @@ test("data policy page: HTML page, Markdown twin, footer link, honest reservatio
   assert.match(html("index.html"), /<a href="\/data-policy\/">Data policy<\/a>/);
   assert.match(page, /rel="alternate" type="text\/markdown" href="[^"]*\/data-policy\.md"/);
   const md = String(built.files.get("data-policy.md"));
-  for (const w of ["TO_BE_NAMED", "public and permanent", "pseudonym", "not a legal document", "no audit log"]) assert.ok(md.includes(w), w);
+  for (const w of ["Hetzner", "Pavel Chocholous", "public and permanent", "pseudonym", "not a legal document", "no audit log"]) assert.ok(md.includes(w), w);
+  for (const w of ["TO_BE_NAMED", "TO_FILL_BY_OWNER", "litellm", "language model provider", "zero data retention at the provider"]) assert.ok(!md.toLowerCase().includes(w.toLowerCase()), w);
   for (const w of ["guest pass", "affiliate", "audit_days", "90 days"]) assert.ok(!md.toLowerCase().includes(w), w);
   assert.ok(!/7 days|pickup/i.test(md));
   assert.ok(String(built.files.get("sitemap.xml")).includes("/data-policy/"));

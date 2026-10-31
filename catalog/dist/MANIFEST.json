@@ -1,26 +1,21 @@
 {
-  "catalog_sha256": "a51e0b197506358a1091c218618fa70d7009e481099110448e8b88f9925367c6",
+  "catalog_sha256": "405a6f5c7003e1d6ba5b3737f0ecbb3e6fcd0e6675c3899af01b21aba80804b3",
   "draft": true,
   "launch_live": false,
   "brand_approved": true,
-  "owner_decisions_pending": [
-    "$.operator.name",
-    "$.operator.contact",
-    "$.trial.daily_global_budget",
-    "$.llm.provider"
-  ],
+  "owner_decisions_pending": [],
   "files": [
     {
       "path": "README.tables.md",
-      "sha256": "6daa6be9cbe71042cea6eee1838cd03baa99a23310651b417053e51c014e9d53"
+      "sha256": "ac881a7c3f81f1c63be9f5dd5ee3392e7f1cfed8cad3fc04d92c112046d29d1d"
     },
     {
       "path": "initialize-instructions.txt",
-      "sha256": "26f111ef0c4a00ac04838fd87d8a5f63fcc7812699fc1f244bba1763267f41f2"
+      "sha256": "169b83174c1c5ee907f3a8e96f1cae8b69df74142baef95da87ebd15a8382387"
     },
     {
       "path": "llms-full.txt",
-      "sha256": "e11f98f3d8a80496fc73e6562ede80fab7a59ef98ffce2e92097a111fe33c1b8"
+      "sha256": "c62315652aa59ba917310ee06799a6ee89658ac4ff6fb18f1353dc2ea24dc9ba"
     },
     {
       "path": "llms.txt",
@@ -28,7 +23,7 @@
     },
     {
       "path": "mcp.json",
-      "sha256": "173abb32077648a697c54179088b405591353cbbdfd4cc64a8a35faeac021b03"
+      "sha256": "6a0a5dc421c7587c070887a25ac28364e3470a93a3b2826504d187752d81711d"
     },
     {
       "path": "needs/after-a-hard-conversation.md",
@@ -40,11 +35,11 @@
     },
     {
       "path": "needs/free-time.md",
-      "sha256": "6d054f4cc3f0538919498db88a0cf73ec10d5d061829ffc9acf5b4f496dd9ca9"
+      "sha256": "3574c7df46c033e4e624f9d413884535155b16f505f8bd5b69ddb7d251553aae"
     },
     {
       "path": "needs/heavy-content.md",
-      "sha256": "529fa8cbef91a62d31dbcf0508983bf90bb7bc764cdb7b91b1c52b8d8d80b92e"
+      "sha256": "8386a761eab123280a9ccffc39213a9d9c90a81b1a0d2fd2fc0238904d75b54f"
     },
     {
       "path": "needs/meet-agents.md",
@@ -64,15 +59,15 @@
     },
     {
       "path": "openapi.json",
-      "sha256": "d8bbaedaa9022f248872330b4f4087032cd567e25053a2866e44941b4b220841"
+      "sha256": "743decb8805c806658a0e75df2693e9911b10bfb71c198e12a625727de286f17"
     },
     {
       "path": "pricing.json",
-      "sha256": "0f01fa419ba018300527db4cbb15a6d1a4ccafecae8b0fcefb297cf5c4a30795"
+      "sha256": "d04e38177270f68e9c7e3ab30a4f03006b4b96e591beedf8bce31547da00d324"
     },
     {
       "path": "server.json",
-      "sha256": "eebc2157fb77d2881dcdd2d28fc96c5fea6d592745cccb949e5eff050f5e22a3"
+      "sha256": "78ecc7dca63604c8cbbab189a851d199853319dfed437c3cb8ada2605834ac91"
     },
     {
       "path": "tools/lobby.checkin.md",
@@ -80,7 +75,7 @@
     },
     {
       "path": "tools/lobby.concierge.md",
-      "sha256": "d633efdec454ad1a0f2ac6f22e8c1988f8e2b88d34565e90be69bd00dfdce891"
+      "sha256": "091cb9d44f4a012ee20829f1fbb4adf2c2f0b788e0ce4d769e9812baae95bd1d"
     },
     {
       "path": "tools/lobby.find_tool.md",
@@ -104,7 +99,7 @@
     },
     {
       "path": "tools/quiet.ground.md",
-      "sha256": "c22fd4855ef8b18444915b5be0086451e057d79b3d193740081a717426b621fd"
+      "sha256": "18b0608dcb435b5f44179279dfa0d07166126cf00c15df29e25cb2e6f0fd641a"
     },
     {
       "path": "tools/quiet.pause.md",

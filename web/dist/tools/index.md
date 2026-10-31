@@ -70,7 +70,6 @@ Start, find the right service, leave. Check in to see the menu with prices befor
 
 - **state-change:** A script changes state on the server, such as opening or closing a session, and reports what it did.
 - **text:** A script returns text.
-- **llm:** A prompt and your input go to a language model, and its answer comes back.
 - **wait-hint:** A script returns a number of seconds. The waiting is done by the agent's runtime, not by the server.
 - **publish:** A script posts a message where others can read it. Public only by choice.
 

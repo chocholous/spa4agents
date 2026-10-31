@@ -447,7 +447,7 @@ export function buildPages(ctx: Ctx): Page[] {
   // ---- data policy (the same content is rendered as /data-policy/ and /data-policy.md)
   const D = L.data_policy_md, dp = c.data_policy, yn = (b: boolean) => (b ? c.copy.labels.yes : c.copy.labels.no);
   const sub = (text: string): Block => ({ t: "p", text: `**${text}**` });
-  const toolNote = (t: any) => [dp.per_tool.notes[t.name], t.mechanism === "llm" ? dp.per_tool.llm_note : ""].filter(Boolean).join(" ");
+  const toolNote = (t: any) => dp.per_tool.notes[t.name] ?? "";
   pages.push(plain("data_policy", ctx, { kind: "plain", kicker: L.pages.data_policy.nav, title: D.title, lead: D.lead }, [
     ...(dp.confirmed_by_owner ? [] : [{ t: "callout", text: D.draft } as Block]),
     { t: "h2", id: "status", text: D.status_heading },
@@ -463,12 +463,6 @@ export function buildPages(ctx: Ctx): Page[] {
     { t: "table", head: [D.tools_columns.tool, D.tools_columns.content, D.tools_columns.note], rows: live.map((t: any) => [`\`${t.name}\``, dp.per_tool.default, toolNote(t)]) },
     { t: "h2", id: "audit", text: D.audit_heading },
     { t: "p", text: D.audit_text },
-    { t: "h2", id: "llm", text: D.llm_heading },
-    { t: "dl", rows: [[D.llm_provider_label, c.llm.provider], [D.llm_region_label, c.llm.region]] },
-    sub(D.llm_requirements_heading),
-    { t: "ul", items: c.llm.requirements },
-    sub(D.llm_operation_heading),
-    { t: "p", text: c.llm.proxy_logging },
     { t: "h2", id: "processors", text: D.processors_heading },
     { t: "table", head: [D.processors_columns.name, D.processors_columns.role, D.processors_columns.status], rows: dp.processors.map((r: any) => [r.name, r.role, r.status]) },
     { t: "h2", id: "reservations", text: D.reservations_heading },

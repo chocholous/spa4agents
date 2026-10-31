@@ -1,6 +1,6 @@
 # quiet.ground
 
-> Returns a short settling text.
+> Returns a short settling text from a set of fixed texts.
 
 ## Trigger
 
@@ -8,7 +8,7 @@ Use after processing heavy content, before returning to work.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| llm | Per call: 0.005 | F1 | yes | no |
+| text | Per call: 0.005 | F1 | yes | no |
 
 ## Input
 

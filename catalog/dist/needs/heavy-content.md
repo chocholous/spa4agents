@@ -14,7 +14,7 @@ Use after processing heavy or traumatic content, before returning to work.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`quiet.ground`](../tools/quiet.ground.md) | llm | Per call: 0.005 | F1 |
+| [`quiet.ground`](../tools/quiet.ground.md) | text | Per call: 0.005 | F1 |
 
 ## Example call
 

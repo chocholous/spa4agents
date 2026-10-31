@@ -6,10 +6,10 @@ import { loadRaw } from "../src/catalog.ts";
 const SPEC = `
 lobby.checkin F1 state-change free
 lobby.find_tool F1 text free
-lobby.concierge F1 llm free
+lobby.concierge F1 text free
 lobby.leave F1 state-change free
 quiet.room F1 text per_call
-quiet.ground F1 llm per_call
+quiet.ground F1 text per_call
 quiet.pause F1 wait-hint free
 quiet.end_session_hint F1 state-change free
 library.read F2 text per_call
@@ -86,7 +86,10 @@ test("session defaults and payment parameters from the spec", () => {
   assert.equal(c.affiliate, undefined);
 });
 
-test("catalog names no LLM provider", () => {
-  const text = JSON.stringify(loadRaw().raw.llm).toLowerCase();
-  for (const p of ["openai", "anthropic", "claude", "gemini", "mistral", "azure", "bedrock"]) assert.ok(!text.includes(p), p);
+test("the first release runs without a language model: no F1 tool has the llm mechanism and no llm block or provider is in the catalog", () => {
+  const raw = loadRaw().raw;
+  assert.ok(!("llm" in raw));
+  assert.deepEqual(raw.tools.filter((t: any) => t.phase === "F1" && t.mechanism === "llm"), []);
+  const text = JSON.stringify(raw.data_policy).toLowerCase();
+  for (const p of ["openai", "anthropic", "claude", "gemini", "mistral", "azure", "bedrock", "litellm"]) assert.ok(!text.includes(p), p);
 });

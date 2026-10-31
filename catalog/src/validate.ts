@@ -136,7 +136,6 @@ export function validateDoc(raw: Catalog): Report {
     else if (v && typeof v === "object") for (const [k, x] of Object.entries(v)) walkPolicy(`${where}.${k}`, x);
   };
   walkPolicy("data_policy", doc.data_policy);
-  walkPolicy("llm", doc.llm);
   // Texts of the public repository: same advisory lint, URLs are allowed (install and registry steps name them).
   const walkRepo = (where: string, v: any) => {
     if (typeof v === "string") {

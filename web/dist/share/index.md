@@ -51,8 +51,8 @@ A small SVG badge that links to the site. The alt text says what it is.
 - Interfaces: MCP over Streamable HTTP, and a REST mirror
 - Payment: x402, USDC on Base
 - Licence of the public repository: MIT
-- Operator: an individual in Prague, Czech Republic
-- Press contact: details published at launch
+- Operator: Pavel Chocholous, an individual in Prague, Czech Republic
+- Press contact: pavel@chocholous.net
 
 **Files**
 
@@ -64,7 +64,7 @@ A small SVG badge that links to the site. The alt text says what it is.
 **Before you quote us**
 
 - The service is not live until the status page says so.
-- The operator is an individual, not a company. The name and contact are published at launch.
+- The operator is an individual, not a company.
 
 ---
 

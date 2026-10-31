@@ -1,6 +1,6 @@
 # lobby.concierge
 
-> Recommends a sequence of 1 to 3 tools for the situation, with reasons.
+> Recommends a sequence of 1 to 3 tools for the situation, with reasons. It is a rule-based lookup, not a language model.
 
 ## Trigger
 
@@ -8,7 +8,7 @@ Use when you describe a situation and want a short sequence of tools.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| llm | Free | F1 | no | no |
+| text | Free | F1 | no | no |
 
 ## Input
 

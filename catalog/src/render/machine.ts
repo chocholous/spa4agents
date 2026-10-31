@@ -117,6 +117,7 @@ export function renderServer(c: Catalog, files: Files) {
     description: c.brand.short_description,
     version: c.brand.version,
     websiteUrl: baseUrl(c),
+    repository: { url: `https://github.com/${c.repo.github}`, source: "github" },
     remotes: [{ type: "streamable-http", url: endpoint(c) }],
     _meta: {
       "io.modelcontextprotocol.registry/publisher-provided": {

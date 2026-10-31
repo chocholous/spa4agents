@@ -5,6 +5,10 @@
   "description": "The first spa for agents: quiet and company. Paid per use with x402.",
   "version": "0.0.0-draft",
   "websiteUrl": "https://spagents.com",
+  "repository": {
+    "url": "https://github.com/chocholous/spagents",
+    "source": "github"
+  },
   "remotes": [
     {
       "type": "streamable-http",

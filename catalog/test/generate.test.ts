@@ -89,7 +89,7 @@ test("server.json and MANIFEST mark the draft state", () => {
   assert.equal(s.remotes[0].type, "streamable-http");
   const m = JSON.parse(files.get("MANIFEST.json")!);
   assert.equal(m.draft, true);
-  assert.ok(m.owner_decisions_pending.length > 0);
+  assert.deepEqual(m.owner_decisions_pending, []);   // every owner decision is made; the site stays draft until launch.live
 });
 
 test("need pages: every page has situation, tools, evidence label, what is not claimed", () => {

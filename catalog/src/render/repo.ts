@@ -40,6 +40,7 @@ export function renderReadme(c: Catalog): string {
     `[llms-full.txt](${b}/llms-full.txt): ${r.link_full}`,
     `[pricing.json](${b}/pricing.json): ${r.link_pricing}`,
     `[server.json](server.json): ${r.link_server}`,
+    `[github.com/${c.repo.github}](https://github.com/${c.repo.github}): ${r.link_repo}`,
   ]), "");
   out.push(`## ${r.people_heading}`, "", `### ${r.what_heading}`, "", ...r.what_text.flatMap((t: string) => [t, ""]));
   out.push(`### ${r.how_heading}`, "", ...bullets(r.how_items), "");

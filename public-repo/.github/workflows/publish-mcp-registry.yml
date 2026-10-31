@@ -1,5 +1,5 @@
 name: Publish to the MCP Registry
-# Manual only: nothing publishes automatically. The namespace com.spagents/spagents is proven by a DNS record on spagents.com.
+# Manual only: nothing publishes automatically. Repository: chocholous/spagents. The namespace com.spagents/spagents is proven by a DNS record on spagents.com.
 on:
   workflow_dispatch:
     inputs:

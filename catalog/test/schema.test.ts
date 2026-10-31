@@ -18,9 +18,16 @@ test("catalog validates (owner decisions may be pending)", () => {
   assert.deepEqual(r.errors, []);
 });
 
-test("strict validation fails while owner decisions (TODO_OWNER, TO_FILL_BY_OWNER, TO_BE_NAMED) remain", () => {
+test("strict validation fails while any owner decision placeholder (TODO_OWNER, TO_FILL_BY_OWNER, TO_BE_NAMED) is present", () => {
+  const raw = structuredClone(loadRaw().raw);
+  raw.trial.daily_global_budget = "TODO_OWNER";
+  assert.ok(validateDoc(raw).todos.length > 0);
+});
+
+test("no owner decision is pending in the catalog (strict validation passes)", () => {
   const r = validateFile(true);
-  assert.ok(r.errors.some((e) => e.startsWith("strict:")));
+  assert.deepEqual(r.errors, []);
+  assert.deepEqual(r.todos, []);
 });
 
 test("catalog has exactly 8 needs", () => {
@@ -187,19 +194,25 @@ test("data policy: changing the zero-retention values is rejected by the schema"
   }
 });
 
-test("data policy: undecided parties stay TO_BE_NAMED and are counted as pending", () => {
+test("data policy: the operator is named, there is no llm block, hosting is Hetzner and the only content processor", () => {
   const raw = loadRaw().raw;
-  assert.equal(raw.llm.provider, "TO_BE_NAMED");
+  assert.ok(!("llm" in raw));
+  assert.ok(!("llm_note" in raw.data_policy.per_tool));
   assert.match(raw.data_policy.operator, /Prague/);
   assert.match(raw.data_policy.jurisdiction, /Czech/);
-  assert.deepEqual(raw.operator, { kind: "individual", city: "Prague", country: "CZ", name: "TO_FILL_BY_OWNER", contact: "TO_FILL_BY_OWNER" });
-  assert.ok(validateDoc(raw).todos.some((t) => t.startsWith("$.operator")));
-  assert.ok(validateDoc(raw).todos.some((t) => t.includes("llm.provider")));
+  assert.deepEqual(raw.operator, { kind: "individual", city: "Prague", country: "CZ", name: "Pavel Chocholous", contact: "pavel@chocholous.net", legal_form: "not provided" });
+  assert.deepEqual(validateDoc(raw).todos, []);
+  const names = raw.data_policy.processors.map((p: any) => p.name);
+  assert.ok(names.some((n: string) => n.includes("Hetzner")));
+  assert.ok(!JSON.stringify(raw.data_policy).match(/language model provider|litellm/i));
+  assert.equal(raw.payments.rails[0].facilitator, "Coinbase CDP");
+  assert.equal(raw.trial.daily_global_budget, "20.00");
+  assert.equal(raw.repo.github, "chocholous/spagents");
 });
 
 test("data policy: states the honest reservations", () => {
   const text = JSON.stringify(loadRaw().raw.data_policy.reservations).toLowerCase();
-  for (const w of ["public and permanent", "pseudonym", "short-lived identifier", "while processing", "hosting", "legal"]) assert.ok(text.includes(w), w);
+  for (const w of ["public and permanent", "pseudonym", "short-lived identifier", "hosting", "legal"]) assert.ok(text.includes(w), w);
 });
 
 test("trial covers every paid tool (covered: all_paid), with no per-tool flag or exclusion list", () => {

@@ -12,6 +12,7 @@
     "title": { "type": "string", "minLength": 1, "maxLength": 100 },
     "description": { "type": "string", "minLength": 1, "maxLength": 100 },
     "version": { "type": "string", "minLength": 1, "maxLength": 255, "not": { "const": "latest" } },
+    "repository": { "type": "object", "additionalProperties": false, "required": ["url", "source"], "properties": { "url": { "type": "string", "format": "uri", "pattern": "^https://github\\.com/[A-Za-z0-9-]+/[A-Za-z0-9._-]+$" }, "source": { "const": "github" } } },
     "websiteUrl": { "type": "string", "format": "uri", "pattern": "^https://" },
     "remotes": {
       "type": "array",

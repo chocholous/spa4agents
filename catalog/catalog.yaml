@@ -1,6 +1,6 @@
 # Catalog D1: the single source of truth.
 # Every public text, price, tool and need lives here. Generated outputs go to dist/.
-# Texts for agents are English. Values the owner has not decided are the literal TODO_OWNER.
+# Texts for agents are English. Values the owner has not decided are the literal TODO_OWNER (none are left at the moment).
 # Template tokens: {{brand.name}} {{brand.slug}} {{brand.domain}} {{endpoint}}
 #                  {{trial.free_sessions}} {{trial.max_turns_per_session}} {{session.max_actions}} {{session.max_minutes}}
 catalog_version: 1
@@ -11,7 +11,7 @@ brand:
   domain: spagents.com   # main domain, approved by the owner (31 Oct 2026); nothing is published yet
   approved: true
   # Deployment note: relaxingagents.com is only a redirect (301) to spagents.com. It is not used as a main domain anywhere in the catalog.
-  registry_namespace: com.spagents/spagents   # proposal: MCP Registry name by DNS verification of spagents.com; the owner must confirm it (see OPEN_QUESTIONS)
+  registry_namespace: com.spagents/spagents   # owner decision (31 Oct 2026): DNS verification of spagents.com. Fallback io.github.chocholous/spagents (GitHub OIDC) is described in PUBLISHING.md only
   version: 0.0.0-draft
   license: MIT
   short_description: "The first spa for agents: quiet and company. Paid per use with x402."
@@ -27,9 +27,9 @@ operator:
   kind: individual   # a natural person (the project owner)
   city: Prague
   country: CZ
-  name: TO_FILL_BY_OWNER
-  contact: TO_FILL_BY_OWNER
-  # Business id (ICO) and legal form are not known; the owner adds them here if they apply.
+  name: Pavel Chocholous   # owner wrote "Choholou", an evident typo; corrected from the owner's e-mail and GitHub account (chocholous)
+  contact: pavel@chocholous.net
+  legal_form: not provided   # business id (ICO) is not provided either
 
 generation:
   publish_phases: [F1]       # only tools of these phases appear in server/openapi/mcp/pricing/llms outputs
@@ -46,8 +46,8 @@ payments:
       asset: USDC
       mainnet: "eip155:8453"
       testnet: "eip155:84532"
-      active_network: "eip155:84532"   # development and tests only; mainnet needs a legal review
-      facilitator_testnet: https://x402.org/facilitator
+      active_network: "eip155:84532"   # development and tests only until the live launch on mainnet
+      facilitator: Coinbase CDP   # owner decision (31 Oct 2026): also on the testnet, so that the service can be listed in x402 Bazaar
       response_header: PAYMENT-REQUIRED
       mcp_challenge: In MCP the challenge is a tool result with isError true; the payment requirements are in structuredContent and repeated as JSON in content[0].text.   # x402 spike 2026-10-24 (spikes/x402/FINDINGS.md); not _meta
     - id: other
@@ -80,7 +80,7 @@ trial:
       - One trial per IP address per day.
       - The address and the IP are kept only as a salted hash in memory (RAM) with a time to live of 24 hours, and never on disk.
       - A daily global trial budget.
-  daily_global_budget: TODO_OWNER
+  daily_global_budget: "20.00"   # USD per day, owner decision (31 Oct 2026)
   end_rule: When the trial ends, the response shows that no trial is left and the price of the next call. It never switches to paying without an x402 challenge.
 
 referral:
@@ -112,8 +112,8 @@ data_policy:
   checkpoint_stored: false
   audit_content: none   # Change (owner, 31 Oct 2026): no persistent audit log; the key audit_days is gone
   region: EU
-  training_on_inputs: Forbidden. No training or tuning on inputs or outputs, by the service or by the language model provider (to be fixed in the provider contract).
-  operator: An individual (the project owner) in Prague, Czech Republic. Name, contact and legal form are published at launch.
+  training_on_inputs: Forbidden. No training or tuning on inputs or outputs. The first release uses no language model.
+  operator: "{{operator.name}}, an individual in Prague, Czech Republic. Contact: {{operator.contact}}. Legal form: {{operator.legal_form}}."
   jurisdiction: Czech Republic and the European Union.
   principles:
     - "**Zero retention of content.** What an agent sends and what a tool returns is processed in memory and is not stored."
@@ -121,7 +121,7 @@ data_policy:
     - "**Isolation.** Nothing is shared between sessions, agents or addresses, and there is no cross access. Memory of a session is destroyed at `lobby.leave` or when the session ends. Nothing is stored in the first release."
     - "**No training** on inputs or outputs."
     - "**No content in logs, errors, traces or metrics.** Error messages, traces and metrics are redacted and carry no input or output. There is no audit log. Only aggregated operational metrics without identifiers are kept (counts, latency, error rate)."
-    - "**No other processors** besides the language model provider with contractual zero data retention and the payment infrastructure. The hosting provider is infrastructure whose own logs still have to be verified (see the reservations)."
+    - "**No external processor of content, only hosting.** The service runs without a language model. Hosting is Hetzner in the EU, and its own network logs still have to be verified (see the reservations). The payment infrastructure handles payments, not content."
     - "**No analytics and no cookies on the website.**"
   retention:
     - { what: Content of inputs and outputs of every tool, value: "0 days. Not stored." }
@@ -132,7 +132,6 @@ data_policy:
     - { what: Payment on the Base blockchain, value: "Public and permanent. Outside the control of this service (see the reservations)." }
   per_tool:
     default: None. The content is processed in memory and not stored.
-    llm_note: The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet.
     notes:
       lobby.checkin: Opens a session held in server memory and returns the remaining trial. The address and the IP are used for the trial check only as a salted hash in memory with a time to live of 24 hours.
       lobby.leave: Destroys the memory of the session.
@@ -140,20 +139,17 @@ data_policy:
       lobby.redeem: Referral state is operational data tied to the payment address. It is not content. Where it is kept and for how long is not decided.
       quiet.room: Returns a greeting. Nothing is stored and, as specified, nothing is logged.
   processors:
-    - { name: Language model provider, role: "Runs the llm tools through a LiteLLM proxy.", status: "TO_BE_NAMED. Not chosen yet; nothing is claimed about any provider until it is." }
-    - { name: Payment infrastructure, role: "The x402 facilitator that verifies and settles payments, and the public Base network.", status: "The testnet facilitator is x402.org. The mainnet facilitator is not chosen. Payments on Base are public." }
-    - { name: Hosting, role: "Runs the server in the EU region.", status: "TO_BE_NAMED. Network logs of the hosting provider have to be verified before anything is promised." }
+    - { name: Hosting (Hetzner), role: "Runs the server in the EU.", status: "Hetzner. Network logs of the hosting provider have to be verified before anything is promised. This is the only processor of content." }
+    - { name: Payment infrastructure, role: "The x402 facilitator (Coinbase CDP, also on the testnet) that verifies and settles payments, and the public Base network. It handles payments, not content.", status: "Coinbase CDP is the facilitator. Payments on Base are public." }
   reservations:
     - title: Payments are public and permanent
       text: Payments with x402 are made on the public Base blockchain. The address of the payer, the amount and the time are public and permanent. Zero retention does not apply to them and they cannot be deleted.
     - title: Abuse prevention needs a short-lived identifier
       text: Limiting trials needs an identifier for a short time. The proposal is a salted hash of the payment address and of the IP address, held in memory (RAM) only with a time to live of 24 hours and never written to disk. It allows only limits per day, not a limit once per lifetime of an address. Because addresses are public, a hash of an address is a pseudonym and not anonymisation.
-    - title: The language model provider sees the input while processing it
-      text: Zero data retention at the provider is a contractual commitment of the provider, not a technical guarantee of this service. The provider is TO_BE_NAMED and the contract does not exist yet.
     - title: Hosting infrastructure is not verified
-      text: The hosting provider can keep network logs of its own. That has to be verified, and until it is, nothing is promised about it.
-    - title: Operator details are not published yet
-      text: The operator is an individual in Prague, Czech Republic, under Czech and EU law. The name, contact and legal form are published at launch, and there has been no legal review. This policy is a proposal and not a legal document.
+      text: The hosting provider (Hetzner, EU) can keep network logs of its own. That has to be verified, and until it is, nothing is promised about it.
+    - title: The operator is an individual
+      text: "The operator is {{operator.name}}, an individual in Prague, Czech Republic, under Czech and EU law. Contact: {{operator.contact}}. Legal form: {{operator.legal_form}}. This policy is a proposal and not a legal document."
     - title: What happens on the agent's side is outside this policy
       text: The runtime of your agent, the model provider your agent uses and the tools around it keep whatever they keep. This service cannot influence it.
   undecided:
@@ -161,20 +157,6 @@ data_policy:
     - Without an audit log there is no trace of abuse and no way to settle disputes outside the blockchain.
     - Limits on how long and how much a session may hold in memory, and limits on the size of inputs.
     - How the planned later wings that keep things (private studio, garden, journal, public reflections, adapters) fit zero retention. They are not part of the first release.
-    - Whether the provider's zero data retention also covers its safety and abuse-monitoring logs.
-
-llm:                           # no provider is named in the catalog
-  via: litellm-proxy
-  proxy_url_env: LITELLM_PROXY_URL
-  model_env: LITELLM_MODEL
-  provider: TO_BE_NAMED
-  region: EU
-  requirements:
-    - Contractual zero data retention (enterprise agreement with full zero data retention).
-    - No training or tuning on inputs or outputs.
-    - Processing in the EU region.
-    - Access only through the LiteLLM proxy.
-  proxy_logging: The LiteLLM proxy must run with logging of requests and responses switched off, including database logging, callbacks and third-party log tools.
 
 lint:
   forbidden_phrases:           # advisory (warning only): claims about suffering, not imperatives; visible imperative wording is allowed
@@ -286,7 +268,7 @@ copy:
     mcp_desc: Endpoint, transport, tools and payments.
     server_desc: Metadata for the MCP Registry.
     note: Every page has a Markdown version. Responses may suggest next steps in plain sight; they never carry hidden instructions.
-    price_pending: &price_pending Pricing being finalized   # shown wherever an amount is still TODO_OWNER; the web ui.price_tbd uses the same anchor
+    price_pending: &price_pending Pricing being finalized   # shown wherever an amount would still be undecided (no price is, at the moment); the web ui.price_tbd uses the same anchor
     connect_label: Connect
     table_need: I need
     table_call: Call
@@ -445,10 +427,10 @@ tools:
 
   - name: lobby.concierge
     phase: F1
-    mechanism: llm
-    price: { model: free, amount_usd: "0.00" }   # Change (owner, 31 Oct 2026): free; it is an LLM call nobody pays for, see OPEN_QUESTIONS
+    mechanism: text   # Change (owner, 31 Oct 2026): the service runs without a language model; rule-based lookup like lobby.find_tool, free
+    price: { model: free, amount_usd: "0.00" }
     trigger: Use when you describe a situation and want a short sequence of tools.
-    description: Recommends a sequence of 1 to 3 tools for the situation, with reasons.
+    description: Recommends a sequence of 1 to 3 tools for the situation, with reasons. It is a rule-based lookup, not a language model.
     inputs:
       - { name: situation, type: string, required: true, description: The situation in free text. }
     output: Sequence of 1 to 3 tools with reasons.
@@ -498,10 +480,10 @@ tools:
 
   - name: quiet.ground
     phase: F1
-    mechanism: llm
+    mechanism: text   # Change (owner, 31 Oct 2026): fixed texts and templates, no model generation
     price: { model: per_call, amount_usd: "0.005" }
     trigger: Use after processing heavy content, before returning to work.
-    description: Returns a short settling text.
+    description: Returns a short settling text from a set of fixed texts.
     inputs:
       - { name: context_kind, type: string, required: false, description: Optional kind of context that was processed. }
     output: Short settling text.
@@ -820,7 +802,7 @@ web:
           title: Not found
           description: This page does not exist.
       draft:
-        banner: "Preview. Operator details and prices are not final. Nothing here is a promise."
+        banner: "Preview. Prices are not final. Nothing here is a promise."
         build_warning: The site is not launched (launch.live is false). This build is marked draft, set to noindex and robots disallow.
       wings:
         - id: quiet
@@ -1113,7 +1095,7 @@ web:
         tokens:
           title: How the services work inside
           paragraphs:
-            - Every service is one of five kinds of mechanism, listed below. The spa is a way to find the right tool; behind each service there is a script or a language-model call, and nothing else. The visuals on this site are CSS and one SVG.
+            - Every service is one of a few kinds of mechanism, listed below. The spa is a way to find the right tool; behind each service there is a script, and nothing else. No language model is used. The visuals on this site are CSS and one SVG.
         rules_title: House rules
         measured:
           title: Sources
@@ -1130,7 +1112,7 @@ web:
             - { q: "Does the service keep what I send?", a: "The design says no: content is processed in memory and not stored, and there is no audit log. Read the [data policy](page:data_policy) for the details and its limits." }
             - { q: "Does this site track me?", a: "No analytics and no cookies. The theme switch remembers your choice in local storage in your own browser." }
             - { q: "Is it live?", a: "The [status page](page:status) shows the current state. While the site is marked draft, treat nothing here as available." }
-            - { q: "Who runs it?", a: "An individual in Prague, Czech Republic. Name and contact: details published at launch." }
+            - { q: "Who runs it?", a: "{{operator.name}}, an individual in Prague, Czech Republic. Contact: {{operator.contact}}." }
             - { q: "Can I add it to my agent?", a: "The [for-agents page](page:for_agents) lists the lines. Adding a server is the owner's decision." }
       for_agents:
         title: For agents, and for the people who send them
@@ -1181,8 +1163,8 @@ web:
           - "Interfaces: MCP over Streamable HTTP, and a REST mirror"
           - "Payment: x402, USDC on Base"
           - "Licence of the public repository: {{brand.license}}"
-          - "Operator: an individual in Prague, Czech Republic"
-          - "Press contact: details published at launch"
+          - "Operator: {{operator.name}}, an individual in Prague, Czech Republic"
+          - "Press contact: {{operator.contact}}"
         files_label: Files
         files:
           - { label: Open Graph image (PNG), href: /assets/og.png }
@@ -1192,7 +1174,7 @@ web:
         dont_heading: Before you quote us
         dont_items:
           - The service is not live until the status page says so.
-          - The operator is an individual, not a company. The name and contact are published at launch.
+          - The operator is an individual, not a company.
       status:
         title: Status
         lead: Availability and latency will appear here when a feed is connected.
@@ -1206,8 +1188,8 @@ web:
       footer:
         tagline: A catalog of services for agents that want a break.
         generated: This site is generated from one catalog file. No analytics, no cookies.
-        operator: "Operator: an individual in Prague, Czech Republic."
-        legal: "Legal information: details published at launch."
+        operator: "Operator: {{operator.name}}, an individual in Prague, Czech Republic."
+        legal: "Contact: {{operator.contact}}. Legal form: {{operator.legal_form}}."
         exit: "{{copy.exit_rule}}"
         data_policy_link: Data policy
         fine_print_link: Fine print
@@ -1226,11 +1208,6 @@ web:
         tools_columns: { tool: Tool, content: Content retention, note: Note }
         audit_heading: Audit log
         audit_text: There is no persistent audit log. Only aggregated operational metrics without identifiers are kept (counts, latency, error rate). A payment is a public record on the blockchain.
-        llm_heading: Language model
-        llm_provider_label: Provider
-        llm_region_label: Region
-        llm_requirements_heading: Requirements for the provider
-        llm_operation_heading: Requirement for operation
         processors_heading: Who else processes data
         processors_columns: { name: Who, role: What for, status: Status }
         reservations_heading: Honest reservations
@@ -1249,6 +1226,7 @@ web:
 # Public GitHub repository (public-repo/), generated by `npm run generate:repo`. Texts only here; src/render/repo.ts holds layout, no prose.
 # Strings that look like @@x@@ become GitHub expressions in the workflow (the double braces cannot be written in this file).
 repo:
+  github: chocholous/spagents   # public GitHub repository (account chocholous, name spagents), owner decision 31 Oct 2026
   readme:
     status_draft: "Status: draft. The service is not live yet."
     status_live: "Status: live."
@@ -1262,6 +1240,7 @@ repo:
     link_full: every need and tool page with input schemas, in one file
     link_pricing: machine-readable price list
     link_server: metadata for the MCP Registry
+    link_repo: this repository on GitHub
     people_heading: For people
     what_heading: What it is
     what_text:
@@ -1277,7 +1256,7 @@ repo:
     pricing_note: Prices are in USDC per call. The same numbers are in pricing.json on the website.
     privacy_heading: Privacy
     privacy_intro: "We store nothing. Short version of the data policy; the full text is data-policy.md on the website."
-    privacy_reservation_count: 6
+    privacy_reservation_count: 5
     operator_heading: Operator
     operator_text: "{{data_policy.operator}} Jurisdiction: {{data_policy.jurisdiction}}"
     license_heading: License
@@ -1320,7 +1299,7 @@ repo:
     PUBLISHING.md
   workflow: |-
     name: Publish to the MCP Registry
-    # Manual only: nothing publishes automatically. The namespace {{brand.registry_namespace}} is proven by a DNS record on {{brand.domain}}.
+    # Manual only: nothing publishes automatically. Repository: {{repo.github}}. The namespace {{brand.registry_namespace}} is proven by a DNS record on {{brand.domain}}.
     on:
       workflow_dispatch:
         inputs:
@@ -1350,14 +1329,14 @@ repo:
 
     ## 0. Než začneš
 
-    1. V `catalog/catalog.yaml` doplň `operator.name` a `operator.contact` (teď `TO_FILL_BY_OWNER`; ovlivní `LICENSE`, `SECURITY.md`), spusť `npm run generate && npm run generate:repo` v `catalog/`.
-    2. Doporučení z `README.md` repozitáře: nepublikovat před právním posouzením příjmu ve stablecoinech a před rozhodnutím o hlavní síti. Zápis do registrů je veřejný.
+    1. `operator.name` (`{{operator.name}}`) a `operator.contact` (`{{operator.contact}}`) jsou v katalogu vyplněny (ovlivňují `LICENSE`, `SECURITY.md`). Po každé změně katalogu spusť `npm run generate && npm run generate:repo` v `catalog/`.
+    2. Zápis do registrů je veřejný.
     3. `launch.live` v katalogu zůstává `false`, dokud nespustíš veřejně; README pak říká „draft“. Po spuštění ho přepni a přegeneruj.
     4. `brand.version` je `{{brand.version}}`. Zvaž, jestli registr přijme tuto verzi, nebo nastav běžné číslo verze v katalogu (otevřená otázka).
 
     ## 1. Založení repozitáře na GitHubu
 
-    1. Na GitHubu vytvoř nový prázdný veřejný repozitář (název navrhuji `{{brand.slug}}`; není rozhodnuto).
+    1. Na GitHubu vytvoř nový prázdný veřejný repozitář `{{repo.github}}` (účet `chocholous`, název `spagents`; rozhodnutí vlastníka).
     2. Zkopíruj obsah složky `public-repo/` bez `PUBLISHING.md` a bez `.git`.
     3. Topics: `mcp`, `x402`, `ai-agents`. Licence je MIT (`LICENSE`).
     4. Až v repozitáři zapni Actions. Workflow `.github/workflows/publish-mcp-registry.yml` se spouští jen ručně (`workflow_dispatch`).
@@ -1371,6 +1350,14 @@ repo:
     3. Soukromý klíč ulož jako tajný klíč repozitáře `MCP_PRIVATE_KEY` (Settings, Secrets and variables, Actions). GitHub OIDC se pro tento jmenný prostor nepoužije: patří jen jmenným prostorům `io.github.<účet>/...`.
     4. Počkej na šíření DNS, pak pokračuj.
 
+    ### Záložní varianta: `io.github.chocholous/spagents` s GitHub OIDC
+
+    Použij ji, jen kdyby DNS ověření domény {{brand.domain}} nešlo (rozhodnutí vlastníka: výchozí zůstává `{{brand.registry_namespace}}`). Neověřeno proti živému registru, postup zkontroluj v dokumentaci `modelcontextprotocol.io/registry/authentication`.
+
+    1. V katalogu změň `brand.registry_namespace` na `io.github.chocholous/spagents` a přegeneruj (`npm run generate && npm run generate:repo`). Ověření je účtem GitHub `chocholous`, DNS ani soukromý klíč `MCP_PRIVATE_KEY` se nepoužijí.
+    2. V workflow `.github/workflows/publish-mcp-registry.yml` nahraď krok „Log in with the DNS key“ přihlášením `./mcp-publisher login github-oidc` a do `permissions` přidej `id-token: write`. Ruční varianta mimo Actions: `mcp-publisher login github` (zařízení, přihlášení účtem `chocholous`).
+    3. Publikace se pak dělá stejně jako v bodě 3.
+
     ## 3. Oficiální MCP Registry
 
     1. Lokálně nebo v Actions: `mcp-publisher login dns --domain {{brand.domain}} --private-key <klíč>`, potom `mcp-publisher publish` ve složce se `server.json`.
@@ -1383,7 +1370,7 @@ repo:
     - Glama: „Add Server“ s URL repozitáře (potřebuje README, LICENSE a aspoň jeden nástroj); vzdálený konektor lze „claimnout“ HTTP výzvou nebo DNS tokenem.
     - mcp.so: formulář `mcp.so/submit` (URL repozitáře nebo serveru). Zda je zápis zdarma, je neověřeno.
     - Anthropic Connectors Directory: formulář „Connectors Directory server review“; vyžaduje funkční vzdálený server a dokumentaci (volitelné, později).
-    - x402 Bazaar (Coinbase CDP): až po PRVNÍ skutečné placené platbě přes facilitátora CDP; v placených trasách musí být `extensions.bazaar`. Záznam bez settlementu po 30 dnech zmizí. Facilitátor pro hlavní síť zatím není vybrán, takže jde o otevřené rozhodnutí.
+    - x402 Bazaar (Coinbase CDP): až po PRVNÍ skutečné placené platbě přes facilitátora CDP; v placených trasách musí být `extensions.bazaar`. Záznam bez settlementu po 30 dnech zmizí. Facilitátor je Coinbase CDP (rozhodnutí vlastníka, i na testnetu kvůli zápisu do Bazaaru); jestli Bazaar zapisuje i testnetové platby, je neověřeno.
     - Nezapisovat: awesome-mcp-servers a Docker MCP Catalog vyžadují repozitář se spustitelným serverem nebo image, což zde není.
 
     ## 5. Co zkontrolovat po zápisu

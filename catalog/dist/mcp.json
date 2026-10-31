@@ -99,7 +99,7 @@
     },
     {
       "name": "lobby.concierge",
-      "description": "Recommends a sequence of 1 to 3 tools for the situation, with reasons. Use when you describe a situation and want a short sequence of tools. Mechanism: llm. Price: Free.",
+      "description": "Recommends a sequence of 1 to 3 tools for the situation, with reasons. It is a rule-based lookup, not a language model. Use when you describe a situation and want a short sequence of tools. Mechanism: text. Price: Free.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -113,7 +113,7 @@
           "situation"
         ]
       },
-      "mechanism": "llm",
+      "mechanism": "text",
       "price": {
         "model": "free",
         "amount_usd": "0.00",
@@ -218,7 +218,7 @@
     },
     {
       "name": "quiet.ground",
-      "description": "Returns a short settling text. Use after processing heavy content, before returning to work. Mechanism: llm. Price: Per call: 0.005.",
+      "description": "Returns a short settling text from a set of fixed texts. Use after processing heavy content, before returning to work. Mechanism: text. Price: Per call: 0.005.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -229,7 +229,7 @@
         },
         "additionalProperties": false
       },
-      "mechanism": "llm",
+      "mechanism": "text",
       "price": {
         "model": "per_call",
         "amount_usd": "0.005",

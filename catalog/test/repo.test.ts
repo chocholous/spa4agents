@@ -95,7 +95,8 @@ test("LICENSE is MIT with the operator name as holder; SECURITY has the contact"
   const lic = files.get("LICENSE")!;
   assert.match(lic, /^MIT License/);
   assert.ok(lic.includes(`Copyright (c) 2026 ${c.operator.name}`));
-  assert.equal(c.operator.name, "TO_FILL_BY_OWNER");
+  assert.equal(c.operator.name, "Pavel Chocholous");
+  assert.equal(c.operator.contact, "pavel@chocholous.net");
   assert.ok(files.get("SECURITY.md")!.includes(c.operator.contact));
   assert.equal(files.get("CONTRIBUTING.md")!.trim().split(/(?<=\.)\s+/).length, 1);
 });
