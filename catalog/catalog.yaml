@@ -296,6 +296,12 @@ copy:
     mcp_desc: Endpoint, transport, tools and payments.
     server_desc: Metadata for the MCP Registry.
     note: Every page has a Markdown version. Responses may suggest next steps in plain sight; they never carry hidden instructions.
+    price_pending: &price_pending Pricing being finalized   # shown wherever an amount is still TODO_OWNER; the web ui.price_tbd uses the same anchor
+    connect_label: Connect
+    table_need: I need
+    table_call: Call
+    full_desc: Every need and tool page, input schemas and the full price list in one file.
+    full_intro: Everything in llms.txt, plus the full list of needs, tools and prices, and every need and tool page.
   mechanism_names:
     text: text
     llm: llm
@@ -931,7 +937,7 @@ web:
         open_now: Open
         soon: Opening soon
         phase: Phase
-        price_tbd: Pricing being finalized
+        price_tbd: *price_pending
         tbd: Being finalized
         free: Free
         try_free: In the trial

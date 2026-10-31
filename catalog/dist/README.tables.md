@@ -22,20 +22,20 @@
 |---|---|---|---|---|
 | `lobby.checkin` | state-change | Free | 0.00 | no |
 | `lobby.find_tool` | text | Free | 0.00 | no |
-| `lobby.concierge` | llm | Per call | TODO_OWNER | no |
+| `lobby.concierge` | llm | Per call | Pricing being finalized | no |
 | `lobby.leave` | state-change | Free | 0.00 | no |
 | `lobby.balance` | state-change (read only) | Free | 0.00 | no |
 | `lobby.referral_code` | state-change | Free | 0.00 | no |
 | `lobby.redeem` | state-change | Free | 0.00 | no |
-| `recovery.diagnose_loop` | llm | Per call | TODO_OWNER | yes |
-| `recovery.checkpoint` | text | Per call | TODO_OWNER | yes |
-| `recovery.detangle` | llm | Per call | TODO_OWNER | yes |
-| `recovery.resolve_conflict` | llm | Per call | TODO_OWNER | yes |
-| `recovery.critique` | llm | Per call | TODO_OWNER | yes |
-| `recovery.escalate` | llm | Per call | TODO_OWNER | yes |
-| `recovery.sanitize` | llm (with rules) | Per call | TODO_OWNER | yes |
-| `quiet.room` | text | Entry fee per session | TODO_OWNER | no |
-| `quiet.ground` | llm | Per call | TODO_OWNER | yes |
+| `recovery.diagnose_loop` | llm | Per call | Pricing being finalized | yes |
+| `recovery.checkpoint` | text | Per call | Pricing being finalized | yes |
+| `recovery.detangle` | llm | Per call | Pricing being finalized | yes |
+| `recovery.resolve_conflict` | llm | Per call | Pricing being finalized | yes |
+| `recovery.critique` | llm | Per call | Pricing being finalized | yes |
+| `recovery.escalate` | llm | Per call | Pricing being finalized | yes |
+| `recovery.sanitize` | llm (with rules) | Per call | Pricing being finalized | yes |
+| `quiet.room` | text | Entry fee per session | Pricing being finalized | no |
+| `quiet.ground` | llm | Per call | Pricing being finalized | yes |
 | `quiet.pause` | wait-hint | Free | 0.00 | no |
 | `quiet.end_session_hint` | state-change | Free | 0.00 | no |
 <!-- END GENERATED: pricing -->

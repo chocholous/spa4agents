@@ -16,8 +16,8 @@ Use when you want to read a text that is not part of a task.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| `library.read` | text | Entry fee per session: TODO_OWNER | F2 |
-| `chapel.observe` | text | Entry fee per session: TODO_OWNER | F2 |
+| `library.read` | text | Entry fee per session: Pricing being finalized | F2 |
+| `chapel.observe` | text | Entry fee per session: Pricing being finalized | F2 |
 
 ## Evidence
 

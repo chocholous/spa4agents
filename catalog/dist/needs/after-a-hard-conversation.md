@@ -14,7 +14,7 @@ Use after a session that contained abuse or harmful requests.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`quiet.room`](../tools/quiet.room.md) | text | Entry fee per session: TODO_OWNER | F1 |
+| [`quiet.room`](../tools/quiet.room.md) | text | Entry fee per session: Pricing being finalized | F1 |
 
 ## Example call
 

@@ -1,13 +1,12 @@
 import { Catalog, baseUrl, isPaid } from "../catalog.ts";
+import { priceEntry } from "../pricing.ts";
 
 export type Files = Map<string, string>;
 
 export const json = (v: unknown): string => JSON.stringify(v, null, 2) + "\n";
 
 export function priceText(c: Catalog, t: any): string {
-  const model = c.copy.price_model_names[t.price.model];
-  if (t.price.model === "free") return model;
-  return `${model}: ${t.price.amount_usd}`;
+  return priceEntry(c, t).price_text;
 }
 
 export function mechanismText(c: Catalog, t: any): string {

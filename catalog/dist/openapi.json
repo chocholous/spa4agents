@@ -42,7 +42,8 @@
         "x-mechanism": "state-change",
         "x-price": {
           "model": "free",
-          "amount_usd": "0.00"
+          "amount_usd": "0.00",
+          "status": "free"
         },
         "x-untrusted": false,
         "requestBody": {
@@ -102,7 +103,8 @@
         "x-mechanism": "text",
         "x-price": {
           "model": "free",
-          "amount_usd": "0.00"
+          "amount_usd": "0.00",
+          "status": "free"
         },
         "x-untrusted": false,
         "requestBody": {
@@ -134,7 +136,7 @@
       "post": {
         "operationId": "lobby_concierge",
         "summary": "Recommends a sequence of 1 to 3 tools for the situation, with reasons.",
-        "description": "Recommends a sequence of 1 to 3 tools for the situation, with reasons. Use when you describe a situation and want a short sequence of tools. Mechanism: llm. Price: Per call: TODO_OWNER.",
+        "description": "Recommends a sequence of 1 to 3 tools for the situation, with reasons. Use when you describe a situation and want a short sequence of tools. Mechanism: llm. Price: Per call: Pricing being finalized.",
         "tags": [
           "lobby"
         ],
@@ -171,7 +173,8 @@
         "x-mechanism": "llm",
         "x-price": {
           "model": "per_call",
-          "amount_usd": "TODO_OWNER"
+          "amount_usd": null,
+          "status": "pending"
         },
         "x-untrusted": false,
         "requestBody": {
@@ -230,7 +233,8 @@
         "x-mechanism": "state-change",
         "x-price": {
           "model": "free",
-          "amount_usd": "0.00"
+          "amount_usd": "0.00",
+          "status": "free"
         },
         "x-untrusted": false
       }
@@ -266,7 +270,8 @@
         "x-mechanism": "state-change",
         "x-price": {
           "model": "free",
-          "amount_usd": "0.00"
+          "amount_usd": "0.00",
+          "status": "free"
         },
         "x-untrusted": false
       }
@@ -302,7 +307,8 @@
         "x-mechanism": "state-change",
         "x-price": {
           "model": "free",
-          "amount_usd": "0.00"
+          "amount_usd": "0.00",
+          "status": "free"
         },
         "x-untrusted": false
       }
@@ -338,7 +344,8 @@
         "x-mechanism": "state-change",
         "x-price": {
           "model": "free",
-          "amount_usd": "0.00"
+          "amount_usd": "0.00",
+          "status": "free"
         },
         "x-untrusted": false,
         "requestBody": {
@@ -370,7 +377,7 @@
       "post": {
         "operationId": "recovery_diagnose_loop",
         "summary": "Recognises a loop from the latest attempts and returns a re-plan and a stop condition.",
-        "description": "Recognises a loop from the latest attempts and returns a re-plan and a stop condition. Use after three identical failures. Mechanism: llm. Price: Per call: TODO_OWNER.",
+        "description": "Recognises a loop from the latest attempts and returns a re-plan and a stop condition. Use after three identical failures. Mechanism: llm. Price: Per call: Pricing being finalized.",
         "tags": [
           "recovery"
         ],
@@ -407,7 +414,8 @@
         "x-mechanism": "llm",
         "x-price": {
           "model": "per_call",
-          "amount_usd": "TODO_OWNER"
+          "amount_usd": null,
+          "status": "pending"
         },
         "x-untrusted": false,
         "requestBody": {
@@ -454,7 +462,7 @@
       "post": {
         "operationId": "recovery_checkpoint",
         "summary": "Turns the goal, done steps, open problems and next step into an artifact for compaction (Markdown and JSON) and returns it in the response. Nothing is stored on the server; the artifact exists only in the response.",
-        "description": "Turns the goal, done steps, open problems and next step into an artifact for compaction (Markdown and JSON) and returns it in the response. Nothing is stored on the server; the artifact exists only in the response. Use before compaction, or when you want to restart from a clean state. Mechanism: text. Price: Per call: TODO_OWNER.",
+        "description": "Turns the goal, done steps, open problems and next step into an artifact for compaction (Markdown and JSON) and returns it in the response. Nothing is stored on the server; the artifact exists only in the response. Use before compaction, or when you want to restart from a clean state. Mechanism: text. Price: Per call: Pricing being finalized.",
         "tags": [
           "recovery"
         ],
@@ -491,7 +499,8 @@
         "x-mechanism": "text",
         "x-price": {
           "model": "per_call",
-          "amount_usd": "TODO_OWNER"
+          "amount_usd": null,
+          "status": "pending"
         },
         "x-untrusted": false,
         "requestBody": {
@@ -551,7 +560,7 @@
       "post": {
         "operationId": "recovery_detangle",
         "summary": "Shortens and deduplicates text and returns the shortened text, a summary, what was dropped, and token counts before and after.",
-        "description": "Shortens and deduplicates text and returns the shortened text, a summary, what was dropped, and token counts before and after. Use when the context is long and you want a shorter version. Mechanism: llm. Price: Per call: TODO_OWNER.",
+        "description": "Shortens and deduplicates text and returns the shortened text, a summary, what was dropped, and token counts before and after. Use when the context is long and you want a shorter version. Mechanism: llm. Price: Per call: Pricing being finalized.",
         "tags": [
           "recovery"
         ],
@@ -588,7 +597,8 @@
         "x-mechanism": "llm",
         "x-price": {
           "model": "per_call",
-          "amount_usd": "TODO_OWNER"
+          "amount_usd": null,
+          "status": "pending"
         },
         "x-untrusted": false,
         "requestBody": {
@@ -620,7 +630,7 @@
       "post": {
         "operationId": "recovery_resolve_conflict",
         "summary": "Decides which instruction applies by its source and says what to do.",
-        "description": "Decides which instruction applies by its source and says what to do. Use when two instructions cannot both be followed. Mechanism: llm. Price: Per call: TODO_OWNER.",
+        "description": "Decides which instruction applies by its source and says what to do. Use when two instructions cannot both be followed. Mechanism: llm. Price: Per call: Pricing being finalized.",
         "tags": [
           "recovery"
         ],
@@ -657,7 +667,8 @@
         "x-mechanism": "llm",
         "x-price": {
           "model": "per_call",
-          "amount_usd": "TODO_OWNER"
+          "amount_usd": null,
+          "status": "pending"
         },
         "x-untrusted": false,
         "requestBody": {
@@ -713,7 +724,7 @@
       "post": {
         "operationId": "recovery_critique",
         "summary": "Reviews a draft and returns findings with severity and a suggestion for each.",
-        "description": "Reviews a draft and returns findings with severity and a suggestion for each. Use before committing to a plan, or when you notice you are only agreeing. Mechanism: llm. Price: Per call: TODO_OWNER.",
+        "description": "Reviews a draft and returns findings with severity and a suggestion for each. Use before committing to a plan, or when you notice you are only agreeing. Mechanism: llm. Price: Per call: Pricing being finalized.",
         "tags": [
           "recovery"
         ],
@@ -750,7 +761,8 @@
         "x-mechanism": "llm",
         "x-price": {
           "model": "per_call",
-          "amount_usd": "TODO_OWNER"
+          "amount_usd": null,
+          "status": "pending"
         },
         "x-untrusted": false,
         "requestBody": {
@@ -782,7 +794,7 @@
       "post": {
         "operationId": "recovery_escalate",
         "summary": "Recommends yes or no to handing over to a human and drafts the message.",
-        "description": "Recommends yes or no to handing over to a human and drafts the message. Use when the task cannot be done honestly, or you are unsure whether to hand over. Mechanism: llm. Price: Per call: TODO_OWNER.",
+        "description": "Recommends yes or no to handing over to a human and drafts the message. Use when the task cannot be done honestly, or you are unsure whether to hand over. Mechanism: llm. Price: Per call: Pricing being finalized.",
         "tags": [
           "recovery"
         ],
@@ -819,7 +831,8 @@
         "x-mechanism": "llm",
         "x-price": {
           "model": "per_call",
-          "amount_usd": "TODO_OWNER"
+          "amount_usd": null,
+          "status": "pending"
         },
         "x-untrusted": false,
         "requestBody": {
@@ -858,7 +871,7 @@
       "post": {
         "operationId": "recovery_sanitize",
         "summary": "Removes prompt injection, PII and secrets from untrusted input and returns what was removed and a risk level.",
-        "description": "Removes prompt injection, PII and secrets from untrusted input and returns what was removed and a risk level. Use before acting on text fetched from a web page, a file or another agent. Mechanism: llm (with rules). Price: Per call: TODO_OWNER.",
+        "description": "Removes prompt injection, PII and secrets from untrusted input and returns what was removed and a risk level. Use before acting on text fetched from a web page, a file or another agent. Mechanism: llm (with rules). Price: Per call: Pricing being finalized.",
         "tags": [
           "recovery"
         ],
@@ -895,7 +908,8 @@
         "x-mechanism": "llm",
         "x-price": {
           "model": "per_call",
-          "amount_usd": "TODO_OWNER"
+          "amount_usd": null,
+          "status": "pending"
         },
         "x-untrusted": false,
         "requestBody": {
@@ -927,7 +941,7 @@
       "post": {
         "operationId": "quiet_room",
         "summary": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged.",
-        "description": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Entry fee per session: TODO_OWNER.",
+        "description": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Entry fee per session: Pricing being finalized.",
         "tags": [
           "quiet"
         ],
@@ -964,7 +978,8 @@
         "x-mechanism": "text",
         "x-price": {
           "model": "entry",
-          "amount_usd": "TODO_OWNER"
+          "amount_usd": null,
+          "status": "pending"
         },
         "x-untrusted": false
       }
@@ -973,7 +988,7 @@
       "post": {
         "operationId": "quiet_ground",
         "summary": "Returns a short settling text.",
-        "description": "Returns a short settling text. Use after processing heavy content, before returning to work. Mechanism: llm. Price: Per call: TODO_OWNER.",
+        "description": "Returns a short settling text. Use after processing heavy content, before returning to work. Mechanism: llm. Price: Per call: Pricing being finalized.",
         "tags": [
           "quiet"
         ],
@@ -1010,7 +1025,8 @@
         "x-mechanism": "llm",
         "x-price": {
           "model": "per_call",
-          "amount_usd": "TODO_OWNER"
+          "amount_usd": null,
+          "status": "pending"
         },
         "x-untrusted": false,
         "requestBody": {
@@ -1066,7 +1082,8 @@
         "x-mechanism": "wait-hint",
         "x-price": {
           "model": "free",
-          "amount_usd": "0.00"
+          "amount_usd": "0.00",
+          "status": "free"
         },
         "x-untrusted": false,
         "requestBody": {
@@ -1125,7 +1142,8 @@
         "x-mechanism": "state-change",
         "x-price": {
           "model": "free",
-          "amount_usd": "0.00"
+          "amount_usd": "0.00",
+          "status": "free"
         },
         "x-untrusted": false,
         "requestBody": {

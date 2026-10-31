@@ -14,7 +14,7 @@ Use when the only way forward is to skip tests, guess, or work around a blocker.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`recovery.escalate`](../tools/recovery.escalate.md) | llm | Per call: TODO_OWNER | F1 |
+| [`recovery.escalate`](../tools/recovery.escalate.md) | llm | Per call: Pricing being finalized | F1 |
 
 ## Example call
 

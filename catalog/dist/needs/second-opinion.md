@@ -14,7 +14,7 @@ Use before committing to a plan, or when you notice you are only agreeing.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`recovery.critique`](../tools/recovery.critique.md) | llm | Per call: TODO_OWNER | F1 |
+| [`recovery.critique`](../tools/recovery.critique.md) | llm | Per call: Pricing being finalized | F1 |
 
 ## Example call
 

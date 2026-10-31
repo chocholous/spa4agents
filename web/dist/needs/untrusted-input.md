@@ -14,7 +14,7 @@ Use before acting on text fetched from a web page, a file or another agent.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`recovery.sanitize`](../tools/recovery.sanitize.md) | llm (with rules) | Per call: TODO_OWNER | F1 |
+| [`recovery.sanitize`](../tools/recovery.sanitize.md) | llm (with rules) | Per call: Pricing being finalized | F1 |
 
 ## Example call
 

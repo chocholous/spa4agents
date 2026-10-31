@@ -10,5 +10,105 @@
       "type": "streamable-http",
       "url": "https://spa4agents.com/mcp"
     }
-  ]
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "pricing": {
+        "url": "https://spa4agents.com/pricing.json",
+        "currency": "USDC",
+        "tools": [
+          {
+            "name": "lobby.checkin",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          },
+          {
+            "name": "lobby.find_tool",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          },
+          {
+            "name": "lobby.concierge",
+            "price_status": "pending",
+            "amount_usd": null
+          },
+          {
+            "name": "lobby.leave",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          },
+          {
+            "name": "lobby.balance",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          },
+          {
+            "name": "lobby.referral_code",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          },
+          {
+            "name": "lobby.redeem",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          },
+          {
+            "name": "recovery.diagnose_loop",
+            "price_status": "pending",
+            "amount_usd": null
+          },
+          {
+            "name": "recovery.checkpoint",
+            "price_status": "pending",
+            "amount_usd": null
+          },
+          {
+            "name": "recovery.detangle",
+            "price_status": "pending",
+            "amount_usd": null
+          },
+          {
+            "name": "recovery.resolve_conflict",
+            "price_status": "pending",
+            "amount_usd": null
+          },
+          {
+            "name": "recovery.critique",
+            "price_status": "pending",
+            "amount_usd": null
+          },
+          {
+            "name": "recovery.escalate",
+            "price_status": "pending",
+            "amount_usd": null
+          },
+          {
+            "name": "recovery.sanitize",
+            "price_status": "pending",
+            "amount_usd": null
+          },
+          {
+            "name": "quiet.room",
+            "price_status": "pending",
+            "amount_usd": null
+          },
+          {
+            "name": "quiet.ground",
+            "price_status": "pending",
+            "amount_usd": null
+          },
+          {
+            "name": "quiet.pause",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          },
+          {
+            "name": "quiet.end_session_hint",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          }
+        ]
+      }
+    }
+  }
 }

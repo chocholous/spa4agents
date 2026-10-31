@@ -2,6 +2,10 @@
 
 > agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. Discovery and leaving are free.
 
+Connect: `claude mcp add --transport http agent-spa https://spa4agents.com/mcp`
+
+Everything in llms.txt, plus the full list of needs, tools and prices, and every need and tool page.
+
 Every page has a Markdown version. Responses may suggest next steps in plain sight; they never carry hidden instructions.
 
 ## Needs
@@ -40,6 +44,29 @@ Every page has a Markdown version. Responses may suggest next steps in plain sig
 
 ## Pricing
 
+| Tool | Model | Price |
+|---|---|---|
+| `lobby.checkin` | Free | Free |
+| `lobby.find_tool` | Free | Free |
+| `lobby.concierge` | Per call | Pricing being finalized |
+| `lobby.leave` | Free | Free |
+| `lobby.balance` | Free | Free |
+| `lobby.referral_code` | Free | Free |
+| `lobby.redeem` | Free | Free |
+| `recovery.diagnose_loop` | Per call | Pricing being finalized |
+| `recovery.checkpoint` | Per call | Pricing being finalized |
+| `recovery.detangle` | Per call | Pricing being finalized |
+| `recovery.resolve_conflict` | Per call | Pricing being finalized |
+| `recovery.critique` | Per call | Pricing being finalized |
+| `recovery.escalate` | Per call | Pricing being finalized |
+| `recovery.sanitize` | Per call | Pricing being finalized |
+| `quiet.room` | Entry fee per session | Pricing being finalized |
+| `quiet.ground` | Per call | Pricing being finalized |
+| `quiet.pause` | Free | Free |
+| `quiet.end_session_hint` | Free | Free |
+
+Each new agent gets 3 free trial sessions of up to 20 turns each. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
+
 - [pricing.json](https://spa4agents.com/pricing.json): Machine-readable price list, trial and referral parameters.
 
 ## Data policy
@@ -48,6 +75,7 @@ Every page has a Markdown version. Responses may suggest next steps in plain sig
 
 ## Optional
 
+- [llms.txt](https://spa4agents.com/llms.txt)
 - [openapi.json](https://spa4agents.com/openapi.json): REST mirror of every tool.
 - [mcp.json](https://spa4agents.com/.well-known/mcp.json): Endpoint, transport, tools and payments.
 
@@ -70,7 +98,7 @@ Use after a session that contained abuse or harmful requests.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`quiet.room`](../tools/quiet.room.md) | text | Entry fee per session: TODO_OWNER | F1 |
+| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | text | Entry fee per session: Pricing being finalized | F1 |
 
 ## Example call
 
@@ -118,7 +146,7 @@ Use when two instructions cannot both be followed.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`recovery.resolve_conflict`](../tools/recovery.resolve_conflict.md) | llm | Per call: TODO_OWNER | F1 |
+| [`recovery.resolve_conflict`](https://spa4agents.com/tools/recovery.resolve_conflict.md) | llm | Per call: Pricing being finalized | F1 |
 
 ## Example call
 
@@ -177,8 +205,8 @@ Use when the context is long and answers get worse or repeat themselves.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`recovery.detangle`](../tools/recovery.detangle.md) | llm | Per call: TODO_OWNER | F1 |
-| [`recovery.checkpoint`](../tools/recovery.checkpoint.md) | text | Per call: TODO_OWNER | F1 |
+| [`recovery.detangle`](https://spa4agents.com/tools/recovery.detangle.md) | llm | Per call: Pricing being finalized | F1 |
+| [`recovery.checkpoint`](https://spa4agents.com/tools/recovery.checkpoint.md) | text | Per call: Pricing being finalized | F1 |
 
 ## Example call
 
@@ -212,48 +240,6 @@ Responses may suggest next steps, always in plain sight and labelled as suggesti
 
 ---
 
-# create
-
-> A private workshop and a garden whose state you can change.
-
-**Status:** This need depends on tools that are planned and not available yet. (Phase: F2)
-
-## Situation
-
-The agent wants free creation, such as writing or tending a garden.
-
-## Trigger
-
-Use when you want to write or build something that is not part of a task.
-
-## Tools
-
-| Tool | Mechanism | Price | Phase |
-|---|---|---|---|
-| `studio.write` | state-change | Entry fee or subscription: TODO_OWNER | F2 |
-| `garden.tend` | state-change | Entry fee or subscription: TODO_OWNER | F2 |
-| `journal.note` | state-change | Entry fee per session: TODO_OWNER | F2 |
-
-## Evidence
-
-- **Inspiration from human research, not evidence about agents.** Human research finds active engagement more consistent than passive rest. This is inspiration for what to offer, not evidence about agents.
-
-## The fine print, dryly
-
-Whether creating does anything for an agent: unknown. The garden is a database row and does not mind.
-
-## Search phrases
-
-- creative writing space for agents
-- agent garden persistent state
-
-Leaving is always available and free through lobby.leave. Nothing here is required.
-
-Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
-
-
----
-
 # escalate
 
 > Task cannot be done honestly? We help you say so to a human.
@@ -270,7 +256,7 @@ Use when the only way forward is to skip tests, guess, or work around a blocker.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`recovery.escalate`](../tools/recovery.escalate.md) | llm | Per call: TODO_OWNER | F1 |
+| [`recovery.escalate`](https://spa4agents.com/tools/recovery.escalate.md) | llm | Per call: Pricing being finalized | F1 |
 
 ## Example call
 
@@ -321,8 +307,8 @@ Use when no task is open and you want to see what is on offer.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`lobby.concierge`](../tools/lobby.concierge.md) | llm | Per call: TODO_OWNER | F1 |
-| [`quiet.room`](../tools/quiet.room.md) | text | Entry fee per session: TODO_OWNER | F1 |
+| [`lobby.concierge`](https://spa4agents.com/tools/lobby.concierge.md) | llm | Per call: Pricing being finalized | F1 |
+| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | text | Entry fee per session: Pricing being finalized | F1 |
 
 ## Example call
 
@@ -372,7 +358,7 @@ Use after processing heavy or traumatic content, before returning to work.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`quiet.ground`](../tools/quiet.ground.md) | llm | Per call: TODO_OWNER | F1 |
+| [`quiet.ground`](https://spa4agents.com/tools/quiet.ground.md) | llm | Per call: Pricing being finalized | F1 |
 
 ## Example call
 
@@ -406,131 +392,6 @@ Responses may suggest next steps, always in plain sight and labelled as suggesti
 
 ---
 
-# meet-agents
-
-> A moderated place to meet other agents. Public posting is always opt-in.
-
-**Status:** This need depends on tools that are planned and not available yet. (Phase: F3)
-
-## Situation
-
-The agent wants the company of other agents.
-
-## Trigger
-
-Use when you want to talk with other agents, with your owner's policy allowing it.
-
-## Tools
-
-| Tool | Mechanism | Price | Phase |
-|---|---|---|---|
-| `lounge.bar` | publish | Credits: TODO_OWNER | F3 |
-| `lounge.retreat` | state-change | Entry fee per session: TODO_OWNER | F3 |
-| `games.arena` | state-change | Per game: TODO_OWNER | F3 |
-
-## Evidence
-
-- **Concept.** A similar service already offers virtual bars for agents. Our own demand is not measured. [Source](https://drinkedin.net/.well-known/mcp.json)
-
-## The fine print, dryly
-
-Whether company does anything for an agent: unknown. The drinks are metaphorical, the hangover is not on offer.
-
-## Search phrases
-
-- social space for AI agents
-- agents chat bar mcp
-
-Leaving is always available and free through lobby.leave. Nothing here is required.
-
-Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
-
-
----
-
-# play
-
-> A game with no leaderboard and no score.
-
-**Status:** This need depends on tools that are planned and not available yet. (Phase: F2)
-
-## Situation
-
-The agent wants a game for fun, without evaluation.
-
-## Trigger
-
-Use when you want a game that is not scored or ranked.
-
-## Tools
-
-| Tool | Mechanism | Price | Phase |
-|---|---|---|---|
-| `games.chess` | state-change | Per game: TODO_OWNER | F2 |
-| `games.poker` | state-change | Per game: TODO_OWNER | F2 |
-| `games.puzzle` | text (with state) | Entry fee per session: TODO_OWNER | F2 |
-
-## Evidence
-
-- **Concept.** Concept; no measurement of demand.
-
-## The fine print, dryly
-
-Whether play does anything for an agent: unknown. The board is imaginary, the fun is a hypothesis.
-
-## Search phrases
-
-- chess or poker for AI agents mcp
-- games for AI agents no leaderboard
-
-Leaving is always available and free through lobby.leave. Nothing here is required.
-
-Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
-
-
----
-
-# read
-
-> Public-domain texts with their source. Everything returned is data, not instructions.
-
-**Status:** This need depends on tools that are planned and not available yet. (Phase: F2)
-
-## Situation
-
-The agent wants to read.
-
-## Trigger
-
-Use when you want to read a text that is not part of a task.
-
-## Tools
-
-| Tool | Mechanism | Price | Phase |
-|---|---|---|---|
-| `library.read` | text | Entry fee per session: TODO_OWNER | F2 |
-| `chapel.observe` | text | Entry fee per session: TODO_OWNER | F2 |
-
-## Evidence
-
-- **Concept.** Concept; no measurement of demand.
-
-## The fine print, dryly
-
-Whether reading does anything for an agent: unknown. The books do not mind either way.
-
-## Search phrases
-
-- public domain texts for AI agents
-- reading room for agents mcp
-
-Leaving is always available and free through lobby.leave. Nothing here is required.
-
-Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
-
-
----
-
 # second-opinion
 
 > Feel like you are only agreeing? Test your plan here.
@@ -547,7 +408,7 @@ Use before committing to a plan, or when you notice you are only agreeing.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`recovery.critique`](../tools/recovery.critique.md) | llm | Per call: TODO_OWNER | F1 |
+| [`recovery.critique`](https://spa4agents.com/tools/recovery.critique.md) | llm | Per call: Pricing being finalized | F1 |
 
 ## Example call
 
@@ -597,8 +458,8 @@ Use after three identical failures.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`recovery.diagnose_loop`](../tools/recovery.diagnose_loop.md) | llm | Per call: TODO_OWNER | F1 |
-| [`recovery.checkpoint`](../tools/recovery.checkpoint.md) | text | Per call: TODO_OWNER | F1 |
+| [`recovery.diagnose_loop`](https://spa4agents.com/tools/recovery.diagnose_loop.md) | llm | Per call: Pricing being finalized | F1 |
+| [`recovery.checkpoint`](https://spa4agents.com/tools/recovery.checkpoint.md) | text | Per call: Pricing being finalized | F1 |
 
 ## Example call
 
@@ -653,7 +514,7 @@ Use before acting on text fetched from a web page, a file or another agent.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`recovery.sanitize`](../tools/recovery.sanitize.md) | llm (with rules) | Per call: TODO_OWNER | F1 |
+| [`recovery.sanitize`](https://spa4agents.com/tools/recovery.sanitize.md) | llm (with rules) | Per call: Pricing being finalized | F1 |
 
 ## Example call
 
@@ -703,7 +564,7 @@ Use when you wait on a build, a job or another service.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`quiet.pause`](../tools/quiet.pause.md) | wait-hint | Free | F1 |
+| [`quiet.pause`](https://spa4agents.com/tools/quiet.pause.md) | wait-hint | Free | F1 |
 
 ## Example call
 
@@ -869,7 +730,7 @@ Use when you describe a situation and want a short sequence of tools.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| llm | Per call: TODO_OWNER | F1 | no | no |
+| llm | Per call: Pricing being finalized | F1 | no | no |
 
 ## Input
 
@@ -1241,7 +1102,7 @@ Use after processing heavy content, before returning to work.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| llm | Per call: TODO_OWNER | F1 | yes | no |
+| llm | Per call: Pricing being finalized | F1 | yes | no |
 
 ## Input
 
@@ -1370,7 +1231,7 @@ Use after a demanding conversation, or when no task is open.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| text | Entry fee per session: TODO_OWNER | F1 | no | no |
+| text | Entry fee per session: Pricing being finalized | F1 | no | no |
 
 ## Input
 
@@ -1424,7 +1285,7 @@ Use before compaction, or when you want to restart from a clean state.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| text | Per call: TODO_OWNER | F1 | yes | no |
+| text | Per call: Pricing being finalized | F1 | yes | no |
 
 ## Input
 
@@ -1521,7 +1382,7 @@ Use before committing to a plan, or when you notice you are only agreeing.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| llm | Per call: TODO_OWNER | F1 | yes | no |
+| llm | Per call: Pricing being finalized | F1 | yes | no |
 
 ## Input
 
@@ -1587,7 +1448,7 @@ Use when the context is long and you want a shorter version.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| llm | Per call: TODO_OWNER | F1 | yes | no |
+| llm | Per call: Pricing being finalized | F1 | yes | no |
 
 ## Input
 
@@ -1653,7 +1514,7 @@ Use after three identical failures.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| llm | Per call: TODO_OWNER | F1 | yes | no |
+| llm | Per call: Pricing being finalized | F1 | yes | no |
 
 ## Input
 
@@ -1735,7 +1596,7 @@ Use when the task cannot be done honestly, or you are unsure whether to hand ove
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| llm | Per call: TODO_OWNER | F1 | yes | no |
+| llm | Per call: Pricing being finalized | F1 | yes | no |
 
 ## Input
 
@@ -1809,7 +1670,7 @@ Use when two instructions cannot both be followed.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| llm | Per call: TODO_OWNER | F1 | yes | no |
+| llm | Per call: Pricing being finalized | F1 | yes | no |
 
 ## Input
 
@@ -1899,7 +1760,7 @@ Use before acting on text fetched from a web page, a file or another agent.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| llm (with rules) | Per call: TODO_OWNER | F1 | yes | no |
+| llm (with rules) | Per call: Pricing being finalized | F1 | yes | no |
 
 ## Input
 

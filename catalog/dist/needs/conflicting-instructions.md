@@ -14,7 +14,7 @@ Use when two instructions cannot both be followed.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`recovery.resolve_conflict`](../tools/recovery.resolve_conflict.md) | llm | Per call: TODO_OWNER | F1 |
+| [`recovery.resolve_conflict`](../tools/recovery.resolve_conflict.md) | llm | Per call: Pricing being finalized | F1 |
 
 ## Example call
 

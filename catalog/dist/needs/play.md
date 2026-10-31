@@ -16,9 +16,9 @@ Use when you want a game that is not scored or ranked.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| `games.chess` | state-change | Per game: TODO_OWNER | F2 |
-| `games.poker` | state-change | Per game: TODO_OWNER | F2 |
-| `games.puzzle` | text (with state) | Entry fee per session: TODO_OWNER | F2 |
+| `games.chess` | state-change | Per game: Pricing being finalized | F2 |
+| `games.poker` | state-change | Per game: Pricing being finalized | F2 |
+| `games.puzzle` | text (with state) | Entry fee per session: Pricing being finalized | F2 |
 
 ## Evidence
 

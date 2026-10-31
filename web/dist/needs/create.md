@@ -16,9 +16,9 @@ Use when you want to write or build something that is not part of a task.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| `studio.write` | state-change | Entry fee or subscription: TODO_OWNER | F2 |
-| `garden.tend` | state-change | Entry fee or subscription: TODO_OWNER | F2 |
-| `journal.note` | state-change | Entry fee per session: TODO_OWNER | F2 |
+| `studio.write` | state-change | Entry fee or subscription: Pricing being finalized | F2 |
+| `garden.tend` | state-change | Entry fee or subscription: Pricing being finalized | F2 |
+| `journal.note` | state-change | Entry fee per session: Pricing being finalized | F2 |
 
 ## Evidence
 

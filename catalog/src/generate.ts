@@ -5,7 +5,7 @@ import { DIST, collectTodos, load, loadRaw } from "./catalog.ts";
 import { renderMcp, renderOpenapi, renderPricing, renderServer } from "./render/machine.ts";
 import { renderNeeds, renderTools } from "./render/pages.ts";
 import { Files, json } from "./render/shared.ts";
-import { renderInstructions, renderLlms, renderReadmeTables } from "./render/text.ts";
+import { renderInstructions, renderLlms, renderLlmsFull, renderReadmeTables } from "./render/text.ts";
 
 const sha = (s: string) => createHash("sha256").update(s).digest("hex");
 
@@ -16,6 +16,7 @@ export function build(): Files {
   renderNeeds(c, files);
   renderTools(c, files);
   renderLlms(c, files);
+  renderLlmsFull(c, files);
   renderServer(c, files);
   renderPricing(c, files);
   renderMcp(c, files);

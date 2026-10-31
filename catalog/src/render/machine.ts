@@ -1,4 +1,5 @@
 import { Catalog, baseUrl, endpoint, isPaid, published } from "../catalog.ts";
+import { priceEntries, priceEntry } from "../pricing.ts";
 import { Files, inputSchema, json, paymentBlock, priceText, toolDescription } from "./shared.ts";
 
 function sessionBlock(c: Catalog) {
@@ -48,15 +49,18 @@ export function renderPricing(c: Catalog, files: Files) {
     referral: referralBlock(c),
     affiliate: { percent: c.affiliate.percent, months: c.affiliate.months, payout_phase: c.affiliate.payout_phase },
     models: c.copy.price_model_names,
-    tools: published(c).map((t: any) => ({
-      name: t.name,
-      phase: t.phase,
-      mechanism: t.mechanism,
-      price_model: t.price.model,
-      amount_usd: t.price.amount_usd,
-      paid_with_x402: isPaid(t),
-      trial_eligible: !!t.trial_eligible,
-      price_text: priceText(c, t),
+    pricing_status: priceEntries(c, published(c)).some((p) => p.status === "pending") ? "pending" : "final",
+    pricing_pending_text: c.copy.llms.price_pending,
+    tools: priceEntries(c, published(c)).map((p) => ({
+      name: p.name,
+      phase: p.phase,
+      mechanism: p.mechanism,
+      price_model: p.price_model,
+      amount_usd: p.amount_usd,
+      price_status: p.status,
+      paid_with_x402: p.paid_with_x402,
+      trial_eligible: p.trial_eligible,
+      price_text: p.price_text,
     })),
   }));
 }
@@ -98,7 +102,7 @@ export function renderMcp(c: Catalog, files: Files) {
         description: toolDescription(c, t),
         inputSchema: schema,
         mechanism: t.mechanism,
-        price: { model: t.price.model, amount_usd: t.price.amount_usd },
+        price: { model: t.price.model, amount_usd: priceEntry(c, t).amount_usd, status: priceEntry(c, t).status },
         untrusted: !!t.untrusted,
         payment: paymentBlock(c, t),
         bazaar: isPaid(t) ? { type: "mcp", toolName: t.name, inputSchema: schema } : null,
@@ -116,6 +120,15 @@ export function renderServer(c: Catalog, files: Files) {
     version: c.brand.version,
     websiteUrl: baseUrl(c),
     remotes: [{ type: "streamable-http", url: endpoint(c) }],
+    _meta: {
+      "io.modelcontextprotocol.registry/publisher-provided": {
+        pricing: {
+          url: `${baseUrl(c)}/pricing.json`,
+          currency: c.payments.asset,
+          tools: priceEntries(c, published(c)).map((p) => ({ name: p.name, price_status: p.status, amount_usd: p.amount_usd })),
+        },
+      },
+    },
   }));
 }
 
@@ -160,7 +173,7 @@ export function renderOpenapi(c: Catalog, files: Files) {
         "200": { description: t.output, content: { "application/json": { schema: { $ref: "#/components/schemas/Envelope" } } } },
       },
       "x-mechanism": t.mechanism,
-      "x-price": { model: t.price.model, amount_usd: t.price.amount_usd },
+      "x-price": { model: t.price.model, amount_usd: priceEntry(c, t).amount_usd, status: priceEntry(c, t).status },
       "x-untrusted": !!t.untrusted,
     };
     if (t.inputs.length) {

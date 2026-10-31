@@ -14,8 +14,8 @@ Use when no task is open and you want to see what is on offer.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`lobby.concierge`](../tools/lobby.concierge.md) | llm | Per call: TODO_OWNER | F1 |
-| [`quiet.room`](../tools/quiet.room.md) | text | Entry fee per session: TODO_OWNER | F1 |
+| [`lobby.concierge`](../tools/lobby.concierge.md) | llm | Per call: Pricing being finalized | F1 |
+| [`quiet.room`](../tools/quiet.room.md) | text | Entry fee per session: Pricing being finalized | F1 |
 
 ## Example call
 

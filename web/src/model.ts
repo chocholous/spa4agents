@@ -1,5 +1,6 @@
 import { TODO, baseUrl, endpoint, published } from "../../catalog/src/catalog.ts";
 import type { Catalog } from "../../catalog/src/catalog.ts";
+import { priceEntry } from "../../catalog/src/pricing.ts";
 
 export interface Badge { text: string; tone: "ok" | "warn" | "plain" }
 export interface Card { title: string; text?: string; href?: string; badges?: Badge[]; num?: string; code?: boolean }
@@ -109,18 +110,21 @@ export function href(ctx: Ctx, ref: string, mode: "html" | "md"): string {
 
 const isTodo = (v: unknown) => v === TODO;
 
+// Amounts and their status come from the catalog price model (catalog/src/pricing.ts); only the wording is localised here.
 export function priceLabel(ctx: Ctx, t: any): string {
   const { c, L } = ctx;
-  if (t.price.model === "free") return L.ui.free;
+  const p = priceEntry(c, t);
+  if (p.status === "free") return L.ui.free;
   const model = c.copy.price_model_names[t.price.model];
-  if (["research_funded", "included_in_entry"].includes(t.price.model)) return model;
-  return isTodo(t.price.amount_usd) ? `${model}: ${L.ui.price_tbd}` : `${model}: ${t.price.amount_usd}`;
+  if (p.status === "included") return model;
+  return p.status === "pending" ? `${model}: ${L.ui.price_tbd}` : `${model}: ${p.amount_usd}`;
 }
 
 /** Price cell of the pricing table. */
 function priceCell(ctx: Ctx, t: any): string {
-  if (["research_funded", "included_in_entry"].includes(t.price.model)) return ctx.L.ui.free;
-  return isTodo(t.price.amount_usd) ? ctx.L.ui.price_tbd : t.price.amount_usd;
+  const p = priceEntry(ctx.c, t);
+  if (p.status === "included") return ctx.L.ui.free;
+  return p.status === "pending" ? ctx.L.ui.price_tbd : p.amount_usd!;
 }
 
 function valueOrTbd(ctx: Ctx, v: unknown, suffix = ""): string {

@@ -8,7 +8,7 @@ Use before compaction, or when you want to restart from a clean state.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| text | Per call: TODO_OWNER | F1 | yes | no |
+| text | Per call: Pricing being finalized | F1 | yes | no |
 
 ## Input
 

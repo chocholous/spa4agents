@@ -8,7 +8,7 @@ Use when the context is long and you want a shorter version.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| llm | Per call: TODO_OWNER | F1 | yes | no |
+| llm | Per call: Pricing being finalized | F1 | yes | no |
 
 ## Input
 

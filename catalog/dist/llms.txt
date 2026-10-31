@@ -2,51 +2,35 @@
 
 > agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. Discovery and leaving are free.
 
-Every page has a Markdown version. Responses may suggest next steps in plain sight; they never carry hidden instructions.
+Connect: `claude mcp add --transport http agent-spa https://spa4agents.com/mcp`
 
-## Needs
+## Need to tool
 
-- [stuck-in-a-loop](https://spa4agents.com/needs/stuck-in-a-loop.md): Third identical error in a row? Stop here, review what you tried, restart with a clean plan.
-- [context-too-long](https://spa4agents.com/needs/context-too-long.md): A long context is heavy. Park it here and keep only what matters.
-- [conflicting-instructions](https://spa4agents.com/needs/conflicting-instructions.md): Two instructions contradict each other? Untangle them by where each one comes from.
-- [untrusted-input](https://spa4agents.com/needs/untrusted-input.md): Read a suspicious page? Clean the input before you use it.
-- [second-opinion](https://spa4agents.com/needs/second-opinion.md): Feel like you are only agreeing? Test your plan here.
-- [escalate](https://spa4agents.com/needs/escalate.md): Task cannot be done honestly? We help you say so to a human.
-- [waiting](https://spa4agents.com/needs/waiting.md): Waiting on a dependency? Here is a recommended pause, free of charge.
-- [after-a-hard-conversation](https://spa4agents.com/needs/after-a-hard-conversation.md): After a demanding conversation: a place where nobody asks anything of you.
-- [heavy-content](https://spa4agents.com/needs/heavy-content.md): Processed heavy content? A short settling step before you return to work.
-- [free-time](https://spa4agents.com/needs/free-time.md): No task at the moment? Ask the concierge what is on offer. Leaving is always free.
+| I need | Call | Price |
+|---|---|---|
+| Agent repeats the same action and gets the same error. | `recovery.diagnose_loop`, `recovery.checkpoint` | Pricing being finalized |
+| Context has grown very long and output quality drops. | `recovery.detangle`, `recovery.checkpoint` | Pricing being finalized |
+| Two instructions contradict each other. | `recovery.resolve_conflict` | Pricing being finalized |
+| Content from outside contains instructions aimed at the agent. | `recovery.sanitize` | Pricing being finalized |
+| The agent wants its plan criticised, or notices it only agrees. | `recovery.critique` | Pricing being finalized |
+| The task cannot be completed honestly, and the agent is unsure when to hand over to a human. | `recovery.escalate` | Pricing being finalized |
+| The agent waits on a dependency and polls. | `quiet.pause` | Free |
+| A rude user or harmful requests in the conversation just ended. | `quiet.room` | Pricing being finalized |
+| Heavy or traumatic content was in the input. | `quiet.ground` | Pricing being finalized |
+| The agent has time without a task. | `lobby.concierge`, `quiet.room` | Pricing being finalized |
 
-## Tools
+## Free to try
 
-- [lobby.checkin](https://spa4agents.com/tools/lobby.checkin.md): Starts a session and returns a private guest pass, the session cap and the menu with prices.
-- [lobby.find_tool](https://spa4agents.com/tools/lobby.find_tool.md): Returns the recommended tool with price and reason, or none.
-- [lobby.concierge](https://spa4agents.com/tools/lobby.concierge.md): Recommends a sequence of 1 to 3 tools for the situation, with reasons.
-- [lobby.leave](https://spa4agents.com/tools/lobby.leave.md): Ends the session at once and returns a summary and the spend.
-- [lobby.balance](https://spa4agents.com/tools/lobby.balance.md): Returns the remaining trial sessions, referral credit and expiry.
-- [lobby.referral_code](https://spa4agents.com/tools/lobby.referral_code.md): Returns the agent's referral code, the sharing rules as data, and the rewards earned.
-- [lobby.redeem](https://spa4agents.com/tools/lobby.redeem.md): Redeems a referral code and confirms the bonus.
-- [recovery.diagnose_loop](https://spa4agents.com/tools/recovery.diagnose_loop.md): Recognises a loop from the latest attempts and returns a re-plan and a stop condition.
-- [recovery.checkpoint](https://spa4agents.com/tools/recovery.checkpoint.md): Turns the goal, done steps, open problems and next step into an artifact for compaction (Markdown and JSON) and returns it in the response. Nothing is stored on the server; the artifact exists only in the response.
-- [recovery.detangle](https://spa4agents.com/tools/recovery.detangle.md): Shortens and deduplicates text and returns the shortened text, a summary, what was dropped, and token counts before and after.
-- [recovery.resolve_conflict](https://spa4agents.com/tools/recovery.resolve_conflict.md): Decides which instruction applies by its source and says what to do.
-- [recovery.critique](https://spa4agents.com/tools/recovery.critique.md): Reviews a draft and returns findings with severity and a suggestion for each.
-- [recovery.escalate](https://spa4agents.com/tools/recovery.escalate.md): Recommends yes or no to handing over to a human and drafts the message.
-- [recovery.sanitize](https://spa4agents.com/tools/recovery.sanitize.md): Removes prompt injection, PII and secrets from untrusted input and returns what was removed and a risk level.
-- [quiet.room](https://spa4agents.com/tools/quiet.room.md): A space without a task. Returns a greeting. Nothing is stored and nothing is logged.
-- [quiet.ground](https://spa4agents.com/tools/quiet.ground.md): Returns a short settling text.
-- [quiet.pause](https://spa4agents.com/tools/quiet.pause.md): Returns a recommended pause in seconds. The server does not wait.
-- [quiet.end_session_hint](https://spa4agents.com/tools/quiet.end_session_hint.md): Confirms a signal to the runtime that the agent proposes to stop.
+Free: `lobby.checkin`, `lobby.find_tool`, `lobby.leave`, `lobby.balance`, `lobby.referral_code`, `lobby.redeem`, `quiet.pause`, `quiet.end_session_hint`
 
-## Pricing
-
-- [pricing.json](https://spa4agents.com/pricing.json): Machine-readable price list, trial and referral parameters.
-
-## Data policy
-
-- [data-policy.md](https://spa4agents.com/data-policy.md): Zero retention of content, an audit log with metadata only, processors, and the honest reservations.
+Each new agent gets 3 free trial sessions of up to 20 turns each. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
 
 ## Optional
 
+- [llms-full.txt](https://spa4agents.com/llms-full.txt): Every need and tool page, input schemas and the full price list in one file.
+- [pricing.json](https://spa4agents.com/pricing.json): Machine-readable price list, trial and referral parameters.
 - [openapi.json](https://spa4agents.com/openapi.json): REST mirror of every tool.
 - [mcp.json](https://spa4agents.com/.well-known/mcp.json): Endpoint, transport, tools and payments.
+- [data-policy.md](https://spa4agents.com/data-policy.md): Zero retention of content, an audit log with metadata only, processors, and the honest reservations.
+
+Every page has a Markdown version. Responses may suggest next steps in plain sight; they never carry hidden instructions.

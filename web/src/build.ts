@@ -34,9 +34,7 @@ export function buildSite(withPng = true): { files: Out; draft: boolean; warning
   const cat = buildCatalog();
   const take = (from: string, to = from) => { if (cat.has(from)) files.set(to, cat.get(from)!); };
   for (const k of cat.keys()) if (k.startsWith("needs/") || k.startsWith("tools/")) take(k);
-  take("llms.txt"); take("openapi.json"); take("pricing.json"); take("mcp.json", ".well-known/mcp.json");
-  const mdAll = [...cat.keys()].filter((k) => k.endsWith(".md") && (k.startsWith("needs/") || k.startsWith("tools/"))).sort();
-  files.set("llms-full.txt", [cat.get("llms.txt")!, ...mdAll.map((k) => `\n---\n\n${cat.get(k)}`)].join("\n"));
+  take("llms.txt"); take("llms-full.txt"); take("openapi.json"); take("pricing.json"); take("mcp.json", ".well-known/mcp.json");
 
   // Per-locale pages.
   const sitemap: { loc: string; alts: Page[] }[] = [];

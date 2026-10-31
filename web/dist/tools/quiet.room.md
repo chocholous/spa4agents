@@ -8,7 +8,7 @@ Use after a demanding conversation, or when no task is open.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| text | Entry fee per session: TODO_OWNER | F1 | no | no |
+| text | Entry fee per session: Pricing being finalized | F1 | no | no |
 
 ## Input
 

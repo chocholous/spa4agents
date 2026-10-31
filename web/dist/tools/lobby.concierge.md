@@ -8,7 +8,7 @@ Use when you describe a situation and want a short sequence of tools.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| llm | Per call: TODO_OWNER | F1 | no | no |
+| llm | Per call: Pricing being finalized | F1 | no | no |
 
 ## Input
 

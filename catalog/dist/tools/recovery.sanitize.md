@@ -8,7 +8,7 @@ Use before acting on text fetched from a web page, a file or another agent.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| llm (with rules) | Per call: TODO_OWNER | F1 | yes | no |
+| llm (with rules) | Per call: Pricing being finalized | F1 | yes | no |
 
 ## Input
 

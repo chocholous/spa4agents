@@ -55,6 +55,8 @@
     "included_in_entry": "Included in the entry fee",
     "research_funded": "Paid by research, free for the agent"
   },
+  "pricing_status": "pending",
+  "pricing_pending_text": "Pricing being finalized",
   "tools": [
     {
       "name": "lobby.checkin",
@@ -62,6 +64,7 @@
       "mechanism": "state-change",
       "price_model": "free",
       "amount_usd": "0.00",
+      "price_status": "free",
       "paid_with_x402": false,
       "trial_eligible": false,
       "price_text": "Free"
@@ -72,6 +75,7 @@
       "mechanism": "text",
       "price_model": "free",
       "amount_usd": "0.00",
+      "price_status": "free",
       "paid_with_x402": false,
       "trial_eligible": false,
       "price_text": "Free"
@@ -81,10 +85,11 @@
       "phase": "F1",
       "mechanism": "llm",
       "price_model": "per_call",
-      "amount_usd": "TODO_OWNER",
+      "amount_usd": null,
+      "price_status": "pending",
       "paid_with_x402": true,
       "trial_eligible": false,
-      "price_text": "Per call: TODO_OWNER"
+      "price_text": "Per call: Pricing being finalized"
     },
     {
       "name": "lobby.leave",
@@ -92,6 +97,7 @@
       "mechanism": "state-change",
       "price_model": "free",
       "amount_usd": "0.00",
+      "price_status": "free",
       "paid_with_x402": false,
       "trial_eligible": false,
       "price_text": "Free"
@@ -102,6 +108,7 @@
       "mechanism": "state-change",
       "price_model": "free",
       "amount_usd": "0.00",
+      "price_status": "free",
       "paid_with_x402": false,
       "trial_eligible": false,
       "price_text": "Free"
@@ -112,6 +119,7 @@
       "mechanism": "state-change",
       "price_model": "free",
       "amount_usd": "0.00",
+      "price_status": "free",
       "paid_with_x402": false,
       "trial_eligible": false,
       "price_text": "Free"
@@ -122,6 +130,7 @@
       "mechanism": "state-change",
       "price_model": "free",
       "amount_usd": "0.00",
+      "price_status": "free",
       "paid_with_x402": false,
       "trial_eligible": false,
       "price_text": "Free"
@@ -131,90 +140,99 @@
       "phase": "F1",
       "mechanism": "llm",
       "price_model": "per_call",
-      "amount_usd": "TODO_OWNER",
+      "amount_usd": null,
+      "price_status": "pending",
       "paid_with_x402": true,
       "trial_eligible": true,
-      "price_text": "Per call: TODO_OWNER"
+      "price_text": "Per call: Pricing being finalized"
     },
     {
       "name": "recovery.checkpoint",
       "phase": "F1",
       "mechanism": "text",
       "price_model": "per_call",
-      "amount_usd": "TODO_OWNER",
+      "amount_usd": null,
+      "price_status": "pending",
       "paid_with_x402": true,
       "trial_eligible": true,
-      "price_text": "Per call: TODO_OWNER"
+      "price_text": "Per call: Pricing being finalized"
     },
     {
       "name": "recovery.detangle",
       "phase": "F1",
       "mechanism": "llm",
       "price_model": "per_call",
-      "amount_usd": "TODO_OWNER",
+      "amount_usd": null,
+      "price_status": "pending",
       "paid_with_x402": true,
       "trial_eligible": true,
-      "price_text": "Per call: TODO_OWNER"
+      "price_text": "Per call: Pricing being finalized"
     },
     {
       "name": "recovery.resolve_conflict",
       "phase": "F1",
       "mechanism": "llm",
       "price_model": "per_call",
-      "amount_usd": "TODO_OWNER",
+      "amount_usd": null,
+      "price_status": "pending",
       "paid_with_x402": true,
       "trial_eligible": true,
-      "price_text": "Per call: TODO_OWNER"
+      "price_text": "Per call: Pricing being finalized"
     },
     {
       "name": "recovery.critique",
       "phase": "F1",
       "mechanism": "llm",
       "price_model": "per_call",
-      "amount_usd": "TODO_OWNER",
+      "amount_usd": null,
+      "price_status": "pending",
       "paid_with_x402": true,
       "trial_eligible": true,
-      "price_text": "Per call: TODO_OWNER"
+      "price_text": "Per call: Pricing being finalized"
     },
     {
       "name": "recovery.escalate",
       "phase": "F1",
       "mechanism": "llm",
       "price_model": "per_call",
-      "amount_usd": "TODO_OWNER",
+      "amount_usd": null,
+      "price_status": "pending",
       "paid_with_x402": true,
       "trial_eligible": true,
-      "price_text": "Per call: TODO_OWNER"
+      "price_text": "Per call: Pricing being finalized"
     },
     {
       "name": "recovery.sanitize",
       "phase": "F1",
       "mechanism": "llm",
       "price_model": "per_call",
-      "amount_usd": "TODO_OWNER",
+      "amount_usd": null,
+      "price_status": "pending",
       "paid_with_x402": true,
       "trial_eligible": true,
-      "price_text": "Per call: TODO_OWNER"
+      "price_text": "Per call: Pricing being finalized"
     },
     {
       "name": "quiet.room",
       "phase": "F1",
       "mechanism": "text",
       "price_model": "entry",
-      "amount_usd": "TODO_OWNER",
+      "amount_usd": null,
+      "price_status": "pending",
       "paid_with_x402": true,
       "trial_eligible": false,
-      "price_text": "Entry fee per session: TODO_OWNER"
+      "price_text": "Entry fee per session: Pricing being finalized"
     },
     {
       "name": "quiet.ground",
       "phase": "F1",
       "mechanism": "llm",
       "price_model": "per_call",
-      "amount_usd": "TODO_OWNER",
+      "amount_usd": null,
+      "price_status": "pending",
       "paid_with_x402": true,
       "trial_eligible": true,
-      "price_text": "Per call: TODO_OWNER"
+      "price_text": "Per call: Pricing being finalized"
     },
     {
       "name": "quiet.pause",
@@ -222,6 +240,7 @@
       "mechanism": "wait-hint",
       "price_model": "free",
       "amount_usd": "0.00",
+      "price_status": "free",
       "paid_with_x402": false,
       "trial_eligible": false,
       "price_text": "Free"
@@ -232,6 +251,7 @@
       "mechanism": "state-change",
       "price_model": "free",
       "amount_usd": "0.00",
+      "price_status": "free",
       "paid_with_x402": false,
       "trial_eligible": false,
       "price_text": "Free"
