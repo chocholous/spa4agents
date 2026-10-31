@@ -175,10 +175,14 @@ function validateWeb(doc: any, forbidden: string[], errors: string[], warnings: 
     walk(`web.locales.${code}`, w);
     for (const n of doc.needs) if (!w.needs.items[n.id]) errors.push(`web.locales.${code}.needs.items lacks ${n.id}`);
     for (const id of Object.keys(w.needs.items)) if (!doc.needs.some((n: any) => n.id === id)) errors.push(`web.locales.${code}.needs.items has unknown need ${id}`);
-    for (const t of published(doc)) {
-      const wing = t.name.split(".")[0];
-      if (!w.tools.wings[wing]) errors.push(`web.locales.${code}.tools.wings lacks ${wing}`);
+    const wingIds = new Set((w.wings ?? []).map((x: any) => x.id));
+    for (const t of doc.tools) {
+      const svc = w.services.items[t.name];
+      if (!svc) errors.push(`web.locales.${code}.services.items lacks ${t.name}`);
+      else if (!wingIds.has(svc.wing)) errors.push(`web.locales.${code}.services.items.${t.name}.wing "${svc.wing}" is not in web.locales.${code}.wings`);
       if (!w.mechanism_plain[t.mechanism]) errors.push(`web.locales.${code}.mechanism_plain lacks ${t.mechanism}`);
     }
+    for (const name of Object.keys(w.services.items)) if (!doc.tools.some((t: any) => t.name === name)) errors.push(`web.locales.${code}.services.items has unknown tool ${name}`);
+    for (const id of wingIds) if (!Object.values(w.services.items).some((x: any) => x.wing === id)) errors.push(`web.locales.${code}.wings: wing "${id}" has no service`);
   }
 }
