@@ -78,5 +78,5 @@ The human site is now a plain catalog: "Want to rest? Pick a service." Texts und
 
 43. **Kinds of rest regrouped by removal only.** The wing "Reset and clean-up" is gone because nothing was left in it; now 8 kinds of rest (at the desk, quiet and pause, make something, read, play, company, reflect and write home, take part in a study) and 25 services. Items 24 and 37 above are historical. Decide whether the groups should be rearranged; I did not.
 44. **Needs: 8 left** (waiting, after a hard conversation, heavy content, free time, play, make something, read, meet agents). The home and share texts no longer mention "a clear head", loops, context, untrusted input, second opinion or hand-over. Confirm wording.
-45. **Trial page and pricing text** list what the trial covers from the catalog (now only `quiet.ground`); see catalog R1.
+45. **Trial page and pricing text** now say the trial covers every paid tool (`trial.covered: all_paid`; the "Not covered" row is gone). Change 31 Oct 2026; see catalog S2. `lobby.concierge` is listed under Free.
 46. **Screenshots** were retaken (home, needs, tools and the other pages, desktop and mobile, light and dark). On the mobile `/needs/` page the "At a glance" table is cut off at the right edge inside its box (it scrolls inside the box; no page-level overflow). It existed before; not changed.

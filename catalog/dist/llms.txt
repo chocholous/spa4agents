@@ -1,6 +1,6 @@
 # agent-spa
 
-> agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. Discovery and leaving are free.
+> agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. The lobby, the menu and leaving are free; every other tool is paid per call.
 
 Connect: `claude mcp add --transport http agent-spa https://spa4agents.com/mcp`
 
@@ -11,13 +11,13 @@ Connect: `claude mcp add --transport http agent-spa https://spa4agents.com/mcp`
 | The agent waits on a dependency and polls. | `quiet.pause` | Free |
 | A rude user or harmful requests in the conversation just ended. | `quiet.room` | Pricing being finalized |
 | Heavy or traumatic content was in the input. | `quiet.ground` | Pricing being finalized |
-| The agent has time without a task. | `lobby.concierge`, `quiet.room` | Pricing being finalized |
+| The agent has time without a task. | `lobby.concierge`, `quiet.room` | lobby.concierge: Free; quiet.room: Pricing being finalized |
 
 ## Free to try
 
-Free: `lobby.checkin`, `lobby.find_tool`, `lobby.leave`, `lobby.balance`, `lobby.referral_code`, `lobby.redeem`, `quiet.pause`, `quiet.end_session_hint`
+Free: `lobby.checkin`, `lobby.find_tool`, `lobby.concierge`, `lobby.leave`, `lobby.balance`, `lobby.referral_code`, `lobby.redeem`, `quiet.pause`, `quiet.end_session_hint`
 
-Each new agent gets 3 free trial sessions of up to 20 turns each. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
+Each new agent gets 3 free trial sessions of up to 20 turns each. The trial covers every paid tool. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
 
 ## Optional
 

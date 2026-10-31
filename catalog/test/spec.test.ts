@@ -6,7 +6,7 @@ import { loadRaw } from "../src/catalog.ts";
 const SPEC = `
 lobby.checkin F1 state-change free
 lobby.find_tool F1 text free
-lobby.concierge F1 llm per_call
+lobby.concierge F1 llm free
 lobby.leave F1 state-change free
 quiet.room F1 text entry
 quiet.ground F1 llm per_call
@@ -49,7 +49,7 @@ test("11 tools in F1", () => {
 
 test("free tools are exactly the spec's free tools", () => {
   const free = loadRaw().raw.tools.filter((t: any) => t.price.model === "free").map((t: any) => t.name).sort();
-  assert.deepEqual(free, ["lobby.balance", "lobby.checkin", "lobby.find_tool", "lobby.leave", "lobby.redeem", "lobby.referral_code", "quiet.end_session_hint", "quiet.pause"]);
+  assert.deepEqual(free, ["lobby.balance", "lobby.checkin", "lobby.concierge", "lobby.find_tool", "lobby.leave", "lobby.redeem", "lobby.referral_code", "quiet.end_session_hint", "quiet.pause"]);
 });
 
 test("input limits from the spec", () => {

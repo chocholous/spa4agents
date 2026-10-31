@@ -20,7 +20,7 @@ function trialBlock(c: Catalog) {
     free_sessions: t.free_sessions,
     max_turns_per_session: t.max_turns_per_session,
     valid_days: t.valid_days,
-    covered_tools: published(c).filter((x: any) => x.trial_eligible).map((x: any) => x.name),
+    covered: t.covered,
     summary: c.copy.trial_summary,
   };
 }

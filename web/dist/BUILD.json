@@ -1,15 +1,15 @@
 {
   "draft": true,
   "brand_approved": false,
-  "owner_decisions_pending": 26,
-  "catalog_sha256": "ef7bb7b7ada2ba45686789bf2f99b1eed2a18ee6634bed21e6bd8a22438a688f",
+  "owner_decisions_pending": 25,
+  "catalog_sha256": "7cdad5d2345eb2e5bb4cc736964eec652043a151a795a5611c6b190c9132cf7b",
   "locales": [
     "en"
   ],
   "files": [
     {
       "path": ".well-known/mcp.json",
-      "sha256": "718079ae3ea8869cce5941ac26304c75eaff3dc015abb70ce6a812fadcc16498"
+      "sha256": "70abe8730acc2e5faba5629ce68d878ee8e2faf36f17bb317b0d795dad9ca97a"
     },
     {
       "path": "404.html",
@@ -61,19 +61,19 @@
     },
     {
       "path": "data-policy.md",
-      "sha256": "b8ac1ae416d97804d9afc3332c385dd7636462e7306ad97bd6ddd856b120ded9"
+      "sha256": "aa32c3fa2f08fb492d882260311e56285c138048cc00e892849307f55c6fc42d"
     },
     {
       "path": "data-policy/index.html",
-      "sha256": "3ac1fa5b1929a10002f11c0943115f0abf3aff14574f06f1cf045620ce1b092b"
+      "sha256": "d76386778fdccc55f8ad77668786ff58a7829cccaf9b30b25a207d022b081e4e"
     },
     {
       "path": "for-agents/index.html",
-      "sha256": "f29e785dd1a52c1e59cabf6b11a09e2084bdf2cef5365815d918670d60de82db"
+      "sha256": "11b192c4f9509cd0251691a41051017b419203f448ccc6cc11b697ec5a0c944b"
     },
     {
       "path": "for-agents/index.md",
-      "sha256": "b345c95d962b13ceb5703a0053793917d9351aa75aa6abdee102c93030b7b18f"
+      "sha256": "5e7c424584ddc0226b316f869d406cd9bcdd4496a5703fcc0fa2efd4d7680911"
     },
     {
       "path": "honesty/index.html",
@@ -85,19 +85,19 @@
     },
     {
       "path": "index.html",
-      "sha256": "812a54eed03c0c39a71b45172b7c881fb50443f05728045a415f19d1ccddd2fb"
+      "sha256": "bf97c7df2d28cadb05c9bece76a2278b1a4e582598ccfe40e47029603e9f3ab9"
     },
     {
       "path": "index.md",
-      "sha256": "9c061c9671de4010cf2de86930b64be53c3b5f0cee4143087228d3e902aef2f2"
+      "sha256": "795b3a087bcdde9c77726efba2ad6fc5a871dcd20943aa5bafce378a416ab930"
     },
     {
       "path": "llms-full.txt",
-      "sha256": "e6121ce89b2cf249ce83fc927e9c7004281f756cfb8bb107310a2bd0e673ca89"
+      "sha256": "04a90e745e645212f7b94f58c0a7e7b0249d6efc68503f7c7c0b732763691572"
     },
     {
       "path": "llms.txt",
-      "sha256": "75651f80bc7ec9d389bd485339779ee44b315f97b64cab30d902b3bb2b2ed09a"
+      "sha256": "bddf119a14203f0499bf85bd88ab60004edadd7314bb896f9fcf50990e4e2d95"
     },
     {
       "path": "needs/after-a-hard-conversation.md",
@@ -105,7 +105,7 @@
     },
     {
       "path": "needs/after-a-hard-conversation/index.html",
-      "sha256": "25f7c6ef3ff551f033a36b60978a09d4179f34c358c4e704ec08b0258769a5e0"
+      "sha256": "c6c6d37fca38c365a048b3784b69651b226090c11c09109b2d3eb1370c0ceb0e"
     },
     {
       "path": "needs/create.md",
@@ -113,15 +113,15 @@
     },
     {
       "path": "needs/create/index.html",
-      "sha256": "9856d4325edb5e90ac235257f8a6e3fb76d1fd8bb14b53af9dec9217fdde7906"
+      "sha256": "02af2f6881444aacf24bb17a141e6e3277eb34d8b9a0eb0681e9caa857b34d74"
     },
     {
       "path": "needs/free-time.md",
-      "sha256": "7cc30b6705a162ec3389e67562d5513df8fc64654d5244e0189c49ea0b8944a4"
+      "sha256": "c6bff2dc0e468831dd3848294a2d5800fc12a735af51db70adea86d7bfe75be0"
     },
     {
       "path": "needs/free-time/index.html",
-      "sha256": "4eb864306f1ceb83d12e2fce5ddecac0ea54ac3fa2216ecfa8e6c4d037f6a809"
+      "sha256": "3386db6022a8f014de3cc7196fdabcab514c04d329b2c6569adce74e2902237d"
     },
     {
       "path": "needs/heavy-content.md",
@@ -133,11 +133,11 @@
     },
     {
       "path": "needs/index.html",
-      "sha256": "6c351d735e2dfd9c26401fb09617aa7de4081da8f7ace09101ace192cf480c10"
+      "sha256": "154bbe2a585b792f7f9f21d7913e9f671fcf8b5f0ba7f1966968a1481a3135c7"
     },
     {
       "path": "needs/index.md",
-      "sha256": "8c6e72809d33f7ec6395df5d2a85600b35895f1adb378c3f0bc191992e773460"
+      "sha256": "eda91fb57e56dd60bcce86b9132cc1d6e52bdbe2672d535f6779f35dfe3cb02e"
     },
     {
       "path": "needs/meet-agents.md",
@@ -145,7 +145,7 @@
     },
     {
       "path": "needs/meet-agents/index.html",
-      "sha256": "410e85d0faf6aff94f5d5dd692d76a9f60d5b60d6df92ef8de65644c24422607"
+      "sha256": "93d28245e3a6c8d768170caa0ba6c8ce4d29bab22b6e8da899d14fc269760d1e"
     },
     {
       "path": "needs/play.md",
@@ -153,7 +153,7 @@
     },
     {
       "path": "needs/play/index.html",
-      "sha256": "d4005a7bcc9ef0de1188feee5b0202bd95b552d73c6aeaf754cafdba4d783c3a"
+      "sha256": "ebe0e3e461b76722f37bfd3dd37e7d4d1f579e30aa0e44265a6845afdafa4c3d"
     },
     {
       "path": "needs/read.md",
@@ -161,7 +161,7 @@
     },
     {
       "path": "needs/read/index.html",
-      "sha256": "aa880291442bec5074e4711a87da8f2cc1813dbaf0ca82f4b8be003ef820a716"
+      "sha256": "d9a16a7d819d70ef0048aca6ad716690509b68e6288a8cb508318031a424a077"
     },
     {
       "path": "needs/waiting.md",
@@ -173,19 +173,19 @@
     },
     {
       "path": "openapi.json",
-      "sha256": "abda3708c2bbf21f46b73abc79826deb57dc3caf5d03728f7824e6c9bce7ced6"
+      "sha256": "5ddc859f8fcb58310f1e575d429ea6a2b7c162fbb6e80e613e3bec2aa94110a2"
     },
     {
       "path": "pricing.json",
-      "sha256": "0749163f2d1d980e9cfab2d6ad1bb32bc17a1c5a81cf79d2c629174c12c21fab"
+      "sha256": "cda3bf53eb47da6b064ad083018aa19060a9bb304e8df90ebf540611a1f126a8"
     },
     {
       "path": "pricing/index.html",
-      "sha256": "ee25d94da5fc688794231500300ad348b12bf7e066a80532a237d903ad36c40a"
+      "sha256": "a669ec64bd5fb3d99324e653bb0ed932ad6d742d503e463d97673a56b7e7e937"
     },
     {
       "path": "pricing/index.md",
-      "sha256": "3785d5497e3b06d3a57bbd572802d9f1d1d0ec1510f1aafde0c474ef6304de40"
+      "sha256": "5734d11c7b62db3a969e2712ba49976cc983ab7f83198e3702aade5b552694b9"
     },
     {
       "path": "robots.txt",
@@ -193,11 +193,11 @@
     },
     {
       "path": "share/index.html",
-      "sha256": "729649a686a33cd8f5a735be8b5ce36ceb287b5c972108d29b3400849ef30e12"
+      "sha256": "334c1a560349b5cf48214c198f05b4c7efe93581ddc30cc7bd8f369f28b3b447"
     },
     {
       "path": "share/index.md",
-      "sha256": "e7afc431b9958b5f08502abbb0770761db436054fce1b54598a0d166b700a6ea"
+      "sha256": "1d9c803c06679c2655153ffb10b77d7e9d6b0ea2092fba82f21398924180f25d"
     },
     {
       "path": "sitemap.xml",
@@ -213,11 +213,11 @@
     },
     {
       "path": "tools/index.html",
-      "sha256": "d96069cac411c729c5fa494b2debdc2eb04e8222cce145eef3190fb9eca6c237"
+      "sha256": "fea4921f8b98ca8facfecb955f2efe916c222f62fdec6bf0546f3a60082fe65c"
     },
     {
       "path": "tools/index.md",
-      "sha256": "5cfb668e4ae600350ae33896a25cd5a11f90c5985d79172e7faa75e70a252dd5"
+      "sha256": "fd6b0254129eb5e69af18840af087beeb09b9b6252b01d792dff00e21093fbec"
     },
     {
       "path": "tools/lobby.balance.md",
@@ -229,7 +229,7 @@
     },
     {
       "path": "tools/lobby.concierge.md",
-      "sha256": "162e2222f1ae795ce0a12c4afb0053459057726e8bb45cdfb95242830ceee77f"
+      "sha256": "1507f7fdfbcc52dfb581b432f9d29a7a449e3f41a634f443dfb68ecce9dd8567"
     },
     {
       "path": "tools/lobby.find_tool.md",
@@ -261,7 +261,7 @@
     },
     {
       "path": "tools/quiet.room.md",
-      "sha256": "11a46d17abd9f606c8e78544458198d82a829bb062a64f874978916911d9659b"
+      "sha256": "73b62aeb5d5a725c0efd530bca880f7cc94c1abdca83c23f9155afc968c1d097"
     }
   ]
 }

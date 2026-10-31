@@ -42,7 +42,8 @@ Co musí implementace dodržet:
 - **Izolace.** Tři oddělené prostory úložiště (pracovní, rekreační, veřejný), žádné čtení napříč; žádné sdílení mezi relacemi, agenty a adresami; klíče a mapy vždy v rozsahu jedné relace.
 - **Paměť relace.** Žije jen v procesu, zničí se při `lobby.leave`, na konci relace (strop minut, zavření MCP session) a po idle TTL; po zničení se z `Map` odstraní (ne jen `closed = true`).
 - **Timeouty a stropy paměti.** Idle TTL a maximální velikost paměti relace (hodnoty neurčeny, DP6), limity velikosti vstupu (DP11), limit těla požadavku.
-- **Secrets a PII** se odmítnou před zpracováním, tedy před voláním LLM; pravidlová detekce nesmí nalezený text vracet ani logovat (DP9). Změna: bezpečnostní sada `sanitize` je vyřazena z rozsahu MVP (recovery zrušeno rozhodnutím vlastníka), takže pravidlová detekce v MVP není; viz otevřená otázka v `gateway/OPEN_QUESTIONS.md`.
+- Změna (vlastník, 31. 10. 2026): požadavek na odmítání secrets/PII před zpracováním je zrušen; vstup se nefiltruje. Zero retention ostatních dat platí dál.
+- Změna (vlastník, 31. 10. 2026): zdarma je celé `lobby.*` včetně `lobby.concierge` (LLM; riziko zneužití, viz `OPEN_QUESTIONS.md` 20) a `quiet.pause`, `quiet.end_session_hint`; ostatní tools jsou placené. Trial (3 session po 20 turnech, defaulty) pokrývá všechny placené tools. Platby jsou standardní x402: výzva 402 → platba → odpověď.
 - **LLM jen přes LiteLLM proxy** s vypnutým logováním požadavků a odpovědí (včetně DB logování, callbacků a nástrojů třetích stran); do požadavku neposílat adresu ani jiný identifikátor uživatele. Poskytovatel je `TO_BE_NAMED`; smluvní ZDR, EU, bez trénování.
 - **Žádní další zpracovatelé** a žádná analytika.
 - **x402:** výzva v MCP je ve `structuredContent` výsledku s `isError: true`, ne v `_meta` (`spikes/x402/FINDINGS.md`).

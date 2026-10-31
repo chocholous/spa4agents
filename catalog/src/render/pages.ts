@@ -1,4 +1,4 @@
-import { Catalog, findTools, published } from "../catalog.ts";
+import { Catalog, findTools, isPaid, published } from "../catalog.ts";
 import { Files, fence, inputSchema, mechanismText, priceText, restUrl, table, toolLink } from "./shared.ts";
 
 function exampleBlock(c: Catalog, t: any): string {
@@ -51,7 +51,7 @@ export function renderTools(c: Catalog, files: Files) {
     out.push(`## ${l.trigger}`, "", t.trigger, "");
     out.push(table([l.mechanism, l.price, l.phase, l.trial_eligible, l.untrusted], [[
       mechanismText(c, t), priceText(c, t), t.phase,
-      t.trial_eligible ? l.yes : l.no, t.untrusted ? l.yes : l.no,
+      isPaid(t) ? l.yes : l.no, t.untrusted ? l.yes : l.no,
     ]]), "");
     out.push(`## ${l.input}`, "");
     if (t.inputs.length === 0) out.push("-", "");

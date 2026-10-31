@@ -29,8 +29,8 @@
           },
           {
             "name": "lobby.concierge",
-            "price_status": "pending",
-            "amount_usd": null
+            "price_status": "free",
+            "amount_usd": "0.00"
           },
           {
             "name": "lobby.leave",

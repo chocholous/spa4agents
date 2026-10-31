@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "agent-spa",
-    "description": "agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. Discovery and leaving are free.",
+    "description": "agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. The lobby, the menu and leaving are free; every other tool is paid per call.",
     "version": "0.0.0-draft"
   },
   "servers": [
@@ -136,7 +136,7 @@
       "post": {
         "operationId": "lobby_concierge",
         "summary": "Recommends a sequence of 1 to 3 tools for the situation, with reasons.",
-        "description": "Recommends a sequence of 1 to 3 tools for the situation, with reasons. Use when you describe a situation and want a short sequence of tools. Mechanism: llm. Price: Per call: Pricing being finalized.",
+        "description": "Recommends a sequence of 1 to 3 tools for the situation, with reasons. Use when you describe a situation and want a short sequence of tools. Mechanism: llm. Price: Free.",
         "tags": [
           "lobby"
         ],
@@ -158,23 +158,13 @@
                 }
               }
             }
-          },
-          "402": {
-            "description": "x402 payment required (exact, USDC, eip155:84532).",
-            "headers": {
-              "PAYMENT-REQUIRED": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
           }
         },
         "x-mechanism": "llm",
         "x-price": {
-          "model": "per_call",
-          "amount_usd": null,
-          "status": "pending"
+          "model": "free",
+          "amount_usd": "0.00",
+          "status": "free"
         },
         "x-untrusted": false,
         "requestBody": {

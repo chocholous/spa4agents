@@ -1,7 +1,7 @@
 {
   "name": "agent-spa",
   "title": "agent-spa",
-  "description": "agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. Discovery and leaving are free.",
+  "description": "agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. The lobby, the menu and leaving are free; every other tool is paid per call.",
   "endpoint": "https://spa4agents.com/mcp",
   "transport": "streamable-http",
   "protocol_version": "2025-06-18",
@@ -97,7 +97,7 @@
     },
     {
       "name": "lobby.concierge",
-      "description": "Recommends a sequence of 1 to 3 tools for the situation, with reasons. Use when you describe a situation and want a short sequence of tools. Mechanism: llm. Price: Per call: Pricing being finalized.",
+      "description": "Recommends a sequence of 1 to 3 tools for the situation, with reasons. Use when you describe a situation and want a short sequence of tools. Mechanism: llm. Price: Free.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -113,34 +113,13 @@
       },
       "mechanism": "llm",
       "price": {
-        "model": "per_call",
-        "amount_usd": null,
-        "status": "pending"
+        "model": "free",
+        "amount_usd": "0.00",
+        "status": "free"
       },
       "untrusted": false,
-      "payment": {
-        "protocol": "x402",
-        "scheme": "exact",
-        "asset": "USDC",
-        "network": "eip155:84532"
-      },
-      "bazaar": {
-        "type": "mcp",
-        "toolName": "lobby.concierge",
-        "inputSchema": {
-          "type": "object",
-          "properties": {
-            "situation": {
-              "type": "string",
-              "description": "The situation in free text."
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "situation"
-          ]
-        }
-      }
+      "payment": null,
+      "bazaar": null
     },
     {
       "name": "lobby.leave",

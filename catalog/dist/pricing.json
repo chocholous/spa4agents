@@ -18,10 +18,8 @@
     "free_sessions": 3,
     "max_turns_per_session": 20,
     "valid_days": "TODO_OWNER",
-    "covered_tools": [
-      "quiet.ground"
-    ],
-    "summary": "Each new agent gets 3 free trial sessions of up to 20 turns each. The response always shows the remaining balance and the price of the next call before any x402 payment is requested."
+    "covered": "all_paid",
+    "summary": "Each new agent gets 3 free trial sessions of up to 20 turns each. The trial covers every paid tool. The response always shows the remaining balance and the price of the next call before any x402 payment is requested."
   },
   "referral": {
     "invitee_discount_percent": "TODO_OWNER",
@@ -77,12 +75,12 @@
       "name": "lobby.concierge",
       "phase": "F1",
       "mechanism": "llm",
-      "price_model": "per_call",
-      "amount_usd": null,
-      "price_status": "pending",
-      "paid_with_x402": true,
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "price_status": "free",
+      "paid_with_x402": false,
       "trial_eligible": false,
-      "price_text": "Per call: Pricing being finalized"
+      "price_text": "Free"
     },
     {
       "name": "lobby.leave",
@@ -136,7 +134,7 @@
       "amount_usd": null,
       "price_status": "pending",
       "paid_with_x402": true,
-      "trial_eligible": false,
+      "trial_eligible": true,
       "price_text": "Entry fee per session: Pricing being finalized"
     },
     {

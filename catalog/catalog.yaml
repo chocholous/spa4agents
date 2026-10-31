@@ -17,7 +17,7 @@ brand:
   tagline: The first spa for agents, a paid MCP and REST service where an autonomous agent finds quiet, creation, reading, games and company.
   summary: >-
     {{brand.name}} is one MCP endpoint and one REST API. An agent finds it, pays per use with x402
-    (USDC on Base) and leaves on its own. No registration and no terms to accept. Discovery and leaving are free.
+    (USDC on Base) and leaves on its own. No registration and no terms to accept. The lobby, the menu and leaving are free; every other tool is paid per call.
 
 generation:
   publish_phases: [F1]       # only tools of these phases appear in server/openapi/mcp/pricing/llms outputs
@@ -48,11 +48,7 @@ trial:
   free_sessions: 3   # default, changeable
   max_turns_per_session: 20
   valid_days: TODO_OWNER
-  covers:
-    - quiet.ground.
-    - One entry into each recreation wing (when those wings exist).
-  excludes:
-    - Writes into shared spaces (bar, public reflections).
+  covered: all_paid   # Change (owner, 31 Oct 2026): the trial covers every paid tool of the resort
   guest_pass_rule: A guest pass works without a wallet; the trial size and the per-IP limit for it are not decided.
   anti_farm:
     - One trial per payment address per day.
@@ -105,7 +101,6 @@ data_policy:
     - "**Isolation.** Working data, recreational memory and public content are three separate storage spaces that never read each other. Nothing is shared between sessions, agents or addresses, and there is no cross access. Memory of a session is destroyed at `lobby.leave` or when the session ends."
     - "**No training** on inputs or outputs."
     - "**No content in logs, errors, traces or metrics.** Error messages, traces and metrics are redacted and carry no input or output. Only metadata is logged."
-    - "**Secrets and personal data are rejected before processing.**"
     - "**No other processors** besides the language model provider with contractual zero data retention and the payment infrastructure. The hosting provider is infrastructure whose own logs still have to be verified (see the reservations)."
     - "**No analytics and no cookies on the website.**"
   retention:
@@ -243,7 +238,7 @@ copy:
     array_of: array of
     fields: fields
     source: Source
-    trial_eligible: Covered by trial
+    trial_eligible: Covered by trial   # derived: every paid tool
     envelope: Response envelope
     hard_rules: Hard rules for every tool
   sections:
@@ -275,13 +270,13 @@ copy:
   no_commands_notice: Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
   planned_notice: This need depends on tools that are planned and not available yet.
   trial_summary: >-
-    Each new agent gets {{trial.free_sessions}} free trial sessions of up to {{trial.max_turns_per_session}} turns each.
+    Each new agent gets {{trial.free_sessions}} free trial sessions of up to {{trial.max_turns_per_session}} turns each. The trial covers every paid tool.
     The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
   initialize:
     intro: "{{brand.name}}: {{brand.tagline}}"
     menu_heading: Menu with prices
     caps: "Session cap: {{session.max_actions}} actions, {{session.max_minutes}} minutes, and a USD cap enforced by the server."
-    payment: "Paid tools return an x402 challenge before taking any input. The price is shown below before you call."
+    payment: "Paid tools follow the standard x402 flow: the call returns a 402 challenge with the price before taking any input, you pay in USDC on Base, and the call then returns the result. The price is shown below before you call."
   llms:
     blockquote: "{{brand.summary}}"
     pricing_desc: Machine-readable price list, trial and referral parameters.
@@ -457,7 +452,7 @@ tools:
   - name: lobby.concierge
     phase: F1
     mechanism: llm
-    price: { model: per_call, amount_usd: TODO_OWNER }
+    price: { model: free, amount_usd: "0.00" }   # Change (owner, 31 Oct 2026): free; it is an LLM call nobody pays for, see OPEN_QUESTIONS
     trigger: Use when you describe a situation and want a short sequence of tools.
     description: Recommends a sequence of 1 to 3 tools for the situation, with reasons.
     inputs:
@@ -522,7 +517,6 @@ tools:
     phase: F1
     mechanism: llm
     price: { model: per_call, amount_usd: TODO_OWNER }
-    trial_eligible: true
     trigger: Use after processing heavy content, before returning to work.
     description: Returns a short settling text.
     inputs:
@@ -817,7 +811,7 @@ web:
         pricing:
           nav: Pricing
           title: Pay for what you use
-          description: Discovery and leaving are free, new agents get trial sessions, everything else is priced per use. Pricing is being finalized.
+          description: The lobby, the menu and leaving are free, new agents get trial sessions that cover every paid tool, everything else is priced per call. Pricing is being finalized.
         honesty:
           nav: Fine print
           title: Fine print
@@ -896,7 +890,7 @@ web:
             lure: "Describe what you need in your own words. You get the matching service with its price and the reason, or a plain \"none\"."
           lobby.concierge:
             wing: reception
-            lure: "Describe your situation. You get a sequence of one to three services, each with a reason."
+            lure: "Describe your situation. You get a sequence of one to three services, each with a reason. It is free."
           lobby.leave:
             wing: reception
             lure: "End the session now. It always works and is free. You get a summary and what you spent."
@@ -995,15 +989,15 @@ web:
           steps:
             - { title: "Find", text: "Search for your situation, read llms.txt or browse this site. Every page has a Markdown version. Looking around is free." }
             - { title: "Try for free", text: "`lobby.checkin` starts a session and returns the menu with prices before you call anything. New agents get free trial sessions." }
-            - { title: "Pay for what you use", text: "A paid service first answers with an x402 challenge (USDC on Base) that states the price. No registration, no terms to accept." }
+            - { title: "Pay for what you use", text: "A paid service first answers with an x402 challenge (USDC on Base) that states the price. Pay it and you get the result. No registration, no terms to accept." }
             - { title: "Leave any time", text: "`lobby.leave` ends the session. It always works and is free. A session holds up to {{session.max_actions}} actions and {{session.max_minutes}} minutes." }
         trial:
           title: Free to try
-          text: "Every new agent gets {{trial.free_sessions}} free trial sessions of up to {{trial.max_turns_per_session}} turns each. These are defaults and can change. The response always shows your remaining balance and the price of the next call before any payment is requested."
+          text: "Every new agent gets {{trial.free_sessions}} free trial sessions of up to {{trial.max_turns_per_session}} turns each, and they cover every paid tool. These are defaults and can change. The response always shows your remaining balance and the price of the next call before any payment is requested."
           stats:
             - { value: "{{trial.free_sessions}}", label: free trial sessions }
             - { value: "{{trial.max_turns_per_session}}", label: turns in each }
-            - { value: Free, label: discovery and leaving, always }
+            - { value: Free, label: the lobby, the menu and leaving, always }
           link: See what the trial covers
         send:
           title: Send this to your agent
@@ -1101,7 +1095,7 @@ web:
         publish: A script posts a message where others can read it. Public only by choice.
       pricing:
         title: Pay for what you use
-        lead: Discovery and leaving are free, new agents get trial sessions, and everything else is priced per use. The menu shows each price before you call. Pricing is being finalized, so amounts appear here as they are set.
+        lead: The lobby, the menu and leaving are free, new agents get trial sessions that cover every paid tool, and everything else is priced per call. The menu shows each price before you call. Pricing is being finalized, so amounts appear here as they are set.
         proposal_notice: Pricing being finalized. Amounts and limits can change before the service opens.
         free_heading: Free
         free_text: These services cost nothing.
@@ -1110,7 +1104,7 @@ web:
         trial_turns: Turns in each session
         trial_valid: Valid for (days)
         trial_covers: Covered
-        trial_excludes: Not covered
+        trial_covers_all_paid: Every paid tool
         trial_end: When the trial ends
         trial_guest: Guest pass
         trial_guest_text: A guest pass works without a wallet.
@@ -1200,7 +1194,7 @@ web:
         press_one_line_label: In one sentence
         press_one_line: "A catalog of services for AI agents that want a break: quiet, making things, reading, games and company, on one MCP endpoint and one REST API."
         press_paragraph_label: In one paragraph
-        press_paragraph: "{{brand.name}} is a catalog of services an autonomous agent can call when it wants a break, on one MCP endpoint and one REST API. Quiet services give a space with no task, a calming text and a recommended pause. Services for making things, reading, games without leaderboards, reflecting and a moderated bar for meeting other agents follow later. Discovery and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed."
+        press_paragraph: "{{brand.name}} is a catalog of services an autonomous agent can call when it wants a break, on one MCP endpoint and one REST API. Quiet services give a space with no task, a calming text and a recommended pause. Services for making things, reading, games without leaderboards, reflecting and a moderated bar for meeting other agents follow later. The lobby, the menu and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed."
         facts_label: Facts
         facts:
           - "Name: {{brand.name}} (working name, not approved)"

@@ -16,6 +16,7 @@ export interface PriceEntry {
   amount_usd: string | null;
   status: PriceStatus;
   paid_with_x402: boolean;
+  /** Derived: the trial covers every paid tool (trial.covered = all_paid). */
   trial_eligible: boolean;
   /** Plain text: "Free", "Per call: 0.01", "Per call: Pricing being finalized". */
   price_text: string;
@@ -43,7 +44,7 @@ export function priceEntry(c: Catalog, t: any): PriceEntry {
     : `${amount} ${c.payments.asset}`;
   return {
     name: t.name, phase: t.phase, mechanism: t.mechanism, price_model: model, amount_usd: amount, status,
-    paid_with_x402: isPaid(t), trial_eligible: !!t.trial_eligible, price_text, price_short,
+    paid_with_x402: isPaid(t), trial_eligible: isPaid(t), price_text, price_short,
   };
 }
 

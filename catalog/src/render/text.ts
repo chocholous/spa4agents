@@ -85,7 +85,7 @@ export function renderReadmeTables(c: Catalog, files: Files) {
   parts.push(block("needs", `### ${s.need_to_tool}\n\n` + table([l.need, l.invitation, l.tools],
     liveNeeds(c).map((n: any) => [`\`${n.id}\``, n.invitation, n.tools.map((t: string) => `\`${t}\``).join(", ")]))));
   parts.push(block("pricing", `### ${s.pricing}\n\n` + table([l.tool, l.mechanism, l.model, l.amount, l.trial_eligible],
-    published(c).map((t: any) => { const p = priceEntry(c, t); return [`\`${t.name}\``, mechanismText(c, t), c.copy.price_model_names[t.price.model], p.status === "pending" ? c.copy.llms.price_pending : p.amount_usd!, t.trial_eligible ? l.yes : l.no]; }))));
+    published(c).map((t: any) => { const p = priceEntry(c, t); return [`\`${t.name}\``, mechanismText(c, t), c.copy.price_model_names[t.price.model], p.status === "pending" ? c.copy.llms.price_pending : p.amount_usd!, p.trial_eligible ? l.yes : l.no]; }))));
   parts.push(block("install", `### ${s.install}\n\n` + fence("sh", `${c.copy.install.claude}\n${c.copy.install.codex}`) + "\n\n" + fence("json", c.copy.install.json)));
   parts.push(block("trial", `### ${s.trial}\n\n${c.copy.trial_summary}`));
   files.set("README.tables.md", parts.join("\n"));

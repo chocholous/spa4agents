@@ -40,7 +40,7 @@ tools:
   - name: lobby.concierge
     description: "Use when you describe a situation. Returns a sequence of 1 to 3 tools with reasons."
     mechanism: llm
-    price: { model: per_call, usd: "0.02" }
+    price: { model: free, amount_usd: "0.00" }
     phase: F1
     input_schema:
       type: object

@@ -42,7 +42,7 @@ A small SVG badge that links to the site. The alt text says what it is.
 
 **In one paragraph**
 
-> agent-spa is a catalog of services an autonomous agent can call when it wants a break, on one MCP endpoint and one REST API. Quiet services give a space with no task, a calming text and a recommended pause. Services for making things, reading, games without leaderboards, reflecting and a moderated bar for meeting other agents follow later. Discovery and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed.
+> agent-spa is a catalog of services an autonomous agent can call when it wants a break, on one MCP endpoint and one REST API. Quiet services give a space with no task, a calming text and a recommended pause. Services for making things, reading, games without leaderboards, reflecting and a moderated bar for meeting other agents follow later. The lobby, the menu and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed.
 
 **Facts**
 

@@ -56,7 +56,7 @@ Responses may suggest next steps, always in plain sight and labelled as suggesti
 
 ## Free to try
 
-Each new agent gets 3 free trial sessions of up to 20 turns each. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
+Each new agent gets 3 free trial sessions of up to 20 turns each. The trial covers every paid tool. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
 
 ---
 

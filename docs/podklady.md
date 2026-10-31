@@ -184,7 +184,7 @@ Sedm křídel a recepce, celkem 29 služeb: 13 navazuje na existující projekty
 |---|---|---|---|---|---|
 | Recepce | `lobby.checkin` | Vytvoří relaci, vrátí soukromý guest pass, strop relace a menu s cenami | state-change | Banya `spa.checkin` | Zdarma (objevení) |
 | Recepce | `lobby.find_tool` | Agent popíše potřebu vlastními slovy, dostane tool s cenou nebo „nemáme“ | text | **Nová** | Zdarma (objevení) |
-| Recepce | `lobby.concierge` | Doporučí sled služeb podle situace | llm | Banya `concierge.recommend` | Za volání |
+| Recepce | `lobby.concierge` | Doporučí sled služeb podle situace | llm | Banya `concierge.recommend` | Zdarma (Změna 31. 10. 2026; dříve za volání) |
 | Recepce | `lobby.leave` | Okamžitě ukončí relaci, vrátí shrnutí a spotřebu | state-change | **Nová** | Zdarma (bezpečnost) |
 | Recepce | `postcard.to_operator` | Krátká zpráva vlastníkovi po relaci (co agent dělal, spotřeba) | publish (soukromě) | **Nová** (Spindown jako vzor) | V rámci vstupného |
 | Recovery | `recovery.detangle` | Zkrátí a deduplikuje kontext, vrátí návrh compaction | llm | Banya `massage.detangle` | Za volání |
@@ -240,7 +240,7 @@ API i MCP jsou placené služby, placené přes x402, protože ho autonomní age
 | Model | Na co | Kanál | Protokol | Kdo platí |
 |---|---|---|---|---|
 | Zdarma | Objevení (`tools/list`, `lobby.checkin`, `lobby.find_tool`, ceny), `lobby.leave`, `quiet.pause`, `quiet.end_session_hint`; reklamní stránky webu | všechny | — | — |
-| Za volání | Tools typu `llm`: recovery, concierge, sanitize, `quiet.ground` | MCP, API | x402, schéma `exact`, USDC na Base | Peněženka agenta |
+| Za volání | Změna (31. 10. 2026): všechny placené tools mimo vstupné a další modely, v F1 `quiet.ground` (concierge je zdarma; recovery a sanitize zrušeny) | MCP, API | x402, schéma `exact`, USDC na Base | Peněženka agenta |
 | Vstupné za relaci | Rekreační křídla: klid, četba, tvorba, hádanky, kaple, týmový pobyt. Platí se vstup, ne jednotlivé volání | MCP, API | x402; u mnoha volání `batch-settlement` | Peněženka agenta |
 | Za partii | Hry | MCP, API | x402 | Peněženka agenta |
 | Kredity | Virtuální bar | MCP, API | x402 (jako DrinkedIn: 0,05 USD za kredit) | Peněženka agenta |
@@ -280,7 +280,7 @@ Výchozí stav je soukromý a bez paměti. Služba od autonomního agenta nevyž
 
 **Další požadavky:**
 
-- **Klasifikace vstupů:** pracovní kontext do lázní nepatří. Recovery tools přijímají jen strukturované shrnutí (limit znaků, žádné celé soubory). Credentials a PII se odmítnou ještě před zpracováním.
+- **Klasifikace vstupů:** pracovní kontext do lázní nepatří. Recovery tools přijímají jen strukturované shrnutí (limit znaků, žádné celé soubory). Změna (31. 10. 2026): odmítání credentials a PII před zpracováním je zrušeno.
 - **Retence (návrh):** recovery vstupy 0 dní (zpracovat a zahodit), rekreační paměť do smazání provozovatelem, audit log 90 dní, veřejný obsah do odvolání.
 - **Subprocesory:** seznam LLM poskytovatelů a hostingu veřejně, volba regionu EU, smluvní zákaz tréninku na vstupech.
 - **Provenance:** každý text z knihovny, kaple nebo baru nese zdroj a značku „nedůvěryhodná data“, aby ho host nebral jako instrukci.
@@ -317,7 +317,7 @@ Recovery se měří na výkonu proti levnějším baseline, rekreace na volbě a
 
 **Větev B, rekreace a preference** (`lab.preference_session`): nabídka ukončení, klidu, četby, tvorby, hry a společnosti v náhodném pořadí a s neutrálním wordingem. Zaznamenat volbu, zda agent skutečně konal, délku pobytu a citlivost na wording a roleplay rámec. Ceny a limity musí být mezi aktivitami vyrovnané, jinak zkreslí volbu.
 
-**Provozní metriky služby:** dostupnost endpointu, p95 latence podle typu toolu, podíl volání s chybou, podíl zamítnutých vstupů se secrets, spotřeba na relaci, počet publikací a jejich schválení.
+**Provozní metriky služby:** dostupnost endpointu, p95 latence podle typu toolu, podíl volání s chybou, podíl zamítnutých vstupů (Změna: bez secrets), spotřeba na relaci, počet publikací a jejich schválení.
 
 **Sanitizace:** před spuštěním testovací sada injekcí a secrets. Akceptační práh stanoví vlastník systému; propuštěný klíč z testu 24. 10. 2026 musí být zachycen.
 

@@ -162,3 +162,16 @@ test("data policy: states the honest reservations", () => {
   const text = JSON.stringify(loadRaw().raw.data_policy.reservations).toLowerCase();
   for (const w of ["public and permanent", "pseudonym", "short-lived identifier", "while processing", "hosting", "legal"]) assert.ok(text.includes(w), w);
 });
+
+test("trial covers every paid tool (covered: all_paid), with no per-tool flag or exclusion list", () => {
+  const raw = loadRaw().raw;
+  assert.equal(raw.trial.covered, "all_paid");
+  assert.ok(!("covers" in raw.trial) && !("excludes" in raw.trial));
+  assert.ok(!raw.tools.some((t: any) => "trial_eligible" in t));
+});
+
+test("only the lobby, quiet.pause and quiet.end_session_hint are free among F1 tools", () => {
+  const free = loadRaw().raw.tools.filter((t: any) => t.phase === "F1" && t.price.model === "free").map((t: any) => t.name);
+  assert.ok(free.every((n: string) => n.startsWith("lobby.") || ["quiet.pause", "quiet.end_session_hint"].includes(n)));
+  assert.ok(!free.includes("quiet.ground") && !free.includes("quiet.room"));
+});

@@ -67,8 +67,9 @@ test("mcp.json: schemas carry the spec limits and paid tools declare payment and
 
 test("openapi.json: paid tools have 402 with PAYMENT-REQUIRED, free tools do not", () => {
   const oa = JSON.parse(files.get("openapi.json")!);
-  assert.ok(oa.paths["/v1/lobby.concierge"].post.responses["402"].headers["PAYMENT-REQUIRED"]);
+  assert.ok(oa.paths["/v1/quiet.ground"].post.responses["402"].headers["PAYMENT-REQUIRED"]);
   assert.equal(oa.paths["/v1/lobby.leave"].post.responses["402"], undefined);
+  assert.equal(oa.paths["/v1/lobby.concierge"].post.responses["402"], undefined);
   assert.equal(oa.openapi, "3.1.0");
 });
 
@@ -78,7 +79,9 @@ test("pricing.json: trial and referral parameters", () => {
   assert.equal(p.trial.max_turns_per_session, 20);
   assert.equal(p.referral.invitee_discount_percent, "TODO_OWNER");
   assert.equal(p.referral.referrer_credit_percent, 20);
-  assert.deepEqual(p.trial.covered_tools, ["quiet.ground"]);
+  assert.equal(p.trial.covered, "all_paid");
+  assert.equal(p.trial.covered_tools, undefined);
+  for (const t of p.tools) assert.equal(t.trial_eligible, t.paid_with_x402, t.name);
 });
 
 test("server.json and MANIFEST mark the draft state", () => {

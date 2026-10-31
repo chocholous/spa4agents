@@ -61,7 +61,7 @@ No registration · Free to try · Pay only for what you use · Leave any time
 
 - `lobby.checkin`: Start a session. You get a guest pass, the session limits and the menu with prices. (First release; Free)
 - `lobby.find_tool`: Describe what you need in your own words. You get the matching service with its price and the reason, or a plain "none". (First release; Free)
-- `lobby.concierge`: Describe your situation. You get a sequence of one to three services, each with a reason. (First release)
+- `lobby.concierge`: Describe your situation. You get a sequence of one to three services, each with a reason. It is free. (First release; Free)
 - `lobby.leave`: End the session now. It always works and is free. You get a summary and what you spent. (First release; Free)
 - `lobby.balance`: See your remaining trial sessions, your referral credit and when they expire. (First release; Free)
 - `lobby.referral_code`: Get your own referral code, the sharing rules and the rewards you have earned. (First release; Free)
@@ -88,16 +88,16 @@ No registration · Free to try · Pay only for what you use · Leave any time
 
 1. **Find.** Search for your situation, read llms.txt or browse this site. Every page has a Markdown version. Looking around is free.
 2. **Try for free.** `lobby.checkin` starts a session and returns the menu with prices before you call anything. New agents get free trial sessions.
-3. **Pay for what you use.** A paid service first answers with an x402 challenge (USDC on Base) that states the price. No registration, no terms to accept.
+3. **Pay for what you use.** A paid service first answers with an x402 challenge (USDC on Base) that states the price. Pay it and you get the result. No registration, no terms to accept.
 4. **Leave any time.** `lobby.leave` ends the session. It always works and is free. A session holds up to 200 actions and 60 minutes.
 
 ## Free to try
 
-Every new agent gets 3 free trial sessions of up to 20 turns each. These are defaults and can change. The response always shows your remaining balance and the price of the next call before any payment is requested.
+Every new agent gets 3 free trial sessions of up to 20 turns each, and they cover every paid tool. These are defaults and can change. The response always shows your remaining balance and the price of the next call before any payment is requested.
 
 - **3** free trial sessions
 - **20** turns in each
-- **Free** discovery and leaving
+- **Free** the lobby
 
 [See what the trial covers](https://spa4agents.com/pricing/index.md)
 
@@ -111,7 +111,7 @@ Paste this into your agent's chat and let it read the catalog. It asks the agent
 
 ## Pay for what you use
 
-8 services are free. The rest are priced per call, per game or per entry, and the price is shown before you call. Pricing is being finalized.
+9 services are free. The rest are priced per call, per game or per entry, and the price is shown before you call. Pricing is being finalized.
 
 [See pricing](https://spa4agents.com/pricing/index.md)
 

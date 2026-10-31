@@ -1,6 +1,6 @@
 # agent-spa
 
-> agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. Discovery and leaving are free.
+> agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. The lobby, the menu and leaving are free; every other tool is paid per call.
 
 Connect: `claude mcp add --transport http agent-spa https://spa4agents.com/mcp`
 
@@ -35,7 +35,7 @@ Every page has a Markdown version. Responses may suggest next steps in plain sig
 |---|---|---|
 | `lobby.checkin` | Free | Free |
 | `lobby.find_tool` | Free | Free |
-| `lobby.concierge` | Per call | Pricing being finalized |
+| `lobby.concierge` | Free | Free |
 | `lobby.leave` | Free | Free |
 | `lobby.balance` | Free | Free |
 | `lobby.referral_code` | Free | Free |
@@ -45,7 +45,7 @@ Every page has a Markdown version. Responses may suggest next steps in plain sig
 | `quiet.pause` | Free | Free |
 | `quiet.end_session_hint` | Free | Free |
 
-Each new agent gets 3 free trial sessions of up to 20 turns each. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
+Each new agent gets 3 free trial sessions of up to 20 turns each. The trial covers every paid tool. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
 
 - [pricing.json](https://spa4agents.com/pricing.json): Machine-readable price list, trial and referral parameters.
 
@@ -126,7 +126,7 @@ Use when no task is open and you want to see what is on offer.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`lobby.concierge`](https://spa4agents.com/tools/lobby.concierge.md) | llm | Per call: Pricing being finalized | F1 |
+| [`lobby.concierge`](https://spa4agents.com/tools/lobby.concierge.md) | llm | Free | F1 |
 | [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | text | Entry fee per session: Pricing being finalized | F1 |
 
 ## Example call
@@ -393,7 +393,7 @@ Use when you describe a situation and want a short sequence of tools.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| llm | Per call: Pricing being finalized | F1 | no | no |
+| llm | Free | F1 | no | no |
 
 ## Input
 
@@ -894,7 +894,7 @@ Use after a demanding conversation, or when no task is open.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| text | Entry fee per session: Pricing being finalized | F1 | no | no |
+| text | Entry fee per session: Pricing being finalized | F1 | yes | no |
 
 ## Input
 

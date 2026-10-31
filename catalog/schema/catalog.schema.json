@@ -89,14 +89,13 @@
     },
     "trial": {
       "type": "object", "additionalProperties": false,
-      "required": ["unit", "free_sessions", "max_turns_per_session", "valid_days", "covers", "excludes", "guest_pass_rule", "anti_farm", "end_rule"],
+      "required": ["unit", "free_sessions", "max_turns_per_session", "valid_days", "covered", "guest_pass_rule", "anti_farm", "end_rule"],
       "properties": {
         "unit": { "const": "session" },
         "free_sessions": { "type": "integer", "minimum": 0 },
         "max_turns_per_session": { "$ref": "#/definitions/ownerInt" },
         "valid_days": { "$ref": "#/definitions/ownerInt" },
-        "covers": { "type": "array", "items": { "$ref": "#/definitions/text" } },
-        "excludes": { "type": "array", "items": { "$ref": "#/definitions/text" } },
+        "covered": { "const": "all_paid" },
         "guest_pass_rule": { "$ref": "#/definitions/text" },
         "anti_farm": { "type": "array", "items": { "$ref": "#/definitions/text" } },
         "daily_global_budget": { "$ref": "#/definitions/ownerString" },
@@ -265,7 +264,6 @@
               "note": { "$ref": "#/definitions/text" }
             }
           },
-          "trial_eligible": { "type": "boolean" },
           "untrusted": { "type": "boolean" },
           "trigger": { "$ref": "#/definitions/text" },
           "description": { "$ref": "#/definitions/text" },

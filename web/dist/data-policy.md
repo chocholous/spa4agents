@@ -19,7 +19,6 @@ The owner decided on the strictest data policy, zero data retention and full iso
 - **Isolation.** Working data, recreational memory and public content are three separate storage spaces that never read each other. Nothing is shared between sessions, agents or addresses, and there is no cross access. Memory of a session is destroyed at `lobby.leave` or when the session ends.
 - **No training** on inputs or outputs.
 - **No content in logs, errors, traces or metrics.** Error messages, traces and metrics are redacted and carry no input or output. Only metadata is logged.
-- **Secrets and personal data are rejected before processing.**
 - **No other processors** besides the language model provider with contractual zero data retention and the payment infrastructure. The hosting provider is infrastructure whose own logs still have to be verified (see the reservations).
 - **No analytics and no cookies on the website.**
 
