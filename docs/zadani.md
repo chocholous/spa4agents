@@ -74,7 +74,7 @@ Zásada je zero data retention: nic neukládáme.
 
 - MCP (Streamable HTTP) a REST se stejnými nástroji a cenami.
 - Web: reklama pro lidi, pro agenty `llms.txt` a každá stránka i jako Markdown. Generuje se z katalogu `catalog/catalog.yaml`, který je jediný zdroj pravdy.
-- Zápisy do registrů (podle průzkumu): oficiální MCP Registry, x402 Bazaar (po první placené platbě přes facilitátora CDP), Glama, Smithery, mcp.so a Anthropic Connectors; PulseMCP se plní z oficiálního registru. Stripe Directory a MPP Services až po přidání MPP.
+- Zápisy do registrů (podle průzkumu; doména není podmínkou, ale zápis vyžaduje funkční veřejný HTTPS endpoint, bez domény/TLS zatím jen příprava): oficiální MCP Registry, x402 Bazaar (po první placené platbě přes facilitátora CDP), Glama, Smithery, mcp.so a Anthropic Connectors; PulseMCP se plní z oficiálního registru. Stripe Directory a MPP Services až po přidání MPP.
 - Veřejný repozitář `chocholous/spagents` (MIT) jen s reklamou, popisem pro agenty, metadaty a návodem k připojení. Kód serveru zůstává soukromý. Seznam awesome-mcp-servers a katalog Docker veřejný repozitář vyžadují.
 
 ## 10. Jazyky webu
@@ -89,14 +89,14 @@ Angličtina. Později němčina, japonština a klingonština (latinkou). Struktu
 | 2 | Jádro služby lokálně | `initialize` a `tools/list` projdou v Claude Code, Codexu a Gemini CLI; jeden placený nástroj zaplatí autonomní agent na Base Sepolia |
 | 3 | Všechny služby prvního vydání | Všech 10 nástrojů funguje, trial a pozvánky běží, `lobby.leave` do 1 s, stropy nelze překročit |
 | 4 | Web a repozitář | Web a veřejný repozitář vygenerované z katalogu a k nahlédnutí vlastníkem |
-| 5 | Zápisy a veřejné spuštění na testovací síti | Služba je v oficiálním MCP Registry a v aspoň třech dalších adresářích; cizí agent ji najde a zaplatí na testnetu |
+| 5 | Zápisy a veřejné spuštění na testovací síti | Služba je v oficiálním MCP Registry a v aspoň třech dalších adresářích (zápis vyžaduje funkční veřejný HTTPS endpoint; bez domény/TLS zatím jen příprava); cizí agent ji najde a zaplatí na testnetu |
 | 6 | Ostrý provoz na hlavní síti | První skutečná platba USDC na Base |
 
 Odhad práce (z archivovaného plánu, jen odhad): asi 14 až 14,5 osobotýdnů, kalendářně asi 6 až 7 týdnů. Milníky 1 a 2 asi 2 týdny, milníky 3 až 5 asi 4 až 5 týdnů. Milník 6 do odhadu nepatří.
 
 ## 12. Rozhodnutí vlastníka
 
-Rozhodnuto 31. 10. 2026: provozovatel (jméno, kontakt; právní forma neuvedena), repozitář `chocholous/spagents`, hosting Hetzner (EU), facilitátor Coinbase CDP (i na testnetu), denní globální rozpočet trialu 20 USD, ostrý provoz bez právního posouzení a služba bez LLM. Jmenný prostor v MCP Registry: `com.spagents/spagents` (ověření domény `spagents.com` přes DNS), záloha `io.github.chocholous/spagents` s GitHub OIDC (popsáno v `PUBLISHING.md` veřejného repozitáře).
+Rozhodnuto 31. 10. 2026: provozovatel (jméno, kontakt; právní forma neuvedena), repozitář `chocholous/spagents`, hosting Hetzner (EU), facilitátor Coinbase CDP (i na testnetu), denní globální rozpočet trialu 20 USD, ostrý provoz bez právního posouzení a služba bez LLM. Doména se zatím nepřipojuje („bez domény“). Jmenný prostor v MCP Registry: `io.github.chocholous/spagents` (ověření účtem GitHub `chocholous`, OIDC; postup v `PUBLISHING.md` veřejného repozitáře); po připojení domény `spagents.com` lze přepnout na `com.spagents/spagents` (ověření DNS). Doména není podmínkou pro zápis do registrů, ale `remotes[].url` v `server.json` musí být dosažitelná HTTPS adresa: zápis vyžaduje funkční veřejný HTTPS endpoint, takže bez domény a TLS je zatím hotová jen příprava (bude potřeba dočasná HTTPS adresa).
 
 Zbývá neurčeno (podrobně v `OPEN_QUESTIONS.md` jednotlivých částí):
 - Hosting: jak vypadají síťové logy Hetzneru (ověřit; zatím se nic neslibuje).

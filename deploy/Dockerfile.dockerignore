@@ -1,0 +1,12 @@
+**/node_modules
+.git
+**/.env
+**/.env.*
+catalog
+web
+public-repo
+spikes
+docs
+security
+gateway/test
+gateway/dist

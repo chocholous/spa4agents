@@ -67,6 +67,6 @@ test("brand is approved but the site is not launched: draft follows launch.live"
   assert.equal(c.launch.live, false);
   assert.equal(c.brand.name, "Spagents");
   assert.equal(c.brand.domain, "spagents.com");
-  assert.equal(c.brand.registry_namespace, "com.spagents/spagents");
+  assert.equal(c.brand.registry_namespace, "io.github.chocholous/spagents");
   assert.equal(JSON.parse(files.get("MANIFEST.json")!).draft, true);
 });

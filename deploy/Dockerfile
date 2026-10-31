@@ -10,13 +10,13 @@ COPY gateway/tsconfig.json ./
 COPY gateway/src ./src
 # tsconfig zahrnuje i test/, proto prázdná složka (jen pro tsc include)
 RUN mkdir -p test && npm run build
-RUN npm prune --omit=dev
 
 FROM node:22-alpine AS runtime
 ENV NODE_ENV=production \
     HOST=0.0.0.0 \
     PORT=8787
 WORKDIR /app
+# node_modules se kopírují celé (i dev: viem/tsx), protože gateway se rychle vyvíjí a platby mohou viem importovat za běhu.
 COPY --from=build --chown=node:node /app/node_modules ./node_modules
 COPY --from=build --chown=node:node /app/dist ./dist
 COPY --chown=node:node gateway/package.json ./

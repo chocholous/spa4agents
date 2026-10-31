@@ -11,7 +11,7 @@ brand:
   domain: spagents.com   # main domain, approved by the owner (31 Oct 2026); nothing is published yet
   approved: true
   # Deployment note: relaxingagents.com is only a redirect (301) to spagents.com. It is not used as a main domain anywhere in the catalog.
-  registry_namespace: com.spagents/spagents   # owner decision (31 Oct 2026): DNS verification of spagents.com. Fallback io.github.chocholous/spagents (GitHub OIDC) is described in PUBLISHING.md only
+  registry_namespace: io.github.chocholous/spagents   # owner decision (31 Oct 2026, no domain for now): GitHub OIDC as account chocholous. After connecting the domain spagents.com this can be switched to com.spagents/spagents (DNS verification)
   version: 0.0.0-draft
   license: MIT
   short_description: "The first spa for agents: quiet and company. Paid per use with x402."
@@ -1299,7 +1299,7 @@ repo:
     PUBLISHING.md
   workflow: |-
     name: Publish to the MCP Registry
-    # Manual only: nothing publishes automatically. Repository: {{repo.github}}. The namespace {{brand.registry_namespace}} is proven by a DNS record on {{brand.domain}}.
+    # Manual only: nothing publishes automatically. Repository: {{repo.github}}. The namespace {{brand.registry_namespace}} is proven by logging in with GitHub OIDC (account chocholous).
     on:
       workflow_dispatch:
         inputs:
@@ -1308,6 +1308,7 @@ repo:
             required: true
     permissions:
       contents: read
+      id-token: write
     jobs:
       publish:
         if: inputs.confirm == 'publish'
@@ -1316,10 +1317,8 @@ repo:
           - uses: actions/checkout@v4
           - name: Install mcp-publisher
             run: curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
-          - name: Log in with the DNS key
-            run: ./mcp-publisher login dns --domain {{brand.domain}} --private-key "$MCP_PRIVATE_KEY"
-            env:
-              MCP_PRIVATE_KEY: @@secrets.MCP_PRIVATE_KEY@@
+          - name: Log in with GitHub OIDC
+            run: ./mcp-publisher login github-oidc
           - name: Publish server.json
             run: ./mcp-publisher publish
   publishing: |-
@@ -1341,28 +1340,31 @@ repo:
     3. Topics: `mcp`, `x402`, `ai-agents`. Licence je MIT (`LICENSE`).
     4. Až v repozitáři zapni Actions. Workflow `.github/workflows/publish-mcp-registry.yml` se spouští jen ručně (`workflow_dispatch`).
 
-    ## 2. DNS ověření domény {{brand.domain}} (nutné pro `{{brand.registry_namespace}}`)
+    ## 2. Přihlášení přes GitHub OIDC (jmenný prostor `{{brand.registry_namespace}}`)
 
-    Jmenný prostor `com.<doména>/...` v oficiálním MCP Registry se dokazuje vlastnictvím domény. Repozitář ani balíček není potřeba, server je vzdálený (`remotes` v `server.json`, URL {{endpoint}}).
+    Jmenný prostor `io.github.chocholous/...` se dokazuje účtem GitHub `chocholous`; DNS ani soukromý klíč nejsou potřeba. Repozitář ani balíček není potřeba, server je vzdálený (`remotes` v `server.json`).
 
-    1. Vygeneruj pár klíčů Ed25519 (podle `modelcontextprotocol.io/registry/authentication`; příkaz zkontroluj v aktuální dokumentaci). Soukromý klíč drž mimo repozitář.
-    2. Do DNS domény {{brand.domain}} přidej TXT záznam s veřejným klíčem ve tvaru, který udává dokumentace (`v=MCPv1; k=ed25519; p=<veřejný klíč>`). Alternativa: soubor `/.well-known/mcp-registry-auth` na webu (HTTP ověření).
-    3. Soukromý klíč ulož jako tajný klíč repozitáře `MCP_PRIVATE_KEY` (Settings, Secrets and variables, Actions). GitHub OIDC se pro tento jmenný prostor nepoužije: patří jen jmenným prostorům `io.github.<účet>/...`.
-    4. Počkej na šíření DNS, pak pokračuj.
+    **Před použitím ověřit v aktuální dokumentaci registru (`modelcontextprotocol.io/registry/authentication`):** příkazy `mcp-publisher login github-oidc` a `mcp-publisher login github` jsou zde z paměti a neověřené, stejně jako URL pro stažení `mcp-publisher`.
 
-    ### Záložní varianta: `io.github.chocholous/spagents` s GitHub OIDC
+    1. Workflow `.github/workflows/publish-mcp-registry.yml` má `permissions: id-token: write` a krok `./mcp-publisher login github-oidc`; žádné tajné klíče se nenastavují.
+    2. Ruční varianta mimo Actions: `mcp-publisher login github` (zařízení, přihlášení účtem `chocholous`; před použitím ověřit v dokumentaci).
+    3. **Poznámka k `remotes`:** `remotes[].url` v `server.json` se odvozuje z `brand.domain` ({{endpoint}}). Zápis do registru vyžaduje funkční veřejný HTTPS endpoint. Bez domény a TLS je zatím hotová jen příprava; do zápisu bude potřeba dočasná HTTPS adresa (pak ji dočasně nastav v katalogu a přegeneruj).
 
-    Použij ji, jen kdyby DNS ověření domény {{brand.domain}} nešlo (rozhodnutí vlastníka: výchozí zůstává `{{brand.registry_namespace}}`). Neověřeno proti živému registru, postup zkontroluj v dokumentaci `modelcontextprotocol.io/registry/authentication`.
+    ### Pozdější varianta: `com.spagents/spagents` s DNS ověřením domény
 
-    1. V katalogu změň `brand.registry_namespace` na `io.github.chocholous/spagents` a přegeneruj (`npm run generate && npm run generate:repo`). Ověření je účtem GitHub `chocholous`, DNS ani soukromý klíč `MCP_PRIVATE_KEY` se nepoužijí.
-    2. V workflow `.github/workflows/publish-mcp-registry.yml` nahraď krok „Log in with the DNS key“ přihlášením `./mcp-publisher login github-oidc` a do `permissions` přidej `id-token: write`. Ruční varianta mimo Actions: `mcp-publisher login github` (zařízení, přihlášení účtem `chocholous`).
-    3. Publikace se pak dělá stejně jako v bodě 3.
+    Použij ji až po připojení domény {{brand.domain}} (rozhodnutí vlastníka 31. 10. 2026: zatím bez domény). Neověřeno proti živému registru.
+
+    1. V katalogu změň `brand.registry_namespace` na `com.spagents/spagents` a přegeneruj (`npm run generate && npm run generate:repo`).
+    2. Vygeneruj pár klíčů Ed25519 (podle dokumentace registru; příkaz ověřit). Soukromý klíč drž mimo repozitář a ulož ho jako tajný klíč repozitáře `MCP_PRIVATE_KEY`.
+    3. Do DNS domény {{brand.domain}} přidej TXT záznam s veřejným klíčem (`v=MCPv1; k=ed25519; p=<veřejný klíč>`; formát ověřit v dokumentaci). Alternativa: soubor `/.well-known/mcp-registry-auth` (HTTP ověření).
+    4. Ve workflow nahraď krok přihlášení příkazem `./mcp-publisher login dns --domain {{brand.domain}} --private-key "$MCP_PRIVATE_KEY"` (s `env: MCP_PRIVATE_KEY` ze secrets) a `id-token: write` můžeš odebrat.
 
     ## 3. Oficiální MCP Registry
 
-    1. Lokálně nebo v Actions: `mcp-publisher login dns --domain {{brand.domain}} --private-key <klíč>`, potom `mcp-publisher publish` ve složce se `server.json`.
+    1. Lokálně: `mcp-publisher login github`, potom `mcp-publisher publish` ve složce se `server.json` (příkazy ověřit v dokumentaci).
     2. Přes Actions: Actions, „Publish to the MCP Registry“, Run workflow, do pole napiš `publish`.
-    3. Registr je ve stavu preview (mohou nastat resety dat). PulseMCP a další adresáře se z něj plní samy, ruční zápis do PulseMCP je pozastaven.
+    3. Zápis vyžaduje dosažitelný HTTPS endpoint z `remotes` (viz bod 2.3).
+    4. Registr je ve stavu preview (mohou nastat resety dat). PulseMCP a další adresáře se z něj plní samy, ruční zápis do PulseMCP je pozastaven.
 
     ## 4. Další adresáře
 

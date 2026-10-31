@@ -1,5 +1,5 @@
 name: Publish to the MCP Registry
-# Manual only: nothing publishes automatically. Repository: chocholous/spagents. The namespace com.spagents/spagents is proven by a DNS record on spagents.com.
+# Manual only: nothing publishes automatically. Repository: chocholous/spagents. The namespace io.github.chocholous/spagents is proven by logging in with GitHub OIDC (account chocholous).
 on:
   workflow_dispatch:
     inputs:
@@ -8,6 +8,7 @@ on:
         required: true
 permissions:
   contents: read
+  id-token: write
 jobs:
   publish:
     if: inputs.confirm == 'publish'
@@ -16,9 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install mcp-publisher
         run: curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
-      - name: Log in with the DNS key
-        run: ./mcp-publisher login dns --domain spagents.com --private-key "$MCP_PRIVATE_KEY"
-        env:
-          MCP_PRIVATE_KEY: ${{ secrets.MCP_PRIVATE_KEY }}
+      - name: Log in with GitHub OIDC
+        run: ./mcp-publisher login github-oidc
       - name: Publish server.json
         run: ./mcp-publisher publish

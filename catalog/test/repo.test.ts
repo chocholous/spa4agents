@@ -33,7 +33,7 @@ test("repository generation is deterministic", () => {
 test("every JSON file is valid, server.json matches the MCP Registry shape of the catalog", () => {
   for (const [p, body] of files) if (p.endsWith(".json")) JSON.parse(body);
   const server = JSON.parse(files.get("server.json")!);
-  assert.equal(server.name, "com.spagents/spagents");
+  assert.equal(server.name, "io.github.chocholous/spagents");
   assert.equal(server.name, c.brand.registry_namespace);
   assert.deepEqual(server.remotes, [{ type: "streamable-http", url: `https://${c.brand.domain}/mcp` }]);
   assert.deepEqual(schemaErrors("server.schema.json", server), []);
@@ -107,7 +107,9 @@ test("workflow: manual trigger only, no automatic publishing", () => {
   const text = files.get(".github/workflows/publish-mcp-registry.yml")!;
   assert.ok(!/\b(push|schedule|pull_request|release|workflow_run)\s*:/.test(text));
   assert.ok(text.includes("mcp-publisher"));
-  assert.ok(text.includes("secrets.MCP_PRIVATE_KEY"));
+  assert.ok(text.includes("id-token: write"));
+  assert.ok(text.includes("login github-oidc"));
+  assert.ok(!text.includes("MCP_PRIVATE_KEY"));
   assert.ok(!text.includes("@@"));
 });
 

@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "405a6f5c7003e1d6ba5b3737f0ecbb3e6fcd0e6675c3899af01b21aba80804b3",
+  "catalog_sha256": "9afd3648e1d4ba982373992c16b610cf193c0bc75bcbedfd805f7f2d4b8ec7c1",
   "draft": true,
   "launch_live": false,
   "brand_approved": true,
@@ -67,7 +67,7 @@
     },
     {
       "path": "server.json",
-      "sha256": "78ecc7dca63604c8cbbab189a851d199853319dfed437c3cb8ada2605834ac91"
+      "sha256": "1045ce417c097c6ed92f2942419918eeab51f2ea086e8fe06ca595083f2da44b"
     },
     {
       "path": "tools/lobby.checkin.md",
