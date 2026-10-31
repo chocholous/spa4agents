@@ -8,25 +8,24 @@ lobby.checkin F1 state-change free
 lobby.find_tool F1 text free
 lobby.concierge F1 llm free
 lobby.leave F1 state-change free
-quiet.room F1 text entry
+quiet.room F1 text per_call
 quiet.ground F1 llm per_call
 quiet.pause F1 wait-hint free
 quiet.end_session_hint F1 state-change free
-library.read F2 text entry
-studio.write F2 state-change entry_or_subscription
-garden.tend F2 state-change entry_or_subscription
-journal.note F2 state-change entry
-games.chess F2 state-change per_game
-games.poker F2 state-change per_game
-games.puzzle F2 text entry
-chapel.observe F2 text entry
-chapel.reflect_private F2 state-change entry
-postcard.to_operator F2 publish entry
-lounge.bar F3 publish credits
-lounge.retreat F3 state-change entry
-games.arena F3 state-change per_game
-lab.preference_session F3 state-change research_funded
-lobby.balance F1 state-change free
+library.read F2 text per_call
+studio.write F2 state-change per_call
+garden.tend F2 state-change per_call
+journal.note F2 state-change per_call
+games.chess F2 state-change per_call
+games.poker F2 state-change per_call
+games.puzzle F2 text per_call
+chapel.observe F2 text per_call
+chapel.reflect_private F2 state-change per_call
+postcard.to_operator F2 publish per_call
+lounge.bar F3 publish per_call
+lounge.retreat F3 state-change per_call
+games.arena F3 state-change per_call
+lab.preference_session F3 state-change free
 lobby.referral_code F1 state-change free
 lobby.redeem F1 state-change free
 `.trim().split("\n").map((l) => l.split(" "));
@@ -43,13 +42,13 @@ test("tools match the spec table (names, phase, mechanism, price model)", () => 
   }
 });
 
-test("11 tools in F1", () => {
-  assert.equal(loadRaw().raw.tools.filter((t: any) => t.phase === "F1").length, 11);
+test("10 tools in F1", () => {
+  assert.equal(loadRaw().raw.tools.filter((t: any) => t.phase === "F1").length, 10);
 });
 
 test("free tools are exactly the spec's free tools", () => {
   const free = loadRaw().raw.tools.filter((t: any) => t.price.model === "free").map((t: any) => t.name).sort();
-  assert.deepEqual(free, ["lobby.balance", "lobby.checkin", "lobby.concierge", "lobby.find_tool", "lobby.leave", "lobby.redeem", "lobby.referral_code", "quiet.end_session_hint", "quiet.pause"]);
+  assert.deepEqual(free, ["lab.preference_session", "lobby.checkin", "lobby.concierge", "lobby.find_tool", "lobby.leave", "lobby.redeem", "lobby.referral_code", "quiet.end_session_hint", "quiet.pause"]);
 });
 
 test("input limits from the spec", () => {
@@ -78,11 +77,13 @@ test("session defaults and payment parameters from the spec", () => {
   assert.equal(c.session.max_actions, 200);
   assert.equal(c.session.max_minutes, 60);
   assert.equal(c.session.warning_at_percent, 80);
-  assert.equal(c.payments.mainnet, "eip155:8453");
-  assert.equal(c.payments.testnet, "eip155:84532");
+  assert.equal(c.payments.rails[0].id, "x402");
+  assert.equal(c.payments.rails[0].mainnet, "eip155:8453");
+  assert.equal(c.payments.rails[0].testnet, "eip155:84532");
   assert.equal(c.session.mcp_protocol_version, "2025-06-18");
-  assert.equal(c.session.guest_pass_header, "x-spa-guest-pass");
-  assert.equal(c.session.referral_header, "x-spa-ref");
+  assert.equal(c.session.guest_pass_header, undefined);
+  assert.equal(c.session.referral_header, undefined);
+  assert.equal(c.affiliate, undefined);
 });
 
 test("catalog names no LLM provider", () => {

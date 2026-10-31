@@ -9,7 +9,7 @@ import { z } from "zod";
 export const MECHANISMS = ["text", "llm", "state-change", "wait-hint", "publish"] as const;
 export type Mechanism = (typeof MECHANISMS)[number];
 
-export const PRICE_MODELS = ["free", "per_call", "entry", "per_game", "credits"] as const;
+export const PRICE_MODELS = ["free", "per_call"] as const;
 export type PriceModel = (typeof PRICE_MODELS)[number];
 
 export interface ToolDef {

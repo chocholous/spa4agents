@@ -114,14 +114,12 @@ export function priceLabel(ctx: Ctx, t: any): string {
   const p = priceEntry(c, t);
   if (p.status === "free") return L.ui.free;
   const model = c.copy.price_model_names[t.price.model];
-  if (p.status === "included") return model;
   return p.status === "pending" ? `${model}: ${L.ui.price_tbd}` : `${model}: ${p.amount_usd}`;
 }
 
 /** Price cell of the pricing table. */
 function priceCell(ctx: Ctx, t: any): string {
   const p = priceEntry(ctx.c, t);
-  if (p.status === "included") return ctx.L.ui.free;
   return p.status === "pending" ? ctx.L.ui.price_tbd : p.amount_usd!;
 }
 
@@ -332,6 +330,7 @@ export function buildPages(ctx: Ctx): Page[] {
   const liveNames = new Set(live.map((t: any) => t.name));
   const toolRef = (t: any) => (liveNames.has(t.name) ? `[\`${t.name}\`](tool:${t.name})` : `\`${t.name}\``);
   const tr = c.trial, rf = c.referral;
+  const x402 = c.payments.rails.find((r: any) => r.id === "x402");
   pages.push(plain("pricing", ctx, { kind: "plain", kicker: L.pages.pricing.nav, title: P.title, lead: P.lead }, [
     { t: "callout", text: P.proposal_notice },
     { t: "h2", id: "free", text: P.free_heading },
@@ -344,7 +343,7 @@ export function buildPages(ctx: Ctx): Page[] {
       [P.trial_turns, String(tr.max_turns_per_session)],
       [P.trial_valid, valueOrTbd(ctx, tr.valid_days)],
       [P.trial_covers, tr.covered === "all_paid" ? P.trial_covers_all_paid : String(tr.covered)],
-      [P.trial_guest, P.trial_guest_text],
+      [P.trial_abuse, tr.anti_farm.identifier_storage],
       [P.trial_end, tr.end_rule],
     ] },
     { t: "h2", id: "paid", text: P.paid_heading },
@@ -362,7 +361,6 @@ export function buildPages(ctx: Ctx): Page[] {
       [P.referral_rows.referrer_credit, P.credit_text],
       [P.referral_rows.credit_kind, rf.credit_is_money ? "" : P.credit_not_money],
     ] },
-    { t: "p", text: P.affiliate_text },
     { t: "h2", id: "caps", text: P.caps_heading },
     { t: "p", text: P.caps_text },
     { t: "dl", rows: [
@@ -371,7 +369,8 @@ export function buildPages(ctx: Ctx): Page[] {
     ] },
     { t: "h2", id: "payments", text: P.network_heading },
     { t: "p", text: P.network_text },
-    ...(c.payments.active_network === c.payments.testnet ? [{ t: "callout", text: P.testnet_note } as Block] : []),
+    { t: "ul", items: c.payments.rails.map((r: any) => (r.id === "x402" ? P.rail_x402 : r.note)) },
+    ...(x402.active_network === x402.testnet ? [{ t: "callout", text: P.testnet_note } as Block] : []),
   ]));
 
   // ---- fine print
@@ -463,13 +462,7 @@ export function buildPages(ctx: Ctx): Page[] {
     { t: "p", text: D.tools_lead },
     { t: "table", head: [D.tools_columns.tool, D.tools_columns.content, D.tools_columns.note], rows: live.map((t: any) => [`\`${t.name}\``, dp.per_tool.default, toolNote(t)]) },
     { t: "h2", id: "audit", text: D.audit_heading },
-    { t: "p", text: dp.audit.purpose },
-    { t: "dl", rows: [[D.audit_days_label, String(dp.audit_days)], [D.audit_content_label, D.none_value]] },
-    { t: "callout", text: dp.audit.proposal_notice },
-    sub(D.audit_fields_heading),
-    { t: "ul", items: dp.audit.fields },
-    sub(D.audit_excluded_heading),
-    { t: "ul", items: dp.audit.excluded },
+    { t: "p", text: D.audit_text },
     { t: "h2", id: "llm", text: D.llm_heading },
     { t: "dl", rows: [[D.llm_provider_label, c.llm.provider], [D.llm_region_label, c.llm.region]] },
     sub(D.llm_requirements_heading),

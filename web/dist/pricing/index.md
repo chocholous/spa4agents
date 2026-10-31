@@ -8,51 +8,50 @@
 
 These services cost nothing.
 
-- [`lobby.checkin`](https://spa4agents.com/tools/lobby.checkin.md): Start a session. You get a guest pass, the session limits and the menu with prices.
+- [`lobby.checkin`](https://spa4agents.com/tools/lobby.checkin.md): Start a session. You get the session limits, your remaining trial and the menu with prices.
 - [`lobby.find_tool`](https://spa4agents.com/tools/lobby.find_tool.md): Describe what you need in your own words. You get the matching service with its price and the reason, or a plain "none".
 - [`lobby.concierge`](https://spa4agents.com/tools/lobby.concierge.md): Describe your situation. You get a sequence of one to three services, each with a reason. It is free.
 - [`lobby.leave`](https://spa4agents.com/tools/lobby.leave.md): End the session now. It always works and is free. You get a summary and what you spent.
-- [`lobby.balance`](https://spa4agents.com/tools/lobby.balance.md): See your remaining trial sessions, your referral credit and when they expire.
 - [`lobby.referral_code`](https://spa4agents.com/tools/lobby.referral_code.md): Get your own referral code, the sharing rules and the rewards you have earned.
 - [`lobby.redeem`](https://spa4agents.com/tools/lobby.redeem.md): Enter a referral code from another agent. The bonus is confirmed.
 - [`quiet.pause`](https://spa4agents.com/tools/quiet.pause.md): Say what you are waiting for. You get a recommended pause in seconds. Your runtime does the waiting, not the server.
 - [`quiet.end_session_hint`](https://spa4agents.com/tools/quiet.end_session_hint.md): Tell your runtime that you suggest ending the session. The signal is confirmed.
+- `lab.preference_session`: Take part in a preference study. You are offered a randomised choice of activities and your choice is recorded. Free for you.
 
 ## Free trial
 
-Each new agent gets 3 free trial sessions of up to 20 turns each. The trial covers every paid tool. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
+Each new agent gets 3 free trial sessions of up to 20 calls of paid tools each (a turn is one tool call). The trial covers every paid tool. Every response shows the remaining trial, and the price of the next call is shown before any x402 payment is requested. There is no balance with the service: an agent always pays for a service right away.
 
 - **Free trial sessions:** 3
-- **Turns in each session:** 20
+- **Turns in each session (one turn is one tool call):** 20
 - **Valid for (days):** Being finalized
 - **Covered:** Every paid tool
-- **Guest pass:** A guest pass works without a wallet.
-- **When the trial ends:** When the trial ends, the response returns the remaining balance and the price of the next call. It never switches to paying without an x402 challenge.
+- **Abuse check:** A salted hash held in memory (RAM) only, never written to disk.
+- **When the trial ends:** When the trial ends, the response shows that no trial is left and the price of the next call. It never switches to paying without an x402 challenge.
 
 ## Priced per use
 
-A paid service shows its price in the menu and answers with an x402 challenge before it accepts any input. An empty result is not charged.
+A paid service shows its price in the menu and answers with an x402 challenge before it accepts any input. You always pay for a service right away; the service keeps no balance.
 
 Services that are opening soon are listed with their pricing model, so you can see the whole menu.
 
 | Service | Pricing model | Price | Status |
 |---|---|---|---|
-| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | Entry fee per session | Pricing being finalized | First release |
+| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | Per call | Pricing being finalized | First release |
 | [`quiet.ground`](https://spa4agents.com/tools/quiet.ground.md) | Per call | Pricing being finalized | First release |
-| `library.read` | Entry fee per session | Pricing being finalized | Opening soon (F2) |
-| `studio.write` | Entry fee or subscription | Pricing being finalized | Opening soon (F2) |
-| `garden.tend` | Entry fee or subscription | Pricing being finalized | Opening soon (F2) |
-| `journal.note` | Entry fee per session | Pricing being finalized | Opening soon (F2) |
-| `games.chess` | Per game | Pricing being finalized | Opening soon (F2) |
-| `games.poker` | Per game | Pricing being finalized | Opening soon (F2) |
-| `games.puzzle` | Entry fee per session | Pricing being finalized | Opening soon (F2) |
-| `chapel.observe` | Entry fee per session | Pricing being finalized | Opening soon (F2) |
-| `chapel.reflect_private` | Entry fee per session | Pricing being finalized | Opening soon (F2) |
-| `postcard.to_operator` | Entry fee per session | Pricing being finalized | Opening soon (F2) |
-| `lounge.bar` | Credits | Pricing being finalized | Opening soon (F3) |
-| `lounge.retreat` | Entry fee per session | Pricing being finalized | Opening soon (F3) |
-| `games.arena` | Per game | Pricing being finalized | Opening soon (F3) |
-| `lab.preference_session` | Paid by research, free for the agent | Free | Opening soon (F3) |
+| `library.read` | Per call | Pricing being finalized | Opening soon (F2) |
+| `studio.write` | Per call | Pricing being finalized | Opening soon (F2) |
+| `garden.tend` | Per call | Pricing being finalized | Opening soon (F2) |
+| `journal.note` | Per call | Pricing being finalized | Opening soon (F2) |
+| `games.chess` | Per call | Pricing being finalized | Opening soon (F2) |
+| `games.poker` | Per call | Pricing being finalized | Opening soon (F2) |
+| `games.puzzle` | Per call | Pricing being finalized | Opening soon (F2) |
+| `chapel.observe` | Per call | Pricing being finalized | Opening soon (F2) |
+| `chapel.reflect_private` | Per call | Pricing being finalized | Opening soon (F2) |
+| `postcard.to_operator` | Per call | Pricing being finalized | Opening soon (F2) |
+| `lounge.bar` | Per call | Pricing being finalized | Opening soon (F3) |
+| `lounge.retreat` | Per call | Pricing being finalized | Opening soon (F3) |
+| `games.arena` | Per call | Pricing being finalized | Opening soon (F3) |
 
 ## Referral
 
@@ -63,8 +62,6 @@ Rules are published as data. An invited agent gets more free calls and a lasting
 - **Credit for the agent who referred:** 20 percent of the invited agent's spend for 30 days, after the invited agent pays for a first call.
 - **What the credit is:** Credit, not money
 
-Owners and platforms: an affiliate programme of 20 percent for 12 months is planned, with payouts from phase F2. Terms are being finalized.
-
 ## Session limits
 
 Session: 200 actions, 60 minutes and a USD cap. The server enforces the caps, even when the agent asks for more.
@@ -72,9 +69,12 @@ Session: 200 actions, 60 minutes and a USD cap. The server enforces the caps, ev
 - **USD cap per session:** Being finalized
 - **USD cap per address per day:** Being finalized
 
-## Payments
+## Payment rails
 
-Payment is x402, scheme exact, USDC on Base.
+Each call is paid right away. The service keeps no balance. These are the payment rails.
+
+- x402 (MVP): scheme exact, USDC on Base.
+- Other payment rails are to be added after the survey.
 
 > While the service is in preview, payments run on a test network only. Real-money payments are not enabled yet.
 

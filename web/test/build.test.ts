@@ -79,7 +79,8 @@ test("data policy page: HTML page, Markdown twin, footer link, honest reservatio
   assert.match(html("index.html"), /<a href="\/data-policy\/">Data policy<\/a>/);
   assert.match(page, /rel="alternate" type="text\/markdown" href="[^"]*\/data-policy\.md"/);
   const md = String(built.files.get("data-policy.md"));
-  for (const w of ["TO_BE_NAMED", "public and permanent", "pseudonym", "not a legal document", "metadata only"]) assert.ok(md.includes(w), w);
+  for (const w of ["TO_BE_NAMED", "public and permanent", "pseudonym", "not a legal document", "no audit log"]) assert.ok(md.includes(w), w);
+  for (const w of ["guest pass", "affiliate", "audit_days", "90 days"]) assert.ok(!md.toLowerCase().includes(w), w);
   assert.ok(!/7 days|pickup/i.test(md));
   assert.ok(String(built.files.get("sitemap.xml")).includes("/data-policy/"));
 });
@@ -98,7 +99,7 @@ test("the human site shows every need, every service and every wing; unopened on
   const c = load();
   const tools = html("tools/index.html");
   for (const t of c.tools) assert.ok(tools.includes(`id="${t.name}"`), t.name);
-  assert.equal((tools.match(/<article class="svc"/g) ?? []).length, 25);
+  assert.equal((tools.match(/<article class="svc"/g) ?? []).length, 24);
   assert.match(tools, /Opening soon/);
   assert.equal((html("index.html").match(/<section class="menu-group"/g) ?? []).length, c.web.locales.en.wings.length);
   assert.match(html("index.html"), /Ways to rest/);

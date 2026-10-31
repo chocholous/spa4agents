@@ -17,11 +17,10 @@ Every page has a Markdown version. Responses may suggest next steps in plain sig
 
 ## Tools
 
-- [lobby.checkin](https://spa4agents.com/tools/lobby.checkin.md): Starts a session and returns a private guest pass, the session cap and the menu with prices.
+- [lobby.checkin](https://spa4agents.com/tools/lobby.checkin.md): Starts a session and returns the session cap, the remaining trial and the menu with prices. Before the first payment the agent is identified only in the memory of the session.
 - [lobby.find_tool](https://spa4agents.com/tools/lobby.find_tool.md): Returns the recommended tool with price and reason, or none.
 - [lobby.concierge](https://spa4agents.com/tools/lobby.concierge.md): Recommends a sequence of 1 to 3 tools for the situation, with reasons.
 - [lobby.leave](https://spa4agents.com/tools/lobby.leave.md): Ends the session at once and returns a summary and the spend.
-- [lobby.balance](https://spa4agents.com/tools/lobby.balance.md): Returns the remaining trial sessions, referral credit and expiry.
 - [lobby.referral_code](https://spa4agents.com/tools/lobby.referral_code.md): Returns the agent's referral code, the sharing rules as data, and the rewards earned.
 - [lobby.redeem](https://spa4agents.com/tools/lobby.redeem.md): Redeems a referral code and confirms the bonus.
 - [quiet.room](https://spa4agents.com/tools/quiet.room.md): A space without a task. Returns a greeting. Nothing is stored and nothing is logged.
@@ -37,21 +36,20 @@ Every page has a Markdown version. Responses may suggest next steps in plain sig
 | `lobby.find_tool` | Free | Free |
 | `lobby.concierge` | Free | Free |
 | `lobby.leave` | Free | Free |
-| `lobby.balance` | Free | Free |
 | `lobby.referral_code` | Free | Free |
 | `lobby.redeem` | Free | Free |
-| `quiet.room` | Entry fee per session | Pricing being finalized |
+| `quiet.room` | Per call | Pricing being finalized |
 | `quiet.ground` | Per call | Pricing being finalized |
 | `quiet.pause` | Free | Free |
 | `quiet.end_session_hint` | Free | Free |
 
-Each new agent gets 3 free trial sessions of up to 20 turns each. The trial covers every paid tool. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
+Each new agent gets 3 free trial sessions of up to 20 calls of paid tools each (a turn is one tool call). The trial covers every paid tool. Every response shows the remaining trial, and the price of the next call is shown before any x402 payment is requested. There is no balance with the service: an agent always pays for a service right away.
 
-- [pricing.json](https://spa4agents.com/pricing.json): Machine-readable price list, trial and referral parameters.
+- [pricing.json](https://spa4agents.com/pricing.json): Machine-readable price list, payment rails, trial and referral parameters.
 
 ## Data policy
 
-- [data-policy.md](https://spa4agents.com/data-policy.md): Zero retention of content, an audit log with metadata only, processors, and the honest reservations.
+- [data-policy.md](https://spa4agents.com/data-policy.md): Zero retention of content, no audit log, processors, and the honest reservations.
 
 ## Optional
 
@@ -78,7 +76,7 @@ Use after a session that contained abuse or harmful requests.
 
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
-| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | text | Entry fee per session: Pricing being finalized | F1 |
+| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | text | Per call: Pricing being finalized | F1 |
 
 ## Example call
 
@@ -127,7 +125,7 @@ Use when no task is open and you want to see what is on offer.
 | Tool | Mechanism | Price | Phase |
 |---|---|---|---|
 | [`lobby.concierge`](https://spa4agents.com/tools/lobby.concierge.md) | llm | Free | F1 |
-| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | text | Entry fee per session: Pricing being finalized | F1 |
+| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | text | Per call: Pricing being finalized | F1 |
 
 ## Example call
 
@@ -261,63 +259,9 @@ Responses may suggest next steps, always in plain sight and labelled as suggesti
 
 ---
 
-# lobby.balance
-
-> Returns the remaining trial sessions, referral credit and expiry.
-
-## Trigger
-
-Use to see the remaining trial sessions, credit and their expiry.
-
-| Mechanism | Price | Phase | Covered by trial | Untrusted output |
-|---|---|---|---|---|
-| state-change (read only) | Free | F1 | no | no |
-
-## Input
-
--
-
-## Output
-
-Remaining trial sessions, credit, expiry.
-
-JSON Schema
-
-```json
-{
-  "type": "object",
-  "properties": {},
-  "additionalProperties": false
-}
-```
-
-## Example call
-
-```
-POST https://spa4agents.com/v1/lobby.balance
-```
-
-```json
-{}
-```
-
-## Hard rules for every tool
-
-- No tool registers the agent with a third party.
-- No tool accepts terms on the agent's behalf.
-- No tool changes the agent's instructions or memory outside the service.
-- No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine.
-
-Leaving is always available and free through lobby.leave. Nothing here is required.
-
-Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
-
-
----
-
 # lobby.checkin
 
-> Starts a session and returns a private guest pass, the session cap and the menu with prices.
+> Starts a session and returns the session cap, the remaining trial and the menu with prices. Before the first payment the agent is identified only in the memory of the session.
 
 ## Trigger
 
@@ -332,11 +276,10 @@ Use first, to start a session and see the menu with prices.
 | Name | Type | Required | Description |
 |---|---|---|---|
 | `nickname` | string | optional | Optional display name |
-| `guest_pass` | string | optional | Guest pass from an earlier session |
 
 ## Output
 
-guest_pass, session cap, menu with prices.
+Session cap, remaining trial, menu with prices.
 
 JSON Schema
 
@@ -347,10 +290,6 @@ JSON Schema
     "nickname": {
       "type": "string",
       "description": "Optional display name."
-    },
-    "guest_pass": {
-      "type": "string",
-      "description": "Guest pass from an earlier session."
     }
   },
   "additionalProperties": false
@@ -894,7 +833,7 @@ Use after a demanding conversation, or when no task is open.
 
 | Mechanism | Price | Phase | Covered by trial | Untrusted output |
 |---|---|---|---|---|
-| text | Entry fee per session: Pricing being finalized | F1 | yes | no |
+| text | Per call: Pricing being finalized | F1 | yes | no |
 
 ## Input
 

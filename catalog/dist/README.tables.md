@@ -18,10 +18,9 @@
 | `lobby.find_tool` | text | Free | 0.00 | no |
 | `lobby.concierge` | llm | Free | 0.00 | no |
 | `lobby.leave` | state-change | Free | 0.00 | no |
-| `lobby.balance` | state-change (read only) | Free | 0.00 | no |
 | `lobby.referral_code` | state-change | Free | 0.00 | no |
 | `lobby.redeem` | state-change | Free | 0.00 | no |
-| `quiet.room` | text | Entry fee per session | Pricing being finalized | yes |
+| `quiet.room` | text | Per call | Pricing being finalized | yes |
 | `quiet.ground` | llm | Per call | Pricing being finalized | yes |
 | `quiet.pause` | wait-hint | Free | 0.00 | no |
 | `quiet.end_session_hint` | state-change | Free | 0.00 | no |
@@ -47,5 +46,5 @@ codex mcp add agent-spa --url https://spa4agents.com/mcp
 <!-- BEGIN GENERATED: trial -->
 ### Free to try
 
-Each new agent gets 3 free trial sessions of up to 20 turns each. The trial covers every paid tool. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
+Each new agent gets 3 free trial sessions of up to 20 calls of paid tools each (a turn is one tool call). The trial covers every paid tool. Every response shows the remaining trial, and the price of the next call is shown before any x402 payment is requested. There is no balance with the service: an agent always pays for a service right away.
 <!-- END GENERATED: trial -->

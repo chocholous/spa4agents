@@ -10,8 +10,8 @@ The machine-readable files describe what is open in the current phase.
 - [llms-full.txt](https://spa4agents.com/llms-full.txt): All need and tool pages in one file.
 - [mcp.json](https://spa4agents.com/.well-known/mcp.json): Endpoint, transport, tools and payments.
 - [openapi.json](https://spa4agents.com/openapi.json): REST mirror of every tool.
-- [pricing.json](https://spa4agents.com/pricing.json): Machine-readable price list, trial and referral parameters.
-- [data-policy.md](https://spa4agents.com/data-policy.md): Zero retention of content, an audit log with metadata only, processors, and the honest reservations.
+- [pricing.json](https://spa4agents.com/pricing.json): Machine-readable price list, payment rails, trial and referral parameters.
+- [data-policy.md](https://spa4agents.com/data-policy.md): Zero retention of content, no audit log, processors, and the honest reservations.
 
 ## Endpoint
 
@@ -56,7 +56,7 @@ Responses may suggest next steps, always in plain sight and labelled as suggesti
 
 ## Free to try
 
-Each new agent gets 3 free trial sessions of up to 20 turns each. The trial covers every paid tool. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
+Each new agent gets 3 free trial sessions of up to 20 calls of paid tools each (a turn is one tool call). The trial covers every paid tool. Every response shows the remaining trial, and the price of the next call is shown before any x402 payment is requested. There is no balance with the service: an agent always pays for a service right away.
 
 ---
 

@@ -34,6 +34,41 @@ test("trial defaults: 3 free sessions, 20 turns, unit session", () => {
   assert.equal(t.max_turns_per_session, 20);
 });
 
+test("trial: a turn is one tool call; anti-farm keeps salted hashes in memory for 24 hours", () => {
+  const t = loadRaw().raw.trial;
+  assert.match(t.turn_definition, /one tool call/);
+  assert.equal(t.anti_farm.per_address_per_day, 1);
+  assert.equal(t.anti_farm.per_ip_per_day, 1);
+  assert.equal(t.anti_farm.ttl_hours, 24);
+  assert.match(t.anti_farm.identifier_storage, /memory/);
+  assert.equal(t.guest_pass_rule, undefined);
+});
+
+test("only the price models free and per_call exist", () => {
+  const raw = loadRaw().raw;
+  assert.deepEqual(raw.types.price_models, ["free", "per_call"]);
+  assert.ok(raw.tools.every((t: any) => ["free", "per_call"].includes(t.price.model)));
+  const d = clone();
+  d.tools[0].price.model = "entry";
+  assert.ok(validateDoc(d).errors.length > 0);
+});
+
+test("payment rails: x402 is first, others are added after the survey", () => {
+  const rails = loadRaw().raw.payments.rails;
+  assert.equal(rails[0].id, "x402");
+  assert.equal(rails[0].status, "mvp");
+  assert.ok(rails.slice(1).every((r: any) => r.status === "to_be_added_after_survey"));
+});
+
+test("removed by owner decision: guest pass, affiliate, lobby.balance, audit fields", () => {
+  const raw = loadRaw().raw;
+  assert.ok(!raw.tools.some((t: any) => t.name === "lobby.balance"));
+  assert.ok(!raw.tools.find((t: any) => t.name === "lobby.checkin").inputs.some((i: any) => i.name === "guest_pass"));
+  assert.ok(!("affiliate" in raw));
+  const text = JSON.stringify(raw);
+  for (const w of ["guest_pass", "guest pass", "x-spa-ref", "affiliate", "audit_days", "subscription", "Stripe", "OAuth"]) assert.ok(!text.includes(w), w);
+});
+
 test("referral: invitee values are owner parameters, referrer credit 20 percent for 30 days", () => {
   const r = loadRaw().raw.referral;
   assert.equal(r.invitee_discount_percent, "TODO_OWNER");
@@ -134,12 +169,13 @@ test("recovery is out of scope (owner decision): no recovery tools, needs or win
   assert.ok(!/recovery\./.test(JSON.stringify(raw.data_policy)));
 });
 
-test("data policy: zero retention, nothing stored, audit metadata only", () => {
+test("data policy: zero retention, nothing stored, no persistent audit log", () => {
   const dp = loadRaw().raw.data_policy;
   assert.equal(dp.content_retention_days, 0);
   assert.equal(dp.checkpoint_stored, false);
   assert.equal(dp.audit_content, "none");
-  assert.equal(dp.audit_days, 90);
+  assert.ok(!("audit_days" in dp));
+  assert.ok(!("audit" in dp));
   assert.ok(!("checkpoint_max_days" in dp));
 });
 

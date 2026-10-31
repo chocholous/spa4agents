@@ -38,11 +38,6 @@
             "amount_usd": "0.00"
           },
           {
-            "name": "lobby.balance",
-            "price_status": "free",
-            "amount_usd": "0.00"
-          },
-          {
             "name": "lobby.referral_code",
             "price_status": "free",
             "amount_usd": "0.00"

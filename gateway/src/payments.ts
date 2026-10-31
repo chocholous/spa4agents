@@ -20,7 +20,7 @@ export type PaymentDecision =
       kind: "ok";
       /** Skutečně účtováno za toto volání. */
       cost: { usd: string; paid_with: string };
-      /** Identita = platební adresa (x402). */
+      /** Identita = platební adresa (x402). Gate ji vrací i u volání bez platby, pokud ji požadavek nese. */
       address?: string;
     }
   | {
@@ -31,8 +31,8 @@ export type PaymentDecision =
 
 export interface PaymentGate {
   authorize(req: PaymentRequest): Promise<PaymentDecision>;
-  /** Vypořádání po úspěchu. `billable=false` = prázdný výsledek se neúčtuje. */
-  settle(decision: Extract<PaymentDecision, { kind: "ok" }>, billable: boolean): Promise<void>;
+  /** Vypořádání po úspěchu. Agent platí vždy hned za službu; žádný zůstatek u nás neexistuje. */
+  settle(decision: Extract<PaymentDecision, { kind: "ok" }>): Promise<void>;
 }
 
 /** Stub F0: nic nevybírá, vše povolí s nulovou cenou. */

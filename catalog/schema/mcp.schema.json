@@ -5,7 +5,7 @@
   "description": "Own schema for the generated discovery file. There is no official schema for this file; it pins the shape the generator promises.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["name", "title", "description", "endpoint", "transport", "protocol_version", "rest_base", "headers", "payments", "session", "data_policy", "hard_rules", "exit_rule", "tools"],
+  "required": ["name", "title", "description", "endpoint", "transport", "protocol_version", "rest_base", "payments", "session", "data_policy", "hard_rules", "exit_rule", "tools"],
   "properties": {
     "name": { "type": "string", "minLength": 1 },
     "title": { "type": "string", "minLength": 1 },
@@ -14,14 +14,27 @@
     "transport": { "const": "streamable-http" },
     "protocol_version": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
     "rest_base": { "type": "string", "format": "uri" },
-    "headers": { "type": "object", "required": ["guest_pass", "referral"], "additionalProperties": { "type": "string" } },
     "payments": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["protocol", "scheme", "asset", "network", "mcp_challenge", "rest_header"],
+      "required": ["rails"],
       "properties": {
-        "protocol": { "const": "x402" }, "scheme": { "type": "string" }, "asset": { "type": "string" },
-        "network": { "type": "string", "pattern": "^eip155:\\d+$" }, "mcp_challenge": { "type": "string" }, "rest_header": { "type": "string" }
+        "rails": {
+          "type": "array",
+          "minItems": 1,
+          "items": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "status", "protocol", "scheme", "asset", "network", "mcp_challenge", "rest_header"],
+              "properties": {
+                "id": { "const": "x402" }, "status": { "const": "mvp" }, "protocol": { "const": "x402" }, "scheme": { "type": "string" }, "asset": { "type": "string" },
+                "network": { "type": "string", "pattern": "^eip155:\\d+$" }, "mcp_challenge": { "type": "string" }, "rest_header": { "type": "string" }
+              }
+            }
+          ],
+          "additionalItems": { "type": "object", "required": ["id", "status"], "properties": { "id": { "type": "string" }, "status": { "type": "string" } } }
+        }
       }
     },
     "session": { "type": "object" },
@@ -47,7 +60,7 @@
             "properties": {
               "model": { "type": "string" },
               "amount_usd": { "type": ["string", "null"], "pattern": "^\\d+(\\.\\d+)?$" },
-              "status": { "enum": ["free", "included", "pending", "set"] }
+              "status": { "enum": ["free", "pending", "set"] }
             }
           },
           "untrusted": { "type": "boolean" },

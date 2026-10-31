@@ -1,4 +1,4 @@
-import { randomBytes, randomUUID } from "node:crypto";
+import { randomUUID } from "node:crypto";
 import type { Config } from "./config.js";
 
 export interface SessionSnapshot {
@@ -9,9 +9,8 @@ export interface SessionSnapshot {
 
 export class Session {
   readonly id = randomUUID();
-  readonly guestPass = "gp_" + randomBytes(18).toString("base64url");
   readonly startedAt: number;
-  /** Identita = platební adresa x402; vyplní WP3. */
+  /** Identita = platební adresa x402. Před první platbou je `null`: agent je znám jen touto relací v paměti. */
   address: string | null = null;
   nickname: string | null = null;
   actions = 0;
@@ -69,22 +68,27 @@ export class Session {
 }
 
 export class SessionStore {
-  private byPass = new Map<string, Session>();
+  private byAddress = new Map<string, Session>();
   private byMcp = new Map<string, Session>();
 
   constructor(private readonly cfg: Config["session"], private readonly now: () => number = Date.now) {}
 
   create(): Session {
-    const s = new Session(this.cfg, this.now);
-    this.byPass.set(s.guestPass, s);
-    return s;
+    return new Session(this.cfg, this.now);
   }
 
-  getByPass(pass: string): Session | undefined {
-    return this.byPass.get(pass);
+  /** Relace platební adresy (identita po první platbě). */
+  getByAddress(address: string): Session | undefined {
+    return this.byAddress.get(address);
   }
 
-  /** Implicitní relace svázaná s MCP session; služba je použitelná bez checkinu. */
+  /** Přiřadí relaci platební adresu; adresa pak vede na tuto relaci. */
+  bindAddress(address: string, s: Session): void {
+    s.address = address;
+    this.byAddress.set(address, s);
+  }
+
+  /** Dočasná relace svázaná s MCP session (jen v paměti); služba je použitelná bez checkinu a bez platby. */
   forMcp(mcpSessionId: string): Session {
     let s = this.byMcp.get(mcpSessionId);
     if (!s) {

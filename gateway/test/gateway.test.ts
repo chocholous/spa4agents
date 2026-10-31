@@ -6,6 +6,7 @@ import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/
 import { loadCatalog } from "../src/catalog.js";
 import { loadConfig } from "../src/config.js";
 import { Gateway } from "../src/gateway.js";
+import type { PaymentGate } from "../src/payments.js";
 import { LiteLlmClient } from "../src/llm.js";
 import { createHttpServer } from "../src/server.js";
 
@@ -18,8 +19,18 @@ const slow = async (_a: unknown, ctx: { signal: AbortSignal }) => {
   return { data: { slow: true } };
 };
 
+/** Testovací gate: nic nevybírá, identitu bere z hlavičky `x-test-payer` (v produkci ji dá platba x402). */
+const headerGate: PaymentGate = {
+  async authorize(req) {
+    const a = req.headers["x-test-payer"];
+    const address = Array.isArray(a) ? a[0] : a;
+    return { kind: "ok", cost: { usd: "0.00", paid_with: "none" }, ...(address ? { address } : {}) };
+  },
+  async settle() {},
+};
+
 function start(env: Record<string, string> = {}) {
-  const gw = new Gateway({ config: loadConfig({ ...env }), catalog, handlers: { "quiet.ground": slow as never } });
+  const gw = new Gateway({ config: loadConfig({ ...env }), catalog, payments: headerGate, handlers: { "quiet.ground": slow as never } });
   const s = createHttpServer(gw);
   return new Promise<{ s: Server; url: string; gw: Gateway }>((res) =>
     s.listen(0, "127.0.0.1", () => res({ s, url: `http://127.0.0.1:${(s.address() as AddressInfo).port}`, gw })),
@@ -95,17 +106,34 @@ describe("MCP", () => {
     await c.close();
   });
 
-  it("guest pass from checkin works via x-spa-guest-pass and spans MCP sessions", async () => {
-    const c1 = await connect(base);
+  it("identity is the payment address: no guest pass, the address links MCP connections", async () => {
+    const c1 = await connect(base, { "x-test-payer": "0xA1" });
     const ci = env(await c1.callTool({ name: "lobby.checkin", arguments: { nickname: "n" } }));
-    const pass = ci.data.guest_pass as string;
-    expect(pass).toMatch(/^gp_/);
-    const c2 = await connect(base, { "x-spa-guest-pass": pass });
+    expect(ci.data.guest_pass).toBeUndefined();
+    expect(ci.trial).toBeNull(); // trial se doplní ve WP4; pole je v každé odpovědi
+    const c2 = await connect(base, { "x-test-payer": "0xA1" });
     const e = env(await c2.callTool({ name: "quiet.pause", arguments: { reason: "r" } }));
-    expect(e.session.actions_left).toBe(198); // checkin + pause
-    const bad = await connect(base, { "x-spa-guest-pass": "gp_nope" });
-    expect(env(await bad.callTool({ name: "quiet.pause", arguments: { reason: "r" } })).error.code).toBe("invalid_guest_pass");
-    await c1.close(); await c2.close(); await bad.close();
+    expect(e.session.actions_left).toBe(198); // checkin + pause, jedna relace adresy
+    expect(e).toHaveProperty("trial");
+    const other = await connect(base, { "x-test-payer": "0xB2" });
+    expect(env(await other.callTool({ name: "quiet.pause", arguments: { reason: "r" } })).session.actions_left).toBe(199);
+    await c1.close(); await c2.close(); await other.close();
+  });
+
+  it("before the first payment the agent is known only by its MCP session in memory", async () => {
+    const a = await connect(base);
+    const b = await connect(base);
+    expect(env(await a.callTool({ name: "quiet.pause", arguments: { reason: "r" } })).session.actions_left).toBe(199);
+    expect(env(await a.callTool({ name: "quiet.pause", arguments: { reason: "r" } })).session.actions_left).toBe(198);
+    expect(env(await b.callTool({ name: "quiet.pause", arguments: { reason: "r" } })).session.actions_left).toBe(199);
+    await a.close(); await b.close();
+  });
+
+  it("the x-spa-guest-pass header is ignored", async () => {
+    const c = await connect(base, { "x-spa-guest-pass": "gp_nope" });
+    const e = env(await c.callTool({ name: "quiet.pause", arguments: { reason: "r" } }));
+    expect(e.ok).toBe(true);
+    await c.close();
   });
 });
 
@@ -123,9 +151,9 @@ describe("REST mirror", () => {
     expect((await post("quiet.pause", {})).status).toBe(400);
   });
 
-  it("lobby.leave via REST cancels a long call of the same guest pass in < 1 s", async () => {
-    const pass = (await (await post("lobby.checkin", {})).json()).data.guest_pass;
-    const h = { "x-spa-guest-pass": pass };
+  it("lobby.leave via REST cancels a long call of the same payment address in < 1 s; a new checkin opens a new session", async () => {
+    const h = { "x-test-payer": "0xREST1" };
+    await post("lobby.checkin", {}, h);
     const long = post("quiet.ground", {}, h);
     await new Promise((r) => setTimeout(r, 300));
     const t0 = Date.now();
@@ -134,6 +162,9 @@ describe("REST mirror", () => {
     expect(leave.data.summary.cancelled_calls).toBe(1);
     expect((await (await long).json()).error.code).toBe("cancelled");
     expect((await post("quiet.pause", { reason: "r" }, h)).status).toBe(409);
+    const again = await (await post("lobby.checkin", {}, h)).json();
+    expect(again.ok).toBe(true);
+    expect((await post("quiet.pause", { reason: "r" }, h)).status).toBe(200);
   });
 });
 
@@ -142,7 +173,8 @@ describe("caps and timeout", () => {
     const { s, url } = await start({ SESSION_MAX_ACTIONS: "10" });
     const post = (tool: string, body: unknown, h: Record<string, string>) =>
       fetch(`${url}/v1/${tool}`, { method: "POST", headers: { "content-type": "application/json", ...h }, body: JSON.stringify(body) }).then(async (r) => ({ s: r.status, e: await r.json() }));
-    const h = { "x-spa-guest-pass": (await post("lobby.checkin", {}, {})).e.data.guest_pass }; // action 1
+    const h = { "x-test-payer": "0xCAP1" };
+    await post("lobby.checkin", {}, h); // action 1
     let last: any;
     for (let i = 0; i < 6; i++) last = await post("quiet.pause", { reason: "r" }, h); // actions 2..7
     expect(last.e.warning).toBeUndefined();

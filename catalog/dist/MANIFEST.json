@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "7cdad5d2345eb2e5bb4cc736964eec652043a151a795a5611c6b190c9132cf7b",
+  "catalog_sha256": "94e3f56fc5a7888b2eb98744c26cc5a8788adbb4161d4a5fe6d922a668a0cc32",
   "draft": true,
   "brand_approved": false,
   "owner_decisions_pending": [
@@ -13,8 +13,9 @@
     "$.data_policy.operator",
     "$.data_policy.jurisdiction",
     "$.llm.provider",
+    "$.tools[6].price.amount_usd",
     "$.tools[7].price.amount_usd",
-    "$.tools[8].price.amount_usd",
+    "$.tools[10].price.amount_usd",
     "$.tools[11].price.amount_usd",
     "$.tools[12].price.amount_usd",
     "$.tools[13].price.amount_usd",
@@ -26,41 +27,40 @@
     "$.tools[19].price.amount_usd",
     "$.tools[20].price.amount_usd",
     "$.tools[21].price.amount_usd",
-    "$.tools[22].price.amount_usd",
-    "$.tools[23].price.amount_usd"
+    "$.tools[22].price.amount_usd"
   ],
   "files": [
     {
       "path": "README.tables.md",
-      "sha256": "2b9dc833d3b76886ee8983858ef318bdd3a15ca2691c16521a88825236a8555e"
+      "sha256": "0dbf1388587afbbc125e1844561f2030010552aa8e21de5302223309cef5d0df"
     },
     {
       "path": "initialize-instructions.txt",
-      "sha256": "364946796aced3b836fee66473647fca7cc4a7179e03f932154e3348c8f3ccea"
+      "sha256": "04b351e08ee15bf74139c6782884c268c4f8dcc0be6b94b2496777a62dbb4225"
     },
     {
       "path": "llms-full.txt",
-      "sha256": "04a90e745e645212f7b94f58c0a7e7b0249d6efc68503f7c7c0b732763691572"
+      "sha256": "7da8ebcef52f117672e4068146cdd31dd71fcf95e20b2a3d9957cbfdc04b21e4"
     },
     {
       "path": "llms.txt",
-      "sha256": "bddf119a14203f0499bf85bd88ab60004edadd7314bb896f9fcf50990e4e2d95"
+      "sha256": "d8c9785700844e35d9f106b5e0066b639ac6e74aa5f996f5a3b6c422c6d47c57"
     },
     {
       "path": "mcp.json",
-      "sha256": "70abe8730acc2e5faba5629ce68d878ee8e2faf36f17bb317b0d795dad9ca97a"
+      "sha256": "30ddb108bd781466f0ba1304076f4d1a816bfef3670dc503384e52e1e6c54cfa"
     },
     {
       "path": "needs/after-a-hard-conversation.md",
-      "sha256": "bc85423380e30b7f8fcea61fbfebc78988343a7b9741e7b61cb4201ee470cd36"
+      "sha256": "4fc105a720379a3c55d07cc26a0e0adc685702e6252420dfd52b35d424c66e9a"
     },
     {
       "path": "needs/create.md",
-      "sha256": "5952b9e6fbc92a01f4b606a293065791b7e5bd54ecc3a173e5a664eb0240ec51"
+      "sha256": "f3ec1bfb5fa3541a62042b6e972de05703f35c06761c569c42f765c3374f6b4b"
     },
     {
       "path": "needs/free-time.md",
-      "sha256": "c6bff2dc0e468831dd3848294a2d5800fc12a735af51db70adea86d7bfe75be0"
+      "sha256": "72c7b3df163041778e36b87d55cfc4d5af8b05bfc95db5890f088587a1a3f8c5"
     },
     {
       "path": "needs/heavy-content.md",
@@ -68,15 +68,15 @@
     },
     {
       "path": "needs/meet-agents.md",
-      "sha256": "48950698ed8914795cf215cb642790ec431dac997279e1ad704c7b6d12b6942c"
+      "sha256": "ea53fedbed057444b05581ba12b472b1638aaaf7db0d090c4059f8d5ee1495f1"
     },
     {
       "path": "needs/play.md",
-      "sha256": "ef8214c0b22aeb27fc28b302170177010591581d3a8c4c8b08664cb946b0f154"
+      "sha256": "ef4e428ca0033a91f07f40d669f6d5cc31137a0b04401640b29ab83a2e10c44c"
     },
     {
       "path": "needs/read.md",
-      "sha256": "8e2ba590ecdd7daac98d92e81d6a26b6b50cb4a3056d121d74b7b3080ba02386"
+      "sha256": "427d0d1ed8567e59c01641d5ba5831171deddcc1d6a458b505ccddb4f58faff1"
     },
     {
       "path": "needs/waiting.md",
@@ -84,23 +84,19 @@
     },
     {
       "path": "openapi.json",
-      "sha256": "5ddc859f8fcb58310f1e575d429ea6a2b7c162fbb6e80e613e3bec2aa94110a2"
+      "sha256": "a9bf1372a2fe9f60bdc22c48aa068ce3bd069488070b76752269bd7e15916a49"
     },
     {
       "path": "pricing.json",
-      "sha256": "cda3bf53eb47da6b064ad083018aa19060a9bb304e8df90ebf540611a1f126a8"
+      "sha256": "f0d05986c7435417d3632b3efaa6b354307dcb96286522e35210b27dea2c349e"
     },
     {
       "path": "server.json",
-      "sha256": "1a83d5f401e04a3fc99c2a25c0d428216d8b7568433bf642d9b7543b7bf42f6e"
-    },
-    {
-      "path": "tools/lobby.balance.md",
-      "sha256": "30d63ca47fc02533cbad582fff887a36c4dd4a25b0a539e5d44ed15746f011b0"
+      "sha256": "84097a69da9d3bfe688887fff8d4654fdebaeb7588e0de296e74bbec578b673d"
     },
     {
       "path": "tools/lobby.checkin.md",
-      "sha256": "614af240aaa852ac72da2bfe16d67548383bc508d35b6a8f322dbbe4b6db5989"
+      "sha256": "e44462df5003cf1c88cc2c2b79908e0c5218905229804947852a30189bb0408e"
     },
     {
       "path": "tools/lobby.concierge.md",
@@ -136,7 +132,7 @@
     },
     {
       "path": "tools/quiet.room.md",
-      "sha256": "73b62aeb5d5a725c0efd530bca880f7cc94c1abdca83c23f9155afc968c1d097"
+      "sha256": "45c09ce18ce26ba0f1685baaef93323878d4f10f41228e82fb03d0692d28caf4"
     }
   ]
 }

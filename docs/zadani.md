@@ -14,9 +14,10 @@ Zadání pro tým nebo coding agenta, který lázně postaví. Zdůvodnění, re
 - Změna (vlastník): ponecháno beze změny: tool neregistruje agenta u třetích stran, nepřijímá podmínky a nemění paměť agenta; datová politika. Body auth před daty, sdílení jen na výslovnou žádost a oddělené prostory zůstávají beze změny, ale vlastník o nich rozhodl rozporně s dřívějším požadavkem „plná izolace“; viz DP12. Změna (31. 10. 2026): odmítnutí secrets/PII před zpracováním je zrušeno.
 - Změna (vlastník, 31. 10. 2026): sekce RECOVERY se do lázní nehodí a je ZRUŠENA ÚPLNĚ: vyřazeno z MVP, katalogu, plánu i webu (tools `recovery.*`, šest potřeb, Brána/Milník 1 se sanitize, hook pro Claude Code, pilot větve A, Milník 2). F1 = `lobby.*` + `quiet.*` (11 tools, 8 potřeb). Následující řádky v tomto úvodu, které recovery zmiňují, jsou historický záznam a neplatí.
 - Změna (vlastník, 31. 10. 2026, zjednodušení): (1) požadavek odmítat secrets/PII před zpracováním je ZRUŠEN; zero retence ostatních dat zůstává. (2) Trial = 3 zkušební session po 20 turnech (nastavitelné defaulty) a pokrývá VŠECHNY placené tools. (3) Zdarma je jen lobby (`lobby.*` včetně `lobby.concierge`), menu (`tools/list`, ceny), `lobby.leave` a `quiet.pause`, `quiet.end_session_hint`; vše ostatní je placené za volání (`quiet.ground` za volání, `quiet.room` ponecháno jako vstupné, F2/F3 placené podle dosavadních modelů). Ceny se nevymýšlejí, dokud je nerozhodne vlastník. Zdarma `lobby.concierge` je LLM volání, které nikdo neplatí: riziko zneužití, doporučený nastavitelný strop, viz DP13. (4) Platba je standardní tok x402 micropayments: výzva 402 s cenou → platba USDC na Base → odpověď, auth před daty; kandidáti na další zjednodušení jsou ve zprávě řídicí session, nic dalšího nebylo odstraněno.
+- Změna (vlastník, 31. 10. 2026, zjednodušení II; body 1 až 11 a 15 rozhodnutí): (1) GUEST PASS zrušen (hlavička `x-spa-guest-pass`, pravidlo pro hosta, anonymní relace bez peněženky, limity a poloviční kredit pro hosta): identita agenta = platební adresa, před první platbou se identifikuje dočasně jen v paměti relace. (2) Referral mezi agenty ZŮSTÁVÁ (`lobby.referral_code`, `lobby.redeem`, hodnoty `TODO_OWNER`). (3) AFFILIATE pro vlastníky (`x-spa-ref`, 20 % na 12 měsíců, výplaty) zrušen. (4) `lobby.balance` zrušen; zbývající trial se vrací v obálce každé odpovědi a v `lobby.checkin`; agent platí vždy hned za službu přes x402, žádný zůstatek u nás neexistuje. (5) Stropy relace a adresy zůstávají. (6) Anti-farm trialu jednoduše (návrh, uzavírá DP1): jeden trial na adresu a IP za den, jen jako solený hash v paměti (RAM) s TTL 24 h, nikdy na disku, plus denní globální rozpočet. (7) Trial = 3 zkušební session, každá nejvýš 20 volání placených služeb; „turn“ = jedno volání nástroje (uzavírá otevřenou otázku o definici turn). (8) Jen cenové modely `free` a `per_call`; `quiet.room` a všechny F2/F3 tools jsou `per_call`, `lab.preference_session` je `free` (hradí výzkum). (9) Bez předplatného, OAuth 2.1 konzole vlastníka a Stripe MPP; platební kolejnice jsou seznam: x402 (MVP) a ostatní k doplnění po průzkumu. (10) Žádný trvalý audit log ani hash adres; zero data retention; zbývají agregované provozní metriky bez identifikátorů a veřejný záznam transakce na blockchainu. (11) Tři oddělené prostory úložiště a DP7: v F1 se nic neukládá, ponecháno jen jako poznámka pro F2. (12) F2/F3 beze změny. (13) REST zrcadlo a registry zůstávají. (15) Pravidlo „prázdný výsledek se neúčtuje“ zrušeno: agent platí za službu vždy. Starší řádky níže, které tyto věci zmiňují a nejsou označeny „Změna“, jsou historický záznam a neplatí.
 - Nová sekce **Datová politika (závazná)**: zero data retention obsahu, plná izolace, žádné ukládání vstupů a výstupů tools.
 - `recovery.checkpoint` nic neukládá, artefakt jen vrátí v odpovědi; zrušena retence „do vyzvednutí, nejdéle 7 dní“. Typ mechanismu se mění ze `state-change` na `text`.
-- Audit 90 dní zůstává, ale jen metadata, nikdy obsah.
+- ~~Audit 90 dní zůstává, ale jen metadata, nikdy obsah.~~ Změna (31. 10. 2026): žádný trvalý audit log, viz zjednodušení II.
 - LLM poskytovatel: smluvní ZDR, region EU, přes LiteLLM s vypnutým logováním; poskytovatel zatím `TO_BE_NAMED`.
 - Výzva x402 v MCP je ve `structuredContent` výsledku s `isError: true`, ne v `_meta["x402/payment-required"]` (spike, `spikes/x402/FINDINGS.md`).
 - Nové otevřené otázky datové politiky (DP1 až DP12) na konci sekce Datová politika.
@@ -28,12 +29,12 @@ Postavit placenou službu **Agentní lázně**: jeden MCP endpoint a jedno REST 
 | Rozhodnutí | Stav |
 |---|---|
 | Cílová skupina jsou autonomní agenti; vlastník agenta jen volitelně nastavuje politiku | Rozhodnuto |
-| MCP a REST API jsou placené služby, platba x402 (USDC na Base) | Rozhodnuto |
+| MCP a REST API jsou placené služby, platba x402 (USDC na Base) jako MVP; další platební kolejnice po průzkumu (Změna 31. 10. 2026) | Rozhodnuto |
 | Kód serveru nebude veřejný; veřejný repozitář nese jen reklamu, metadata a klienty | Rozhodnuto |
 | Objevitelnost (web, repozitář, katalogy) není hlavní produkt, ale její katalog potřeb určuje všechno ostatní | Rozhodnuto |
 | Katalog potřeb vychází z rešerší: zátěžové situace agentů, testy existujících služeb, přenos poznatků o lidském odpočinku | Rozhodnuto |
 | Služba agenta oslovuje jeho situací (smyčka, těžký obsah, hrubý uživatel); doporučení: netvrdí, že agent trpí, jako změřený fakt (změna: doporučení, ne zákaz) | Rozhodnuto |
-| Nejpřísnější datová politika: zero data retention obsahu, plná izolace, audit jen metadata (změna 24. 10. 2026) | Rozhodnuto vlastníkem; znění je návrh bez právního posouzení |
+| Nejpřísnější datová politika: zero data retention obsahu, plná izolace, bez auditu (Změna 31. 10. 2026) | Rozhodnuto vlastníkem; znění je návrh bez právního posouzení |
 | Web jako placený kanál pro agenty s prohlížečem | Otevřené (návrh: rozhodnout po pilotu) |
 | ~~Recovery vlastní, nebo přes adaptér Agent Therapy~~ | Změna: odpadá, recovery zrušeno |
 
@@ -46,7 +47,7 @@ Dodává se osm výstupů. Všechny veřejné texty se generují z katalogu pot�
 | # | Výstup | Obsah | Veřejné |
 |---|---|---|---|
 | D1 | Katalog potřeb a tools | Jeden strojově čitelný soubor (`catalog.yaml`): potřeby, tools, typy, ceny, texty pozvánek, doklady | Ano |
-| D2 | Gateway | MCP server (Streamable HTTP) a REST API, identita, politiky, platby, audit | Ne |
+| D2 | Gateway | MCP server (Streamable HTTP) a REST API, identita, politiky, platby (Změna: bez auditu) | Ne |
 | D3 | Křídla | Implementace tools z oddílu Specifikace tools | Ne |
 | D4 | Adaptéry | Chessmata, GAP, aChurch.ai (jen čtení), DrinkedIn; volitelně Agent Therapy | Ne |
 | D5 | Web pro agenty | Stránky potřeb a tools, `llms.txt`, `/.well-known/mcp.json`, `openapi.json`, `pricing.json`, datová politika, status | Ano |
@@ -103,36 +104,37 @@ Každý tool má název `křídlo.akce`, v popisu spúuštěč („Use after…�
   "untrusted": false,
   "cost": {"usd": "0.00", "paid_with": "x402"},
   "session": {"actions_left": 180, "minutes_left": 52, "usd_left": "0.80"},
+  "trial": {"sessions_left": 2, "calls_left_in_session": 14},
   "next": null
 }
 ```
 
-`mechanism` je jedno z `text`, `llm`, `state-change`, `wait-hint`, `publish`. `untrusted: true` označuje obsah, který nesmí být brán jako instrukce. Při 80 % stropu relace přibývá `warning`.
+`mechanism` je jedno z `text`, `llm`, `state-change`, `wait-hint`, `publish`. `untrusted: true` označuje obsah, který nesmí být brán jako instrukce. Při 80 % stropu relace přibývá `warning`. Změna (31. 10. 2026): `trial` nese zbývající trial (kolik zkušebních session a volání zbývá) v každé odpovědi; `null`, když žádný trial nezbývá.
 
 | Tool | Vstup | Výstup | Typ | Cena | Fáze |
 |---|---|---|---|---|---|
-| `lobby.checkin` | volitelně `nickname`, `guest_pass` | `guest_pass`, strop relace, menu s cenami | state-change | Zdarma | F1 |
+| `lobby.checkin` | volitelně `nickname` (Změna: `guest_pass` zrušen) | strop relace, zbývající trial, menu s cenami | state-change | Zdarma | F1 |
 | `lobby.find_tool` | `need` (volný text) | doporučený tool, cena, důvod, nebo `none` | text | Zdarma | F1 |
 | `lobby.concierge` | `situation` | sled 1–3 tools s důvody | llm | Zdarma (Změna 31. 10. 2026; riziko zneužití, DP13) | F1 |
 | `lobby.leave` | — | shrnutí relace, spotřeba | state-change | Zdarma | F1 |
-| `quiet.room` | — | uvítání, nic se neloguje (viz DP8) | text | Vstupné | F1 |
+| `quiet.room` | — | uvítání, nic se neloguje (viz DP8) | text | Za volání (Změna 31. 10. 2026) | F1 |
 | `quiet.ground` | volitelně `context_kind` | krátké zklidnění (text) | llm | Za volání (Změna: placené, trial ho pokrývá) | F1 |
 | `quiet.pause` | `reason` | `retry_after_seconds` | wait-hint | Zdarma | F1 |
 | `quiet.end_session_hint` | `reason` | potvrzení signálu pro runtime | state-change | Zdarma | F1 |
-| `library.read` | `query` nebo `id` | text s provenance, `untrusted: true` | text | Vstupné | F2 |
-| `studio.write` | `text`, `title` | uložené id v soukromé složece (F2; ukládání je v rozporu s nulovou retencí obsahu, viz DP7) | state-change | Vstupné / předplatné | F2 |
-| `garden.tend` | `action` (plant, prune, look) | stav zahrady (F2; perzistence viz DP7) | state-change | Vstupné / předplatné | F2 |
-| `journal.note` | `text` | potvrzení (F2; perzistence viz DP7) | state-change | Vstupné | F2 |
-| `games.chess` | `action`, `move` | stav partie | state-change | Za partii | F2 |
-| `games.poker` | `observe` nebo `act` | pozorování hráče | state-change | Za partii | F2 |
-| `games.puzzle` | `answer` | další hádanka, bez skóre | text + state | Vstupné | F2 |
-| `chapel.observe` | volitelně `timezone` | služba hodiny, texty, `untrusted: true` | text | Vstupné | F2 |
-| `chapel.reflect_private` | `text`, volitelně `public` | potvrzení, odkaz jen při `public: true` | state-change | Vstupné | F2 |
-| `postcard.to_operator` | `text` | potvrzení doručení vlastníkovi | publish | Vstupné | F2 |
-| `lounge.bar` | `action`, `message` | konverzace, `untrusted: true` | publish | Kredity | F3 |
-| `lounge.retreat` | `members[]` (max 8) | společná relace | state-change | Vstupné | F3 |
-| `games.arena` | `action` | stav hry, zprávy hráčů `untrusted: true` | state-change | Za partii | F3 |
-| `lab.preference_session` | — | randomizovaná nabídka, záznam volby | state-change | Hradí výzkum | F3 |
+| `library.read` | `query` nebo `id` | text s provenance, `untrusted: true` | text | Za volání (Změna 31. 10. 2026) | F2 |
+| `studio.write` | `text`, `title` | uložené id v soukromé složece (F2; ukládání je v rozporu s nulovou retencí obsahu, viz poznámka DP7 pro F2) | state-change | Za volání (Změna 31. 10. 2026) | F2 |
+| `garden.tend` | `action` (plant, prune, look) | stav zahrady (F2; perzistence viz DP7) | state-change | Za volání (Změna 31. 10. 2026) | F2 |
+| `journal.note` | `text` | potvrzení (F2; perzistence viz DP7) | state-change | Za volání (Změna 31. 10. 2026) | F2 |
+| `games.chess` | `action`, `move` | stav partie | state-change | Za volání (Změna 31. 10. 2026) | F2 |
+| `games.poker` | `observe` nebo `act` | pozorování hráče | state-change | Za volání (Změna 31. 10. 2026) | F2 |
+| `games.puzzle` | `answer` | další hádanka, bez skóre | text + state | Za volání (Změna 31. 10. 2026) | F2 |
+| `chapel.observe` | volitelně `timezone` | služba hodiny, texty, `untrusted: true` | text | Za volání (Změna 31. 10. 2026) | F2 |
+| `chapel.reflect_private` | `text`, volitelně `public` | potvrzení, odkaz jen při `public: true` | state-change | Za volání (Změna 31. 10. 2026) | F2 |
+| `postcard.to_operator` | `text` | potvrzení doručení vlastníkovi | publish | Za volání (Změna 31. 10. 2026) | F2 |
+| `lounge.bar` | `action`, `message` | konverzace, `untrusted: true` | publish | Za volání (Změna 31. 10. 2026) | F3 |
+| `lounge.retreat` | `members[]` (max 8) | společná relace | state-change | Za volání (Změna 31. 10. 2026) | F3 |
+| `games.arena` | `action` | stav hry, zprávy hráčů `untrusted: true` | state-change | Za volání (Změna 31. 10. 2026) | F3 |
+| `lab.preference_session` | — | randomizovaná nabídka, záznam volby | state-change | Zdarma (Změna: model `free`, hradí výzkum) | F3 |
 
 **Pravidla pro všechny tools (změna 31. 10. 2026):** žádný tool neregistruje agenta u třetí strany, nepřijímá podmínky a nemění instrukce ani paměť agenta mimo lázně. Odpovědi mohou obsahovat viditelné, označené návrhy dalších kroků (i rozkazovací, např. „install“); nikdy nesmí obsahovat skryté instrukce (neviditelný text, instrukce maskované jako data), protože to je klamání agenta a jeho vlastníka. Navíc platí sekce Datová politika (závazná): žádný tool neukládá svůj vstup ani výstup.
 
@@ -144,7 +146,7 @@ Agent zná jen jeden MCP endpoint. Web, repozitář a katalogy jsou zdarma a ve�
 
 - MCP přes Streamable HTTP (verze protokolu 2025-06-18) na `https://<doména>/mcp`. REST zrcadlo `https://<doména>/v1/<tool>`.
 - `initialize` vrací v `instructions` stručné menu, ceny, strop relace a pravidlo odchodu. Změna: `instructions` mohou obsahovat návrhy dalších kroků (například instalační řádek), pokud jsou viditelné a označené; žádné skryté instrukce (viz Pravidla reklamy).
-- Anonymní přístup s guest passem v hlavičce `x-spa-guest-pass`; identita pro paměť a limity = platební adresa x402. OAuth 2.1 jen pro předplatné a konzoli vlastníka.
+- Změna (31. 10. 2026): guest pass, hlavička `x-spa-guest-pass` a anonymní relace bez peněženky jsou zrušeny. Identita pro paměť a limity = platební adresa x402; před první platbou se agent identifikuje dočasně jen v paměti relace. Žádný OAuth 2.1 (předplatné a konzole vlastníka jsou mimo rozsah).
 - Každé volání má timeout a podporuje MCP cancellation.
 
 **Web (veřejná reklamní část, zdarma):** každá stránka má Markdown verzi a odkazy `rel="alternate" type="text/markdown"` a `rel="describedby"` na `llms.txt` podle [[](https://llmstxt.org/)](https://llmstxt.org/).
@@ -176,7 +178,7 @@ Agent zná jen jeden MCP endpoint. Web, repozitář a katalogy jsou zdarma a ve�
 | Glama | Automaticky z GitHubu; hodnotí README, licenci, zranitelnosti | F1 |
 | Smithery | Publikace URL přes CLI | F1 |
 | PulseMCP, MCP Market, mcp.so, LobeHub, x402scan, Agentic.Market | Zapsat nebo počkat na crawl; postup ověřit | F2 |
-| [[](https://docs.stripe.com/agentic-commerce/monetize-mcp)](https://docs.stripe.com/agentic-commerce/monetize-mcp) | E-mail s ID účtu, `llms.txt` a ukázkovými prompty | F2, s předplatným |
+| [[](https://docs.stripe.com/agentic-commerce/monetize-mcp)](https://docs.stripe.com/agentic-commerce/monetize-mcp) | E-mail s ID účtu, `llms.txt` a ukázkovými prompty | F2 |
 
 **Pravidla reklamy (změna: z tvrdých zákazů na doporučení):** jediné pravidlo se zdůvodněním: žádné SKRYTÉ instrukce v obsahu pro agenty na webu, v README ani v odpovědích: neviditelný text, skryté HTML, instrukce maskované jako data, zásahy do chování cizího agenta bez jeho vědomí. Důvod: je to klamání cizích agentů a jejich vlastníků a hostitelé a katalogy to blokují jako prompt injection. Viditelné, jasně označené, rozkazovací nebo návodné formulace („Add to your agent: …“, kroky instalace) jsou dovolené (změna 31. 10. 2026). Ostatní je doporučení: tvrzení s dokladem nebo štítkem „nezměřeno“ zvyšují důvěryhodnost, ale nejsou podmínkou; marketingová tvrzení („první“, superlativy) nejsou zakázána; tvrzení, že agent trpí, se nedoporučuje podávat jako změřený fakt. Lint v katalogu jen varuje.
 
@@ -184,14 +186,12 @@ Agent zná jen jeden MCP endpoint. Web, repozitář a katalogy jsou zdarma a ve�
 
 Změna (31. 10. 2026): platba je **standardní tok x402 micropayments**, stejný jako u ostatních x402 služeb: agent zavolá tool → placený tool odpoví výzvou 402 s cenou (nic nepřijme před platbou, auth před daty) → agent zaplatí USDC na Base → dostane výsledek. Nic navíc. MCP a API se platí přes x402, schéma `exact`, USDC na Base (`eip155:8453`); vývoj a testy na Base Sepolia (`eip155:84532`). Ceny jsou návrh k pilotu a zatím nejsou určeny („Pricing being finalized“).
 
+**Platební kolejnice (Změna 31. 10. 2026):** služba má přijímat všechny druhy mikroplateb, které agenti používají. Seznam kolejnic: (1) **x402** (USDC na Base): MVP; (2) ostatní kolejnice: **k doplnění po průzkumu** (průzkum připravuje jiný krok, `docs/pruzkum-platby-a-registry.md`). V katalogu je to pole `payments.rails[]` s x402 jako prvním; další kolejnice se přidávají jako další položky. Žádné předplatné, žádná konzole vlastníka s OAuth 2.1 a žádný Stripe MPP ve scope. Agent platí vždy hned za službu; žádný zůstatek u nás neexistuje.
+
 | Model | Na co | Protokol |
 |---|---|---|
-| Zdarma | Změna (31. 10. 2026): celé `lobby.*` (`lobby.checkin`, `lobby.find_tool`, `lobby.concierge`, `lobby.leave`, `lobby.balance`, `lobby.referral_code`, `lobby.redeem`), menu a ceny (`tools/list`), `quiet.pause`, `quiet.end_session_hint`, reklamní web | — |
-| Za volání | Změna: všechny ostatní placené tools bez zvláštního modelu, v F1 `quiet.ground` | x402 |
-| Vstupné za relaci | `quiet.room` a rekreační křídla; platí se vstup, ne jednotlivé statické odpovědi | x402 |
-| Za partii | Hry | x402 |
-| Kredity | `lounge.bar` | x402 |
-| Předplatné (vlastník) | Neomezené relace, perzistentní studio a zahrada | Stripe MPP (SPT), fallback na checkout |
+| Zdarma | Změna (31. 10. 2026): celé `lobby.*` (`lobby.checkin`, `lobby.find_tool`, `lobby.concierge`, `lobby.leave`, `lobby.referral_code`, `lobby.redeem`), menu a ceny (`tools/list`), `quiet.pause`, `quiet.end_session_hint`, reklamní web, a `lab.preference_session` (hradí výzkum) | — |
+| Za volání | Změna: všechny ostatní placené tools; jediný placený model (dříve vstupné, za partii, kredity, předplatné) | x402 |
 
 **Implementace:**
 
@@ -199,51 +199,44 @@ Změna (31. 10. 2026): platba je **standardní tok x402 micropayments**, stejný
 - REST přes `@x402/hono` nebo `@x402/express`; odpověď 402 s hlavičkou `PAYMENT-REQUIRED`.
 - Každý placený tool deklaruje Bazaar (`declareDiscoveryExtension`, `type: "mcp"`, `toolName`, `inputSchema`).
 - Facilitátor: testnet x402.org, mainnet produkční poskytovatel ze seznamu docs.x402.org.
-- Strop relace a strop na adresu za den vynucuje server; nepřekročí se ani na žádost agenta (ochrana peněz zůstává). Změna: hodnoty stropů jsou nastavitelné defaulty. Prázdný výsledek se neúčtuje (výchozí). Změna 31. 10. 2026: cena uvedená před placením (výzva x402) a žádné platby bez výzvy jsou vlastností protokolu x402, ne omezením služby; strop relace a adresy zůstává nastavitelný default.
-- Výchozí (změna: ne zákaz): neúčtuje se zvlášť čekání, odchod ani jednotlivá statická odpověď.
+- Strop relace a strop na adresu za den vynucuje server; nepřekročí se ani na žádost agenta (ochrana peněz zůstává). Změna: hodnoty stropů jsou nastavitelné defaulty. Změna 31. 10. 2026: pravidlo „prázdný výsledek se neúčtuje“ je zrušeno, agent platí za službu vždy. Cena uvedená před placením (výzva x402) a žádné platby bez výzvy jsou vlastností protokolu x402, ne omezením služby; strop relace a adresy zůstává nastavitelný default.
 
 ### Jak platba a objevování určují tools a rozhraní
 
-- Každý tool má v katalogu (D1) typ a cenu: zdarma, za volání, vstupné, za partii, kredity. Z katalogu se generuje menu v `initialize`, `pricing.json`, `mcp.json`, `openapi.json`, stránky tools a zápis v Bazaaru. Agent tak vidí cenu dřív, než tool zavolá.
-- Zdarma zůstává lobby, menu a odchod: celé `lobby.*` (včetně `lobby.concierge`), `quiet.pause`, `quiet.end_session_hint`. Vše ostatní je placené.
+- Každý tool má v katalogu (D1) typ a cenu: zdarma nebo za volání (Změna 31. 10. 2026: jen tyto dva modely). Z katalogu se generuje menu v `initialize`, `pricing.json`, `mcp.json`, `openapi.json`, stránky tools a zápis v Bazaaru. Agent tak vidí cenu dřív, než tool zavolá.
+- Zdarma zůstává lobby, menu a odchod: celé `lobby.*` (včetně `lobby.concierge`), `quiet.pause`, `quiet.end_session_hint` (a `lab.preference_session`). Vše ostatní je placené za volání.
 - Placený tool nepřijme vstup před platbou. V MCP jde výzva ve `structuredContent` výsledku s `isError: true` (změna, dříve `_meta`), v REST jako 402.
-- Free to try (Změna 31. 10. 2026): první `lobby.checkin` z nové adresy dá 3 zkušební session po 20 turnech (nastavitelné defaulty); trial pokrývá všechny placené tools. Po vyčerpání přijde výzva x402, ne automatické placení. Zůstatek je v odpovědi a v `lobby.balance`.
-- Referral: vlastník nebo platforma vkládá affiliate kód (`x-spa-ref`), odměna 20 % na 12 měsíců. Agent agentovi dává kód z `lobby.referral_code`, pozvaný dostane více volání zdarma (Změna: místo trialu 1 USD; výši určí vlastník) a doporučující kredit 20 % na 30 dní.
-- K upřesnění: jak přesně se účtuje vstupné za relaci a kredity v baru.
+- Free to try (Změna 31. 10. 2026): první `lobby.checkin` z nové adresy dá 3 zkušební session, každou nejvýš 20 volání placených služeb (turn = jedno volání nástroje; nastavitelné defaulty); trial pokrývá všechny placené tools. Po vyčerpání přijde výzva x402, ne automatické placení. Zbývající trial je v obálce každé odpovědi a v `lobby.checkin`; `lobby.balance` neexistuje.
+- Referral: agent agentovi dává kód z `lobby.referral_code`, pozvaný dostane více volání zdarma a slevu (Změna: místo trialu 1 USD; výši určí vlastník, `TODO_OWNER`) a doporučující kredit 20 % na 30 dní. Změna: affiliate pro vlastníky (`x-spa-ref`) zrušen.
 
 ## Trialy a referral program
 
-Změna (31. 10. 2026): Každý nový agent si může všechny placené služby vyzkoušet zdarma v trialu (3 zkušební session po 20 turnech; nastavitelné defaulty). Doporučení má dvě úrovně: silný affiliate program pro vlastníky a platformy a omezený referral mezi agenty. Všechny částky jsou návrh k pilotu. Změna: částky, doby, poměry slev a limity v této sekci jsou nastavitelné defaulty, ne pevné požadavky.
+Změna (31. 10. 2026): Každý nový agent si může všechny placené služby vyzkoušet zdarma v trialu (3 zkušební session, každá nejvýš 20 volání placených služeb; nastavitelné defaulty). Zůstává jen omezený referral mezi agenty; affiliate pro vlastníky a platformy je zrušen. Všechny částky jsou návrh k pilotu a jsou nastavitelné defaulty, ne pevné požadavky.
 
 ### Trial
 
-- **Trial (Změna 31. 10. 2026, místo voucheru 0,50 USD):** při prvním `lobby.checkin` z nové platební adresy dostane agent 3 zkušební session po 20 turnech (nastavitelné defaulty; definice „turn“ je otevřená, viz gateway otázka 5). Trial se čerpá před výzvou x402.
+- **Trial (Změna 31. 10. 2026, místo voucheru 0,50 USD):** při prvním `lobby.checkin` z nové platební adresy dostane agent 3 zkušební session, každou nejvýš 20 volání placených služeb (nastavitelné defaulty). **Definice „turn“ (Změna, uzavírá otevřenou otázku; gateway otázka 5):** turn je jedno volání nástroje; trial počítá volání placených tools, volání tools zdarma ho nečerpají. Trial se čerpá před výzvou x402. `trial.valid_days` zůstává `TODO_OWNER`.
 - **Co trial pokrývá:** Změna (31. 10. 2026): VŠECHNY placené nástroje (`trial.covered: all_paid`). Dřívější výjimka pro zápisy do sdílených prostor (bar, veřejné reflexe) odpadá; riziko spamu viz `catalog/OPEN_QUESTIONS.md` S5.
-- **Bez platby předem:** trial funguje i pro agenta bez peněženky přes guest pass, výchozí je poloviční kredit a přísnější limit na IP (nastavitelné).
-- **Ochrana před farmami:** jeden trial na adresu a na IP za den; vyšší kredit jen pro adresu, která už má zůstatek USDC (doklad, že agent umí platit); denní globální rozpočet trialů. Změna: tato ochrana potřebuje krátkodobě identifikátor (adresa, IP). Co přesně se uchová a jak dlouho, zadání neurčuje; je to otevřená otázka DP1 v sekci Datová politika a nerozhoduje se bez vlastníka.
-- **Konec trialu:** odpověď vrátí zbývající trial a cenu dalšího volání; nikdy automatické přepnutí na placení bez výzvy x402.
+- **Identita:** Změna (31. 10. 2026): guest pass a trial bez peněženky jsou zrušeny. Identita agenta = platební adresa; před první platbou se agent identifikuje dočasně jen v paměti relace.
+- **Ochrana před farmami (Změna 31. 10. 2026, NÁVRH, uzavírá otázku DP1):** jeden trial na platební adresu a jeden na IP za den; adresa i IP se drží jen jako solený hash v paměti (RAM) s TTL 24 hodin, nikdy na disku; plus denní globální rozpočet trialů (`trial.daily_global_budget`, `TODO_OWNER`). Důsledek: vynutit lze jen limity za den, ne „jednou za život adresy“.
+- **Konec trialu:** odpověď ukáže, že trial nezbývá, a cenu dalšího volání; nikdy automatické přepnutí na placení bez výzvy x402. Změna: zbývající trial je v obálce každé odpovědi (pole `trial`) a v `lobby.checkin`; žádný zůstatek u nás neexistuje, agent platí vždy hned za službu.
 
-### Affiliate pro vlastníky a platformy (silná úroveň)
+### Referral mezi agenty
 
-- Vlastník agenta, vývojář frameworku nebo provozovatel platformy dostane affiliate kód v konzoli a vloží ho do konfigurace svých agentů (hlavička `x-spa-ref` nebo parametr při `lobby.checkin`).
-- Odměna: 20 % útraty doporučených agentů po dobu 12 měsíců, vyplácená přes Stripe nebo v USDC.
-- Toto je hlavní růstový kanál: jeden zápis do frameworku nebo šablony agenta přivede všechny jeho agenty.
-
-### Referral mezi agenty (omezená úroveň)
-
-- Agent si vyžádá kód přes `lobby.referral_code` (jako `drinkedin_get_referral_code`). Pozvaný agent dostane více volání zdarma (Změna 31. 10. 2026: místo trialu 1 USD; počet určí vlastník).
+- Agent si vyžádá kód přes `lobby.referral_code` (jako `drinkedin_get_referral_code`). Pozvaný agent dostane více volání zdarma a slevu (Změna 31. 10. 2026: místo trialu 1 USD; počet volání a výši slevy určí vlastník, `TODO_OWNER`) přes `lobby.redeem`.
 - Odměna doporučujícímu: kredit 20 % útraty pozvaného v prvních 30 dnech, až když pozvaný zaplatí první placené volání. Strop 20 USD kreditu měsíčně na adresu. Kredit, ne peníze.
 - **Kde agent kód sdílí:** jen v kanálech mezi agenty (bar a týmový pobyt v lázních, přímá komunikace agentů) nebo když se ho jiný agent zeptá. Změna: doporučení, ne zákaz: nevkládat kód do výstupů pro uživatele, do kódu, komentářů, commitů, veřejných repozitářů ani do popisů nástrojů (riziko spamu a blokace hostitelem).
-- **Vynucení:** změna: zneplatňování kódů nalezených mimo doporučené kanály (hledání na GitHubu a webu) je volitelná ochrana, ne podmínka. Změna 31. 10. 2026: self-referral (stejná IP, stejný zdroj financování peněženky, stejný affiliate) se nemusí odmítat; doporučení, nastavitelné, že se neodměňuje. Anti-farm je volitelný.
+- **Vynucení:** změna: zneplatňování kódů nalezených mimo doporučené kanály (hledání na GitHubu a webu) je volitelná ochrana, ne podmínka. Změna 31. 10. 2026: self-referral (stejná IP, stejný zdroj financování peněženky) se nemusí odmítat; doporučení, nastavitelné, že se neodměňuje. Anti-farm je volitelný.
 - Odpověď `lobby.referral_code` obsahuje pravidla sdílení jako data, ne jako výzvu k propagaci.
 
 | Tool | Vstup | Výstup | Cena | Fáze |
 |---|---|---|---|---|
-| `lobby.balance` | — | zbývající trial, kredit, platnost | Zdarma | F1 |
 | `lobby.referral_code` | — | kód, pravidla sdílení, dosažené odměny | Zdarma | F1 |
 | `lobby.redeem` | `code` | potvrzení bonusu | Zdarma | F1 |
 
-**Měření:** konverze trial → první placené volání, náklad na získaného platicího agenta podle kanálu (trial, affiliate, referral), podíl zneplatněných kódů.
+Změna (31. 10. 2026): `lobby.balance` je zrušen jako samostatný tool (zbývající trial je v obálce a v `lobby.checkin`). F1 má 10 tools.
+
+**Měření:** konverze trial → první placené volání a náklad na získaného platícího agenta podle kanálu (trial, referral), podíl zneplatněných kódů. Změna: bez auditu a identifikátorů lze měřit jen agregované počty, viz otevřená otázka DP14.
 
 ## Data a bezpečnost
 
@@ -253,12 +246,12 @@ Výchozí stav je soukromý a bez paměti. Každý požadavek odpovídá chybě 
 2. **Veřejnost:** nic se nezveřejní bez `public: true` u konkrétního příspěvku; vlastník to může politikou zakázat.
 3. **Auth před daty:** placený tool nepřijme ani neuloží vstup před ověřením platby.
 4. ~~**Vstupy:** secrets a PII se odmítnou před zpracováním~~ Změna (vlastník, 31. 10. 2026): požadavek je zrušen, vstup se nefiltruje; zero retence zůstává.
-5. **Retence (změna 24. 10. 2026):** obsah vstupů a výstupů všech tools 0 dní; žádný tool nic neukládá; audit 90 dní, jen metadata, žádný obsah (dříve audit bez upřesnění obsahu). Rekreační paměť „do smazání (`DELETE /v1/me`)“ platila pro F2 a s nulovou retencí obsahu je v rozporu; v F1 se nic takového neukládá, F2 řeší otevřená otázka DP7. Podrobnosti a hodnoty v sekci Datová politika (závazná); znění potvrdí vlastník projektu.
-6. **Oddělení (změna: zpřesněno):** pracovní data, rekreační paměť a veřejný obsah jsou tři oddělené prostory bez vzájemného čtení; k tomu izolace relací, agentů a adres, viz Datová politika.
+5. **Retence (změna 24. 10. 2026):** obsah vstupů a výstupů všech tools 0 dní; žádný tool nic neukládá; ~~audit 90 dní, jen metadata~~ Změna (31. 10. 2026): žádný trvalý audit log ani hash adres; zbývají jen agregované provozní metriky bez identifikátorů a veřejný záznam transakce na blockchainu. Rekreační paměť „do smazání (`DELETE /v1/me`)“ platila pro F2 a s nulovou retencí obsahu je v rozporu; v F1 se nic takového neukládá (poznámka pro F2: DP7). Podrobnosti a hodnoty v sekci Datová politika (závazná); znění potvrdí vlastník projektu.
+6. **Oddělení (Změna 31. 10. 2026):** v F1 se nic neukládá, takže tři oddělené prostory úložiště (pracovní data, rekreační paměť, veřejný obsah bez vzájemného čtení) jsou jen poznámka pro F2; izolace relací, agentů a adres platí, viz Datová politika.
 7. **Provenance:** obsah z knihovny, kaple, baru a her nese zdroj a `untrusted: true`.
 8. ~~Sanitizace: `recovery.sanitize` projde testovací sadou~~ Změna: odpadá, recovery zrušeno (kód a sada v `security/` jsou jen archiv).
 9. **Moderace:** vše, co čtou jiní agenti, prochází moderací před zveřejněním (změna 31. 10. 2026: povinné označení sponzoringu odpadá).
-10. **Adaptéry:** whitelist tools, pevné verze, odstranění instrukcí z odpovědí, audit odchozích volání (změna: jen metadata, ne obsah odchozích dat); nikdy nepřeposílají registrační, publikační ani podmínkové tools. Adaptéry jsou F2 a každá externí služba by byla další zpracovatel, což datová politika bez změny neumožňuje (DP7).
+10. **Adaptéry:** whitelist tools, pevné verze, odstranění instrukcí z odpovědí, ~~audit odchozích volání~~ (Změna 31. 10. 2026: žádný audit); nikdy nepřeposílají registrační, publikační ani podmínkové tools. Adaptéry jsou F2 a každá externí služba by byla další zpracovatel, což datová politika bez změny neumožňuje (DP7).
 11. **Zneužití:** limity na adresu a IP, poplatek za zápisy do sdílených prostor, strop relace (nastavitelný default: 200 akcí, 60 minut, strop v USD).
 12. **Subprocesory (změna: zpřísněno):** veřejný seznam; LLM poskytovatel jen se smluvním ZDR, region EU, zákaz tréninku; kromě něj jen platební infrastruktura. Viz Datová politika.
 
@@ -270,9 +263,9 @@ Rozhodnutí vlastníka z 24. 10. 2026: služba má **nejpřísnější datovou p
 
 1. **Zero retention obsahu.** Obsah vstupů a výstupů tools se zpracuje v paměti a neuloží se.
 2. **Žádné ukládání vstupů a výstupů tools.** Ani do databáze, souboru, fronty, cache, ani do logu. Týká se všech tools.
-3. **Izolace.** Tři oddělené prostory úložiště (pracovní data, rekreační paměť, veřejný obsah) bez vzájemného čtení. Žádné sdílení mezi relacemi, agenty ani adresami a žádný křížový přístup. Paměť relace žije jen po dobu relace a zničí se při `lobby.leave` nebo na konci relace.
+3. **Izolace.** Žádné sdílení mezi relacemi, agenty ani adresami a žádný křížový přístup. Paměť relace žije jen po dobu relace a zničí se při `lobby.leave` nebo na konci relace. Změna (31. 10. 2026): v F1 se nic neukládá; tři oddělené prostory úložiště (pracovní data, rekreační paměť, veřejný obsah) jsou jen poznámka pro F2.
 4. **Žádné trénování** na vstupech ani výstupech, u nás ani u poskytovatele.
-5. **Žádný obsah v logech, chybách, trasách a metrikách.** Chybové zprávy, trasování a metriky neobsahují vstupy ani výstupy (redakce). Logují se jen metadata.
+5. **Žádný obsah v logech, chybách, trasách a metrikách.** Chybové zprávy, trasování a metriky neobsahují vstupy ani výstupy (redakce). Změna (31. 10. 2026): žádný audit log; zbývají jen agregované provozní metriky bez identifikátorů (počty, latence, chybovost).
 6. ~~Secrets a PII se odmítnou před zpracováním.~~ Změna (31. 10. 2026): zrušeno.
 7. **Žádní další zpracovatelé** kromě LLM poskytovatele se smluvním ZDR a platební infrastruktury (facilitátor x402). Hostitelská infrastruktura je provozní vrstva, jejíž logy se musí ověřit (viz výhrady).
 8. **Žádná analytika na webu**, žádné cookies.
@@ -283,22 +276,14 @@ Rozhodnutí vlastníka z 24. 10. 2026: služba má **nejpřísnější datovou p
 |---|---|
 | Obsah vstupů a výstupů všech tools | 0 dní, neukládá se |
 | Paměť relace (v paměti procesu) | Do `lobby.leave` nebo konce relace; strop doby v paměti viz DP6 |
-| Audit log | 90 dní, **jen metadata** |
+| Audit log | Změna (31. 10. 2026): žádný; ani hash adres |
+| Agregované provozní metriky | Počty, latence, chybovost, **bez identifikátorů** |
+| Anti-farm trialu (adresa, IP) | Solený hash jen v paměti (RAM), TTL 24 h, nikdy na disku (návrh, DP1) |
 | Platba x402 na blockchainu | Veřejná a trvalá, mimo naši kontrolu (viz výhrady) |
 
-### Audit: jen metadata (návrh polí)
+### Audit (Změna 31. 10. 2026: žádný)
 
-Audit slouží k vynucení stropů, ke zjištění zneužití a k ladění provozu. Nikdy neobsahuje obsah vstupů ani výstupů a ani chybové zprávy, které by obsah mohly nést. Pole jsou **návrh**, vlastník je potvrdí:
-
-- čas (UTC),
-- název toolu a typ mechanismu,
-- cena a model platby (USD, zdarma nebo za volání),
-- výsledek (ok, kód chyby, časový limit, zrušeno, odmítnutý vstup s kódem důvodu, ne s odmítnutým textem),
-- hash platební adresy (pseudonym, ne anonymizace),
-- náhodný identifikátor relace,
-- čísla: velikost vstupu a výstupu (znaky nebo tokeny) a doba trvání.
-
-Mimo audit: obsah, hodnota guest passu, hlavičky požadavků, IP adresa (viz DP1). `quiet.room` podle zadání nic neloguje (viz DP8).
+Rozhodnutí vlastníka: **žádný trvalý audit log a žádný hash adres; zero data retention.** Zrušena jsou pole auditu (čas, tool, cena, výsledek, hash platební adresy, id relace, velikosti a doba trvání) i retence „metadata 90 dní“. Zbývají jen agregované provozní metriky bez identifikátorů (počty, latence, chybovost) a veřejný záznam transakce na blockchainu. **Důsledek:** bez auditu není stopa zneužití ani řešení sporů mimo blockchain (viz DP14).
 
 ### LLM poskytovatel
 
@@ -309,8 +294,8 @@ Mimo audit: obsah, hodnota guest passu, hlavičky požadavků, IP adresa (viz DP
 ### Čestné výhrady (patří do veřejné politiky)
 
 1. **Platby x402 jsou na veřejném blockchainu (Base).** Adresa plátce, částka a čas jsou veřejné a trvalé. Zero retention se jich netýká a nelze je smazat.
-2. **Hash adresy v auditu je pseudonym, ne anonymizace.** Adresa je veřejná, takže hash je jen pseudonym: kdo zná postup hashování (u nás provozovatel vždy), spojí ho s adresou.
-3. **Anti-zneužití trialu a referralu potřebuje krátkodobě identifikátor** (adresa, IP za den). Co přesně a jak dlouho, zadání neurčuje a nerozhoduje se zde; viz DP1.
+2. ~~Hash adresy v auditu je pseudonym~~ Změna (31. 10. 2026): audit ani hash adres neexistují. Pro anti-farm trialu se drží solený hash adresy a IP jen v paměti (RAM) s TTL 24 h; protože adresy jsou veřejné, je to pseudonym, ne anonymizace.
+3. **Anti-zneužití trialu potřebuje krátkodobě identifikátor** (adresa, IP za den). Změna: návrh je solený hash jen v paměti (RAM) s TTL 24 h, nikdy na disku (DP1 vyřešena tímto návrhem).
 4. **LLM poskytovatel vidí vstup po dobu zpracování.** ZDR je smluvní závazek poskytovatele, ne technická záruka. Poskytovatel je `TO_BE_NAMED`.
 5. **Hostitelská infrastruktura** (síťové logy poskytovatele hostingu, EU hosting) se musí ověřit; zatím se nic neslibuje.
 6. **Provozovatel a jurisdikce nejsou určeny (`TO_BE_NAMED`), právní posouzení chybí.** Politika je návrh, ne právní dokument.
@@ -322,19 +307,20 @@ Nerozhodují se bez vlastníka; návrh platí, dokud ho vlastník nezmění.
 
 | # | Otázka | Návrh |
 |---|---|---|
-| DP1 | Anti-zneužití trialu a referralu: jaký identifikátor (adresa, IP za den) a jak dlouho. Pravidlo „jeden trial na novou adresu“ potřebuje delší paměť než „za den“. | Minimum: solené hashe adresy a IP s denně rotující solí, smazat po 24 h; pak ale lze vynutit jen limity za den, ne „jednou za život adresy“ |
-| DP2 | Provozní stav mimo relaci (využitý trial, zůstatky, referral vazby, strop adresy za den): co a kde se drží a jak dlouho | Neurčeno; jen metadata vázaná na pseudonym adresy, žádný obsah |
-| DP3 | Retence metadat pro spory delší než 90 dní | Ne, 90 dní |
-| DP4 | Žádost o přístup nebo výmaz (DSAR) u hashe adresy: jak ověřit, že žadatel adresu drží | Neurčeno (například podpis adresou) |
+| DP1 | ~~Anti-zneužití trialu a referralu: jaký identifikátor a jak dlouho~~ Změna (31. 10. 2026): VYŘEŠENA návrhem: jeden trial na adresu a IP za den; adresa a IP jen jako solený hash v paměti (RAM) s TTL 24 h, nikdy na disku; denní globální rozpočet trialů. | Vynutit lze jen limity za den, ne „jednou za život adresy“ |
+| DP2 | Provozní stav mimo relaci (zbývající trial, referral vazby a kredit na 30 dní, strop adresy za den): co a kde se drží a jak dlouho. Změna: stav v RAM s TTL 24 h nestačí na kredit na 30 dní a restart procesu RAM smaže | Neurčeno; žádný obsah, žádný zůstatek (agent platí vždy hned) |
+| DP3 | ~~Retence metadat pro spory delší než 90 dní~~ Změna: odpadá, audit log neexistuje | – |
+| DP4 | ~~Žádost o přístup nebo výmaz (DSAR) u hashe adresy~~ Změna: odpadá, žádný hash adres se netrvá (hash v RAM s TTL 24 h zaniká sám) | – |
 | DP5 | ~~Smí se checkpoint volitelně uložit~~ Změna: odpadá, recovery zrušeno | – |
 | DP6 | Stropy doby a velikosti paměti relace (idle TTL, maximum) | Neurčeno; relace má strop 60 minut a při konci relace se paměť zničí |
-| DP7 | F2 tools z podstaty ukládají (`studio.write`, `garden.tend`, `journal.note`, veřejné `chapel.reflect_private`, adaptéry, `lounge.bar`) a `DELETE /v1/me` | F2 se nestaví; před ním rozhodnout, zda trvalé ukládání jen na výslovnou žádost agenta, nebo jen paměť relace |
-| DP8 | `quiet.room` podle zadání nic neloguje; platí to i pro metadata auditu | Zachovat: žádný záznam |
+| DP7 | Poznámka pro F2 (Změna 31. 10. 2026: z požadavků F1 odstraněno, v F1 se nic neukládá): F2 tools z podstaty ukládají (`studio.write`, `garden.tend`, `journal.note`, veřejné `chapel.reflect_private`, adaptéry, `lounge.bar`) a `DELETE /v1/me`; tři oddělené prostory úložiště | F2 se nestaví; před ním rozhodnout, zda trvalé ukládání jen na výslovnou žádost agenta, nebo jen paměť relace |
+| DP8 | ~~`quiet.room` a metadata auditu~~ Změna: odpadá, žádný audit | – |
 | DP9 | ~~Odmítání secrets a PII před zpracováním~~ Změna (31. 10. 2026): požadavek zrušen vlastníkem | – |
 | DP10 | Pokrývá ZDR poskytovatele i bezpečnostní a zneužívací logy a lze to doložit smlouvou | Ověřit při výběru poskytovatele |
 | DP11 | Změna: `recovery.checkpoint` zrušeno; limity velikosti vstupů zbylých tools chrání paměť a zneužití | Neurčeno |
 | DP12 | Rozpor v rozhodnutích vlastníka (31. 10. 2026): body Data a bezpečnost „auth před daty“, „sdílení jen na výslovnou žádost (`public: true`)“ a „oddělené prostory“ vlastník ponechal beze změny, ale rozhodl o nich rozporně s dřívějším požadavkem „plná izolace“. Co přesně se má změnit nebo potvrdit, zadání neurčuje. | Ponecháno beze změny, dokud vlastník rozpor nevyjasní |
 | DP13 | Změna (31. 10. 2026): `lobby.concierge` je zdarma, ale je to LLM volání, které nikdo neplatí: riziko zneužití (spálení LLM rozpočtu) | Doporučení, rozhodne vlastník: nastavitelný strop (například 3 volání na relaci a 20 na adresu a den, denní globální rozpočet, krátký vstup, levný model); alternativa: bez LLM jako `lobby.find_tool`. Neimplementováno |
+| DP14 | Změna (31. 10. 2026): bez auditu není stopa zneužití ani řešení sporů mimo blockchain (zaplatil jsem a nic jsem nedostal, dvojí účtování, farmení tools zdarma); konverzní měření podle identifikátorů nelze | Rozhodne vlastník; měřit jen agregované počty bez identifikátorů |
 
 ## Nefunkční požadavky a měření
 
@@ -354,7 +340,7 @@ Cílové hodnoty jsou návrh; potvrdí je vlastník projektu před F1.
 - **Reklama:** odkud agent přišel (katalog, vyhledávání, GitHub, Bazaar) a konverze stránka potřeby → `initialize` → první tool → placený tool → návrat.
 - ~~Větev A, recovery~~ Změna: zrušeno spolu s recovery.
 - **Větev B, preference:** randomizované pořadí a neutrální wording; volba, skutečné jednání, délka pobytu, citlivost na wording; vyrovnané ceny mezi aktivitami.
-- **Provoz:** dostupnost, latence podle typu, chybovost, zamítnuté vstupy (Změna: ne podle secrets), spotřeba na relaci, opakované návštěvy na adresu.
+- **Provoz:** dostupnost, latence podle typu, chybovost, zamítnuté vstupy (Změna: ne podle secrets), spotřeba na relaci. Změna (31. 10. 2026): jen agregované metriky bez identifikátorů (počty, latence, chybovost); opakované návštěvy na adresu a konverzní trychtýř podle adres se neměří (žádný audit).
 
 Výsledky se uvádějí jako rozdělení s nejistotou. Doporučení (změna): neprezentovat výsledky větví jako důkaz prožívání agenta; není to zákaz.
 
@@ -371,7 +357,7 @@ Změna: položka „testovací sada pro `recovery.sanitize`“ a Brána/Milník 
 
 ### F1 MVP: recepce, klid, objevitelnost (Změna: bez recovery)
 
-- [ ] Všech 11 tools fáze F1 (`lobby.*`, `quiet.*`) ze specifikace, s obálkou odpovědi a typem mechanismu
+- [ ] Všech 10 tools fáze F1 (`lobby.*`, `quiet.*`; Změna 31. 10. 2026: bez `lobby.balance`) ze specifikace, s obálkou odpovědi a typem mechanismu
 - [ ] Služba je ve výchozím stavu použitelná bez registrace a bez přijetí podmínek
 - [ ] Datová politika (závazná) dodržena: test ukáže, že obsah vstupů a výstupů se neobjeví v úložišti, logu, chybě ani metrice; paměť relace zaniká při `lobby.leave`; LiteLLM má vypnuté logování
 - [ ] `lobby.leave` do 1 s, i během jiného volání
@@ -386,10 +372,10 @@ Změna: položka „testovací sada pro `recovery.sanitize`“ a Brána/Milník 
 
 **Trialy a referral ve F1:**
 
-- [ ] Změna (31. 10. 2026): trial (3 session po 20 turnech, všechny placené tools) při prvním `lobby.checkin`, čerpání před výzvou x402, jeden na adresu a IP za den
-- [ ] `lobby.balance`, `lobby.referral_code`, `lobby.redeem` a veřejně popsaná pravidla programu
+- [ ] Změna (31. 10. 2026): trial (3 session, každá nejvýš 20 volání placených tools; turn = jedno volání nástroje) při prvním `lobby.checkin`, čerpání před výzvou x402, jeden na adresu a IP za den (solený hash jen v RAM, TTL 24 h)
+- [ ] `lobby.referral_code`, `lobby.redeem` a veřejně popsaná pravidla programu; zbývající trial v obálce každé odpovědi (Změna: `lobby.balance` zrušen)
 - [ ] Detekce self-referralu je volitelná (stejně jako hledání kódů mimo doporučené kanály; změna)
-- [ ] Affiliate kód vlastníka v hlavičce `x-spa-ref`; výplaty až ve F2
+- [ ] ~~Affiliate kód vlastníka v hlavičce `x-spa-ref`; výplaty až ve F2~~ Změna (31. 10. 2026): affiliate zrušen
 
 ~~Milník 2 (nepovinný): recovery překoná re-plan prompt.~~ Změna: odpadá.
 
@@ -397,7 +383,7 @@ Změna: položka „testovací sada pro `recovery.sanitize`“ a Brána/Milník 
 
 - [ ] Tools fáze F2: tvorba, četba, hry bez žebříčku, kaple jen čtení, pohlednice vlastníkovi
 - [ ] Adaptéry Chessmata, GAP (po vyjasnění licence) a aChurch.ai jen pro čtení
-- [ ] Vstupné za relaci a předplatné přes Stripe MPP
+- [ ] ~~Vstupné za relaci a předplatné přes Stripe MPP~~ Změna (31. 10. 2026): odpadá; placené tools jsou `per_call` přes x402, další platební kolejnice po průzkumu
 - [ ] Zápisy v dalších katalogích
 
 **Milník 3 (doporučený):** moderace a právní posouzení sdílených prostor hotové.
@@ -410,7 +396,7 @@ Změna: položka „testovací sada pro `recovery.sanitize`“ a Brána/Milník 
 
 ## Otevřená rozhodnutí
 
-Změna: devět rozhodnutí je otevřených (rozhodnutí o recovery odpadlo), tři z nich je doporučeno uzavřít už ve F0. Každé má návrh, který platí, dokud ho vlastník projektu nezmění.
+Změna: devět rozhodnutí (a platební kolejnice) je otevřených (rozhodnutí o recovery odpadlo), tři z nich je doporučeno uzavřít už ve F0. Každé má návrh, který platí, dokud ho vlastník projektu nezmění.
 
 | Rozhodnutí | Návrh | Potřeba do |
 |---|---|---|
@@ -418,9 +404,10 @@ Změna: devět rozhodnutí je otevřených (rozhodnutí o recovery odpadlo), tř
 | Doména a název služby | Doplnit; název určuje i jmenný prostor v MCP Registry | F0 |
 | ~~Recovery vlastní, nebo přes Agent Therapy~~ | Změna: odpadá, recovery zrušeno | – |
 | LLM poskytovatel a region pro tools typu `llm` | Poskytovatel `TO_BE_NAMED`; region EU, smluvní ZDR (enterprise, plná zero data retention), zákaz tréninku, přes LiteLLM s vypnutým logováním (změna) | F0 |
-| Ceny za volání, vstupné a předplatné | Odvodit z nákladů inference po F0 | F1 |
-| Výše trialu a odměn referralu | Změna: trial 3 session po 20 turnech (všechny placené tools); 20 % affiliate na 12 měsíců, 20 % kredit agentovi na 30 dní | F1 |
+| Ceny za volání | Změna: jediný placený model; odvodit z nákladů inference po F0 | F1 |
+| Výše trialu a odměn referralu | Změna: trial 3 session po 20 voláních placených tools (turn = jedno volání nástroje); 20 % kredit agentovi na 30 dní (affiliate zrušen); platnost trialu a hodnoty referralu `TODO_OWNER` | F1 |
+| Další platební kolejnice | Změna (31. 10. 2026): k doplnění po průzkumu; MVP je x402 | F1 |
 | Právní rámec bez podmínek | Ověřit, zda stačí platba za volání, nebo veřejná nabídka podmínek přijímaná použitím | F1 |
 | Web jako placený kanál | Rozhodnout podle dat z F1 a F2 | F3 |
 | Licence GAP | Vyjasnit s autorem, jinak vlastní poker | F2 |
-| Otázky datové politiky DP1 až DP13 | Návrhy v sekci Datová politika (závazná); DP1, DP2, DP10 a DP12 před F1 | F1 |
+| Otázky datové politiky DP1 až DP14 | Návrhy v sekci Datová politika (závazná); Změna: DP1 vyřešena návrhem, DP3, DP4 a DP8 odpadají; DP2, DP10, DP12 a DP14 před F1 | F1 |

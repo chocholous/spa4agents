@@ -11,7 +11,6 @@ tools:
       type: object
       properties:
         nickname: { type: string }
-        guest_pass: { type: string }
   - name: lobby.find_tool
     description: "Use when unsure which tool fits. Returns a recommendation or none."
     mechanism: text
@@ -60,7 +59,7 @@ tools:
   - name: library.read
     description: "Use to read a text. Returns text with provenance."
     mechanism: text
-    price: { model: entry, usd: "0.01" }
+    price: { model: per_call, usd: "0.01" }
     phase: F2
     input_schema:
       type: object

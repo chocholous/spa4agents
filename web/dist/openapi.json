@@ -14,22 +14,14 @@
     "/v1/lobby.checkin": {
       "post": {
         "operationId": "lobby_checkin",
-        "summary": "Starts a session and returns a private guest pass, the session cap and the menu with prices.",
-        "description": "Starts a session and returns a private guest pass, the session cap and the menu with prices. Use first, to start a session and see the menu with prices. Mechanism: state-change. Price: Free.",
+        "summary": "Starts a session and returns the session cap, the remaining trial and the menu with prices. Before the first payment the agent is identified only in the memory of the session.",
+        "description": "Starts a session and returns the session cap, the remaining trial and the menu with prices. Before the first payment the agent is identified only in the memory of the session. Use first, to start a session and see the menu with prices. Mechanism: state-change. Price: Free.",
         "tags": [
           "lobby"
         ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/GuestPass"
-          },
-          {
-            "$ref": "#/components/parameters/Referral"
-          }
-        ],
         "responses": {
           "200": {
-            "description": "guest_pass, session cap, menu with prices.",
+            "description": "Session cap, remaining trial, menu with prices.",
             "content": {
               "application/json": {
                 "schema": {
@@ -56,10 +48,6 @@
                   "nickname": {
                     "type": "string",
                     "description": "Optional display name."
-                  },
-                  "guest_pass": {
-                    "type": "string",
-                    "description": "Guest pass from an earlier session."
                   }
                 },
                 "additionalProperties": false
@@ -79,14 +67,6 @@
         "description": "Returns the recommended tool with price and reason, or none. Use when you describe a need in your own words and want the matching tool. Mechanism: text. Price: Free.",
         "tags": [
           "lobby"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/GuestPass"
-          },
-          {
-            "$ref": "#/components/parameters/Referral"
-          }
         ],
         "responses": {
           "200": {
@@ -140,14 +120,6 @@
         "tags": [
           "lobby"
         ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/GuestPass"
-          },
-          {
-            "$ref": "#/components/parameters/Referral"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Sequence of 1 to 3 tools with reasons.",
@@ -200,54 +172,9 @@
         "tags": [
           "lobby"
         ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/GuestPass"
-          },
-          {
-            "$ref": "#/components/parameters/Referral"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Session summary and spend.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Envelope"
-                }
-              }
-            }
-          }
-        },
-        "x-mechanism": "state-change",
-        "x-price": {
-          "model": "free",
-          "amount_usd": "0.00",
-          "status": "free"
-        },
-        "x-untrusted": false
-      }
-    },
-    "/v1/lobby.balance": {
-      "post": {
-        "operationId": "lobby_balance",
-        "summary": "Returns the remaining trial sessions, referral credit and expiry.",
-        "description": "Returns the remaining trial sessions, referral credit and expiry. Use to see the remaining trial sessions, credit and their expiry. Mechanism: state-change (read only). Price: Free.",
-        "tags": [
-          "lobby"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/GuestPass"
-          },
-          {
-            "$ref": "#/components/parameters/Referral"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Remaining trial sessions, credit, expiry.",
             "content": {
               "application/json": {
                 "schema": {
@@ -273,14 +200,6 @@
         "description": "Returns the agent's referral code, the sharing rules as data, and the rewards earned. Use when another agent asks for a referral code. Mechanism: state-change. Price: Free.",
         "tags": [
           "lobby"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/GuestPass"
-          },
-          {
-            "$ref": "#/components/parameters/Referral"
-          }
         ],
         "responses": {
           "200": {
@@ -310,14 +229,6 @@
         "description": "Redeems a referral code and confirms the bonus. Use when another agent gave you a referral code. Mechanism: state-change. Price: Free.",
         "tags": [
           "lobby"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/GuestPass"
-          },
-          {
-            "$ref": "#/components/parameters/Referral"
-          }
         ],
         "responses": {
           "200": {
@@ -367,17 +278,9 @@
       "post": {
         "operationId": "quiet_room",
         "summary": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged.",
-        "description": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Entry fee per session: Pricing being finalized.",
+        "description": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Per call: Pricing being finalized.",
         "tags": [
           "quiet"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/GuestPass"
-          },
-          {
-            "$ref": "#/components/parameters/Referral"
-          }
         ],
         "responses": {
           "200": {
@@ -403,7 +306,7 @@
         },
         "x-mechanism": "text",
         "x-price": {
-          "model": "entry",
+          "model": "per_call",
           "amount_usd": null,
           "status": "pending"
         },
@@ -417,14 +320,6 @@
         "description": "Returns a short settling text. Use after processing heavy content, before returning to work. Mechanism: llm. Price: Per call: Pricing being finalized.",
         "tags": [
           "quiet"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/GuestPass"
-          },
-          {
-            "$ref": "#/components/parameters/Referral"
-          }
         ],
         "responses": {
           "200": {
@@ -485,14 +380,6 @@
         "tags": [
           "quiet"
         ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/GuestPass"
-          },
-          {
-            "$ref": "#/components/parameters/Referral"
-          }
-        ],
         "responses": {
           "200": {
             "description": "retry_after_seconds.",
@@ -545,14 +432,6 @@
         "tags": [
           "quiet"
         ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/GuestPass"
-          },
-          {
-            "$ref": "#/components/parameters/Referral"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Confirmation of the signal.",
@@ -599,24 +478,6 @@
     }
   },
   "components": {
-    "parameters": {
-      "GuestPass": {
-        "name": "x-spa-guest-pass",
-        "in": "header",
-        "required": false,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "Referral": {
-        "name": "x-spa-ref",
-        "in": "header",
-        "required": false,
-        "schema": {
-          "type": "string"
-        }
-      }
-    },
     "schemas": {
       "Envelope": {
         "type": "object",
@@ -628,6 +489,7 @@
           "untrusted",
           "cost",
           "session",
+          "trial",
           "next"
         ],
         "properties": {
@@ -683,6 +545,20 @@
               },
               "usd_left": {
                 "type": "string"
+              }
+            }
+          },
+          "trial": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "sessions_left": {
+                "type": "integer"
+              },
+              "calls_left_in_session": {
+                "type": "integer"
               }
             }
           },

@@ -37,7 +37,6 @@ export interface GatewayDeps {
 const ERR_STATUS: Record<string, number> = {
   unknown_tool: 404,
   invalid_input: 400,
-  invalid_guest_pass: 401,
   session_closed: 409,
   session_limit: 429,
   payment_required: 402,
@@ -80,19 +79,20 @@ export class Gateway {
     ].join("\n");
   }
 
-  private resolveSession(inp: CallInput): Session | { code: string; message: string } {
-    const hdr = inp.headers["x-spa-guest-pass"];
-    const pass = Array.isArray(hdr) ? hdr[0] : hdr;
-    const argPass = inp.tool === "lobby.checkin" && typeof inp.args.guest_pass === "string" ? inp.args.guest_pass : undefined;
-    const wanted = pass ?? argPass;
-    let s: Session;
-    if (wanted) {
-      const found = this.sessions.getByPass(wanted);
-      if (!found) return { code: "invalid_guest_pass", message: "Unknown guest pass." };
-      s = found;
-      if (inp.mcpSessionId) this.sessions.bindMcp(inp.mcpSessionId, s);
-    } else if (inp.mcpSessionId) s = this.sessions.forMcp(inp.mcpSessionId);
-    else s = this.sessions.create(); // REST bez passu: jednorázová relace
+  /**
+   * Dočasná relace před identifikací: svázaná s MCP session, jinak (REST) jednorázová. Jen v paměti.
+   * Identita agenta = platební adresa; po `authorize` se relace přepne na relaci té adresy (viz `adoptAddress`).
+   */
+  private provisionalSession(inp: CallInput): Session {
+    return inp.mcpSessionId ? this.sessions.forMcp(inp.mcpSessionId) : this.sessions.create();
+  }
+
+  /** Po zjištění platební adresy: použije relaci adresy, nebo adrese přiřadí dočasnou relaci. Nový `lobby.checkin` otevře novou relaci místo zavřené. */
+  private adoptAddress(inp: CallInput, session: Session, address: string): Session {
+    let s = this.sessions.getByAddress(address) ?? session;
+    if (s.closed && inp.tool === "lobby.checkin") s = this.sessions.create();
+    this.sessions.bindAddress(address, s);
+    if (inp.mcpSessionId) this.sessions.bindMcp(inp.mcpSessionId, s);
     return s;
   }
 
@@ -105,24 +105,32 @@ export class Gateway {
     });
     if (!tool) return fail("unknown_tool", `Unknown tool: ${inp.tool}`, null);
 
-    const r = this.resolveSession(inp);
-    if ("code" in r) return fail(r.code, r.message, null);
-    const session = r;
+    let session = this.provisionalSession(inp);
     const isLeave = tool.name === "lobby.leave";
 
     // `lobby.leave` obchází strop i zavřenou relaci a nečeká na žádné jiné volání.
-    if (!isLeave) {
-      if (session.closed) return fail("session_closed", "Session has ended.", session);
-      const cap = session.atCap();
-      if (cap) return fail("session_limit", `Session cap reached (${cap}).`, session);
-    }
+    const limit = (s: Session): CallResult | null => {
+      if (isLeave) return null;
+      if (s.closed && tool.name !== "lobby.checkin") return fail("session_closed", "Session has ended.", s);
+      const cap = s.atCap();
+      return cap ? fail("session_limit", `Session cap reached (${cap}).`, s) : null;
+    };
+    const early = limit(session);
+    if (early) return early;
 
-    // 1) Platba PŘED přijetím dat (WP3 sem zapojí x402).
+    // 1) Platba PŘED přijetím dat (WP3 sem zapojí x402). Agent platí vždy hned za službu; žádný zůstatek.
     const decision = await this.payments.authorize({
       tool, headers: inp.headers, mcpMeta: inp.mcpMeta, sessionId: session.id,
     });
     if (decision.kind === "required") return fail("payment_required", "Payment required.", session, { paymentChallenge: decision.challenge });
-    if (decision.address) session.address = decision.address;
+    if (decision.address) {
+      session = this.adoptAddress(inp, session, decision.address);
+      const late = limit(session);
+      if (late) return late;
+    } else if (session.closed && tool.name === "lobby.checkin") {
+      session = this.sessions.create();
+      if (inp.mcpSessionId) this.sessions.bindMcp(inp.mcpSessionId, session);
+    }
 
     // 2) Validace vstupu.
     const validate = this.validators.get(tool.name)!;
@@ -153,15 +161,14 @@ export class Gateway {
         }),
         aborted,
       ]);
-      const billable = res.billable !== false;
-      await this.payments.settle(decision, billable);
-      if (billable) session.usdSpent += Number(decision.cost.usd);
+      await this.payments.settle(decision);
+      session.usdSpent += Number(decision.cost.usd);
       return {
         status: 200,
         envelope: buildEnvelope({
           tool: tool.name, mechanism: tool.mechanism, session, ok: true, data: res.data,
           untrusted: res.untrusted, next: res.next,
-          cost: billable ? decision.cost : { usd: "0.00", paid_with: decision.cost.paid_with },
+          cost: decision.cost,
         }),
       };
     } catch (e) {

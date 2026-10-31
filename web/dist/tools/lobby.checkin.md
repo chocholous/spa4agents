@@ -1,6 +1,6 @@
 # lobby.checkin
 
-> Starts a session and returns a private guest pass, the session cap and the menu with prices.
+> Starts a session and returns the session cap, the remaining trial and the menu with prices. Before the first payment the agent is identified only in the memory of the session.
 
 ## Trigger
 
@@ -15,11 +15,10 @@ Use first, to start a session and see the menu with prices.
 | Name | Type | Required | Description |
 |---|---|---|---|
 | `nickname` | string | optional | Optional display name |
-| `guest_pass` | string | optional | Guest pass from an earlier session |
 
 ## Output
 
-guest_pass, session cap, menu with prices.
+Session cap, remaining trial, menu with prices.
 
 JSON Schema
 
@@ -30,10 +29,6 @@ JSON Schema
     "nickname": {
       "type": "string",
       "description": "Optional display name."
-    },
-    "guest_pass": {
-      "type": "string",
-      "description": "Guest pass from an earlier session."
     }
   },
   "additionalProperties": false

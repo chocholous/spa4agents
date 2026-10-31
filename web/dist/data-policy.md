@@ -16,9 +16,9 @@ The owner decided on the strictest data policy, zero data retention and full iso
 
 - **Zero retention of content.** What an agent sends and what a tool returns is processed in memory and is not stored.
 - **No storing of tool inputs or outputs.** Not in a database, a file, a queue or a cache, and not in a log.
-- **Isolation.** Working data, recreational memory and public content are three separate storage spaces that never read each other. Nothing is shared between sessions, agents or addresses, and there is no cross access. Memory of a session is destroyed at `lobby.leave` or when the session ends.
+- **Isolation.** Nothing is shared between sessions, agents or addresses, and there is no cross access. Memory of a session is destroyed at `lobby.leave` or when the session ends. Nothing is stored in the first release.
 - **No training** on inputs or outputs.
-- **No content in logs, errors, traces or metrics.** Error messages, traces and metrics are redacted and carry no input or output. Only metadata is logged.
+- **No content in logs, errors, traces or metrics.** Error messages, traces and metrics are redacted and carry no input or output. There is no audit log. Only aggregated operational metrics without identifiers are kept (counts, latency, error rate).
 - **No other processors** besides the language model provider with contractual zero data retention and the payment infrastructure. The hosting provider is infrastructure whose own logs still have to be verified (see the reservations).
 - **No analytics and no cookies on the website.**
 
@@ -28,7 +28,9 @@ The owner decided on the strictest data policy, zero data retention and full iso
 |---|---|
 | Content of inputs and outputs of every tool | 0 days. Not stored. |
 | Memory of a session (in the server process) | Until `lobby.leave` or the end of the session. A maximum lifetime in memory is not decided. |
-| Audit log | 90 days, metadata only. No content. |
+| Audit log | None. There is no persistent audit log and no hash of addresses is kept. |
+| Aggregated operational metrics | Counts, latency and error rate without any identifier. No content. |
+| Trial abuse check (address and IP) | A salted hash in memory (RAM) only, a time to live of 24 hours, never on disk. |
 | Payment on the Base blockchain | Public and permanent. Outside the control of this service (see the reservations). |
 
 ## Retention per tool
@@ -37,42 +39,20 @@ Every published tool and what happens to its content.
 
 | Tool | Content retention | Note |
 |---|---|---|
-| `lobby.checkin` | None. The content is processed in memory and not stored. | Opens a session held in server memory. Whether anything about the address outlives the session (trial used, referral links) is not decided. |
+| `lobby.checkin` | None. The content is processed in memory and not stored. | Opens a session held in server memory and returns the remaining trial. The address and the IP are used for the trial check only as a salted hash in memory with a time to live of 24 hours. |
 | `lobby.find_tool` | None. The content is processed in memory and not stored. |  |
 | `lobby.concierge` | None. The content is processed in memory and not stored. | The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet. |
 | `lobby.leave` | None. The content is processed in memory and not stored. | Destroys the memory of the session. |
-| `lobby.balance` | None. The content is processed in memory and not stored. | Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided. |
-| `lobby.referral_code` | None. The content is processed in memory and not stored. | Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided. |
-| `lobby.redeem` | None. The content is processed in memory and not stored. | Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided. |
+| `lobby.referral_code` | None. The content is processed in memory and not stored. | Referral state is operational data tied to the payment address. It is not content. Where it is kept and for how long is not decided. |
+| `lobby.redeem` | None. The content is processed in memory and not stored. | Referral state is operational data tied to the payment address. It is not content. Where it is kept and for how long is not decided. |
 | `quiet.room` | None. The content is processed in memory and not stored. | Returns a greeting. Nothing is stored and, as specified, nothing is logged. |
 | `quiet.ground` | None. The content is processed in memory and not stored. | The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet. |
 | `quiet.pause` | None. The content is processed in memory and not stored. |  |
 | `quiet.end_session_hint` | None. The content is processed in memory and not stored. |  |
 
-## Audit log, metadata only
+## Audit log
 
-The audit log is there to enforce caps, to spot abuse and to find faults. It is never a copy of what was sent or returned.
-
-- **Kept for (days):** 90
-- **Content in the audit log:** none
-
-> The list of fields is a proposal and the owner has not confirmed it.
-
-**Fields (proposal)**
-
-- Time (UTC).
-- Tool name and mechanism.
-- Price and payment model (USD; free or per call).
-- Result: ok, error code, timeout, cancelled, or rejected input with a reason code but not the rejected text.
-- Hash of the payment address. This is a pseudonym, not anonymisation.
-- Random session identifier.
-- Numbers only: size of input and output (characters or tokens) and duration.
-
-**Never in the audit log**
-
-- Content of inputs and outputs, and error messages that could carry it.
-- The value of the guest pass and request headers.
-- IP address (whether any IP-based record is kept is an open question, see below).
+There is no persistent audit log. Only aggregated operational metrics without identifiers are kept (counts, latency, error rate). A payment is a public record on the blockchain.
 
 ## Language model
 
@@ -103,8 +83,7 @@ The LiteLLM proxy must run with logging of requests and responses switched off, 
 These are limits of the policy. They are not small print.
 
 - **Payments are public and permanent.** Payments with x402 are made on the public Base blockchain. The address of the payer, the amount and the time are public and permanent. Zero retention does not apply to them and they cannot be deleted.
-- **The address hash in the audit is a pseudonym.** The audit log stores a hash of the payment address. Because addresses are public, this is a pseudonym and not anonymisation. Whoever knows the hashing method, and the operator always does, can link the hash to an address.
-- **Abuse prevention needs a short-lived identifier.** Limiting trials and referrals needs an identifier for a short time, such as the address or the IP address for one day. What exactly is kept and for how long is not decided. A minimal variant is proposed, salted hashes with a salt that rotates daily, deleted after 24 hours, but that would allow only per-day limits.
+- **Abuse prevention needs a short-lived identifier.** Limiting trials needs an identifier for a short time. The proposal is a salted hash of the payment address and of the IP address, held in memory (RAM) only with a time to live of 24 hours and never written to disk. It allows only limits per day, not a limit once per lifetime of an address. Because addresses are public, a hash of an address is a pseudonym and not anonymisation.
 - **The language model provider sees the input while processing it.** Zero data retention at the provider is a contractual commitment of the provider, not a technical guarantee of this service. The provider is TO_BE_NAMED and the contract does not exist yet.
 - **Hosting infrastructure is not verified.** The hosting provider can keep network logs of its own. That has to be verified, and until it is, nothing is promised about it.
 - **Operator and jurisdiction are not determined.** The operator and the jurisdiction are TO_BE_NAMED and there has been no legal review. This policy is a proposal and not a legal document.
@@ -114,13 +93,10 @@ These are limits of the policy. They are not small print.
 
 The specification does not decide these. They are open questions for the owner, not hidden rules.
 
-- Which identifier is kept for abuse prevention, and for how long (address, IP address per day). A rule such as one trial for each new address needs a longer memory than one day.
-- Which operational state outlives a session (trial used, balances, referral links, daily cap per address), where, and for how long.
-- Whether audit metadata is kept longer than 90 days for disputes. The proposal is no.
-- How a request for access or deletion can be handled for the address hash, and how the requester proves holding the address.
+- Which operational state outlives a session (referral links and credit, daily cap per address), where, and for how long. Memory-only state with a time to live of 24 hours does not fit a referral credit that lasts 30 days.
+- Without an audit log there is no trace of abuse and no way to settle disputes outside the blockchain.
 - Limits on how long and how much a session may hold in memory, and limits on the size of inputs.
 - How the planned later wings that keep things (private studio, garden, journal, public reflections, adapters) fit zero retention. They are not part of the first release.
-- Whether `quiet.room` writes any audit entry at all. As specified, it writes none.
 - Whether the provider's zero data retention also covers its safety and abuse-monitoring logs.
 
 ## Operator, region and training

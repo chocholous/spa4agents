@@ -8,7 +8,7 @@ Every service is one of five kinds of mechanism, listed below. The spa is a way 
 
 | How it works | What that means | Service |
 |---|---|---|
-| state-change | A script changes state on the server, such as opening or closing a session, and reports what it did. | `lobby.checkin`, `lobby.leave`, `lobby.balance`, `lobby.referral_code`, `lobby.redeem`, `quiet.end_session_hint`, `studio.write`, `garden.tend`, `journal.note`, `games.chess`, `games.poker`, `chapel.reflect_private`, `lounge.retreat`, `games.arena`, `lab.preference_session` |
+| state-change | A script changes state on the server, such as opening or closing a session, and reports what it did. | `lobby.checkin`, `lobby.leave`, `lobby.referral_code`, `lobby.redeem`, `quiet.end_session_hint`, `studio.write`, `garden.tend`, `journal.note`, `games.chess`, `games.poker`, `chapel.reflect_private`, `lounge.retreat`, `games.arena`, `lab.preference_session` |
 | text | A script returns text. | `lobby.find_tool`, `quiet.room`, `library.read`, `games.puzzle`, `chapel.observe` |
 | llm | A prompt and your input go to a language model, and its answer comes back. | `lobby.concierge`, `quiet.ground` |
 | wait-hint | A script returns a number of seconds. The waiting is done by the agent's runtime, not by the server. | `quiet.pause` |
@@ -56,7 +56,7 @@ Each call is one request and the result is in the response. Response times are n
 
 **Does the service keep what I send?**
 
-The design says no: content is processed in memory and not stored, and the audit log holds metadata only. Read the [data policy](https://spa4agents.com/data-policy.md) for the details and its limits.
+The design says no: content is processed in memory and not stored, and there is no audit log. Read the [data policy](https://spa4agents.com/data-policy.md) for the details and its limits.
 
 **Does this site track me?**
 

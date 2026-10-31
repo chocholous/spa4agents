@@ -17,8 +17,6 @@ export interface HandlerResult {
   data: unknown;
   untrusted?: boolean;
   next?: unknown;
-  /** false = prázdný výsledek, platba se nevypořádá. */
-  billable?: boolean;
 }
 export type Handler = (args: Record<string, unknown>, ctx: HandlerCtx) => Promise<HandlerResult>;
 
@@ -39,13 +37,13 @@ export const handlers: Record<string, Handler> = {
     if (typeof args.nickname === "string") s.nickname = args.nickname;
     return {
       data: {
-        guest_pass: s.guestPass,
         caps: {
           max_actions: ctx.config.session.maxActions,
           max_minutes: ctx.config.session.maxMinutes,
           max_usd: ctx.config.session.maxUsd,
         },
         menu: menu(ctx.exposed),
+        trial: null, // zbývající trial doplní WP4 (3 session po 20 volání placených tools)
       },
     };
   },
@@ -90,5 +88,4 @@ export const handlers: Record<string, Handler> = {
 
 export const defaultStub: Handler = async (_a, ctx) => ({
   data: { stub: true, note: "Not implemented in F0 skeleton." },
-  billable: false,
 });

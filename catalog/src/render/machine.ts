@@ -149,7 +149,6 @@ const envelope = (c: Catalog) => ({
       properties: { actions_left: { type: "integer" }, minutes_left: { type: "integer" }, usd_left: { type: "string" } },
     },
     trial: {
-      description: "Remaining trial of the agent, in every response. Null when no trial is left.",
       type: ["object", "null"],
       properties: { sessions_left: { type: "integer" }, calls_left_in_session: { type: "integer" } },
     },

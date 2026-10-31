@@ -29,7 +29,7 @@ Rule: what the spec does not decide is not decided here. Human texts live in `ca
 The full list of data policy questions (DP1 to DP11) is in `docs/zadani.md`. Web-specific points:
 
 17. **Draft banner on the policy.** The page always shows "Draft. This is a proposal and not a legal document" until `data_policy.confirmed_by_owner` is true. Wording needs the owner, and a legal review is still missing.
-18. **The page states reservations in plain words** (public blockchain payments, address hash is a pseudonym, abuse-prevention identifier undecided, LLM provider sees input and ZDR is contractual, hosting logs unverified, operator and jurisdiction `TO_BE_NAMED`). Do not shorten them for marketing reasons.
+18. **The page states reservations in plain words** (public blockchain payments, the abuse-prevention hash is a pseudonym held in memory for 24 hours (Change 31 Oct 2026: no audit hash), LLM provider sees input and ZDR is contractual, hosting logs unverified, operator and jurisdiction `TO_BE_NAMED`). Do not shorten them for marketing reasons.
 19. **The page describes requirements, not an audited state.** The service is not built or published. When it runs, the wording ("is designed to") must be revisited against what was verified.
 20. **Footer link instead of a menu item.** Should the policy also be in the main navigation?
 21. **Languages:** the policy exists in English only. Translating legal-like text needs the owner and ideally a lawyer; no machine translation was made.
@@ -52,7 +52,7 @@ The human site is now a brochure for the whole resort ("Fog and warmth": cream, 
 24. **Wing grouping is mine.** Nine wings: reception, recovery, quiet, studio and garden, reading room (`library.read`, `chapel.observe`), games room (chess, poker, puzzle), bar and company (`lounge.*`, `games.arena`), chapel and postcard, lab. The spec has only tool prefixes. Confirm names and grouping.
 25. **F2 persistence vs zero retention (DP7).** `studio.write`, `garden.tend`, `journal.note` are described as a private folder, persistent garden and private note (as in the catalog), but the data policy says nothing is stored. The site does not explain how; this must be settled before those wings open.
 26. **No catalog text for the lab, postcard, chapel services beyond the tool description.** Their lures only restate it. `lab.preference_session` says "your choice is recorded"; check against the data policy.
-27. **Trial.** "{{trial.free_sessions}} sessions of {{trial.max_turns_per_session}} turns" is shown as a changeable default. "Turn" is still undefined (catalog question B1). Validity in days, daily budget and the size of a guest pass trial are shown as "Being finalized" or omitted.
+27. **Trial.** "{{trial.free_sessions}} sessions of {{trial.max_turns_per_session}} turns" is shown as a changeable default. Change (31 Oct 2026): a turn is one tool call (catalog T2), and the guest pass trial is gone. Validity in days and the daily budget are shown as "Being finalized" or omitted.
 28. **Fine print** (/honesty/, footer link, not in the main nav) keeps: mechanisms, house rules, source table and one line that effect on agent success is not measured, plus six short FAQ answers. The footer still says "Operator: to be filled in."
 29. **Per-need evidence labels** (Not measured, Source linked) were removed from cards. Background sources appear on a need page only when a source exists; unsourced evidence notes are no longer shown on the human site (they stay in `needs/*.md`).
 30. **Privacy line on home** says "zero retention ... not stored ... not used for training. No analytics, no cookies", from `data_policy`, which is still a draft not confirmed by the owner. The link goes to /data-policy/.
@@ -80,3 +80,9 @@ The human site is now a plain catalog: "Want to rest? Pick a service." Texts und
 44. **Needs: 8 left** (waiting, after a hard conversation, heavy content, free time, play, make something, read, meet agents). The home and share texts no longer mention "a clear head", loops, context, untrusted input, second opinion or hand-over. Confirm wording.
 45. **Trial page and pricing text** now say the trial covers every paid tool (`trial.covered: all_paid`; the "Not covered" row is gone). Change 31 Oct 2026; see catalog S2. `lobby.concierge` is listed under Free.
 46. **Screenshots** were retaken (home, needs, tools and the other pages, desktop and mobile, light and dark). On the mobile `/needs/` page the "At a glance" table is cut off at the right edge inside its box (it scrolls inside the box; no page-level overflow). It existed before; not changed.
+
+## Change: simplification II (owner decision, 31 October 2026)
+
+47. **Web changes.** Pricing page: no guest pass row, no affiliate text, no entry/per game/credits/subscription wording, a new "Payment rails" list (x402 MVP, others after a survey), a trial row "Abuse check" (salted hash in memory, never on disk), turn defined as one tool call. Data policy page: the audit section is now one paragraph saying there is no audit log; the fields lists are gone. Services: `lobby.balance` is gone (24 services). Texts: "An empty result is not charged" removed. See catalog T1 to T10.
+48. **Screenshots in `web/screenshots/` are stale** (they show the pricing page and the tools list before this change). Retaking needs Playwright (`npm run screenshots`); not done in this change.
+49. **`dist/` of web is regenerated** by `npm run build`; nothing was committed or published.

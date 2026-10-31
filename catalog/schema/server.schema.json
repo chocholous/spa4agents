@@ -43,7 +43,7 @@
                     "type": "object",
                     "additionalProperties": false,
                     "required": ["name", "price_status", "amount_usd"],
-                    "properties": { "name": { "type": "string" }, "price_status": { "enum": ["free", "included", "pending", "set"] }, "amount_usd": { "type": ["string", "null"] } }
+                    "properties": { "name": { "type": "string" }, "price_status": { "enum": ["free", "pending", "set"] }, "amount_usd": { "type": ["string", "null"] } }
                   }
                 }
               }

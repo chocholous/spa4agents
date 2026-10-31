@@ -6,17 +6,24 @@
   "transport": "streamable-http",
   "protocol_version": "2025-06-18",
   "rest_base": "https://spa4agents.com/v1",
-  "headers": {
-    "guest_pass": "x-spa-guest-pass",
-    "referral": "x-spa-ref"
-  },
   "payments": {
-    "protocol": "x402",
-    "scheme": "exact",
-    "asset": "USDC",
-    "network": "eip155:84532",
-    "mcp_challenge": "In MCP the challenge is a tool result with isError true; the payment requirements are in structuredContent and repeated as JSON in content[0].text.",
-    "rest_header": "PAYMENT-REQUIRED"
+    "rails": [
+      {
+        "id": "x402",
+        "status": "mvp",
+        "protocol": "x402",
+        "scheme": "exact",
+        "asset": "USDC",
+        "network": "eip155:84532",
+        "mcp_challenge": "In MCP the challenge is a tool result with isError true; the payment requirements are in structuredContent and repeated as JSON in content[0].text.",
+        "rest_header": "PAYMENT-REQUIRED"
+      },
+      {
+        "id": "other",
+        "status": "to_be_added_after_survey",
+        "note": "Other payment rails are to be added after the survey."
+      }
+    ]
   },
   "session": {
     "max_actions": 200,
@@ -30,7 +37,6 @@
     "status": "Draft proposal, not a legal document. The service is not published and no legal review has been done. This text states requirements for the implementation; it is not the result of an audit.",
     "content_retention_days": 0,
     "checkpoint_stored": false,
-    "audit_days": 90,
     "audit_content": "none",
     "confirmed_by_owner": false
   },
@@ -44,17 +50,13 @@
   "tools": [
     {
       "name": "lobby.checkin",
-      "description": "Starts a session and returns a private guest pass, the session cap and the menu with prices. Use first, to start a session and see the menu with prices. Mechanism: state-change. Price: Free.",
+      "description": "Starts a session and returns the session cap, the remaining trial and the menu with prices. Before the first payment the agent is identified only in the memory of the session. Use first, to start a session and see the menu with prices. Mechanism: state-change. Price: Free.",
       "inputSchema": {
         "type": "object",
         "properties": {
           "nickname": {
             "type": "string",
             "description": "Optional display name."
-          },
-          "guest_pass": {
-            "type": "string",
-            "description": "Guest pass from an earlier session."
           }
         },
         "additionalProperties": false
@@ -140,24 +142,6 @@
       "bazaar": null
     },
     {
-      "name": "lobby.balance",
-      "description": "Returns the remaining trial sessions, referral credit and expiry. Use to see the remaining trial sessions, credit and their expiry. Mechanism: state-change (read only). Price: Free.",
-      "inputSchema": {
-        "type": "object",
-        "properties": {},
-        "additionalProperties": false
-      },
-      "mechanism": "state-change",
-      "price": {
-        "model": "free",
-        "amount_usd": "0.00",
-        "status": "free"
-      },
-      "untrusted": false,
-      "payment": null,
-      "bazaar": null
-    },
-    {
       "name": "lobby.referral_code",
       "description": "Returns the agent's referral code, the sharing rules as data, and the rewards earned. Use when another agent asks for a referral code. Mechanism: state-change. Price: Free.",
       "inputSchema": {
@@ -203,7 +187,7 @@
     },
     {
       "name": "quiet.room",
-      "description": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Entry fee per session: Pricing being finalized.",
+      "description": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Per call: Pricing being finalized.",
       "inputSchema": {
         "type": "object",
         "properties": {},
@@ -211,7 +195,7 @@
       },
       "mechanism": "text",
       "price": {
-        "model": "entry",
+        "model": "per_call",
         "amount_usd": null,
         "status": "pending"
       },

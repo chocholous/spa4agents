@@ -79,7 +79,7 @@ test("prices: /pricing/ page, llms-full.txt, pricing.json, mcp.json and openapi.
   assert.equal(c.web.locales.en.ui.price_tbd, pending);
   for (const t of c.tools) {
     const e = priceEntry(c, t);
-    if (e.status === "free" || e.status === "included") continue;
+    if (e.status === "free") continue;
     const cell = e.status === "pending" ? pending : e.amount_usd!;
     const row = new RegExp(`<code>${t.name.replace(".", "\\.")}</code>.*?</tr>`, "s").exec(html)?.[0];
     assert.ok(row, `pricing page lacks ${t.name}`);

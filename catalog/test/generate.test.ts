@@ -16,7 +16,7 @@ test("generator produces every required output", () => {
   for (const n of c.needs) assert.ok(files.has(`needs/${n.id}.md`), n.id);
   for (const t of published(c)) assert.ok(files.has(`tools/${t.name}.md`), t.name);
   assert.equal([...files.keys()].filter((k) => k.startsWith("needs/")).length, 8);
-  assert.equal([...files.keys()].filter((k) => k.startsWith("tools/")).length, 11);
+  assert.equal([...files.keys()].filter((k) => k.startsWith("tools/")).length, 10);
 });
 
 test("generation is deterministic", () => {
@@ -44,11 +44,11 @@ test("no unresolved template tokens in any output", () => {
 
 test("only published phases appear in tool outputs", () => {
   const mcp = JSON.parse(files.get("mcp.json")!);
-  assert.equal(mcp.tools.length, 11);
+  assert.equal(mcp.tools.length, 10);
   assert.ok(mcp.tools.every((t: any) => /^(lobby|quiet)\./.test(t.name)));
   assert.ok(!mcp.tools.some((t: any) => t.name.startsWith("recovery.")));
   const oa = JSON.parse(files.get("openapi.json")!);
-  assert.equal(Object.keys(oa.paths).length, 11);
+  assert.equal(Object.keys(oa.paths).length, 10);
   assert.ok(!files.get("llms.txt")!.includes("games.chess"));
 });
 

@@ -13,11 +13,11 @@ const oa = JSON.parse(files.get("openapi.json")!);
 const server = JSON.parse(files.get("server.json")!);
 const pending = c.copy.llms.price_pending as string;
 
-test("price model: pending prices are null, never the TODO_OWNER literal; free and included are 0.00", () => {
+test("price model: pending prices are null, never the TODO_OWNER literal; free is 0.00", () => {
   for (const p of model) {
     assert.notEqual(p.amount_usd, "TODO_OWNER");
     if (p.status === "pending") assert.equal(p.amount_usd, null);
-    if (p.status === "free" || p.status === "included") assert.equal(p.amount_usd, "0.00");
+    if (p.status === "free") assert.equal(p.amount_usd, "0.00");
   }
   assert.ok(model.some((p) => p.status === "pending"), "expected undecided prices in the draft");
   assert.ok(model.some((p) => p.status === "free"));
