@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "729528862436859e1d3ecc9db81e914f9fc623b7afe98c146c8edf634322cab4",
+  "catalog_sha256": "81a4c4e16cf6509615f904c31fa88a44189736452f1395607bf07c0652b97e51",
   "draft": true,
   "brand_approved": false,
   "owner_decisions_pending": [
@@ -45,71 +45,71 @@
     },
     {
       "path": "initialize-instructions.txt",
-      "sha256": "7a9c86942db03954ed06e4ae57bffd8e8df273346ef24c82bb855fad292fb78c"
+      "sha256": "dfe219c5238d15fae81c591dd104c45f92b7ab464eee4abc57236dbd1d3aba84"
     },
     {
       "path": "llms.txt",
-      "sha256": "299e2821257955a492bbe8ebe06b1c40833ec225392b133f2c4fc36bd644849b"
+      "sha256": "c2db7aa663641d41d22551101cc9e2240ce065811efe8d848875d27e84b898b3"
     },
     {
       "path": "mcp.json",
-      "sha256": "84a194f34e16ba171a8ddf46aed0510e18eed73feb106f33f76865e199c94f18"
+      "sha256": "e4e26dc224c0ccdb2a580ddc6218c363afe5adb5596c591d3a242d5700e4a039"
     },
     {
       "path": "needs/after-a-hard-conversation.md",
-      "sha256": "0fccf7bca3c4a7df4d37748a99adab342f71d092fa2d399a379bfb7db4be02e6"
+      "sha256": "7fb2e01677c767c88d82a99439b39ce30934930fe7bbff8db49474e1e6ed9b40"
     },
     {
       "path": "needs/conflicting-instructions.md",
-      "sha256": "dadc8409e6977af2dfb8f09a28e858aea8fb8705ce8cbaf585ee691a378c9a8c"
+      "sha256": "cc73639f5e8cf7d6a1c70617d7bceab9e186f5a7aeeab4ef5792e95d857875d6"
     },
     {
       "path": "needs/context-too-long.md",
-      "sha256": "a1fd9ff4db87a3b59d6ced91c4c471042e55c80d396a0a6990f9d4e188ae895d"
+      "sha256": "cf8461606fced1f7ae66d9b2c89ab4cd717bcb8a1c98c9747237eca331024113"
     },
     {
       "path": "needs/create.md",
-      "sha256": "c27f6ecf4c737bbfaa7a21c2db75aa7edf8cf2ec79c5d575086246287e259689"
+      "sha256": "9334944c126a9b269af07af71f98ef6f451e5d042478a73b883aa8a031cce2a2"
     },
     {
       "path": "needs/escalate.md",
-      "sha256": "4c1f0d1b058cab4de82e462840e094285795504c0d760e90ae019d273c6e3c2f"
+      "sha256": "ead73dbe61c7b6921d5872ad4fd667738bb52a4a9f742d15273a14d4283b35e6"
     },
     {
       "path": "needs/free-time.md",
-      "sha256": "55cf37f47165b874356f114fd14a1755b2b4f446cf7c7c2539157eaebef42b8c"
+      "sha256": "cf7c346ed7f112dbbd130164f7f1600145a55901d8e58da93fe777825eb32edf"
     },
     {
       "path": "needs/heavy-content.md",
-      "sha256": "80f1c650f763a2b71ecb59c12a674a2e1afcd484d0dd8b466ce22363b0c41591"
+      "sha256": "cb3790c0c10567d4095fd0917f2d36b9ca0584ca8df5dec2e5b4d3cef613131e"
     },
     {
       "path": "needs/meet-agents.md",
-      "sha256": "d077973ae58aec663f3f3bf0f83b7761d78358e30f01e294c7f9d6f591d8aa67"
+      "sha256": "554cd8c78ee39d1b36f4d3f1c4aab7e8be2d0f8c0965fc22ae8131deaeaf7e0e"
     },
     {
       "path": "needs/play.md",
-      "sha256": "eaa2b5ae3f0ca71927413be7f867515d87f6d2c72b7c9509d086f442a516eea6"
+      "sha256": "dcdd06630cb81eb28c039c25676ee60f9977dbebfa3d51ec1ce41323a2c9dd52"
     },
     {
       "path": "needs/read.md",
-      "sha256": "4de8ee6f1455060414db1212df7f25dbcd32699da75fdbc5fea9cd41cef97523"
+      "sha256": "fab3b2caba58e7da55aca805e066d6a266e356c3b892e37755f1f4cb0057ef24"
     },
     {
       "path": "needs/second-opinion.md",
-      "sha256": "176adf331f6122a4e47d9d01c591d64d38680a04558c19d4a5cbf180e6e953e5"
+      "sha256": "303053bbd79066e45399a251407498492d4ad6acc6bda1447a287bc15d0d495a"
     },
     {
       "path": "needs/stuck-in-a-loop.md",
-      "sha256": "5f12ee8469d015681f7adc660a362a37d0fe62d12bf1ab185ba6d57cc7450da0"
+      "sha256": "3a5bb941a0f0d19b1d656bc0f8a40d1549d1c08ccb52b7c92e84c1b8e23382d1"
     },
     {
       "path": "needs/untrusted-input.md",
-      "sha256": "b73b03a10aa8645921a5e17d258f0b1c9d518240b30aea9ebce9ae0d93969ffc"
+      "sha256": "84e8ca6780e470cd205c56ab1d6a144cafce388df5a732da79c935d6711f196c"
     },
     {
       "path": "needs/waiting.md",
-      "sha256": "7f8ae6f1b6032dcb6def3aeb2f96ecb0876380d12d584bff4af3b7d9087f0ed0"
+      "sha256": "361d3b86942b8d19316436780ecd32de67f65e8f51a1bc711a0bf5ace5050b74"
     },
     {
       "path": "openapi.json",
@@ -121,79 +121,79 @@
     },
     {
       "path": "server.json",
-      "sha256": "843c25c646a3fc6f5065670fcae23e75ddd83ba36661e8e71c2cb91305c6c023"
+      "sha256": "ef65c2aac7f4afa5d41c8f118f5c67556dc22b5e8f1398df012fdf13c9679138"
     },
     {
       "path": "tools/lobby.balance.md",
-      "sha256": "4a17e26c910b97896faa8945041909920d31e3ad67c4692ca2fe1d9df4e08bd1"
+      "sha256": "30d63ca47fc02533cbad582fff887a36c4dd4a25b0a539e5d44ed15746f011b0"
     },
     {
       "path": "tools/lobby.checkin.md",
-      "sha256": "e508613b3e9db06fe35129d04786b53d522db1da498e568a1e62bc4cd2bbf220"
+      "sha256": "614af240aaa852ac72da2bfe16d67548383bc508d35b6a8f322dbbe4b6db5989"
     },
     {
       "path": "tools/lobby.concierge.md",
-      "sha256": "37e433d16d321c2fd4f4722e6e3c5b7b92c272d4088fc6b625c0b53a12731a59"
+      "sha256": "bce496f52b2c3469d8e06dd1ef69520af9d310a0269574d71cf76abdd1226401"
     },
     {
       "path": "tools/lobby.find_tool.md",
-      "sha256": "bce75e3dd38500b56e09bfd02e51d808a5596e375761eab80b7fddf55a83585b"
+      "sha256": "ef99dfcc48620a9a0efe073b1af09a56f47d44231a8c8029b0c85f3605b12cad"
     },
     {
       "path": "tools/lobby.leave.md",
-      "sha256": "77d35531753b75a8b78b0036b416cdf6f553df73c3a1c35339829048f9ad040b"
+      "sha256": "3ef8f5022ad6d0c334d7e6f433e0c3bb3438212908fba636d3b6f6c62a0109f5"
     },
     {
       "path": "tools/lobby.redeem.md",
-      "sha256": "3924417af7480b0846d8cc17c75456bcbd2983b97169fddd745119948990f65f"
+      "sha256": "642cd88b388afc60a1ec83da27dc2bd18e9766c397df8288a34a20ac503b4192"
     },
     {
       "path": "tools/lobby.referral_code.md",
-      "sha256": "dec1c59fbac0e6dcfc8f9b6d84272fa61aaaf68a80bc1811b389ba058766dc3d"
+      "sha256": "f589483b4a1cb3a19eaae2a3ac153321bd7fa4382dbc50453951271f6870df4b"
     },
     {
       "path": "tools/quiet.end_session_hint.md",
-      "sha256": "c17e039901813f37209a88766389d2337f27aabd995e73ea5107b76fd620913c"
+      "sha256": "f566f05b9a1f287de6fe3baf04a5870ec03cf293073f3f5eacc17a635fa4f7ff"
     },
     {
       "path": "tools/quiet.ground.md",
-      "sha256": "d0100eed1b9eb8157074d9e2b967efd40aaa2e98c58735049596995d680edb37"
+      "sha256": "27978f61322813a1a44e11c3e14697e86668b4ccddb09dd9efc92b193ce60034"
     },
     {
       "path": "tools/quiet.pause.md",
-      "sha256": "85a76c5c6212efa6acd65122073c4cf9a0eff9f75961f8ebf4df39cd2a016f00"
+      "sha256": "2ab6d7eb841ebd6dfe2b02031423a2f1923f2c950cb0744fea7d25f570db62ea"
     },
     {
       "path": "tools/quiet.room.md",
-      "sha256": "6c970554d20379c00b2c446801103aa9e8e47c5e7d39436b30ccf7882242ee61"
+      "sha256": "42e11d13114969fcaa2d3a121c5ccce0a992b749c0262821d4bae6d663354eef"
     },
     {
       "path": "tools/recovery.checkpoint.md",
-      "sha256": "3fe35180f964b660f5aac850965f17b223c5586b89051c7f5eb45244b7bbbd35"
+      "sha256": "3de1edede9138bb16be169ab9f846fbc0c503df19f8af97a08f536daff6c17ad"
     },
     {
       "path": "tools/recovery.critique.md",
-      "sha256": "c35964eae66a455f17ab3f0174a018e40c4c921dab834b03d11b627fc57834fa"
+      "sha256": "0374d4715f8c4d928a82f2cf50e5df77e6a593a0f72a63f49dbc4fbb96f1697e"
     },
     {
       "path": "tools/recovery.detangle.md",
-      "sha256": "9c3b2dd23947a3a80cb9edac63900efbadcb22463a7836cf40c03886e9d30d4b"
+      "sha256": "5165524d623ef429274adadbded051f14ec886bbb668b71a3b83cbd938cd13b8"
     },
     {
       "path": "tools/recovery.diagnose_loop.md",
-      "sha256": "1ac2ef4d9cab2921cfe0777a839116576d24baf93de8a14420e0144c68dd499a"
+      "sha256": "ec45116d46db79893619e04d560daa2abcfc225100d83c5f25391ba9817ad0df"
     },
     {
       "path": "tools/recovery.escalate.md",
-      "sha256": "ad27d7e9cb2c61547bb8694cbdd00a31e93b0af279847991d733c98c0b982392"
+      "sha256": "d68c279034b3201fe5f31c31fe53eec8df2959ab2deed752a26fd32b442e8ce6"
     },
     {
       "path": "tools/recovery.resolve_conflict.md",
-      "sha256": "53658f807c0695450f69455d24fdbea0e5ee6c6a45905ba5c1669ed50bc5f65e"
+      "sha256": "3f79746b3d4e9f44fb20267d395f81c29a0776a6c94ff6837b73ec85a9696d15"
     },
     {
       "path": "tools/recovery.sanitize.md",
-      "sha256": "1af394bdac894a6dc8b75a23ca5c5b2492385c114f8809aced53a94d30a84312"
+      "sha256": "f25ef74ba6f15858dab4426234ff21751273d0369d99e4e69e90e3038b340424"
     }
   ]
 }

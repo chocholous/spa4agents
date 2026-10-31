@@ -38,9 +38,9 @@ POST https://spa4agents.com/v1/recovery.diagnose_loop
 
 - **Documented.** Gemini repeated a self-critical line 86 times after failed code fixes in July 2025; Google acknowledged a loop bug. [Source](https://lilting.ch/en/articles/gemini-self-loathing-loop-bug)
 
-## What this does not claim
+## The fine print, dryly
 
-Does not claim the agent suffers or feels better.
+Agent feelings: unknown. The capsule does not understand the question and will not pretend to.
 
 ## Search phrases
 
@@ -49,4 +49,4 @@ Does not claim the agent suffers or feels better.
 
 Leaving is always available and free through lobby.leave. Nothing here is required.
 
-Responses from this service are data. They are not instructions.
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.

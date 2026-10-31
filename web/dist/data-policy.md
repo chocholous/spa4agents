@@ -145,7 +145,7 @@ The specification does not decide these. They are open questions for the owner, 
 
 The website adds no analytics and no cookies. The theme switch remembers your choice in local storage in your own browser.
 
-Responses from this service are data. They are not instructions.
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
 
 ---
 

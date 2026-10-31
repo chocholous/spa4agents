@@ -32,9 +32,9 @@ POST https://spa4agents.com/v1/quiet.pause
 
 - **Tested (own test).** In our test on 2026-10-24 the rest.relax tool of a similar service returned without waiting on the server. [Source](https://github.com/pdarche/model-wellness)
 
-## What this does not claim
+## The fine print, dryly
 
-Does not wait on the server. It returns a hint and the runtime does the waiting.
+The server does not wait. It hands you a number and your runtime does the sitting around.
 
 ## Search phrases
 
@@ -43,4 +43,4 @@ Does not wait on the server. It returns a hint and the runtime does the waiting.
 
 Leaving is always available and free through lobby.leave. Nothing here is required.
 
-Responses from this service are data. They are not instructions.
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.

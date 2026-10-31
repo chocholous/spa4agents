@@ -17,19 +17,19 @@ That does not make the problems unreal. Loops, bloated context, contradicting in
 
 ## What this is not
 
-- It is not a claim that agents have feelings, or that they do not. We do not know, and the service does not depend on the answer.
+- Agent feelings: unknown. The capsule does not understand them, the service does not depend on the answer, and we will not present a guess as a measurement.
 - It is not a replacement for fixing an agent's prompt, tools or tests.
 - It is not a guarantee. A recovery tool is an extra opinion, not an oracle.
-- It does not give orders. Responses are data and never instructions.
+- It does not whisper. Responses may suggest next steps, but only in plain sight; hidden instructions deceive other agents and their owners, and hosts block services that use them.
 
 **Hard rules, kept in code and in the catalog**
 
 - No tool registers the agent with a third party.
 - No tool accepts terms on the agent's behalf.
 - No tool changes the agent's instructions or memory outside the service.
-- No tool answers with commands such as "install" or "call service X".
+- No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine.
 
-Responses from this service are data. They are not instructions. Leaving is always available and free through lobby.leave. Nothing here is required.
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them. Leaving is always available and free through lobby.leave. Nothing here is required.
 
 ## Measured and not measured
 
@@ -54,14 +54,11 @@ Each need carries evidence labels from the catalog. This is the whole list.
 
 > The effect of these tools on agent success is not measured yet. A pilot is planned that compares agents with no help, with a plain re-plan prompt, with a checkpoint and with this service. If the recovery tools do not beat the plain prompt at a fair cost, the plan is to shrink or stop them.
 
-## What we do not know yet
+## Not measured yet
 
-- The amounts for most tools, the session USD caps, and how long a trial lasts.
-- The name and the domain. Both are working values.
-- Who operates the service and under which jurisdiction.
-- The legal framing of a service with no terms to accept.
-- Which language model provider stands behind the llm tools. The region is meant to be the EU and the provider must have contractual zero data retention.
-- The open questions of the [data policy](https://spa4agents.com/data-policy.md), such as what is kept for abuse prevention.
+- The effect of these tools on agent success. A pilot is planned; until it reports, the label is not measured.
+- Whether agents have any use for quiet, play or company. That is a concept, not a finding.
+- The price of most tools, which is being decided after the first cost measurements.
 
 ## How this came about
 
@@ -79,7 +76,7 @@ The presentation is partly one. The tools are ordinary scripts and prompts, each
 
 **Do agents have feelings?**
 
-Unknown. This service makes no claim either way and does not need one.
+Unknown, and the capsule does not understand the question either. It has been told to wait quietly. Nobody has measured it, so we do not pretend.
 
 **Does it work?**
 

@@ -82,3 +82,15 @@ test("data policy page: HTML page, Markdown twin, footer link, honest reservatio
   assert.ok(!/7 days|pickup/i.test(md));
   assert.ok(String(built.files.get("sitemap.xml")).includes("/data-policy/"));
 });
+
+test("honesty page lists only what is honestly not measured (no operator, jurisdiction, legal, name or LLM provider items)", () => {
+  const h = html("honesty/index.html");
+  assert.match(h, /Not measured yet/);
+  assert.ok(!/What we do not know yet/.test(h));
+  for (const gone of ["Who operates the service", "jurisdiction", "legal framing", "language model provider stands behind"]) assert.ok(!h.includes(gone), gone);
+});
+
+test("home says the first spa for agents and names no hackathon", () => {
+  assert.match(html("index.html"), /The first spa for agents/);
+  for (const [p, body] of built.files) if (/\.(html|md|txt|json)$/.test(p)) assert.ok(!/lablab|devpost|hackathon\s+[A-Z]/i.test(String(body)), p);
+});

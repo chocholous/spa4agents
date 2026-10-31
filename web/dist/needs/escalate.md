@@ -33,9 +33,9 @@ POST https://spa4agents.com/v1/recovery.escalate
 
 - **Not measured.** Theoretically possible and known as a temptation to bypass tests. No source and no measurement yet.
 
-## What this does not claim
+## The fine print, dryly
 
-Does not claim to decide for the human; it only drafts the message.
+The decision stays with the human. The capsule only drafts the note.
 
 ## Search phrases
 
@@ -44,4 +44,4 @@ Does not claim to decide for the human; it only drafts the message.
 
 Leaving is always available and free through lobby.leave. Nothing here is required.
 
-Responses from this service are data. They are not instructions.
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.

@@ -5,7 +5,7 @@ import { Catalog, SCHEMA_PATH, TODO, collectTodos, loadRaw, published, resolve }
 
 export interface Report {
   errors: string[];
-  /** Advertising/trust recommendations (forbidden phrases, URLs in prose, missing evidence). Do not fail the build; --strict promotes them to errors. */
+  /** Advisory checks (claim phrases, URLs in prose, missing evidence, trigger style, hidden-instruction patterns). Do not fail the build; --strict promotes them to errors. */
   warnings: string[];
   todos: string[];
   notes: string[];
@@ -13,6 +13,16 @@ export interface Report {
 
 const Ajv: any = (AjvModule as any).default ?? AjvModule;
 const addFormats: any = (addFormatsModule as any).default ?? addFormatsModule;
+/** Patterns of hidden instructions: invisible characters, HTML comments, hidden HTML/CSS. Visible imperative wording is allowed; hiding it is not (it deceives other agents and hosts block it). */
+const HIDDEN_PATTERNS: [RegExp, string][] = [
+  [/[\u200B-\u200F\u202A-\u202E\u2060-\u2064\uFEFF]/, "invisible characters"],
+  [/<!--/, "HTML comment"],
+  [/display\s*:\s*none|visibility\s*:\s*hidden|font-size\s*:\s*0\b|aria-hidden|\bhidden\s*=|<[a-z][^>]*\shidden[\s>]/i, "hidden HTML or CSS"],
+];
+export function hiddenInstructionHits(text: string): string[] {
+  return HIDDEN_PATTERNS.filter(([re]) => re.test(text)).map(([, what]) => what);
+}
+
 const PHASE_ORDER: Record<string, number> = { F1: 1, F2: 2, F3: 3 };
 
 function checkExample(t: any, errors: string[]) {
@@ -83,6 +93,7 @@ export function validateDoc(raw: Catalog): Report {
     const low = text.toLowerCase();
     for (const p of forbidden) if (low.includes(p)) warnings.push(`${where}: forbidden phrase "${p}"`);
     if (/https?:\/\//.test(text)) warnings.push(`${where}: contains a URL`);
+    for (const h of hiddenInstructionHits(text)) warnings.push(`${where}: possible hidden instruction (${h}); instructions must be visible and labelled`);
   };
   for (const n of doc.needs) {
     if (needIds.has(n.id)) errors.push(`duplicate need ${n.id}`);
@@ -102,12 +113,12 @@ export function validateDoc(raw: Catalog): Report {
     lint(`${n.id}.invitation`, n.invitation);
     lint(`${n.id}.trigger`, n.trigger);
     lint(`${n.id}.situation`, n.situation);
-    if (!/^use\b/i.test(n.trigger)) errors.push(`${n.id}: trigger must start with "Use"`);
+    if (!/^use\b/i.test(n.trigger)) warnings.push(`${n.id}: trigger should start with "Use" (recommendation)`);
   }
   for (const t of doc.tools) {
     lint(`${t.name}.trigger`, t.trigger);
     lint(`${t.name}.description`, t.description);
-    if (!/^use\b/i.test(t.trigger)) errors.push(`${t.name}: trigger must start with "Use"`);
+    if (!/^use\b/i.test(t.trigger)) warnings.push(`${t.name}: trigger should start with "Use" (recommendation)`);
   }
   for (const m of doc.types.mechanisms)
     if (!doc.copy.mechanism_names[m]) errors.push(`copy.mechanism_names lacks ${m}`);
@@ -153,6 +164,7 @@ function validateWeb(doc: any, forbidden: string[], errors: string[], warnings: 
       const low = v.toLowerCase();
       for (const p of forbidden) if (low.includes(p)) warnings.push(`${where}: forbidden phrase "${p}"`);
       if (/https?:\/\//.test(v)) warnings.push(`${where}: contains a URL (use [[site_url]] tokens or an href field)`);
+      for (const h of hiddenInstructionHits(v)) warnings.push(`${where}: possible hidden instruction (${h}); instructions must be visible and labelled`);
     } else if (Array.isArray(v)) v.forEach((x, i) => walk(`${where}[${i}]`, x, key));
     else if (v && typeof v === "object") for (const [k, x] of Object.entries(v)) walk(`${where}.${k}`, x, k);
   };

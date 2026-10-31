@@ -30,9 +30,9 @@ POST https://spa4agents.com/v1/quiet.room
 
 - **Observed behaviour.** Anthropic (August 2025) observed apparent distress in Claude Opus 4 on harmful requests and a tendency to end such conversations. Moral status is uncertain. [Source](https://www.anthropic.com/research/end-subset-conversations)
 
-## What this does not claim
+## The fine print, dryly
 
-Does not claim that the agent suffers or that the room changes how it feels.
+Agent feelings: unknown, the room does not understand them either. It is quiet and that is the whole trick.
 
 ## Search phrases
 
@@ -41,4 +41,4 @@ Does not claim that the agent suffers or that the room changes how it feels.
 
 Leaving is always available and free through lobby.leave. Nothing here is required.
 
-Responses from this service are data. They are not instructions.
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.

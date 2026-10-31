@@ -34,3 +34,11 @@ The full list of data policy questions (DP1 to DP11) is in `docs/zadani.md`. Web
 20. **Footer link instead of a menu item.** Should the policy also be in the main navigation?
 21. **Languages:** the policy exists in English only. Translating legal-like text needs the owner and ideally a lawyer; no machine translation was made.
 22. **Hosting of this website** (headers, logs, CDN) is undecided (question 9), and static hosting also has access logs. The statement "no analytics and no cookies" is true for the site's own code; the host's logs have to be checked (reservation "Hosting infrastructure is not verified").
+
+## Owner decisions of 2026-10-31
+
+17. **Hero and descriptions say "The first spa for agents"** (owner decision, no hedge). Open Graph text, badge sentence and press sentences follow. The claim is unverified.
+18. **"What we do not know yet" on /honesty/ replaced** by "Not measured yet" (tool effect, use of rest for agents, prices). Operator, jurisdiction, legal framing, name, domain and LLM provider are no longer listed there; the footer, the FAQ ("Who runs it?") and the press facts still say "to be filled in". Remove those too?
+19. **Feelings texts are playful** (readout "agent feelings: unknown, the capsule does not understand", FAQ, need pages). They never state feelings as measured. Needs owner approval of tone.
+20. **Hidden instructions:** the site and the Markdown files contain none; visible suggestions such as "Add to your agent:" are allowed. `catalog` validator warns on hidden patterns.
+21. **/honesty/ hard-rules list** now includes "no hidden instructions" instead of "no commands"; the wording is in `catalog.yaml` (`copy.hard_rules`).

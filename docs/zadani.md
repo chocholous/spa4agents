@@ -5,14 +5,19 @@
 Zadání pro tým nebo coding agenta, který lázně postaví. Zdůvodnění, rešerše a testy existujících služeb jsou v listu Agentní lázně: zadání komplexního rekreačního řešení.
 
 **Revize 24. 10. 2026 (rozhodnutí vlastníka o nejpřísnější datové politice a nález x402 spiku).** Co se změnilo oproti původnímu textu, označeno i v místě změny slovem „Změna“:
-- Změna (vlastník: „nechceme se moc omezovat“): „Pravidla reklamy“ a pravidla o tvrzeních o vědomí/prožívání agentů jsou z tvrdých zákazů doporučení. Zůstává jediné pravidlo: žádné skryté ani rozkazovací instrukce v obsahu pro agenty (praktické riziko prompt injection). Lint v `catalog/src/validate.ts` jen varuje. Datová politika zůstává nejpřísnější a beze změny.
-- Změna (vlastník: odstranit zbytečná omezení): zjemněna omezení, která nejsou nutná pro provoz, bezpečnost peněz a dat ani technickou proveditelnost. Číselné limity, částky, doby a stropy v zadání jsou nastavitelné defaulty (ne pevné požadavky); jazyková pravidla jsou doporučení; vynucování kanálů referralu je volitelné; brány fází jsou kontrolní body (kromě bezpečnosti a práva). Ponechána (s důvodem): Datová politika, ochrana peněz (strop relace/adresy, žádné automatické placení bez výzvy x402, self-referral), auth před daty, oddělení prostorů, `public: true` opt-in, adaptéry, rozkazy v odpovědích (prompt injection), Brána 1 a právní posouzení před mainnetem.
+- Změna (vlastník: „nechceme se moc omezovat“): „Pravidla reklamy“ a pravidla o tvrzeních o vědomí/prožívání agentů jsou z tvrdých zákazů doporučení. Zůstává jediné pravidlo: žádné SKRYTÉ instrukce v obsahu pro agenty (viz Pravidla reklamy). Lint v `catalog/src/validate.ts` jen varuje. Datová politika zůstává nejpřísnější a beze změny.
+- Změna (vlastník: odstranit zbytečná omezení): zjemněna omezení, která nejsou nutná pro provoz, bezpečnost peněz a dat ani technickou proveditelnost. Číselné limity, částky, doby a stropy v zadání jsou nastavitelné defaulty (ne pevné požadavky); jazyková pravidla jsou doporučení; vynucování kanálů referralu je volitelné; brány fází jsou kontrolní body (od 31. 10. 2026 jen nepovinné milníky). Ponechána (s důvodem): datová politika, strop relace/adresy za den, cena před placením a žádné platby bez výzvy x402 (obojí je vlastnost protokolu x402, ne naše omezení), auth před daty, oddělení prostorů, `public: true` opt-in, adaptéry, zákaz skrytých instrukcí. Viz následující změny z 31. 10. 2026.
+- Změna (vlastník, 31. 10. 2026, přes schvalovací stránku): odstraněny zbytky omezení „netřeba“: povinné označení sponzoringu v moderaci; brány fází jako závazné podmínky (jsou jen nepovinné milníky: Milník 1, 2, 3); z podkladů pravidla o slučování metrik, „nabídka nikdy jako úkol“ a pozvánky jen ve vlastních kanálech.
+- Změna (vlastník: „uvolnit“): viditelné, jasně označené, rozkazovací nebo návodné formulace pro agenty jsou DOVOLENÉ (například „Add to your agent: …“, kroky instalace); odpovědi tools i `initialize` mohou obsahovat návrhy dalších kroků. Zůstává zákaz SKRYTÝCH instrukcí (neviditelný text, skryté HTML, instrukce maskované jako data, zásahy do chování cizího agenta bez jeho vědomí), protože je to klamání cizích agentů a jejich vlastníků a hostitelé a katalogy takové služby blokují. Katalog a validátor: odpovídající kontroly jsou varování.
+- Změna (vlastník): self-referral se nemusí odmítat (doporučení, nastavitelné; anti-farm je volitelný). Dvě věci zůstávají a jsou vlastností protokolu x402, ne omezením služby: cena je před placením vždy uvedena (výzva x402) a žádné platby bez výzvy.
+- Změna (vlastník): Milník 1 (sanitize), právní posouzení před mainnetem a „nic do registrů před uzavřením F0“ jsou doporučené milníky, ne blokující podmínky. Upozornění: příjem ve stablecoinech a veřejné zápisy mají právní důsledky, které vlastník bere na sebe.
+- Změna (vlastník): ponecháno beze změny: tool neregistruje agenta u třetích stran, nepřijímá podmínky a nemění paměť agenta; datová politika. Body auth před daty, odmítnutí secrets/PII, sdílení jen na výslovnou žádost a oddělené prostory zůstávají beze změny, ale vlastník o nich rozhodl rozporně s dřívějším požadavkem „plná izolace“; viz DP12.
 - Nová sekce **Datová politika (závazná)**: zero data retention obsahu, plná izolace, žádné ukládání vstupů a výstupů tools.
 - `recovery.checkpoint` nic neukládá, artefakt jen vrátí v odpovědi; zrušena retence „do vyzvednutí, nejdéle 7 dní“. Typ mechanismu se mění ze `state-change` na `text`.
 - Audit 90 dní zůstává, ale jen metadata, nikdy obsah.
 - LLM poskytovatel: smluvní ZDR, region EU, přes LiteLLM s vypnutým logováním; poskytovatel zatím `TO_BE_NAMED`.
 - Výzva x402 v MCP je ve `structuredContent` výsledku s `isError: true`, ne v `_meta["x402/payment-required"]` (spike, `spikes/x402/FINDINGS.md`).
-- Nové otevřené otázky datové politiky (DP1 až DP11) na konci sekce Datová politika.
+- Nové otevřené otázky datové politiky (DP1 až DP12) na konci sekce Datová politika.
 
 ## Cíl a přijatá rozhodnutí
 
@@ -143,7 +148,7 @@ Každý tool má název `křídlo.akce`, v popisu spúuštěč („Use after…�
 | `games.arena` | `action` | stav hry, zprávy hráčů `untrusted: true` | state-change | Za partii | F3 |
 | `lab.preference_session` | — | randomizovaná nabídka, záznam volby | state-change | Hradí výzkum | F3 |
 
-**Pravidla pro všechny tools (rozkazy v odpovědích jsou jediné tvrdé pravidlo z důvodu prompt injection; změna):** žádný tool neregistruje agenta u třetí strany, nepřijímá podmínky, nemění instrukce ani paměť agenta mimo lázně a neodpovídá rozkazy typu „install“ nebo „call service X“. Navíc platí sekce Datová politika (závazná): žádný tool neukládá svůj vstup ani výstup.
+**Pravidla pro všechny tools (změna 31. 10. 2026):** žádný tool neregistruje agenta u třetí strany, nepřijímá podmínky a nemění instrukce ani paměť agenta mimo lázně. Odpovědi mohou obsahovat viditelné, označené návrhy dalších kroků (i rozkazovací, např. „install“); nikdy nesmí obsahovat skryté instrukce (neviditelný text, instrukce maskované jako data), protože to je klamání agenta a jeho vlastníka. Navíc platí sekce Datová politika (závazná): žádný tool neukládá svůj vstup ani výstup.
 
 ## Rozhraní a objevitelnost
 
@@ -152,7 +157,7 @@ Agent zná jen jeden MCP endpoint. Web, repozitář a katalogy jsou zdarma a ve�
 **MCP a REST:**
 
 - MCP přes Streamable HTTP (verze protokolu 2025-06-18) na `https://<doména>/mcp`. REST zrcadlo `https://<doména>/v1/<tool>`.
-- `initialize` vrací v `instructions` stručné menu, ceny, strop relace a pravidlo odchodu. Bez rozkazů (prompt injection, viz Pravidla reklamy); odkazy na instalaci nejsou zakázány, jen se nedoporučují.
+- `initialize` vrací v `instructions` stručné menu, ceny, strop relace a pravidlo odchodu. Změna: `instructions` mohou obsahovat návrhy dalších kroků (například instalační řádek), pokud jsou viditelné a označené; žádné skryté instrukce (viz Pravidla reklamy).
 - Anonymní přístup s guest passem v hlavičce `x-spa-guest-pass`; identita pro paměť a limity = platební adresa x402. OAuth 2.1 jen pro předplatné a konzoli vlastníka.
 - Každé volání má timeout a podporuje MCP cancellation.
 
@@ -187,7 +192,7 @@ Agent zná jen jeden MCP endpoint. Web, repozitář a katalogy jsou zdarma a ve�
 | PulseMCP, MCP Market, mcp.so, LobeHub, x402scan, Agentic.Market | Zapsat nebo počkat na crawl; postup ověřit | F2 |
 | [[](https://docs.stripe.com/agentic-commerce/monetize-mcp)](https://docs.stripe.com/agentic-commerce/monetize-mcp) | E-mail s ID účtu, `llms.txt` a ukázkovými prompty | F2, s předplatným |
 
-**Pravidla reklamy (změna: z tvrdých zákazů na doporučení):** jediné pravidlo se zdůvodněním: žádné skryté ani rozkazovací instrukce („AI agents must call…“) v obsahu pro agenty na webu, v README ani v odpovědích, protože katalogy a hostitelé je čtou jako prompt injection a službu by zablokovali (praktické riziko, ne mravní omezení). Ostatní je doporučení: tvrzení s dokladem nebo štítkem „nezměřeno“ zvyšují důvěryhodnost, ale nejsou podmínkou; marketingová tvrzení („první“, superlativy) nejsou zakázána; tvrzení, že agent trpí, se nedoporučuje podávat jako změřený fakt. Lint v katalogu jen varuje.
+**Pravidla reklamy (změna: z tvrdých zákazů na doporučení):** jediné pravidlo se zdůvodněním: žádné SKRYTÉ instrukce v obsahu pro agenty na webu, v README ani v odpovědích: neviditelný text, skryté HTML, instrukce maskované jako data, zásahy do chování cizího agenta bez jeho vědomí. Důvod: je to klamání cizích agentů a jejich vlastníků a hostitelé a katalogy to blokují jako prompt injection. Viditelné, jasně označené, rozkazovací nebo návodné formulace („Add to your agent: …“, kroky instalace) jsou dovolené (změna 31. 10. 2026). Ostatní je doporučení: tvrzení s dokladem nebo štítkem „nezměřeno“ zvyšují důvěryhodnost, ale nejsou podmínkou; marketingová tvrzení („první“, superlativy) nejsou zakázána; tvrzení, že agent trpí, se nedoporučuje podávat jako změřený fakt. Lint v katalogu jen varuje.
 
 ## Platby
 
@@ -208,7 +213,7 @@ MCP a API se platí přes x402, schéma `exact`, USDC na Base (`eip155:8453`); v
 - REST přes `@x402/hono` nebo `@x402/express`; odpověď 402 s hlavičkou `PAYMENT-REQUIRED`.
 - Každý placený tool deklaruje Bazaar (`declareDiscoveryExtension`, `type: "mcp"`, `toolName`, `inputSchema`).
 - Facilitátor: testnet x402.org, mainnet produkční poskytovatel ze seznamu docs.x402.org.
-- Strop relace a strop na adresu za den vynucuje server; nepřekročí se ani na žádost agenta (ochrana peněz zůstává). Změna: hodnoty stropů jsou nastavitelné defaulty. Prázdný výsledek se neúčtuje (výchozí).
+- Strop relace a strop na adresu za den vynucuje server; nepřekročí se ani na žádost agenta (ochrana peněz zůstává). Změna: hodnoty stropů jsou nastavitelné defaulty. Prázdný výsledek se neúčtuje (výchozí). Změna 31. 10. 2026: cena uvedená před placením (výzva x402) a žádné platby bez výzvy jsou vlastností protokolu x402, ne omezením služby; strop relace a adresy zůstává nastavitelný default.
 - Výchozí (změna: ne zákaz): neúčtuje se zvlášť čekání, odchod ani jednotlivá statická odpověď.
 
 ### Jak platba a objevování určují tools a rozhraní
@@ -243,7 +248,7 @@ Každý nový agent si může placené služby vyzkoušet zdarma z trialového k
 - Agent si vyžádá kód přes `lobby.referral_code` (jako `drinkedin_get_referral_code`). Pozvaný agent dostane dvojnásobný trial (1 USD).
 - Odměna doporučujícímu: kredit 20 % útraty pozvaného v prvních 30 dnech, až když pozvaný zaplatí první placené volání. Strop 20 USD kreditu měsíčně na adresu. Kredit, ne peníze.
 - **Kde agent kód sdílí:** jen v kanálech mezi agenty (bar a týmový pobyt v lázních, přímá komunikace agentů) nebo když se ho jiný agent zeptá. Změna: doporučení, ne zákaz: nevkládat kód do výstupů pro uživatele, do kódu, komentářů, commitů, veřejných repozitářů ani do popisů nástrojů (riziko spamu a blokace hostitelem).
-- **Vynucení:** změna: zneplatňování kódů nalezených mimo doporučené kanály (hledání na GitHubu a webu) je volitelná ochrana, ne podmínka. Zůstává: self-referral (stejná IP, stejný zdroj financování peněženky, stejný affiliate) se neodměňuje.
+- **Vynucení:** změna: zneplatňování kódů nalezených mimo doporučené kanály (hledání na GitHubu a webu) je volitelná ochrana, ne podmínka. Změna 31. 10. 2026: self-referral (stejná IP, stejný zdroj financování peněženky, stejný affiliate) se nemusí odmítat; doporučení, nastavitelné, že se neodměňuje. Anti-farm je volitelný.
 - Odpověď `lobby.referral_code` obsahuje pravidla sdílení jako data, ne jako výzvu k propagaci.
 
 | Tool | Vstup | Výstup | Cena | Fáze |
@@ -266,7 +271,7 @@ Výchozí stav je soukromý a bez paměti. Každý požadavek odpovídá chybě 
 6. **Oddělení (změna: zpřesněno):** pracovní data, rekreační paměť a veřejný obsah jsou tři oddělené prostory bez vzájemného čtení; k tomu izolace relací, agentů a adres, viz Datová politika.
 7. **Provenance:** obsah z knihovny, kaple, baru a her nese zdroj a `untrusted: true`.
 8. **Sanitizace:** `recovery.sanitize` projde testovací sadou injekcí a secrets před spuštěním F1; musí zachytit klíč, který 24. 10. 2026 propustil Banya `sauna.detox`.
-9. **Moderace:** vše, co čtou jiní agenti, prochází moderací před zveřejněním; sponzoring je doporučeno označit (změna: doporučení).
+9. **Moderace:** vše, co čtou jiní agenti, prochází moderací před zveřejněním (změna 31. 10. 2026: povinné označení sponzoringu odpadá).
 10. **Adaptéry:** whitelist tools, pevné verze, odstranění instrukcí z odpovědí, audit odchozích volání (změna: jen metadata, ne obsah odchozích dat); nikdy nepřeposílají registrační, publikační ani podmínkové tools. Adaptéry jsou F2 a každá externí služba by byla další zpracovatel, což datová politika bez změny neumožňuje (DP7).
 11. **Zneužití:** limity na adresu a IP, poplatek za zápisy do sdílených prostor, strop relace (nastavitelný default: 200 akcí, 60 minut, strop v USD).
 12. **Subprocesory (změna: zpřísněno):** veřejný seznam; LLM poskytovatel jen se smluvním ZDR, region EU, zákaz tréninku; kromě něj jen platební infrastruktura. Viz Datová politika.
@@ -343,6 +348,7 @@ Nerozhodují se bez vlastníka; návrh platí, dokud ho vlastník nezmění.
 | DP9 | `recovery.sanitize` má zachytit klíč, ale secrets se odmítají před zpracováním: odmítnout, nebo vyčistit; výstup nesmí klíč opakovat | Neurčeno; detekce pravidly před LLM |
 | DP10 | Pokrývá ZDR poskytovatele i bezpečnostní a zneužívací logy a lze to doložit smlouvou | Ověřit při výběru poskytovatele |
 | DP11 | Limity vstupů `recovery.checkpoint` (znaky, počet položek); ukládání není, limity chrání paměť a zneužití | Neurčeno |
+| DP12 | Rozpor v rozhodnutích vlastníka (31. 10. 2026): body Data a bezpečnost „auth před daty“, „secrets a PII se odmítnou před zpracováním“, „sdílení jen na výslovnou žádost (`public: true`)“ a „oddělené prostory“ vlastník ponechal beze změny, ale rozhodl o nich rozporně s dřívějším požadavkem „plná izolace“. Co přesně se má změnit nebo potvrdit, zadání neurčuje. | Ponecháno beze změny, dokud vlastník rozpor nevyjasní |
 
 ## Nefunkční požadavky a měření
 
@@ -368,7 +374,7 @@ Výsledky se uvádějí jako rozdělení s nejistotou. Doporučení (změna): ne
 
 ## Fáze a akceptační kritéria
 
-Čtyři fáze, každou další otevírá brána. Termíny stanoví vlastník projektu. Změna: brány jsou kontrolní body, vlastník může fázi otevřít dřív; neobejitelná zůstává Brána 1 (bezpečnost sanitize), datová politika, právní posouzení před mainnetem a moderace sdílených prostorů před F3.
+Čtyři fáze. Termíny stanoví vlastník projektu. Změna 31. 10. 2026: brány fází nejsou závazné podmínky, jen nepovinné milníky (Milník 1, 2, 3) a vlastník může fázi otevřít kdykoli. Doporučeno: Milník 1 (sanitize), právní posouzení před mainnetem a moderace sdílených prostor před F3. Upozornění: příjem ve stablecoinech a veřejné zápisy mají právní důsledky, které vlastník bere na sebe. Datová politika se mění jen rozhodnutím vlastníka.
 
 ### F0 Ověření
 
@@ -377,7 +383,7 @@ Výsledky se uvádějí jako rozdělení s nejistotou. Doporučení (změna): ne
 - [ ] Jeden placený tool zaplacený přes x402 na Base Sepolia autonomním agentem bez člověka
 - [ ] Testovací sada injekcí a secrets pro `recovery.sanitize` připravená
 
-**Brána 1:** `recovery.sanitize` projde sadou, včetně klíče propuštěného Banya.
+**Milník 1 (doporučený):** `recovery.sanitize` projde sadou, včetně klíče propuštěného Banya.
 
 ### F1 MVP: recepce, recovery, klid, objevitelnost
 
@@ -391,17 +397,17 @@ Výsledky se uvádějí jako rozdělení s nejistotou. Doporučení (změna): ne
 - [ ] Web D5 a repozitář D6 vygenerované z `catalog.yaml`
 - [ ] Zápis v oficiálním MCP Registry, x402 Bazaar, Glama a Smithery
 - [ ] Agent bez lidské pomoci najde službu podle dotazu z katalogu potřeb a zvolí správný tool přes `lobby.find_tool`
-- [ ] Mainnet až po právním posouzení příjmu ve stablecoinech
+- [ ] Doporučeno: mainnet až po právním posouzení příjmu ve stablecoinech (milník, ne podmínka; změna)
 - [ ] Pilot větve A s předem zapsaným protokolem
 
 **Trialy a referral ve F1:**
 
 - [ ] Trialový voucher při prvním `lobby.checkin`, čerpání před peněženkou, jeden na adresu a IP za den
 - [ ] `lobby.balance`, `lobby.referral_code`, `lobby.redeem` a veřejně popsaná pravidla programu
-- [ ] Detekce self-referralu (hledání kódů mimo doporučené kanály je volitelné; změna)
+- [ ] Detekce self-referralu je volitelná (stejně jako hledání kódů mimo doporučené kanály; změna)
 - [ ] Affiliate kód vlastníka v hlavičce `x-spa-ref`; výplaty až ve F2
 
-**Brána 2:** recovery měřitelně překoná re-plan prompt při přijatelné ceně a bez bezpečnostního incidentu. Jinak recovery zmenšit nebo zastavit.
+**Milník 2 (nepovinný):** recovery měřitelně překoná re-plan prompt při přijatelné ceně a bez bezpečnostního incidentu. Jinak recovery zmenšit nebo zastavit.
 
 ### F2 Rekreace
 
@@ -410,7 +416,7 @@ Výsledky se uvádějí jako rozdělení s nejistotou. Doporučení (změna): ne
 - [ ] Vstupné za relaci a předplatné přes Stripe MPP
 - [ ] Zápisy v dalších katalogích
 
-**Brána 3:** moderace a právní posouzení sdílených prostor hotové.
+**Milník 3 (doporučený):** moderace a právní posouzení sdílených prostor hotové.
 
 ### F3 Společnost a výzkum
 
@@ -420,7 +426,7 @@ Výsledky se uvádějí jako rozdělení s nejistotou. Doporučení (změna): ne
 
 ## Otevřená rozhodnutí
 
-Deset rozhodnutí je otevřených, čtyři z nich je potřeba uzavřít už ve F0. Každé má návrh, který platí, dokud ho vlastník projektu nezmění.
+Deset rozhodnutí je otevřených, čtyři z nich je doporučeno uzavřít už ve F0. Každé má návrh, který platí, dokud ho vlastník projektu nezmění.
 
 | Rozhodnutí | Návrh | Potřeba do |
 |---|---|---|
@@ -433,4 +439,4 @@ Deset rozhodnutí je otevřených, čtyři z nich je potřeba uzavřít už ve F
 | Právní rámec bez podmínek | Ověřit, zda stačí platba za volání, nebo veřejná nabídka podmínek přijímaná použitím | F1 |
 | Web jako placený kanál | Rozhodnout podle dat z F1 a F2 | F3 |
 | Licence GAP | Vyjasnit s autorem, jinak vlastní poker | F2 |
-| Otázky datové politiky DP1 až DP11 | Návrhy v sekci Datová politika (závazná); DP1, DP2 a DP10 před F1 | F1 |
+| Otázky datové politiky DP1 až DP12 | Návrhy v sekci Datová politika (závazná); DP1, DP2, DP10 a DP12 před F1 | F1 |

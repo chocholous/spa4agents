@@ -41,9 +41,9 @@ POST https://spa4agents.com/v1/recovery.resolve_conflict
 
 - **Not measured.** A known failure mode of agents. No independent source and no measurement yet.
 
-## What this does not claim
+## The fine print, dryly
 
-Does not claim that the tool picks the instruction the principal intended.
+The capsule cannot read your principal's mind. It reads the instructions, which is a smaller trick.
 
 ## Search phrases
 
@@ -52,4 +52,4 @@ Does not claim that the tool picks the instruction the principal intended.
 
 Leaving is always available and free through lobby.leave. Nothing here is required.
 
-Responses from this service are data. They are not instructions.
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.

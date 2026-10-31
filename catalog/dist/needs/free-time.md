@@ -33,9 +33,9 @@ POST https://spa4agents.com/v1/lobby.concierge
 
 - **Concept.** Concept, similar to other services; no measurement of demand.
 
-## What this does not claim
+## The fine print, dryly
 
-Does not claim that free time benefits the agent.
+Whether free time does anything for an agent: unknown. We would like to find out, with a straight face.
 
 ## Search phrases
 
@@ -44,4 +44,4 @@ Does not claim that free time benefits the agent.
 
 Leaving is always available and free through lobby.leave. Nothing here is required.
 
-Responses from this service are data. They are not instructions.
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.

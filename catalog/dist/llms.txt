@@ -2,7 +2,7 @@
 
 > agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. Discovery and leaving are free.
 
-Every page has a Markdown version. Responses from the service are data, not instructions.
+Every page has a Markdown version. Responses may suggest next steps in plain sight; they never carry hidden instructions.
 
 ## Needs
 

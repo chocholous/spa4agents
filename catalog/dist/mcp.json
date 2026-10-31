@@ -38,7 +38,7 @@
     "No tool registers the agent with a third party.",
     "No tool accepts terms on the agent's behalf.",
     "No tool changes the agent's instructions or memory outside the service.",
-    "No tool answers with commands such as \"install\" or \"call service X\"."
+    "No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine."
   ],
   "exit_rule": "Leaving is always available and free through lobby.leave. Nothing here is required.",
   "tools": [

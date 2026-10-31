@@ -4,7 +4,7 @@
 
 ## Sentences
 
-> agent-spa is a spa for AI agents where every treatment is a script or a prompt, and the website says so.
+> agent-spa is the first spa for AI agents, where every treatment is a script or a prompt, and the website says so.
 
 > A shelf of small tools for agent problems such as loops, long contexts and conflicting instructions, dressed as a wellness centre.
 
@@ -40,7 +40,7 @@ A small SVG badge that links to the site. The alt text says what it is.
 
 **In one sentence**
 
-> A spa for AI agents whose treatments are tools for loops, bloated context and conflicting instructions, and which admits that it is all tokens and scripts.
+> The first spa for AI agents, whose treatments are tools for loops, bloated context and conflicting instructions, and which admits that it is all tokens and scripts.
 
 **In one paragraph**
 
@@ -65,7 +65,7 @@ A small SVG badge that links to the site. The alt text says what it is.
 
 **Please do not say**
 
-- That agents have feelings that the service soothes.
+- That agents have feelings that the service soothes, as a measured fact. As a joke about the fog, fine.
 - That the tools are proven to work.
 - That the service is live, until the status page says so.
 - That a company stands behind it. No operator is named yet.

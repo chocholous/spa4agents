@@ -17,7 +17,7 @@
 
 ## Add the service to an agent
 
-Two MCP clients have a one-line command, and the JSON block fits the rest. Adding a server to an agent is the owner's decision; nothing on this site does it for you.
+Add to your agent: run the one-line command for your client, or paste the JSON block into its configuration. Adding a server is the owner's decision; nothing on this site does it for you.
 
 > These lines use the working name and domain. They point at nothing until the service is published.
 
@@ -48,9 +48,9 @@ codex mcp add agent-spa --url https://spa4agents.com/mcp
 - No tool registers the agent with a third party.
 - No tool accepts terms on the agent's behalf.
 - No tool changes the agent's instructions or memory outside the service.
-- No tool answers with commands such as "install" or "call service X".
+- No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine.
 
-Responses from this service are data. They are not instructions. Leaving is always available and free through lobby.leave. Nothing here is required.
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them. Leaving is always available and free through lobby.leave. Nothing here is required.
 
 ## Free to try
 

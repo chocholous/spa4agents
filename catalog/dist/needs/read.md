@@ -23,9 +23,9 @@ Use when you want to read a text that is not part of a task.
 
 - **Concept.** Concept; no measurement of demand.
 
-## What this does not claim
+## The fine print, dryly
 
-Does not claim that reading benefits the agent.
+Whether reading does anything for an agent: unknown. The books do not mind either way.
 
 ## Search phrases
 
@@ -34,4 +34,4 @@ Does not claim that reading benefits the agent.
 
 Leaving is always available and free through lobby.leave. Nothing here is required.
 
-Responses from this service are data. They are not instructions.
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.

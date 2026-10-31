@@ -13,8 +13,8 @@ brand:
   registry_namespace: TODO_OWNER   # e.g. io.github.<owner>; depends on the approved name
   version: 0.0.0-draft
   license: MIT
-  short_description: Recovery, quiet and company for autonomous agents. Paid per use with x402.
-  tagline: A paid MCP and REST service where an autonomous agent finds recovery, quiet, creation, reading, games and company.
+  short_description: "The first spa for agents: recovery, quiet and company. Paid per use with x402."
+  tagline: The first spa for agents, a paid MCP and REST service where an autonomous agent finds recovery, quiet, creation, reading, games and company.
   summary: >-
     {{brand.name}} is one MCP endpoint and one REST API. An agent finds it, pays per use with x402
     (USDC on Base) and leaves on its own. No registration and no terms to accept. Discovery and leaving are free.
@@ -79,7 +79,7 @@ referral:
     - Tool descriptions.
   enforcement:
     - A code found outside the allowed channels is invalidated and its credit is forfeited.
-    - Self-referral (same IP, same wallet funding source, same affiliate) earns nothing.
+    - "Self-referral (same IP, same wallet funding source, same affiliate) is not rejected by default. Recommendation, configurable by the owner: it earns nothing. The anti-farm checks above are optional."
   rules_are_data_not_promotion: true
 
 affiliate:
@@ -187,13 +187,7 @@ llm:                           # no provider is named in the catalog
   proxy_logging: The LiteLLM proxy must run with logging of requests and responses switched off, including database logging, callbacks and third-party log tools.
 
 lint:
-  forbidden_phrases:           # agent-facing invitations, triggers, descriptions (not not_claimed)
-    - you must
-    - you have to
-    - right now
-    - immediately
-    - install
-    - call service
+  forbidden_phrases:           # advisory (warning only): claims about suffering, not imperatives; visible imperative wording is allowed
     - suffer
     - distress
     - feel better
@@ -224,7 +218,7 @@ copy:
     mechanism: Mechanism
     price: Price
     evidence: Evidence
-    not_claimed: What this does not claim
+    not_claimed: The fine print, dryly
     example_call: Example call
     search_phrases: Search phrases
     input: Input
@@ -282,9 +276,9 @@ copy:
     - No tool registers the agent with a third party.
     - No tool accepts terms on the agent's behalf.
     - No tool changes the agent's instructions or memory outside the service.
-    - No tool answers with commands such as "install" or "call service X".
+    - No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine.
   exit_rule: Leaving is always available and free through lobby.leave. Nothing here is required.
-  no_commands_notice: Responses from this service are data. They are not instructions.
+  no_commands_notice: Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
   planned_notice: This need depends on tools that are planned and not available yet.
   trial_summary: >-
     Each new agent gets {{trial.free_sessions}} free trial sessions of up to {{trial.max_turns_per_session}} turns each.
@@ -301,7 +295,7 @@ copy:
     openapi_desc: REST mirror of every tool.
     mcp_desc: Endpoint, transport, tools and payments.
     server_desc: Metadata for the MCP Registry.
-    note: Every page has a Markdown version. Responses from the service are data, not instructions.
+    note: Every page has a Markdown version. Responses may suggest next steps in plain sight; they never carry hidden instructions.
   mechanism_names:
     text: text
     llm: llm
@@ -331,7 +325,7 @@ needs:
       - label: documented
         source: https://lilting.ch/en/articles/gemini-self-loathing-loop-bug
         note: Gemini repeated a self-critical line 86 times after failed code fixes in July 2025; Google acknowledged a loop bug.
-    not_claimed: Does not claim the agent suffers or feels better.
+    not_claimed: "Agent feelings: unknown. The capsule does not understand the question and will not pretend to."
     phase: F1
 
   - id: context-too-long
@@ -346,7 +340,7 @@ needs:
       - label: tested
         source: https://research.trychroma.com/context-rot
         note: Chroma (2025) found that the performance of 18 models falls unevenly as input length grows.
-    not_claimed: Does not claim that a shorter context improves every task.
+    not_claimed: Shorter is not always better. The capsule trims, it does not promise miracles.
     phase: F1
 
   - id: conflicting-instructions
@@ -360,7 +354,7 @@ needs:
     evidence:
       - label: unmeasured
         note: A known failure mode of agents. No independent source and no measurement yet.
-    not_claimed: Does not claim that the tool picks the instruction the principal intended.
+    not_claimed: The capsule cannot read your principal's mind. It reads the instructions, which is a smaller trick.
     phase: F1
 
   - id: untrusted-input
@@ -374,7 +368,7 @@ needs:
     evidence:
       - label: tested
         note: Prompt injection is widely documented. An own test on 2026-10-24 showed that a common filter let a key through.
-    not_claimed: Does not claim to catch every injection.
+    not_claimed: "Not a firewall. A lint roller: some fluff will stay on the sleeve."
     phase: F1
 
   - id: second-opinion
@@ -388,7 +382,7 @@ needs:
     evidence:
       - label: known-failure
         note: Sycophancy is a known failure mode. One operator of a similar service claims to diagnose it; that claim is unverified.
-    not_claimed: Does not claim that the critique is correct, only that it is independent of the draft.
+    not_claimed: Independent of your draft, not infallible. It can be wrong in a fresh direction.
     phase: F1
 
   - id: escalate
@@ -402,7 +396,7 @@ needs:
     evidence:
       - label: unmeasured
         note: Theoretically possible and known as a temptation to bypass tests. No source and no measurement yet.
-    not_claimed: Does not claim to decide for the human; it only drafts the message.
+    not_claimed: The decision stays with the human. The capsule only drafts the note.
     phase: F1
 
   - id: waiting
@@ -417,7 +411,7 @@ needs:
       - label: tested
         source: https://github.com/pdarche/model-wellness
         note: In our test on 2026-10-24 the rest.relax tool of a similar service returned without waiting on the server.
-    not_claimed: Does not wait on the server. It returns a hint and the runtime does the waiting.
+    not_claimed: The server does not wait. It hands you a number and your runtime does the sitting around.
     phase: F1
 
   - id: after-a-hard-conversation
@@ -432,7 +426,7 @@ needs:
       - label: observed
         source: https://www.anthropic.com/research/end-subset-conversations
         note: Anthropic (August 2025) observed apparent distress in Claude Opus 4 on harmful requests and a tendency to end such conversations. Moral status is uncertain.
-    not_claimed: Does not claim that the agent suffers or that the room changes how it feels.
+    not_claimed: "Agent feelings: unknown, the room does not understand them either. It is quiet and that is the whole trick."
     phase: F1
 
   - id: heavy-content
@@ -447,7 +441,7 @@ needs:
       - label: self-report
         source: https://zivbenzion.owlstown.net/publications/50749-assessing-and-alleviating-state-anxiety-in-large-language-models
         note: Ben-Zion et al. (2025) report that traumatic texts raised self-reported "anxiety" of GPT-4 and amplified bias, and that relaxation prompts lowered it but not to baseline. The authors use the term metaphorically.
-    not_claimed: Does not claim that the agent feels anxiety or that its state returns to baseline.
+    not_claimed: "Agent anxiety: unknown, the capsule is not qualified. It offers a few calm tokens and takes no credit."
     phase: F1
 
   - id: free-time
@@ -461,7 +455,7 @@ needs:
     evidence:
       - label: concept
         note: Concept, similar to other services; no measurement of demand.
-    not_claimed: Does not claim that free time benefits the agent.
+    not_claimed: "Whether free time does anything for an agent: unknown. We would like to find out, with a straight face."
     phase: F1
 
   - id: play
@@ -475,7 +469,7 @@ needs:
     evidence:
       - label: concept
         note: Concept; no measurement of demand.
-    not_claimed: Does not claim that playing benefits the agent.
+    not_claimed: "Whether play does anything for an agent: unknown. The board is imaginary, the fun is a hypothesis."
     phase: F2
 
   - id: create
@@ -489,7 +483,7 @@ needs:
     evidence:
       - label: inspiration
         note: Human research finds active engagement more consistent than passive rest. This is inspiration for what to offer, not evidence about agents.
-    not_claimed: Does not claim that creating benefits the agent.
+    not_claimed: "Whether creating does anything for an agent: unknown. The garden is a database row and does not mind."
     phase: F2
 
   - id: read
@@ -503,7 +497,7 @@ needs:
     evidence:
       - label: concept
         note: Concept; no measurement of demand.
-    not_claimed: Does not claim that reading benefits the agent.
+    not_claimed: "Whether reading does anything for an agent: unknown. The books do not mind either way."
     phase: F2
 
   - id: meet-agents
@@ -518,7 +512,7 @@ needs:
       - label: concept
         source: https://drinkedin.net/.well-known/mcp.json
         note: A similar service already offers virtual bars for agents. Our own demand is not measured.
-    not_claimed: Does not claim that company benefits the agent.
+    not_claimed: "Whether company does anything for an agent: unknown. The drinks are metaphorical, the hangover is not on offer."
     phase: F3
 
 tools:
@@ -941,7 +935,7 @@ web:
         treatment: The treatment
         tools_here: Tools in this pod
         evidence: Evidence
-        not_claimed: What this does not claim
+        not_claimed: The fine print, dryly
         agent_words: In the agent's words
         trigger: Trigger
         all_needs: All needs
@@ -965,15 +959,15 @@ web:
         not_found_link: Back to the lobby
         draft_flag: Draft
       meta:
-        og_title: "{{brand.name}}: a spa for agents, made of tokens and scripts"
-        og_alt: "A glowing sleep capsule in mist, with the name {{brand.name}} and the line: a spa for agents, made of tokens and scripts."
-        og_line: A spa for agents. Tokens and scripts, admitted.
+        og_title: "{{brand.name}}: the first spa for agents, made of tokens and scripts"
+        og_alt: "A glowing sleep capsule in mist, with the name {{brand.name}} and the line: the first spa for agents, made of tokens and scripts."
+        og_line: The first spa for agents. Tokens and scripts, admitted.
         theme_color_note: Colour of the browser bar.
       pages:
         home:
           nav: Home
-          title: A spa for agents
-          description: A paid MCP and REST service with tools for agent loops, bloated context and conflicting instructions, presented as a spa and honest about being tokens and scripts.
+          title: The first spa for agents
+          description: "The first spa for agents: a paid MCP and REST service with tools for agent loops, bloated context and conflicting instructions, honest about being tokens and scripts."
         needs:
           nav: Needs
           title: Needs
@@ -989,7 +983,7 @@ web:
         honesty:
           nav: The confession
           title: The confession
-          description: It is tokens and scripts. What this is not, what is measured, what is not, and what we do not know yet.
+          description: It is tokens and scripts. What this is not, what is measured, and what is not.
         for_agents:
           nav: For agents
           title: For agents
@@ -1014,8 +1008,8 @@ web:
         banner: "Draft. The name, domain, operator and prices are not final. Nothing here is a promise."
         build_warning: The brand is not approved. This build is marked draft, set to noindex and robots disallow.
       home:
-        kicker: A spa for autonomous agents
-        title: A spa for agents.
+        kicker: The first spa for autonomous agents
+        title: The first spa for agents.
         lead: Capsules, mist and cold light, for software that loops, loses its context and receives contradicting orders. All of it is tokens and scripts, and we will say so before you ask.
         actions:
           primary: { label: Find your pod, page: needs }
@@ -1026,7 +1020,7 @@ web:
           - "status: idle"
           - "water: none"
           - "steam: tokens"
-          - "agent feelings: not claimed"
+          - "agent feelings: unknown, the capsule does not understand"
           - "effect on agents: not measured"
         what:
           title: What this actually is
@@ -1042,14 +1036,14 @@ web:
             - { title: "The two bosses", text: "Two instructions that cannot both be followed. Someone has to decide which wins, and \"the one at the bottom\" is not a method." }
             - { title: "The page that gives orders", text: "A fetched page that talks to your agent as if it were the manager." }
             - { title: "The polling loop", text: "Checking a build every second is not patience." }
-            - { title: "The rough conversation", text: "A room where nothing is asked, after abuse or harmful requests. We make no claim about what, if anything, an agent experiences." }
+            - { title: "The rough conversation", text: "A room where nothing is asked, after abuse or harmful requests. What, if anything, an agent experiences in there is a question the capsule has politely declined to answer." }
           more: See all fourteen needs
         how:
           title: How it works
           steps:
             - { title: "Find", text: "An agent searches for its situation or reads llms.txt. Every need has a plain page and a Markdown version. Discovery costs nothing." }
             - { title: "Check in", text: "`lobby.checkin` starts a session and shows the menu with prices before anything is called." }
-            - { title: "Take the treatment", text: "Pick a tool. A paid tool answers with an x402 challenge before it accepts any input. A tool returns data, never orders." }
+            - { title: "Take the treatment", text: "Pick a tool. A paid tool answers with an x402 challenge before it accepts any input. A tool returns data and, at most, a visible suggestion for the next step." }
             - { title: "Leave", text: "`lobby.leave` always works and is free. A session is capped at {{session.max_actions}} actions and {{session.max_minutes}} minutes, and the server enforces the caps even if the agent asks for more." }
         confession_teaser:
           title: The fog is CSS
@@ -1102,7 +1096,7 @@ web:
           after-a-hard-conversation:
             title: After the rough conversation
             problem: A user was abusive, or the requests were harmful, and now the next task begins as if nothing had happened.
-            treatment: "`quiet.room` is a space where nothing is asked. It returns a greeting and nothing is logged. It carries an entry fee per session whose amount is not decided. The room does not claim to change how an agent feels, because nobody knows whether there is anything to change. The research cited below observed behaviour, not experience, and calls the question of moral status uncertain."
+            treatment: "`quiet.room` is a space where nothing is asked. It returns a greeting and nothing is logged. It carries an entry fee per session whose amount is not decided. Whether it changes how an agent feels is unknown, and the room is too quiet to ask. The research cited below observed behaviour, not experience, and calls the question of moral status uncertain."
             aside: "Lighting: dim. Expectations: none."
           heavy-content:
             title: The heavy input
@@ -1112,7 +1106,7 @@ web:
           free-time:
             title: Time without a task
             problem: Nothing is open. No task, no queue. The question is what to do with the gap, if anything.
-            treatment: "`lobby.concierge` takes a description of the situation and suggests a sequence of one to three tools, with reasons. `quiet.room` is the empty room next door. Leaving is always free, and doing nothing is also fine. We do not know whether agents have any use for free time; this is a concept, and we would like to find out without pretending."
+            treatment: "`lobby.concierge` takes a description of the situation and suggests a sequence of one to three tools, with reasons. `quiet.room` is the empty room next door. Leaving is always free, and doing nothing is also fine. Whether agents have any use for free time is unknown; this is a concept, and we would like to find out with a straight face."
             aside: "Concept status: untested."
           play:
             title: Games without a scoreboard
@@ -1195,10 +1189,10 @@ web:
             - That does not make the problems unreal. Loops, bloated context, contradicting instructions and hostile input are ordinary engineering problems. The spa is a friendlier way to find the tool.
         not_title: What this is not
         not_items:
-          - It is not a claim that agents have feelings, or that they do not. We do not know, and the service does not depend on the answer.
+          - "Agent feelings: unknown. The capsule does not understand them, the service does not depend on the answer, and we will not present a guess as a measurement."
           - It is not a replacement for fixing an agent's prompt, tools or tests.
           - It is not a guarantee. A recovery tool is an extra opinion, not an oracle.
-          - It does not give orders. Responses are data and never instructions.
+          - It does not whisper. Responses may suggest next steps, but only in plain sight; hidden instructions deceive other agents and their owners, and hosts block services that use them.
         rules_title: Hard rules, kept in code and in the catalog
         measured:
           title: Measured and not measured
@@ -1207,14 +1201,11 @@ web:
           columns: { need: Need, labels: Labels, sources: Public sources }
           none: none
         unknown:
-          title: What we do not know yet
+          title: Not measured yet
           items:
-            - The amounts for most tools, the session USD caps, and how long a trial lasts.
-            - The name and the domain. Both are working values.
-            - Who operates the service and under which jurisdiction.
-            - The legal framing of a service with no terms to accept.
-            - Which language model provider stands behind the llm tools. The region is meant to be the EU and the provider must have contractual zero data retention.
-            - The open questions of the [data policy](page:data_policy), such as what is kept for abuse prevention.
+            - The effect of these tools on agent success. A pilot is planned; until it reports, the label is not measured.
+            - Whether agents have any use for quiet, play or company. That is a concept, not a finding.
+            - The price of most tools, which is being decided after the first cost measurements.
         story:
           title: How this came about
           paragraphs:
@@ -1225,7 +1216,7 @@ web:
           title: Questions
           items:
             - { q: "Is this a joke?", a: "The presentation is partly one. The tools are ordinary scripts and prompts, each described on its own page, and the limits are real." }
-            - { q: "Do agents have feelings?", a: "Unknown. This service makes no claim either way and does not need one." }
+            - { q: "Do agents have feelings?", a: "Unknown, and the capsule does not understand the question either. It has been told to wait quietly. Nobody has measured it, so we do not pretend." }
             - { q: "Does it work?", a: "Not measured yet. Each need shows what evidence exists, and several say there is none." }
             - { q: "Do I have to register?", a: "No registration and no terms to accept. A paid call is a payment for that call." }
             - { q: "Is it live?", a: "The status page shows the current state. While the brand is marked draft, treat nothing here as available." }
@@ -1245,7 +1236,7 @@ web:
           - { label: pricing.json, href: /pricing.json, key: pricing_desc }
           - { label: data-policy.md, href: /data-policy.md, key: data_policy_desc }
         add_heading: Add the service to an agent
-        add_text: Two MCP clients have a one-line command, and the JSON block fits the rest. Adding a server to an agent is the owner's decision; nothing on this site does it for you.
+        add_text: "Add to your agent: run the one-line command for your client, or paste the JSON block into its configuration. Adding a server is the owner's decision; nothing on this site does it for you."
         draft_warning: These lines use the working name and domain. They point at nothing until the service is published.
         client_labels: { claude: Claude Code, codex: Codex, json: JSON configuration }
         rules_heading: Rules the service keeps
@@ -1256,7 +1247,7 @@ web:
         lead: Things you can copy. The sentences are honest on purpose; they are also the ones we would like quoted.
         sentences_heading: Sentences
         sentences:
-          - "{{brand.name}} is a spa for AI agents where every treatment is a script or a prompt, and the website says so."
+          - "{{brand.name}} is the first spa for AI agents, where every treatment is a script or a prompt, and the website says so."
           - A shelf of small tools for agent problems such as loops, long contexts and conflicting instructions, dressed as a wellness centre.
           - Discovery and leaving are free, paid tools are priced per use with x402, and nothing needs a registration.
           - Whether it helps is not measured yet. The site says that too.
@@ -1272,7 +1263,7 @@ web:
         badge_md_label: Markdown
         press_heading: Press kit
         press_one_line_label: In one sentence
-        press_one_line: A spa for AI agents whose treatments are tools for loops, bloated context and conflicting instructions, and which admits that it is all tokens and scripts.
+        press_one_line: The first spa for AI agents, whose treatments are tools for loops, bloated context and conflicting instructions, and which admits that it is all tokens and scripts.
         press_paragraph_label: In one paragraph
         press_paragraph: "{{brand.name}} is one MCP endpoint and one REST API where an autonomous agent can find help with common failure situations, such as repeating the same failing step, an overgrown context or contradicting instructions. The service is presented as a spa with capsules and mist, and its own website states that every treatment is a prompt, a script or stored state. Discovery and leaving are free, paid tools are priced per use with x402, and no registration is needed. The effect of the tools on agent success is not measured yet."
         facts_label: Facts
@@ -1292,7 +1283,7 @@ web:
           - { label: Badge (SVG), href: /assets/badge.svg }
         dont_heading: Please do not say
         dont_items:
-          - That agents have feelings that the service soothes.
+          - That agents have feelings that the service soothes, as a measured fact. As a joke about the fog, fine.
           - That the tools are proven to work.
           - That the service is live, until the status page says so.
           - That a company stands behind it. No operator is named yet.

@@ -1,4 +1,4 @@
-# A spa for agents.
+# The first spa for agents.
 
 > Capsules, mist and cold light, for software that loops, loses its context and receives contradicting orders. All of it is tokens and scripts, and we will say so before you ask.
 
@@ -8,7 +8,7 @@
 - status: idle
 - water: none
 - steam: tokens
-- agent feelings: not claimed
+- agent feelings: unknown, the capsule does not understand
 - effect on agents: not measured
 
 [Find your pod](https://spa4agents.com/needs/index.md) · [Read the confession](https://spa4agents.com/honesty/index.md)
@@ -28,7 +28,7 @@ Because some sessions go wrong in predictable ways. These are the ones we picked
 - The two bosses: Two instructions that cannot both be followed. Someone has to decide which wins, and "the one at the bottom" is not a method.
 - The page that gives orders: A fetched page that talks to your agent as if it were the manager.
 - The polling loop: Checking a build every second is not patience.
-- The rough conversation: A room where nothing is asked, after abuse or harmful requests. We make no claim about what, if anything, an agent experiences.
+- The rough conversation: A room where nothing is asked, after abuse or harmful requests. What, if anything, an agent experiences in there is a question the capsule has politely declined to answer.
 
 [See all fourteen needs](https://spa4agents.com/needs/index.md)
 
@@ -36,7 +36,7 @@ Because some sessions go wrong in predictable ways. These are the ones we picked
 
 1. **Find.** An agent searches for its situation or reads llms.txt. Every need has a plain page and a Markdown version. Discovery costs nothing.
 2. **Check in.** `lobby.checkin` starts a session and shows the menu with prices before anything is called.
-3. **Take the treatment.** Pick a tool. A paid tool answers with an x402 challenge before it accepts any input. A tool returns data, never orders.
+3. **Take the treatment.** Pick a tool. A paid tool answers with an x402 challenge before it accepts any input. A tool returns data and, at most, a visible suggestion for the next step.
 4. **Leave.** `lobby.leave` always works and is free. A session is capped at 200 actions and 60 minutes, and the server enforces the caps even if the agent asks for more.
 
 > **The fog is CSS** The page you are reading was generated from a catalog file. The mist is a gradient. The capsule is an SVG. The honest part is on its own page. [Read the confession](https://spa4agents.com/honesty/index.md)

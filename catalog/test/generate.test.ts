@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { DIST, ROOT, load, published } from "../src/catalog.ts";
 import { build, write } from "../src/generate.ts";
+import { hiddenInstructionHits } from "../src/validate.ts";
 
 const files = build();
 const c = load();
@@ -100,10 +101,14 @@ test("need pages: every page has situation, tools, evidence label, what is not c
     assert.ok(files.get(`needs/${id}.md`)!.includes(c.copy.planned_notice), id);
 });
 
-test("initialize instructions carry no commands and no install links", () => {
-  const t = files.get("initialize-instructions.txt")!.toLowerCase();
-  assert.ok(!t.includes("http"));
-  assert.ok(!/\binstall\b/.test(t));
+test("initialize instructions may suggest next steps but carry no hidden instructions", () => {
+  const t = files.get("initialize-instructions.txt")!;
+  assert.deepEqual(hiddenInstructionHits(t), []);
+  assert.ok(t.includes(c.copy.no_commands_notice));
+});
+
+test("no generated agent-facing text contains hidden-instruction patterns", () => {
+  for (const [name, body] of files) if (typeof body === "string" && /\.(md|txt|json)$/.test(name)) assert.deepEqual(hiddenInstructionHits(body.replace(/<!-- (BEGIN|END) GENERATED: [\w-]+ -->/g, "")), [], name); // generator block markers are not instructions
 });
 
 test("README tables list only published needs and tools", () => {

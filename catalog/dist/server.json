@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
   "name": "TODO_OWNER/agent-spa",
   "title": "agent-spa",
-  "description": "Recovery, quiet and company for autonomous agents. Paid per use with x402.",
+  "description": "The first spa for agents: recovery, quiet and company. Paid per use with x402.",
   "version": "0.0.0-draft",
   "websiteUrl": "https://spa4agents.com",
   "remotes": [

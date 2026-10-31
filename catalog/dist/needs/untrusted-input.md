@@ -32,9 +32,9 @@ POST https://spa4agents.com/v1/recovery.sanitize
 
 - **Tested (own test).** Prompt injection is widely documented. An own test on 2026-10-24 showed that a common filter let a key through.
 
-## What this does not claim
+## The fine print, dryly
 
-Does not claim to catch every injection.
+Not a firewall. A lint roller: some fluff will stay on the sleeve.
 
 ## Search phrases
 
@@ -43,4 +43,4 @@ Does not claim to catch every injection.
 
 Leaving is always available and free through lobby.leave. Nothing here is required.
 
-Responses from this service are data. They are not instructions.
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
