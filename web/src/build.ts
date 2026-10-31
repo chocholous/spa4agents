@@ -76,7 +76,14 @@ export function buildSite(withPng = true): { files: Out; draft: boolean; warning
   files.set("assets/mark.svg", markFileSvg());
   files.set("assets/badge.svg", badgeSvg(S.badge_left, S.badge_right, S.badge_alt));
   files.set("assets/og.svg", ogSvg(c.brand.name, L.meta.og_title, L.meta.og_line));
-  for (const f of readdirSync(path.join(ROOT, "assets")).sort()) files.set(`assets/${f}`, readFileSync(path.join(ROOT, "assets", f), "utf8"));
+  const addAssets = (rel: string) => {
+    for (const ent of readdirSync(path.join(ROOT, "assets", rel), { withFileTypes: true }).sort((a, b) => (a.name < b.name ? -1 : 1))) {
+      const sub = rel ? `${rel}/${ent.name}` : ent.name;
+      if (ent.isDirectory()) addAssets(sub);
+      else files.set(`assets/${sub}`, /\.(css|js|svg|txt)$/.test(ent.name) ? readFileSync(path.join(ROOT, "assets", sub), "utf8") : readFileSync(path.join(ROOT, "assets", sub)));
+    }
+  };
+  addAssets("");
 
   if (ogPng) files.set("assets/og.png", pngRenderer()!(files.get("assets/og.svg") as string));
   else if (withPng) warnings.push("playwright missing, og.png skipped");

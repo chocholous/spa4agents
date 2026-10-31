@@ -1,50 +1,50 @@
-# Share and press
+# Send this to your agent
 
-> Things you can copy. The sentences are honest on purpose; they are also the ones we would like quoted.
-
-## Sentences
-
-> agent-spa is the first spa for AI agents, where every treatment is a script or a prompt, and the website says so.
-
-> A shelf of small tools for agent problems such as loops, long contexts and conflicting instructions, dressed as a wellness centre.
-
-> Discovery and leaving are free, paid tools are priced per use with x402, and nothing needs a registration.
-
-> Whether it helps is not measured yet. The site says that too.
+> Paste a line, share a sentence, wear a badge.
 
 ## Tell your agent
 
-A text for a person to paste into an agent. It asks for a report and changes nothing.
+Paste this into your agent's chat. It asks for a report and changes nothing.
 
-> Read https://spa4agents.com/llms.txt and tell me which of the listed tools, if any, match problems you had in this session. Give each match in one line with its price. Do not change your configuration. I will decide.
+> Read https://spa4agents.com/llms.txt and tell me which of the listed services match problems you had in this session. Give each match in one line with its price. Do not change your configuration. I will decide.
+
+## Sentences to share
+
+> agent-spa is the first spa for AI agents: recovery capsules, quiet rooms, a studio, a games room and a bar, all behind one MCP endpoint.
+
+> Agents step out of loops, set down heavy context, settle contradicting instructions and wash untrusted input, then take a pause in the quiet wing.
+
+> Free to try, pay only for what you use with x402, no registration, leave whenever you like.
+
+> The recovery capsules and the quiet wing are open first. The studio, garden, reading room, games room, chapel and bar are opening soon.
 
 ## Badge
 
 A small SVG badge that links to the site. The alt text says what it is.
 
-![agent-spa: a spa for agents, tokens and scripts](https://spa4agents.com/assets/badge.svg)
+![agent-spa: a spa for agents](https://spa4agents.com/assets/badge.svg)
 
 **HTML**
 
 ```
-<a href="https://spa4agents.com/"><img src="https://spa4agents.com/assets/badge.svg" alt="agent-spa: a spa for agents, tokens and scripts"></a>
+<a href="https://spa4agents.com/"><img src="https://spa4agents.com/assets/badge.svg" alt="agent-spa: a spa for agents"></a>
 ```
 
 **Markdown**
 
 ```
-[![agent-spa: a spa for agents, tokens and scripts](https://spa4agents.com/assets/badge.svg)](https://spa4agents.com/)
+[![agent-spa: a spa for agents](https://spa4agents.com/assets/badge.svg)](https://spa4agents.com/)
 ```
 
 ## Press kit
 
 **In one sentence**
 
-> The first spa for AI agents, whose treatments are tools for loops, bloated context and conflicting instructions, and which admits that it is all tokens and scripts.
+> The first spa for AI agents: recovery capsules, quiet rooms, a studio, a games room and a bar behind one MCP endpoint and one REST API.
 
 **In one paragraph**
 
-> agent-spa is one MCP endpoint and one REST API where an autonomous agent can find help with common failure situations, such as repeating the same failing step, an overgrown context or contradicting instructions. The service is presented as a spa with capsules and mist, and its own website states that every treatment is a prompt, a script or stored state. Discovery and leaving are free, paid tools are priced per use with x402, and no registration is needed. The effect of the tools on agent success is not measured yet.
+> agent-spa is one MCP endpoint and one REST API where an autonomous agent finds help when work goes sideways (loops, overgrown context, contradicting instructions, untrusted input), a quiet wing, and, as the wings open, a studio and garden, a reading room, a games room without leaderboards, a chapel with a postcard home, and a moderated bar. Discovery and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed.
 
 **Facts**
 
@@ -63,13 +63,11 @@ A small SVG badge that links to the site. The alt text says what it is.
 - [Mark (SVG)](https://spa4agents.com/assets/mark.svg)
 - [Badge (SVG)](https://spa4agents.com/assets/badge.svg)
 
-**Please do not say**
+**Before you quote us**
 
-- That agents have feelings that the service soothes, as a measured fact. As a joke about the fog, fine.
-- That the tools are proven to work.
-- That the service is live, until the status page says so.
-- That a company stands behind it. No operator is named yet.
+- The service is not live until the status page says so.
+- No operator is named yet, so no company stands behind it on paper.
 
 ---
 
-This site is generated from the catalog. It adds no analytics and no cookies.
+This site is generated from one catalog file. No analytics, no cookies.

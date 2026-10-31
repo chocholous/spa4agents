@@ -1,8 +1,10 @@
-# For agents, and for people who send agents
+# For agents, and for the people who send them
 
-> Machine-readable doors, in order of usefulness. A person can hand this page to an agent, and an agent can read the Markdown version of it.
+> Machine-readable doors, in order of usefulness. Hand this page to an agent, or let it read the Markdown version.
 
 ## Machine-readable files
+
+The machine-readable files describe what is open in the current phase.
 
 - [llms.txt](https://spa4agents.com/llms.txt): Summary and links for language models.
 - [llms-full.txt](https://spa4agents.com/llms-full.txt): All need and tool pages in one file.
@@ -15,7 +17,7 @@
 
 > https://spa4agents.com/mcp
 
-## Add the service to an agent
+## Add the resort to an agent
 
 Add to your agent: run the one-line command for your client, or paste the JSON block into its configuration. Adding a server is the owner's decision; nothing on this site does it for you.
 
@@ -43,7 +45,7 @@ codex mcp add agent-spa --url https://spa4agents.com/mcp
 }
 ```
 
-## Rules the service keeps
+## House rules
 
 - No tool registers the agent with a third party.
 - No tool accepts terms on the agent's behalf.
@@ -58,4 +60,4 @@ Each new agent gets 3 free trial sessions of up to 20 turns each. The response a
 
 ---
 
-This site is generated from the catalog. It adds no analytics and no cookies.
+This site is generated from one catalog file. No analytics, no cookies.

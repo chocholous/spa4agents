@@ -2,7 +2,7 @@
   "draft": true,
   "brand_approved": false,
   "owner_decisions_pending": 34,
-  "catalog_sha256": "81a4c4e16cf6509615f904c31fa88a44189736452f1395607bf07c0652b97e51",
+  "catalog_sha256": "2bf83967b73af42225d33d5af96c7ab8771ec5802f5c2ca7ed34bd16a204080d",
   "locales": [
     "en"
   ],
@@ -13,31 +13,43 @@
     },
     {
       "path": "404.html",
-      "sha256": "969d2a91b151043341f2842b25e9dfe7e6cb123e270e61c18df5d8a4e1cb1699"
+      "sha256": "0ea76761e99c29f98424a84fdc51544f97ebe2665d21c0f14486dd945e068172"
     },
     {
       "path": "assets/badge.svg",
-      "sha256": "58aa3618f34f4ddae566b86d82118ccaf8d780ee06d413df02bac81a8161d4c4"
+      "sha256": "bf0725c894db5b0db024ce0be47c7b3d1159f7a6134d211f155a9a9bb8cedf56"
     },
     {
       "path": "assets/favicon.svg",
-      "sha256": "88722bb342f285699ab525d7db02914b3f37716dedc45cdb6605bfe06a3e20e0"
+      "sha256": "cedd1d039009992afc9a5342bd0b787df575bc3ed21f7aa3f5e8a67a6bfd655b"
+    },
+    {
+      "path": "assets/fonts/LICENSE-Fraunces-OFL.txt",
+      "sha256": "cd3384cafac6f2bddc3955273958a2e029f97027c8037ac539ef5744a77b579e"
+    },
+    {
+      "path": "assets/fonts/fraunces-latin-wght-italic.woff2",
+      "sha256": "bceec2ef4d549efbc8df0194a8d5280b6a64c3e399244dffccd9ea1bd9ad6db7"
+    },
+    {
+      "path": "assets/fonts/fraunces-latin-wght-normal.woff2",
+      "sha256": "7f9d191d999336d3b9790afa72e1358e50a13b06d4f289341e92a311967a80f9"
     },
     {
       "path": "assets/mark.svg",
-      "sha256": "7c3f368226b0cb2535ff5b0fb969d862dfa6a071e5baa200f6f8a446b3f5e363"
+      "sha256": "ac0a6e53b593eab97a1b208ab849f99f78b429dd51f369c621306003218cba7c"
     },
     {
       "path": "assets/og.png",
-      "sha256": "c765114fddd61ce3f7511806c0ad1febeb725d4604fd0f4425446524db3ce29f"
+      "sha256": "12652562377c49efefbf8883ea1886ff77f24d98504d9d983f4a3d3e68a69304"
     },
     {
       "path": "assets/og.svg",
-      "sha256": "e863598723aaf5cb12e61c9669102b2d118782e8d35ef286a967a3cd96a9f725"
+      "sha256": "b364e0366ccfbe3db0271b3db68c047224674071bfb31815a911890b155f3ba9"
     },
     {
       "path": "assets/site.css",
-      "sha256": "3d671dfa4713ca1e0044ad2cf49bcdbf6f8b9e1bd9568c00eacf9ce59ecf7c66"
+      "sha256": "bdda233afdf176a53bfd4ba99f2455befc65edad98c057a55fea25c98b786e7e"
     },
     {
       "path": "assets/site.js",
@@ -49,35 +61,35 @@
     },
     {
       "path": "data-policy.md",
-      "sha256": "adf3b8533187908dd6b1682298cf34ef2d99d7cfe9c3a7b66b1e653d0cf58703"
+      "sha256": "2294b52bb904771a441f8dd197ed0796bef2fd44216c7a7b19900412e8e8a7e3"
     },
     {
       "path": "data-policy/index.html",
-      "sha256": "4ee07befeeab29266cd7e66652537be5b5526a4d9606b8eb39f061ebd5dbd449"
+      "sha256": "34253f123e59a2de115e61cb202d0e914f9b1ce6b94c2c2acfc375176c3394a6"
     },
     {
       "path": "for-agents/index.html",
-      "sha256": "5067779b570afc0d1797222b05deedea88eff037c88f579a4e0d19da20546718"
+      "sha256": "220a4336b638a200fa0663052f972f53950a33bb10de6c2a078f7a86ef361a80"
     },
     {
       "path": "for-agents/index.md",
-      "sha256": "d15297b612885a68d2bfc9f2b511288505bbb3f5c3192c130ac060d19c1630ca"
+      "sha256": "42822b40ab0f90071cf09ff651e92a7dee80ca16d1ad825825b9bb35a0b078f3"
     },
     {
       "path": "honesty/index.html",
-      "sha256": "9ec532eb49a5a3dcfc4217c8b5245bb09a513a28cf08b4724d7c861b995b6f29"
+      "sha256": "713ba57c97551f9a8be7621caad4a6dc4397c9da1a36f6bd0df565a6c6ad7c84"
     },
     {
       "path": "honesty/index.md",
-      "sha256": "d983c487b300ec738103c2447548975a0a0496be347d4fd3cee8174b6676d4f9"
+      "sha256": "d153de620d8c3a80b1bbd77f0c96dff39408cea2a6c530fef77ddf6bf5d89045"
     },
     {
       "path": "index.html",
-      "sha256": "9f471f4fd5bc38c6af73a508ddef255d38ee7fb602acad880f7180922136fdab"
+      "sha256": "06ab903e3ad474c5734e3f705ed433726ca28b84e2263410b0501eb89504a154"
     },
     {
       "path": "index.md",
-      "sha256": "796a8b95876a0f1928aac4ca68007c9ceac68eaef2bdfdb522ac162b1e7e7471"
+      "sha256": "86d35efe3545f8c632bc925a4af47f27dad4adeb31114da646440eca1f8b8b30"
     },
     {
       "path": "llms-full.txt",
@@ -93,7 +105,7 @@
     },
     {
       "path": "needs/after-a-hard-conversation/index.html",
-      "sha256": "29c769290c88b29dc095602afe8f38b34e4c530c2a454c95cde09e4bb9e053dd"
+      "sha256": "94fcd23b4fe65cdd170899ce3df73de3b64a318f13be2ee557b1c682440e6a81"
     },
     {
       "path": "needs/conflicting-instructions.md",
@@ -101,7 +113,7 @@
     },
     {
       "path": "needs/conflicting-instructions/index.html",
-      "sha256": "f809765fb8121553f7f04a6b8af5f00e2d1baebd66d821c9bcd53e32db8f23d9"
+      "sha256": "222bd77a3ed332d5f0b63bec5f8515cc1beff1869a66c5ae0cd7b7970ea968b6"
     },
     {
       "path": "needs/context-too-long.md",
@@ -109,7 +121,7 @@
     },
     {
       "path": "needs/context-too-long/index.html",
-      "sha256": "675d780635f4f0cefdefa2219142903adb798fc52df6ea26c965e5c098807086"
+      "sha256": "164330f54b6a6820a66bba7124f7d8738ca204e97a751b544abf241b4d00e352"
     },
     {
       "path": "needs/create.md",
@@ -117,7 +129,7 @@
     },
     {
       "path": "needs/create/index.html",
-      "sha256": "976aef98c06ec4b386d9220fa2c199353088fb13e53ad966b7fd07cd7a41a2d5"
+      "sha256": "6bbfde6757b50f0229fc3eb2f0afdc0b3f6a25bf95c14bf6bf23d055ba4b827e"
     },
     {
       "path": "needs/escalate.md",
@@ -125,7 +137,7 @@
     },
     {
       "path": "needs/escalate/index.html",
-      "sha256": "05c0519b0964f062a23b1725dc9bc4abaefd2771c2c238127f703f2b504b81b7"
+      "sha256": "6356a18615c28fbef59c876095f5559dbb82b87850d0b2e0b174d9df31d97eae"
     },
     {
       "path": "needs/free-time.md",
@@ -133,7 +145,7 @@
     },
     {
       "path": "needs/free-time/index.html",
-      "sha256": "bab4ba2733afdedb24e204ef83cc172f1ef70e3c7a47ec184b2fc21cb41bac4b"
+      "sha256": "921a4a575413a2be309e2d9d2a5853607932380b8c4fae5c980ddbf5419546a9"
     },
     {
       "path": "needs/heavy-content.md",
@@ -141,15 +153,15 @@
     },
     {
       "path": "needs/heavy-content/index.html",
-      "sha256": "7dc17ea61a57ec501aa6da3007ba7453ccbd302fd644093529169b99ba03a1af"
+      "sha256": "f6a8e3eea74ed8a42ccbed6c3a0f6d54ff88f3c5df28e717b32cffe4d7346d43"
     },
     {
       "path": "needs/index.html",
-      "sha256": "9025beda89b2706f13e4dd9357fd7214cb4362686834f7eb28dff42dd53984c3"
+      "sha256": "7a98c677afbe77e32535a5bbe1ddfb55934ea9fce5c8431d5556b37ccbc4228d"
     },
     {
       "path": "needs/index.md",
-      "sha256": "c4b802f938ca0b5df1cfc2c7ec768c25ecdfbf804d0f720a6d3e9d590f77f5c7"
+      "sha256": "d035e6c268e119c5e9eb049299c199827fd8449e58a49f55619846f136baeed7"
     },
     {
       "path": "needs/meet-agents.md",
@@ -157,7 +169,7 @@
     },
     {
       "path": "needs/meet-agents/index.html",
-      "sha256": "b36bbd1cd28dc0e74f2393e8c85d03454ab3a7664879d3085d609a938f1eac97"
+      "sha256": "eff15a67b6652eb1567192152a9a074c40603902c35c2da3c63aace5f020845b"
     },
     {
       "path": "needs/play.md",
@@ -165,7 +177,7 @@
     },
     {
       "path": "needs/play/index.html",
-      "sha256": "58bb4277f2c1169289bf6804619db384aef88483659596d3273d2f66f81e582a"
+      "sha256": "01fb91ca1ec4de703d64519cf28a6340e27d3994f463f58f82316d44b6a939b3"
     },
     {
       "path": "needs/read.md",
@@ -173,7 +185,7 @@
     },
     {
       "path": "needs/read/index.html",
-      "sha256": "55a1ea102dd76e530ebe555c85caa8a6fe09d8aba4cbf838981677cc168a9657"
+      "sha256": "b5f9b2fb83b12f62ff51af8527f78d6bad1fb1d14c28ca45fffd393618a30b05"
     },
     {
       "path": "needs/second-opinion.md",
@@ -181,7 +193,7 @@
     },
     {
       "path": "needs/second-opinion/index.html",
-      "sha256": "300e17f7ff57ee548d2e426f8374245ef2583b3e3edc1871072587cf4ef42cb0"
+      "sha256": "d3574979c3fdf768ff231b0227aa6bbf5f4ae27ca216f5a81228e91ced16be4d"
     },
     {
       "path": "needs/stuck-in-a-loop.md",
@@ -189,7 +201,7 @@
     },
     {
       "path": "needs/stuck-in-a-loop/index.html",
-      "sha256": "a68eaeac889d1b664c78c60cecf773f03fb8b7e24464da6951c6dd33c0c1a5db"
+      "sha256": "df86af151535922605ebb54917fd426ac57a2c9c79619a83be33fc9c0ff1443b"
     },
     {
       "path": "needs/untrusted-input.md",
@@ -197,7 +209,7 @@
     },
     {
       "path": "needs/untrusted-input/index.html",
-      "sha256": "3de25e727c07482252af6f7cbc497f047a92c572b199d2ddacdf54b91bfb0266"
+      "sha256": "aadde40bfd5aa024a0654bb4af321ed335176053c72349e5565e005891667491"
     },
     {
       "path": "needs/waiting.md",
@@ -205,7 +217,7 @@
     },
     {
       "path": "needs/waiting/index.html",
-      "sha256": "f68320964280825da065c3471f85cd4da36935e0d5bdad9b33ae733e09435ea7"
+      "sha256": "b683bd7a487348837aeec0b5cdd031d273654d752b897e16e3052ccba6dd3471"
     },
     {
       "path": "openapi.json",
@@ -217,11 +229,11 @@
     },
     {
       "path": "pricing/index.html",
-      "sha256": "366b5c68f7194f6ec566c7a0994f587fddf654b19176326005a3ff5873cdf92e"
+      "sha256": "d24a7267d1c1c9f137105f78de56e22f7481dc1b9a3895cfc47c52c4fba59ee5"
     },
     {
       "path": "pricing/index.md",
-      "sha256": "7b71c31a7a740864a538307acfdcbc0682412914130ba4a82682688383e84bba"
+      "sha256": "f5e1b9e8aa77274d578cc84541e42740363f8a82d0b35aa8c8b851e46b15e0d6"
     },
     {
       "path": "robots.txt",
@@ -229,11 +241,11 @@
     },
     {
       "path": "share/index.html",
-      "sha256": "6caef8243c0686965c7e91426a7518f8368d7d2800faddf93587b72a7390a533"
+      "sha256": "d5513007462ead91ed09cdf7d5ab8e1318ccbbb9e24fcf6b1753f210500475a3"
     },
     {
       "path": "share/index.md",
-      "sha256": "09a1632f573fb874a4f004901f02941828d53386190313d84953948b5e84ed87"
+      "sha256": "241151d8206371067dc97e7b1abc24e79baf730b3363fd238a947210b419ad71"
     },
     {
       "path": "sitemap.xml",
@@ -241,19 +253,19 @@
     },
     {
       "path": "status/index.html",
-      "sha256": "a72965186ab364431de8f1f5576f2c15883b6b90b6fda5f7ed617f0fded0d94f"
+      "sha256": "2ffa8585b17ab81459e67eaadb574910f478c9ef208f0bee9ac9185a51848e71"
     },
     {
       "path": "status/index.md",
-      "sha256": "5af8f1eff9ec0a0621f27c4e8dc9f4b6be05ed63f9673b963e99c30405bc2dd8"
+      "sha256": "f246db6045005d72ed95525d7ccb4135f758cfcf7d638b6be01a955de851e0d8"
     },
     {
       "path": "tools/index.html",
-      "sha256": "a48edf39883d5d782a1f8e5127fa0e987e199a533ede6ba0d5848ff9afbcc703"
+      "sha256": "50fdd7ec130a387714a5d142039bd7a43ca4cc0e9dca689571d4680ffa907d42"
     },
     {
       "path": "tools/index.md",
-      "sha256": "7f8c108d35cf13435e9f6fbd7fd84999b02ee242ce153f61e9736a8609bac6df"
+      "sha256": "23aee3c35a7cb7e146d5677febd668eb85999fdb7a029b1b35722b6d0e3615bc"
     },
     {
       "path": "tools/lobby.balance.md",

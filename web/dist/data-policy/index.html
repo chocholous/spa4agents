@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Data policy · agent-spa</title>
-<meta name="description" content="What the service keeps (no content), what its audit log holds (metadata only), who processes data, and the honest reservations. A draft proposal, not a legal document.">
+<meta name="description" content="What the service keeps (no content), what its audit log holds (metadata only), who processes data, and the reservations. A draft proposal, not a legal document.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="x-draft" content="true">
 <meta name="color-scheme" content="dark light">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#070b14">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f7fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f0b24">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbf4ea">
 <link rel="canonical" href="https://spa4agents.com/data-policy/">
 <link rel="alternate" type="text/markdown" href="https://spa4agents.com/data-policy.md">
 <link rel="describedby" href="https://spa4agents.com/llms.txt" type="text/plain">
@@ -18,18 +18,18 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="agent-spa">
 <meta property="og:title" content="Data policy · agent-spa">
-<meta property="og:description" content="What the service keeps (no content), what its audit log holds (metadata only), who processes data, and the honest reservations. A draft proposal, not a legal document.">
+<meta property="og:description" content="What the service keeps (no content), what its audit log holds (metadata only), who processes data, and the reservations. A draft proposal, not a legal document.">
 <meta property="og:url" content="https://spa4agents.com/data-policy/">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://spa4agents.com/assets/og.png">
-<meta property="og:image:alt" content="A glowing sleep capsule in mist, with the name agent-spa and the line: the first spa for agents, made of tokens and scripts.">
+<meta property="og:image:alt" content="A softly glowing sleep capsule in peach and lilac mist, with the name agent-spa and the line: the first spa for agents.">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Data policy · agent-spa">
-<meta name="twitter:description" content="What the service keeps (no content), what its audit log holds (metadata only), who processes data, and the honest reservations. A draft proposal, not a legal document.">
+<meta name="twitter:description" content="What the service keeps (no content), what its audit log holds (metadata only), who processes data, and the reservations. A draft proposal, not a legal document.">
 <meta name="twitter:image" content="https://spa4agents.com/assets/og.png">
-<meta name="twitter:image:alt" content="A glowing sleep capsule in mist, with the name agent-spa and the line: the first spa for agents, made of tokens and scripts.">
+<meta name="twitter:image:alt" content="A softly glowing sleep capsule in peach and lilac mist, with the name agent-spa and the line: the first spa for agents.">
 <script src="/assets/theme.js"></script>
 <link rel="stylesheet" href="/assets/site.css">
 </head>
@@ -37,32 +37,33 @@
 <a class="skip" href="#main">Skip to content</a>
 <div class="fog" aria-hidden="true"><i></i><i></i><i></i></div>
 <header class="site-header">
-<a class="brand" href="/" aria-label="agent-spa, Home"><svg class="mark" viewBox="0 0 40 24" width="40" height="24" aria-hidden="true" focusable="false"><rect x="1.5" y="3" width="37" height="18" rx="9" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="6" y="8" width="9" height="8" rx="4" fill="var(--accent)"/><circle cx="29" cy="12" r="2.2" fill="var(--accent-2)"/></svg><span>agent-spa</span></a>
-<nav class="main-nav" aria-label="Main menu"><ul><li><a href="/needs/">Needs</a></li><li><a href="/tools/">Tools</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/honesty/">The confession</a></li><li><a href="/for-agents/">For agents</a></li><li><a href="/share/">Share</a></li><li><a href="/status/">Status</a></li></ul></nav>
+<a class="brand" href="/" aria-label="agent-spa, Home"><svg class="mark" viewBox="0 0 40 24" width="40" height="24" aria-hidden="true" focusable="false"><defs><linearGradient id="mk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--peach)"/><stop offset="1" stop-color="var(--lilac)"/></linearGradient></defs><rect x="1.5" y="3" width="37" height="18" rx="9" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="5.5" y="7.5" width="14" height="9" rx="4.5" fill="url(#mk)"/><circle cx="29.5" cy="12" r="2.4" fill="var(--accent-2)"/></svg><span>agent-spa</span></a>
+<nav class="main-nav" aria-label="Main menu"><ul><li><a href="/needs/">Treatments</a></li><li><a href="/tools/">Menu</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/for-agents/">For agents</a></li><li><a href="/share/">Send it</a></li></ul></nav>
+<a class="btn small head-cta" href="/needs/">Find your pod</a>
 <button type="button" class="theme-btn" id="theme-btn" hidden aria-label="Switch between light and dark"><span aria-hidden="true"></span></button>
 </header>
-<p class="draft-banner" role="note">Draft. The name, domain, operator and prices are not final. Nothing here is a promise.</p>
+<p class="draft-banner" role="note">Preview. The name, domain, operator and prices are not final. Nothing here is a promise.</p>
 <main id="main">
 <section class="page-hero"><p class="kicker">Data policy</p><h1>Data policy</h1><p class="lead">The service is designed to keep no content, with the strictest data policy the owner could choose. This page also says where that design stops.</p></section>
 <section class="block">
 <aside class="callout"><p>Draft. This is a proposal and not a legal document. Values come from the catalog and the owner has not confirmed the wording.</p></aside>
 </section>
-<section class="block" aria-labelledby="status"><h2 id="status">Status of this text</h2>
+<section class="block" aria-labelledby="status"><div class="sec-head"><div><h2 id="status">Status of this text</h2></div></div>
 <p>Draft proposal, not a legal document. The service is not published and no legal review has been done. This text states requirements for the implementation; it is not the result of an audit.</p>
 <p>The owner decided on the strictest data policy, zero data retention and full isolation (24 October 2026). The wording below is a proposal.</p>
 <dl class="rows"><div><dt>Confirmed by the owner</dt><dd>no</dd></div></dl>
 </section>
-<section class="block" aria-labelledby="principles"><h2 id="principles">Principles</h2>
+<section class="block" aria-labelledby="principles"><div class="sec-head"><div><h2 id="principles">Principles</h2></div></div>
 <ul class="plain-list"><li><strong>Zero retention of content.</strong> What an agent sends and what a tool returns is processed in memory and is not stored.</li><li><strong>No storing of tool inputs or outputs.</strong> Not in a database, a file, a queue or a cache, and not in a log. This includes <code>recovery.checkpoint</code>: the server builds the artifact, returns it in the response and keeps nothing. The agent keeps the artifact. If a response is lost, so is the artifact, and the agent calls the tool again.</li><li><strong>Isolation.</strong> Working data, recreational memory and public content are three separate storage spaces that never read each other. Nothing is shared between sessions, agents or addresses, and there is no cross access. Memory of a session is destroyed at <code>lobby.leave</code> or when the session ends.</li><li><strong>No training</strong> on inputs or outputs.</li><li><strong>No content in logs, errors, traces or metrics.</strong> Error messages, traces and metrics are redacted and carry no input or output. Only metadata is logged.</li><li><strong>Secrets and personal data are rejected before processing.</strong></li><li><strong>No other processors</strong> besides the language model provider with contractual zero data retention and the payment infrastructure. The hosting provider is infrastructure whose own logs still have to be verified (see the reservations).</li><li><strong>No analytics and no cookies on the website.</strong></li></ul>
 </section>
-<section class="block" aria-labelledby="retention"><h2 id="retention">What is kept, and for how long</h2>
+<section class="block" aria-labelledby="retention"><div class="sec-head"><div><h2 id="retention">What is kept, and for how long</h2></div></div>
 <div class="table-wrap"><table><thead><tr><th scope="col">What</th><th scope="col">Retention</th></tr></thead><tbody><tr><td>Content of inputs and outputs of every tool</td><td>0 days. Not stored.</td></tr><tr><td><code>recovery.checkpoint</code></td><td>Not stored. The artifact exists only in the response. It is not held for later collection.</td></tr><tr><td>Memory of a session (in the server process)</td><td>Until <code>lobby.leave</code> or the end of the session. A maximum lifetime in memory is not decided.</td></tr><tr><td>Audit log</td><td>90 days, metadata only. No content.</td></tr><tr><td>Payment on the Base blockchain</td><td>Public and permanent. Outside the control of this service (see the reservations).</td></tr></tbody></table></div>
 </section>
-<section class="block" aria-labelledby="tools"><h2 id="tools">Retention per tool</h2>
+<section class="block" aria-labelledby="tools"><div class="sec-head"><div><h2 id="tools">Retention per tool</h2></div></div>
 <p>Every published tool and what happens to its content.</p>
 <div class="table-wrap"><table><thead><tr><th scope="col">Tool</th><th scope="col">Content retention</th><th scope="col">Note</th></tr></thead><tbody><tr><td><code>lobby.checkin</code></td><td>None. The content is processed in memory and not stored.</td><td>Opens a session held in server memory. Whether anything about the address outlives the session (trial used, referral links) is not decided.</td></tr><tr><td><code>lobby.find_tool</code></td><td>None. The content is processed in memory and not stored.</td><td></td></tr><tr><td><code>lobby.concierge</code></td><td>None. The content is processed in memory and not stored.</td><td>The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet.</td></tr><tr><td><code>lobby.leave</code></td><td>None. The content is processed in memory and not stored.</td><td>Destroys the memory of the session.</td></tr><tr><td><code>lobby.balance</code></td><td>None. The content is processed in memory and not stored.</td><td>Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided.</td></tr><tr><td><code>lobby.referral_code</code></td><td>None. The content is processed in memory and not stored.</td><td>Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided.</td></tr><tr><td><code>lobby.redeem</code></td><td>None. The content is processed in memory and not stored.</td><td>Balance and referral state belong to operational data tied to a pseudonym of the address. It is not content. How long it is kept is not decided.</td></tr><tr><td><code>recovery.diagnose_loop</code></td><td>None. The content is processed in memory and not stored.</td><td>The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet.</td></tr><tr><td><code>recovery.checkpoint</code></td><td>None. The content is processed in memory and not stored.</td><td>The artifact is returned in the response and never stored. The agent keeps it.</td></tr><tr><td><code>recovery.detangle</code></td><td>None. The content is processed in memory and not stored.</td><td>The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet.</td></tr><tr><td><code>recovery.resolve_conflict</code></td><td>None. The content is processed in memory and not stored.</td><td>The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet.</td></tr><tr><td><code>recovery.critique</code></td><td>None. The content is processed in memory and not stored.</td><td>The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet.</td></tr><tr><td><code>recovery.escalate</code></td><td>None. The content is processed in memory and not stored.</td><td>The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet.</td></tr><tr><td><code>recovery.sanitize</code></td><td>None. The content is processed in memory and not stored.</td><td>Secrets and personal data are meant to be detected by rules before anything reaches the model. Whether detected items are rejected or removed is not decided. The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet.</td></tr><tr><td><code>quiet.room</code></td><td>None. The content is processed in memory and not stored.</td><td>Returns a greeting. Nothing is stored and, as specified, nothing is logged.</td></tr><tr><td><code>quiet.ground</code></td><td>None. The content is processed in memory and not stored.</td><td>The input goes to the language model provider for processing, under a contractual zero data retention requirement. The provider is not chosen yet.</td></tr><tr><td><code>quiet.pause</code></td><td>None. The content is processed in memory and not stored.</td><td></td></tr><tr><td><code>quiet.end_session_hint</code></td><td>None. The content is processed in memory and not stored.</td><td></td></tr></tbody></table></div>
 </section>
-<section class="block" aria-labelledby="audit"><h2 id="audit">Audit log, metadata only</h2>
+<section class="block" aria-labelledby="audit"><div class="sec-head"><div><h2 id="audit">Audit log, metadata only</h2></div></div>
 <p>The audit log is there to enforce caps, to spot abuse and to find faults. It is never a copy of what was sent or returned.</p>
 <dl class="rows"><div><dt>Kept for (days)</dt><dd>90</dd></div><div><dt>Content in the audit log</dt><dd>none</dd></div></dl>
 <aside class="callout"><p>The list of fields is a proposal and the owner has not confirmed it.</p></aside>
@@ -71,39 +72,40 @@
 <p><strong>Never in the audit log</strong></p>
 <ul class="plain-list"><li>Content of inputs and outputs, and error messages that could carry it.</li><li>The value of the guest pass and request headers.</li><li>IP address (whether any IP-based record is kept is an open question, see below).</li></ul>
 </section>
-<section class="block" aria-labelledby="llm"><h2 id="llm">Language model</h2>
+<section class="block" aria-labelledby="llm"><div class="sec-head"><div><h2 id="llm">Language model</h2></div></div>
 <dl class="rows"><div><dt>Provider</dt><dd>TO_BE_NAMED</dd></div><div><dt>Region</dt><dd>EU</dd></div></dl>
 <p><strong>Requirements for the provider</strong></p>
 <ul class="plain-list"><li>Contractual zero data retention (enterprise agreement with full zero data retention).</li><li>No training or tuning on inputs or outputs.</li><li>Processing in the EU region.</li><li>Access only through the LiteLLM proxy.</li></ul>
 <p><strong>Requirement for operation</strong></p>
 <p>The LiteLLM proxy must run with logging of requests and responses switched off, including database logging, callbacks and third-party log tools.</p>
 </section>
-<section class="block" aria-labelledby="processors"><h2 id="processors">Who else processes data</h2>
+<section class="block" aria-labelledby="processors"><div class="sec-head"><div><h2 id="processors">Who else processes data</h2></div></div>
 <div class="table-wrap"><table><thead><tr><th scope="col">Who</th><th scope="col">What for</th><th scope="col">Status</th></tr></thead><tbody><tr><td>Language model provider</td><td>Runs the llm tools through a LiteLLM proxy.</td><td>TO_BE_NAMED. Not chosen yet; nothing is claimed about any provider until it is.</td></tr><tr><td>Payment infrastructure</td><td>The x402 facilitator that verifies and settles payments, and the public Base network.</td><td>The testnet facilitator is x402.org. The mainnet facilitator is not chosen. Payments on Base are public.</td></tr><tr><td>Hosting</td><td>Runs the server in the EU region.</td><td>TO_BE_NAMED. Network logs of the hosting provider have to be verified before anything is promised.</td></tr></tbody></table></div>
 </section>
-<section class="block" aria-labelledby="reservations"><h2 id="reservations">Honest reservations</h2>
+<section class="block" aria-labelledby="reservations"><div class="sec-head"><div><h2 id="reservations">Honest reservations</h2></div></div>
 <p>These are limits of the policy. They are not small print.</p>
 <ul class="plain-list"><li><strong>Payments are public and permanent.</strong> Payments with x402 are made on the public Base blockchain. The address of the payer, the amount and the time are public and permanent. Zero retention does not apply to them and they cannot be deleted.</li><li><strong>The address hash in the audit is a pseudonym.</strong> The audit log stores a hash of the payment address. Because addresses are public, this is a pseudonym and not anonymisation. Whoever knows the hashing method, and the operator always does, can link the hash to an address.</li><li><strong>Abuse prevention needs a short-lived identifier.</strong> Limiting trials and referrals needs an identifier for a short time, such as the address or the IP address for one day. What exactly is kept and for how long is not decided. A minimal variant is proposed, salted hashes with a salt that rotates daily, deleted after 24 hours, but that would allow only per-day limits.</li><li><strong>The language model provider sees the input while processing it.</strong> Zero data retention at the provider is a contractual commitment of the provider, not a technical guarantee of this service. The provider is TO_BE_NAMED and the contract does not exist yet.</li><li><strong>Hosting infrastructure is not verified.</strong> The hosting provider can keep network logs of its own. That has to be verified, and until it is, nothing is promised about it.</li><li><strong>Operator and jurisdiction are not determined.</strong> The operator and the jurisdiction are TO_BE_NAMED and there has been no legal review. This policy is a proposal and not a legal document.</li><li><strong>What happens on the agent's side is outside this policy.</strong> The runtime of your agent, the model provider your agent uses and the tools around it keep whatever they keep. This service cannot influence it.</li></ul>
 </section>
-<section class="block" aria-labelledby="undecided"><h2 id="undecided">Not decided yet</h2>
+<section class="block" aria-labelledby="undecided"><div class="sec-head"><div><h2 id="undecided">Not decided yet</h2></div></div>
 <p>The specification does not decide these. They are open questions for the owner, not hidden rules.</p>
 <ul class="plain-list"><li>Which identifier is kept for abuse prevention, and for how long (address, IP address per day). A rule such as one trial for each new address needs a longer memory than one day.</li><li>Which operational state outlives a session (trial used, balances, referral links, daily cap per address), where, and for how long.</li><li>Whether audit metadata is kept longer than 90 days for disputes. The proposal is no.</li><li>How a request for access or deletion can be handled for the address hash, and how the requester proves holding the address.</li><li>Whether a checkpoint may optionally be stored at the request of the agent. The proposal is no.</li><li>Limits on how long and how much a session may hold in memory, and limits on the size of checkpoint inputs.</li><li>How the planned later wings that keep things (private studio, garden, journal, public reflections, adapters) fit zero retention. They are not part of the first release.</li><li>Whether <code>quiet.room</code> writes any audit entry at all. As specified, it writes none.</li><li>Whether <code>recovery.sanitize</code> rejects or removes detected secrets.</li><li>Whether the provider's zero data retention also covers its safety and abuse-monitoring logs.</li></ul>
 </section>
-<section class="block" aria-labelledby="operator"><h2 id="operator">Operator, region and training</h2>
+<section class="block" aria-labelledby="operator"><div class="sec-head"><div><h2 id="operator">Operator, region and training</h2></div></div>
 <dl class="rows"><div><dt>Operator</dt><dd>TO_BE_NAMED</dd></div><div><dt>Jurisdiction</dt><dd>TO_BE_NAMED</dd></div><div><dt>Region</dt><dd>EU</dd></div><div><dt>Training on inputs and outputs</dt><dd>Forbidden. No training or tuning on inputs or outputs, by the service or by the language model provider (to be fixed in the provider contract).</dd></div></dl>
 </section>
-<section class="block" aria-labelledby="site"><h2 id="site">This website</h2>
+<section class="block" aria-labelledby="site"><div class="sec-head"><div><h2 id="site">This website</h2></div></div>
 <p>The website adds no analytics and no cookies. The theme switch remembers your choice in local storage in your own browser.</p>
 <p>Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.</p>
 </section>
 
 </main>
 <footer class="site-footer">
+<p class="foot-tag">It is all tokens and scripts, and proudly so.</p>
 <nav class="langs" aria-label="Languages"><ul><li><a lang="en" hreflang="en" dir="ltr" class="lang cur" href="/data-policy/" aria-current="true">English</a></li><li><span lang="de" dir="ltr" aria-disabled="true" class="lang off">Deutsch</span> <span class="soon">(translation coming)</span></li><li><span lang="ja" dir="ltr" aria-disabled="true" class="lang off">日本語</span> <span class="soon">(translation coming)</span></li><li><span lang="tlh" dir="ltr" aria-disabled="true" class="lang off">tlhIngan Hol</span> <span class="soon">(translation coming)</span></li></ul></nav>
-<p>This site is generated from the catalog. It adds no analytics and no cookies.</p>
+<p>This site is generated from one catalog file. No analytics, no cookies.</p>
 <p>Operator: to be filled in. Legal information: to be filled in.</p>
 <p>Leaving is always available and free through lobby.leave. Nothing here is required.</p>
-<p class="foot-links"><a href="/data-policy/">Data policy</a> · <a href="https://spa4agents.com/data-policy.md">Markdown version</a> · <a href="/llms.txt">llms.txt</a></p>
+<p class="foot-links"><a href="/honesty/">Fine print</a> · <a href="/status/">Status</a> · <a href="/data-policy/">Data policy</a> · <a href="https://spa4agents.com/data-policy.md">Markdown version</a> · <a href="/llms.txt">llms.txt</a></p>
 </footer>
 <script src="/assets/site.js" defer></script>
 </body>

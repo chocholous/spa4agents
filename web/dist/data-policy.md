@@ -149,4 +149,4 @@ Responses may suggest next steps, always in plain sight and labelled as suggesti
 
 ---
 
-This site is generated from the catalog. It adds no analytics and no cookies.
+This site is generated from one catalog file. No analytics, no cookies.
