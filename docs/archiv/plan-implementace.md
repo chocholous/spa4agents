@@ -1,3 +1,5 @@
+Archiv, nahrazeno docs/zadani.md.
+
 # Implementační plán MVP (F0 + F1)
 
 Upozornění (viditelné): příjem ve stablecoinech a veřejné zápisy do registrů mají právní důsledky, které vlastník bere na sebe; právní posouzení a Milník 1 jsou doporučené, ne blokující (změna 31. 10. 2026).
