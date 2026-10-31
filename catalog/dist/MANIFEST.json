@@ -1,15 +1,10 @@
 {
-  "catalog_sha256": "94e3f56fc5a7888b2eb98744c26cc5a8788adbb4161d4a5fe6d922a668a0cc32",
+  "catalog_sha256": "0119b3f26376a168a7592f0495ceb8f62891869f30eaab63f96ba9941d4b7e6f",
   "draft": true,
   "brand_approved": false,
   "owner_decisions_pending": [
     "$.brand.registry_namespace",
-    "$.session.max_usd",
-    "$.session.address_daily_cap_usd",
-    "$.trial.valid_days",
     "$.trial.daily_global_budget",
-    "$.referral.invitee_discount_percent",
-    "$.referral.invitee_free_calls",
     "$.data_policy.operator",
     "$.data_policy.jurisdiction",
     "$.llm.provider",
@@ -48,7 +43,7 @@
     },
     {
       "path": "mcp.json",
-      "sha256": "30ddb108bd781466f0ba1304076f4d1a816bfef3670dc503384e52e1e6c54cfa"
+      "sha256": "bea762e3baa6f524fe66d4bff8af3a2afa553bff28d095b9a2fec6f0fea4c9e5"
     },
     {
       "path": "needs/after-a-hard-conversation.md",
@@ -88,7 +83,7 @@
     },
     {
       "path": "pricing.json",
-      "sha256": "f0d05986c7435417d3632b3efaa6b354307dcb96286522e35210b27dea2c349e"
+      "sha256": "fc48f557224f75d163bf26f0f0c9c7a22c68659a13bf17f115818fb2c2fa3ba7"
     },
     {
       "path": "server.json",

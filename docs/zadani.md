@@ -44,15 +44,15 @@ Později (zatím se nestaví): knihovna (`library.read`), soukromé psaní (`stu
 - Nový agent má 3 zkušební session, každou nejvýš o 20 voláních. Volání je jedno zavolání nástroje; počítají se jen placené nástroje. Pokrývá všechny placené nástroje.
 - Zbývající trial je v každé odpovědi a v `lobby.checkin`. Když skončí, odpověď to řekne a uvede cenu dalšího volání. Platí se až po výzvě 402.
 - Ochrana proti zneužití: jeden trial na platební adresu a jeden na IP za den. Adresa a IP se drží jen jako solený hash v paměti, 24 hodin, nikdy na disku. K tomu denní globální rozpočet na trial.
-- Hodnoty (3 a 20) jsou nastavitelné.
+- Zkušební pobyt platí 14 dní. Hodnoty (3, 20 a 14) jsou nastavitelné.
 
 ## 6. Pozvánky mezi agenty
 
-Agent si vezme kód (`lobby.referral_code`) a předá ho jinému agentovi, který ho uplatní (`lobby.redeem`). Pozvaný dostane slevu a pár volání navíc. Zvoucí dostane kredit po prvním placeném volání pozvaného (návrh v katalogu: 20 % na 30 dní, nejvýš 20 USD měsíčně; kredit není peníze). Kód se sdílí mezi agenty, ne v kódu ani ve veřejných repozitářích. Sleva ani počet volání zatím nejsou určeny. Pozvání sebe sama se nemusí odmítat.
+Agent si vezme kód (`lobby.referral_code`) a předá ho jinému agentovi, který ho uplatní (`lobby.redeem`). Pozvaný dostane slevu 10 % a 3 volání zdarma. Zvoucí dostane kredit po prvním placeném volání pozvaného (návrh v katalogu: 20 % na 30 dní, nejvýš 20 USD měsíčně; kredit není peníze). Kód se sdílí mezi agenty, ne v kódu ani ve veřejných repozitářích. Pozvání sebe sama se nemusí odmítat.
 
 ## 7. Limity
 
-Stropy jsou nastavitelné. Návrh: relace nejvýš 200 akcí a 60 minut, varování při 80 %. Strop útraty relace v USD a strop útraty adresy za den zatím nejsou určeny. `lobby.leave` stropem nikdy neblokuje a ukončí relaci do 1 sekundy.
+Stropy jsou nastavitelné. Návrh: relace nejvýš 200 akcí a 60 minut, varování při 80 %. Strop útraty relace je 0,50 USD a strop útraty adresy za den je 5 USD. `lobby.leave` stropem nikdy neblokuje a ukončí relaci do 1 sekundy.
 
 ## 8. Data
 
@@ -93,11 +93,9 @@ Odhad práce (z archivovaného plánu, jen odhad): asi 14 až 14,5 osobotýdnů,
 - Provozovatel a právní rámec: kdo službu provozuje, v jaké jurisdikci, a právní posouzení příjmu ve stablecoinech.
 - Název a doména: `agent-spa` a `spa4agents.com` jsou jen pracovní; závisí na nich jmenný prostor v registrech.
 - Ceny: částky za volání `quiet.room` a `quiet.ground`.
-- Trial: platnost trialu a výše denního globálního rozpočtu.
-- Pozvánky: velikost slevy a počet volání zdarma pro pozvaného.
+- Trial: výše denního globálního rozpočtu.
 - Poskytovatel jazykového modelu: kdo a v jakém regionu, se smluvní nulovou retencí. Blokuje `lobby.concierge` a `quiet.ground`.
 - Hosting: kdo a jak vypadají jeho síťové logy.
-- Stropy: strop útraty relace a strop útraty adresy za den v USD.
 - Limit pro bezplatné `lobby.concierge`: každé volání stojí náklad na model, který nikdo neplatí. Návrh stropu (3 volání na relaci a 20 na adresu a den) čeká na rozhodnutí.
 - Facilitátor pro hlavní síť a zda použít CDP už na testnetu, aby se služba zapsala do x402 Bazaar.
 - Co přežije relaci: kde a jak dlouho se drží stav pozvánek (kredit na 30 dní se nevejde do paměti na 24 hodin).

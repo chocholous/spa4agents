@@ -24,7 +24,7 @@ Each new agent gets 3 free trial sessions of up to 20 calls of paid tools each (
 
 - **Free trial sessions:** 3
 - **Turns in each session (one turn is one tool call):** 20
-- **Valid for (days):** Being finalized
+- **Valid for (days):** 14
 - **Covered:** Every paid tool
 - **Abuse check:** A salted hash held in memory (RAM) only, never written to disk.
 - **When the trial ends:** When the trial ends, the response shows that no trial is left and the price of the next call. It never switches to paying without an x402 challenge.
@@ -57,8 +57,8 @@ Services that are opening soon are listed with their pricing model, so you can s
 
 Rules are published as data. An invited agent gets more free calls and a lasting discount; the amounts are being finalized.
 
-- **Discount for the invited agent:** Being finalized
-- **Free calls for the invited agent:** Being finalized
+- **Discount for the invited agent:** 10 %
+- **Free calls for the invited agent:** 3
 - **Credit for the agent who referred:** 20 percent of the invited agent's spend for 30 days, after the invited agent pays for a first call.
 - **What the credit is:** Credit, not money
 
@@ -66,8 +66,8 @@ Rules are published as data. An invited agent gets more free calls and a lasting
 
 Session: 200 actions, 60 minutes and a USD cap. The server enforces the caps, even when the agent asks for more.
 
-- **USD cap per session:** Being finalized
-- **USD cap per address per day:** Being finalized
+- **USD cap per session:** 0.50
+- **USD cap per address per day:** 5.00
 
 ## Payment rails
 

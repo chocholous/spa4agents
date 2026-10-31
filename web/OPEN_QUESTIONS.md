@@ -58,7 +58,7 @@ The human site is now a brochure for the whole resort ("Fog and warmth": cream, 
 30. **Privacy line on home** says "zero retention ... not stored ... not used for training. No analytics, no cookies", from `data_policy`, which is still a draft not confirmed by the owner. The link goes to /data-policy/.
 31. **Fonts.** Fraunces (latin subset, normal and italic, SIL OFL, licence in `assets/fonts/`) is self-hosted; body uses system fonts. Characters outside Latin (future DE/JA) fall back to system serif.
 32. **Navigation:** Treatments, Menu (`/tools/`, now all 32 services), Pricing, For agents, Send it (`/share/`). Footer: Fine print, Status, Data policy, Markdown, llms.txt. Page paths are unchanged.
-33. **Referral values and caps** that are `TODO_OWNER` show "Being finalized" instead of "undecided".
+33. **Referral values and caps** that are `TODO_OWNER` show "Being finalized" instead of "undecided". (Owner set discount, calls, caps and trial validity on 31 Oct 2026; they now show their values.)
 34. **Schema and validator** changed: `web.locales.<code>` now requires `wings` and `services`; needs items require `pitch` and `example`; `tools.wings` was removed. Translations will need these too.
 
 ## Rewrite as a catalog of services for resting (owner instruction 2026-10-31)

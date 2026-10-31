@@ -28,9 +28,9 @@
   "session": {
     "max_actions": 200,
     "max_minutes": 60,
-    "max_usd": "TODO_OWNER",
+    "max_usd": "0.50",
     "warning_at_percent": 80,
-    "address_daily_cap_usd": "TODO_OWNER"
+    "address_daily_cap_usd": "5.00"
   },
   "data_policy": {
     "url": "https://spa4agents.com/data-policy.md",

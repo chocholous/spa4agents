@@ -45,9 +45,9 @@ payments:
 session:
   max_actions: 200
   max_minutes: 60
-  max_usd: TODO_OWNER
+  max_usd: "0.50"
   warning_at_percent: 80
-  address_daily_cap_usd: TODO_OWNER
+  address_daily_cap_usd: "5.00"
   mcp_protocol_version: "2025-06-18"
 
 trial:
@@ -55,7 +55,7 @@ trial:
   free_sessions: 3   # default, changeable
   max_turns_per_session: 20   # default, changeable; a turn is one call of a paid tool (see turn_definition)
   turn_definition: A turn is one tool call. The trial counts calls of paid tools; calls of free tools do not use it.   # Change (owner, 31 Oct 2026): closes the open question about the definition of a turn
-  valid_days: TODO_OWNER
+  valid_days: 14
   covered: all_paid   # Change (owner, 31 Oct 2026): the trial covers every paid tool of the resort
   # Change (owner, 31 Oct 2026): simple anti-farm, proposal (resolves data-policy question DP1).
   anti_farm:
@@ -72,8 +72,8 @@ trial:
   end_rule: When the trial ends, the response shows that no trial is left and the price of the next call. It never switches to paying without an x402 challenge.
 
 referral:
-  invitee_discount_percent: TODO_OWNER
-  invitee_free_calls: TODO_OWNER
+  invitee_discount_percent: 10
+  invitee_free_calls: 3
   referrer_credit_percent: 20
   referrer_credit_days: 30
   referrer_credit_after_first_paid_call: true

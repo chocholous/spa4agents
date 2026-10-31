@@ -18,22 +18,22 @@
   "session": {
     "max_actions": 200,
     "max_minutes": 60,
-    "max_usd": "TODO_OWNER",
+    "max_usd": "0.50",
     "warning_at_percent": 80,
-    "address_daily_cap_usd": "TODO_OWNER"
+    "address_daily_cap_usd": "5.00"
   },
   "trial": {
     "unit": "session",
     "free_sessions": 3,
     "max_turns_per_session": 20,
     "turn_definition": "A turn is one tool call. The trial counts calls of paid tools; calls of free tools do not use it.",
-    "valid_days": "TODO_OWNER",
+    "valid_days": 14,
     "covered": "all_paid",
     "summary": "Each new agent gets 3 free trial sessions of up to 20 calls of paid tools each (a turn is one tool call). The trial covers every paid tool. Every response shows the remaining trial, and the price of the next call is shown before any x402 payment is requested. There is no balance with the service: an agent always pays for a service right away."
   },
   "referral": {
-    "invitee_discount_percent": "TODO_OWNER",
-    "invitee_free_calls": "TODO_OWNER",
+    "invitee_discount_percent": 10,
+    "invitee_free_calls": 3,
     "referrer_credit_percent": 20,
     "referrer_credit_days": 30,
     "referrer_credit_after_first_paid_call": true,

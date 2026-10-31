@@ -1,15 +1,15 @@
 {
   "draft": true,
   "brand_approved": false,
-  "owner_decisions_pending": 25,
-  "catalog_sha256": "94e3f56fc5a7888b2eb98744c26cc5a8788adbb4161d4a5fe6d922a668a0cc32",
+  "owner_decisions_pending": 20,
+  "catalog_sha256": "0119b3f26376a168a7592f0495ceb8f62891869f30eaab63f96ba9941d4b7e6f",
   "locales": [
     "en"
   ],
   "files": [
     {
       "path": ".well-known/mcp.json",
-      "sha256": "30ddb108bd781466f0ba1304076f4d1a816bfef3670dc503384e52e1e6c54cfa"
+      "sha256": "bea762e3baa6f524fe66d4bff8af3a2afa553bff28d095b9a2fec6f0fea4c9e5"
     },
     {
       "path": "404.html",
@@ -177,15 +177,15 @@
     },
     {
       "path": "pricing.json",
-      "sha256": "f0d05986c7435417d3632b3efaa6b354307dcb96286522e35210b27dea2c349e"
+      "sha256": "fc48f557224f75d163bf26f0f0c9c7a22c68659a13bf17f115818fb2c2fa3ba7"
     },
     {
       "path": "pricing/index.html",
-      "sha256": "ddfe5a6af738ae39d1dae8660c7065c11a804ed48bfabc0043144f84281eca8a"
+      "sha256": "86474b08de2a3a3d71a80ba4e0d1f35bf032cdc3114a529d44f19b125831a2bf"
     },
     {
       "path": "pricing/index.md",
-      "sha256": "052a1d331cc4977e30a5f85738317af1fc79b23f8606af1b184bfc3c19293588"
+      "sha256": "f9978ec2a44572b2cfac09859d0ad58480ebc090264f372d8c3c77bc2d9bc415"
     },
     {
       "path": "robots.txt",

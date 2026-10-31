@@ -77,7 +77,7 @@ test("pricing.json: trial and referral parameters", () => {
   const p = JSON.parse(files.get("pricing.json")!);
   assert.equal(p.trial.free_sessions, 3);
   assert.equal(p.trial.max_turns_per_session, 20);
-  assert.equal(p.referral.invitee_discount_percent, "TODO_OWNER");
+  assert.equal(p.referral.invitee_discount_percent, 10);
   assert.equal(p.referral.referrer_credit_percent, 20);
   assert.equal(p.trial.covered, "all_paid");
   assert.equal(p.trial.covered_tools, undefined);

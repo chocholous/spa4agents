@@ -71,8 +71,8 @@ test("removed by owner decision: guest pass, affiliate, lobby.balance, audit fie
 
 test("referral: invitee values are owner parameters, referrer credit 20 percent for 30 days", () => {
   const r = loadRaw().raw.referral;
-  assert.equal(r.invitee_discount_percent, "TODO_OWNER");
-  assert.equal(r.invitee_free_calls, "TODO_OWNER");
+  assert.equal(r.invitee_discount_percent, 10);
+  assert.equal(r.invitee_free_calls, 3);
   assert.equal(r.referrer_credit_percent, 20);
   assert.equal(r.referrer_credit_days, 30);
 });
