@@ -137,6 +137,16 @@ export function validateDoc(raw: Catalog): Report {
   };
   walkPolicy("data_policy", doc.data_policy);
   walkPolicy("llm", doc.llm);
+  // Texts of the public repository: same advisory lint, URLs are allowed (install and registry steps name them).
+  const walkRepo = (where: string, v: any) => {
+    if (typeof v === "string") {
+      const low = v.toLowerCase();
+      for (const p of forbidden) if (low.includes(p)) warnings.push(`${where}: forbidden phrase "${p}"`);
+      for (const h of hiddenInstructionHits(v)) warnings.push(`${where}: possible hidden instruction (${h}); instructions must be visible and labelled`);
+    } else if (Array.isArray(v)) v.forEach((x, i) => walkRepo(`${where}[${i}]`, x));
+    else if (v && typeof v === "object") for (const [k, x] of Object.entries(v)) walkRepo(`${where}.${k}`, x);
+  };
+  walkRepo("repo", doc.repo);
 
   validateWeb(doc, forbidden, errors, warnings);
 

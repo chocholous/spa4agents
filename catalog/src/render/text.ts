@@ -3,7 +3,7 @@ import { Catalog, baseUrl, findTools, published } from "../catalog.ts";
 import { priceEntries, priceEntry } from "../pricing.ts";
 import { Files, fence, mechanismText, priceText, table } from "./shared.ts";
 
-function liveNeeds(c: Catalog): any[] {
+export function liveNeeds(c: Catalog): any[] {
   return c.needs.filter((n: any) => c.generation.publish_phases.includes(n.phase));
 }
 
@@ -15,18 +15,23 @@ function needPriceCell(c: Catalog, tools: any[]): string {
   return entries.map((e) => `${e.name}: ${e.price_short}`).join("; ");
 }
 
+/** The "I need / Call / Price" table of llms.txt (also used by the public repository README). */
+export function needToolTable(c: Catalog): string {
+  const live = new Set(published(c).map((t: any) => t.name));
+  return table([c.copy.llms.table_need, c.copy.llms.table_call, c.copy.labels.price], liveNeeds(c).map((n: any) => {
+    const tools = findTools(c, n.tools).filter((t: any) => live.has(t.name));
+    return [n.situation, tools.map((t: any) => `\`${t.name}\``).join(", "), needPriceCell(c, tools)];
+  }));
+}
+
 /** Short llms.txt: connect line, need/call/price table, links. Details live in llms-full.txt. */
 export function renderLlms(c: Catalog, files: Files) {
   const s = c.copy.sections;
   const x = c.copy.llms;
   const b = baseUrl(c);
-  const live = new Set(published(c).map((t: any) => t.name));
   const out: string[] = [`# ${c.brand.name}`, "", `> ${x.blockquote}`, "", `${x.connect_label}: \`${c.copy.install.claude}\``, ""];
   out.push(`## ${s.need_to_tool}`, "");
-  out.push(table([x.table_need, x.table_call, c.copy.labels.price], liveNeeds(c).map((n: any) => {
-    const tools = findTools(c, n.tools).filter((t: any) => live.has(t.name));
-    return [n.situation, tools.map((t: any) => `\`${t.name}\``).join(", "), needPriceCell(c, tools)];
-  })), "");
+  out.push(needToolTable(c), "");
   const freeTools = priceEntries(c, published(c)).filter((p) => p.status === "free").map((p) => `\`${p.name}\``);
   out.push(`## ${s.trial}`, "", `${c.copy.price_model_names.free}: ${freeTools.join(", ")}`, "", c.copy.trial_summary, "");
   out.push(`## ${s.optional}`, "",

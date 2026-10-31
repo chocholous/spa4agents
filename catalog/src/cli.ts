@@ -1,6 +1,6 @@
 import { validateFile } from "./validate.ts";
-import { build, write } from "./generate.ts";
-import { DIST } from "./catalog.ts";
+import { build, buildRepo, write, writeRepo } from "./generate.ts";
+import { DIST, REPO_DIR } from "./catalog.ts";
 
 const [cmd, ...flags] = process.argv.slice(2);
 const strict = flags.includes("--strict");
@@ -21,7 +21,12 @@ if (cmd === "validate") {
   const files = build();
   write(files);
   console.log(`generated ${files.size} files into ${DIST}`);
+} else if (cmd === "generate-repo") {
+  if (!runValidate()) process.exit(1);
+  const files = buildRepo();
+  writeRepo(files);
+  console.log(`generated ${files.size} files into ${REPO_DIR}`);
 } else {
-  console.error("usage: cli.ts validate [--strict] | generate");
+  console.error("usage: cli.ts validate [--strict] | generate | generate-repo");
   process.exit(2);
 }

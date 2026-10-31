@@ -1,8 +1,9 @@
 import { createHash } from "node:crypto";
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { DIST, collectTodos, load, loadRaw } from "./catalog.ts";
+import { DIST, REPO_DIR, collectTodos, load, loadRaw } from "./catalog.ts";
 import { renderMcp, renderOpenapi, renderPricing, renderServer } from "./render/machine.ts";
+import { renderRepo } from "./render/repo.ts";
 import { renderNeeds, renderTools } from "./render/pages.ts";
 import { Files, json } from "./render/shared.ts";
 import { renderInstructions, renderLlms, renderLlmsFull, renderReadmeTables } from "./render/text.ts";
@@ -47,4 +48,20 @@ export function write(files: Files, dir = DIST) {
 
 export function readDist(p: string, dir = DIST): string {
   return readFileSync(path.join(dir, p), "utf8");
+}
+
+/** The public repository (public-repo/), generated from the catalog outputs of build(). */
+export function buildRepo(): Files {
+  return renderRepo(load(), build());
+}
+
+/** Replace the contents of the repository folder, keeping a .git directory if the folder has one. */
+export function writeRepo(files: Files, dir = REPO_DIR) {
+  mkdirSync(dir, { recursive: true });
+  for (const name of readdirSync(dir)) if (name !== ".git") rmSync(path.join(dir, name), { recursive: true, force: true });
+  for (const [p, body] of [...files.entries()].sort(([a], [b]) => (a < b ? -1 : 1))) {
+    const full = path.join(dir, p);
+    mkdirSync(path.dirname(full), { recursive: true });
+    writeFileSync(full, body);
+  }
 }
