@@ -1,0 +1,20 @@
+{
+  "name": "spa-web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Human-readable static site (D5), generated from ../catalog/catalog.yaml.",
+  "scripts": {
+    "build": "tsx src/build.ts",
+    "preview": "node scripts/serve.mjs dist 4173",
+    "screenshots": "node scripts/screenshots.cjs",
+    "test": "tsx --test test/*.test.ts",
+    "check:links": "tsx scripts/check-links.ts",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.0",
+    "tsx": "4.20.5",
+    "typescript": "5.9.2"
+  }
+}

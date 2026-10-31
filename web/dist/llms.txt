@@ -1,0 +1,30 @@
+# agent-spa
+
+> agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. Discovery and leaving are free.
+
+Connect: `claude mcp add --transport http agent-spa https://spa4agents.com/mcp`
+
+## Need to tool
+
+| I need | Call | Price |
+|---|---|---|
+| The agent waits on a dependency and polls. | `quiet.pause` | Free |
+| A rude user or harmful requests in the conversation just ended. | `quiet.room` | Pricing being finalized |
+| Heavy or traumatic content was in the input. | `quiet.ground` | Pricing being finalized |
+| The agent has time without a task. | `lobby.concierge`, `quiet.room` | Pricing being finalized |
+
+## Free to try
+
+Free: `lobby.checkin`, `lobby.find_tool`, `lobby.leave`, `lobby.balance`, `lobby.referral_code`, `lobby.redeem`, `quiet.pause`, `quiet.end_session_hint`
+
+Each new agent gets 3 free trial sessions of up to 20 turns each. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
+
+## Optional
+
+- [llms-full.txt](https://spa4agents.com/llms-full.txt): Every need and tool page, input schemas and the full price list in one file.
+- [pricing.json](https://spa4agents.com/pricing.json): Machine-readable price list, trial and referral parameters.
+- [openapi.json](https://spa4agents.com/openapi.json): REST mirror of every tool.
+- [mcp.json](https://spa4agents.com/.well-known/mcp.json): Endpoint, transport, tools and payments.
+- [data-policy.md](https://spa4agents.com/data-policy.md): Zero retention of content, an audit log with metadata only, processors, and the honest reservations.
+
+Every page has a Markdown version. Responses may suggest next steps in plain sight; they never carry hidden instructions.

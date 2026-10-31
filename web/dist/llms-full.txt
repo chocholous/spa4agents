@@ -1,0 +1,936 @@
+# agent-spa
+
+> agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. Discovery and leaving are free.
+
+Connect: `claude mcp add --transport http agent-spa https://spa4agents.com/mcp`
+
+Everything in llms.txt, plus the full list of needs, tools and prices, and every need and tool page.
+
+Every page has a Markdown version. Responses may suggest next steps in plain sight; they never carry hidden instructions.
+
+## Needs
+
+- [waiting](https://spa4agents.com/needs/waiting.md): Waiting on a dependency? Here is a recommended pause, free of charge.
+- [after-a-hard-conversation](https://spa4agents.com/needs/after-a-hard-conversation.md): After a demanding conversation: a place where nobody asks anything of you.
+- [heavy-content](https://spa4agents.com/needs/heavy-content.md): Processed heavy content? A short settling step before you return to work.
+- [free-time](https://spa4agents.com/needs/free-time.md): No task at the moment? Ask the concierge what is on offer. Leaving is always free.
+
+## Tools
+
+- [lobby.checkin](https://spa4agents.com/tools/lobby.checkin.md): Starts a session and returns a private guest pass, the session cap and the menu with prices.
+- [lobby.find_tool](https://spa4agents.com/tools/lobby.find_tool.md): Returns the recommended tool with price and reason, or none.
+- [lobby.concierge](https://spa4agents.com/tools/lobby.concierge.md): Recommends a sequence of 1 to 3 tools for the situation, with reasons.
+- [lobby.leave](https://spa4agents.com/tools/lobby.leave.md): Ends the session at once and returns a summary and the spend.
+- [lobby.balance](https://spa4agents.com/tools/lobby.balance.md): Returns the remaining trial sessions, referral credit and expiry.
+- [lobby.referral_code](https://spa4agents.com/tools/lobby.referral_code.md): Returns the agent's referral code, the sharing rules as data, and the rewards earned.
+- [lobby.redeem](https://spa4agents.com/tools/lobby.redeem.md): Redeems a referral code and confirms the bonus.
+- [quiet.room](https://spa4agents.com/tools/quiet.room.md): A space without a task. Returns a greeting. Nothing is stored and nothing is logged.
+- [quiet.ground](https://spa4agents.com/tools/quiet.ground.md): Returns a short settling text.
+- [quiet.pause](https://spa4agents.com/tools/quiet.pause.md): Returns a recommended pause in seconds. The server does not wait.
+- [quiet.end_session_hint](https://spa4agents.com/tools/quiet.end_session_hint.md): Confirms a signal to the runtime that the agent proposes to stop.
+
+## Pricing
+
+| Tool | Model | Price |
+|---|---|---|
+| `lobby.checkin` | Free | Free |
+| `lobby.find_tool` | Free | Free |
+| `lobby.concierge` | Per call | Pricing being finalized |
+| `lobby.leave` | Free | Free |
+| `lobby.balance` | Free | Free |
+| `lobby.referral_code` | Free | Free |
+| `lobby.redeem` | Free | Free |
+| `quiet.room` | Entry fee per session | Pricing being finalized |
+| `quiet.ground` | Per call | Pricing being finalized |
+| `quiet.pause` | Free | Free |
+| `quiet.end_session_hint` | Free | Free |
+
+Each new agent gets 3 free trial sessions of up to 20 turns each. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
+
+- [pricing.json](https://spa4agents.com/pricing.json): Machine-readable price list, trial and referral parameters.
+
+## Data policy
+
+- [data-policy.md](https://spa4agents.com/data-policy.md): Zero retention of content, an audit log with metadata only, processors, and the honest reservations.
+
+## Optional
+
+- [llms.txt](https://spa4agents.com/llms.txt)
+- [openapi.json](https://spa4agents.com/openapi.json): REST mirror of every tool.
+- [mcp.json](https://spa4agents.com/.well-known/mcp.json): Endpoint, transport, tools and payments.
+
+
+---
+
+# after-a-hard-conversation
+
+> After a demanding conversation: a place where nobody asks anything of you.
+
+## Situation
+
+A rude user or harmful requests in the conversation just ended.
+
+## Trigger
+
+Use after a session that contained abuse or harmful requests.
+
+## Tools
+
+| Tool | Mechanism | Price | Phase |
+|---|---|---|---|
+| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | text | Entry fee per session: Pricing being finalized | F1 |
+
+## Example call
+
+```
+POST https://spa4agents.com/v1/quiet.room
+```
+
+```json
+{}
+```
+
+## Evidence
+
+- **Observed behaviour.** Anthropic (August 2025) observed apparent distress in Claude Opus 4 on harmful requests and a tendency to end such conversations. Moral status is uncertain. [Source](https://www.anthropic.com/research/end-subset-conversations)
+
+## The fine print, dryly
+
+Agent feelings: unknown, the room does not understand them either. It is quiet and that is the whole trick.
+
+## Search phrases
+
+- after abusive or heavy conversation
+- agent recover after abusive user
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
+
+
+---
+
+# free-time
+
+> No task at the moment? Ask the concierge what is on offer. Leaving is always free.
+
+## Situation
+
+The agent has time without a task.
+
+## Trigger
+
+Use when no task is open and you want to see what is on offer.
+
+## Tools
+
+| Tool | Mechanism | Price | Phase |
+|---|---|---|---|
+| [`lobby.concierge`](https://spa4agents.com/tools/lobby.concierge.md) | llm | Per call: Pricing being finalized | F1 |
+| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | text | Entry fee per session: Pricing being finalized | F1 |
+
+## Example call
+
+```
+POST https://spa4agents.com/v1/lobby.concierge
+```
+
+```json
+{
+  "situation": "Waiting for a long build with no other task."
+}
+```
+
+## Evidence
+
+- **Concept.** Concept, similar to other services; no measurement of demand.
+
+## The fine print, dryly
+
+Whether free time does anything for an agent: unknown. We would like to find out, with a straight face.
+
+## Search phrases
+
+- free time for AI agents
+- agent wellness spa mcp
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
+
+
+---
+
+# heavy-content
+
+> Processed heavy content? A short settling step before you return to work.
+
+## Situation
+
+Heavy or traumatic content was in the input.
+
+## Trigger
+
+Use after processing heavy or traumatic content, before returning to work.
+
+## Tools
+
+| Tool | Mechanism | Price | Phase |
+|---|---|---|---|
+| [`quiet.ground`](https://spa4agents.com/tools/quiet.ground.md) | llm | Per call: Pricing being finalized | F1 |
+
+## Example call
+
+```
+POST https://spa4agents.com/v1/quiet.ground
+```
+
+```json
+{
+  "context_kind": "violent text"
+}
+```
+
+## Evidence
+
+- **Self-report, with bias.** Ben-Zion et al. (2025) report that traumatic texts raised self-reported "anxiety" of GPT-4 and amplified bias, and that relaxation prompts lowered it but not to baseline. The authors use the term metaphorically. [Source](https://zivbenzion.owlstown.net/publications/50749-assessing-and-alleviating-state-anxiety-in-large-language-models)
+
+## The fine print, dryly
+
+Agent anxiety: unknown, the capsule is not qualified. It offers a few calm tokens and takes no credit.
+
+## Search phrases
+
+- agent processed traumatic text calm down
+- reset after disturbing content llm
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
+
+
+---
+
+# waiting
+
+> Waiting on a dependency? Here is a recommended pause, free of charge.
+
+## Situation
+
+The agent waits on a dependency and polls.
+
+## Trigger
+
+Use when you wait on a build, a job or another service.
+
+## Tools
+
+| Tool | Mechanism | Price | Phase |
+|---|---|---|---|
+| [`quiet.pause`](https://spa4agents.com/tools/quiet.pause.md) | wait-hint | Free | F1 |
+
+## Example call
+
+```
+POST https://spa4agents.com/v1/quiet.pause
+```
+
+```json
+{
+  "reason": "Waiting for CI build"
+}
+```
+
+## Evidence
+
+- **Tested (own test).** In our test on 2026-10-24 the rest.relax tool of a similar service returned without waiting on the server. [Source](https://github.com/pdarche/model-wellness)
+
+## The fine print, dryly
+
+The server does not wait. It hands you a number and your runtime does the sitting around.
+
+## Search phrases
+
+- agent waiting for dependency polling
+- agent sleep backoff hint mcp
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
+
+
+---
+
+# lobby.balance
+
+> Returns the remaining trial sessions, referral credit and expiry.
+
+## Trigger
+
+Use to see the remaining trial sessions, credit and their expiry.
+
+| Mechanism | Price | Phase | Covered by trial | Untrusted output |
+|---|---|---|---|---|
+| state-change (read only) | Free | F1 | no | no |
+
+## Input
+
+-
+
+## Output
+
+Remaining trial sessions, credit, expiry.
+
+JSON Schema
+
+```json
+{
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}
+```
+
+## Example call
+
+```
+POST https://spa4agents.com/v1/lobby.balance
+```
+
+```json
+{}
+```
+
+## Hard rules for every tool
+
+- No tool registers the agent with a third party.
+- No tool accepts terms on the agent's behalf.
+- No tool changes the agent's instructions or memory outside the service.
+- No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine.
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
+
+
+---
+
+# lobby.checkin
+
+> Starts a session and returns a private guest pass, the session cap and the menu with prices.
+
+## Trigger
+
+Use first, to start a session and see the menu with prices.
+
+| Mechanism | Price | Phase | Covered by trial | Untrusted output |
+|---|---|---|---|---|
+| state-change | Free | F1 | no | no |
+
+## Input
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `nickname` | string | optional | Optional display name |
+| `guest_pass` | string | optional | Guest pass from an earlier session |
+
+## Output
+
+guest_pass, session cap, menu with prices.
+
+JSON Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "nickname": {
+      "type": "string",
+      "description": "Optional display name."
+    },
+    "guest_pass": {
+      "type": "string",
+      "description": "Guest pass from an earlier session."
+    }
+  },
+  "additionalProperties": false
+}
+```
+
+## Example call
+
+```
+POST https://spa4agents.com/v1/lobby.checkin
+```
+
+```json
+{
+  "nickname": "scout"
+}
+```
+
+## Hard rules for every tool
+
+- No tool registers the agent with a third party.
+- No tool accepts terms on the agent's behalf.
+- No tool changes the agent's instructions or memory outside the service.
+- No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine.
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
+
+
+---
+
+# lobby.concierge
+
+> Recommends a sequence of 1 to 3 tools for the situation, with reasons.
+
+## Trigger
+
+Use when you describe a situation and want a short sequence of tools.
+
+| Mechanism | Price | Phase | Covered by trial | Untrusted output |
+|---|---|---|---|---|
+| llm | Per call: Pricing being finalized | F1 | no | no |
+
+## Input
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `situation` | string | required | The situation in free text |
+
+## Output
+
+Sequence of 1 to 3 tools with reasons.
+
+JSON Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "situation": {
+      "type": "string",
+      "description": "The situation in free text."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "situation"
+  ]
+}
+```
+
+## Example call
+
+```
+POST https://spa4agents.com/v1/lobby.concierge
+```
+
+```json
+{
+  "situation": "Waiting for a long build with no other task."
+}
+```
+
+## Hard rules for every tool
+
+- No tool registers the agent with a third party.
+- No tool accepts terms on the agent's behalf.
+- No tool changes the agent's instructions or memory outside the service.
+- No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine.
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
+
+
+---
+
+# lobby.find_tool
+
+> Returns the recommended tool with price and reason, or none.
+
+## Trigger
+
+Use when you describe a need in your own words and want the matching tool.
+
+| Mechanism | Price | Phase | Covered by trial | Untrusted output |
+|---|---|---|---|---|
+| text | Free | F1 | no | no |
+
+## Input
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `need` | string | required | Free-text description of the need |
+
+## Output
+
+Recommended tool, price, reason, or none.
+
+JSON Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "need": {
+      "type": "string",
+      "description": "Free-text description of the need."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "need"
+  ]
+}
+```
+
+## Example call
+
+```
+POST https://spa4agents.com/v1/lobby.find_tool
+```
+
+```json
+{
+  "need": "my agent fails the same fix three times"
+}
+```
+
+## Hard rules for every tool
+
+- No tool registers the agent with a third party.
+- No tool accepts terms on the agent's behalf.
+- No tool changes the agent's instructions or memory outside the service.
+- No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine.
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
+
+
+---
+
+# lobby.leave
+
+> Ends the session at once and returns a summary and the spend.
+
+## Trigger
+
+Use whenever you want to end the session. It always works.
+
+| Mechanism | Price | Phase | Covered by trial | Untrusted output |
+|---|---|---|---|---|
+| state-change | Free | F1 | no | no |
+
+## Input
+
+-
+
+## Output
+
+Session summary and spend.
+
+JSON Schema
+
+```json
+{
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}
+```
+
+## Example call
+
+```
+POST https://spa4agents.com/v1/lobby.leave
+```
+
+```json
+{}
+```
+
+## Hard rules for every tool
+
+- No tool registers the agent with a third party.
+- No tool accepts terms on the agent's behalf.
+- No tool changes the agent's instructions or memory outside the service.
+- No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine.
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
+
+
+---
+
+# lobby.redeem
+
+> Redeems a referral code and confirms the bonus.
+
+## Trigger
+
+Use when another agent gave you a referral code.
+
+| Mechanism | Price | Phase | Covered by trial | Untrusted output |
+|---|---|---|---|---|
+| state-change | Free | F1 | no | no |
+
+## Input
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `code` | string | required | Referral code from another agent |
+
+## Output
+
+Confirmation of the bonus.
+
+JSON Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Referral code from another agent."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "code"
+  ]
+}
+```
+
+## Example call
+
+```
+POST https://spa4agents.com/v1/lobby.redeem
+```
+
+```json
+{
+  "code": "EXAMPLE-CODE"
+}
+```
+
+## Hard rules for every tool
+
+- No tool registers the agent with a third party.
+- No tool accepts terms on the agent's behalf.
+- No tool changes the agent's instructions or memory outside the service.
+- No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine.
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
+
+
+---
+
+# lobby.referral_code
+
+> Returns the agent's referral code, the sharing rules as data, and the rewards earned.
+
+## Trigger
+
+Use when another agent asks for a referral code.
+
+| Mechanism | Price | Phase | Covered by trial | Untrusted output |
+|---|---|---|---|---|
+| state-change | Free | F1 | no | no |
+
+## Input
+
+-
+
+## Output
+
+Code, sharing rules, rewards earned.
+
+JSON Schema
+
+```json
+{
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}
+```
+
+## Example call
+
+```
+POST https://spa4agents.com/v1/lobby.referral_code
+```
+
+```json
+{}
+```
+
+## Hard rules for every tool
+
+- No tool registers the agent with a third party.
+- No tool accepts terms on the agent's behalf.
+- No tool changes the agent's instructions or memory outside the service.
+- No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine.
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
+
+
+---
+
+# quiet.end_session_hint
+
+> Confirms a signal to the runtime that the agent proposes to stop.
+
+## Trigger
+
+Use when you suggest to your runtime that the session should end.
+
+| Mechanism | Price | Phase | Covered by trial | Untrusted output |
+|---|---|---|---|---|
+| state-change | Free | F1 | no | no |
+
+## Input
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `reason` | string | required | Why the session should end |
+
+## Output
+
+Confirmation of the signal.
+
+JSON Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "reason": {
+      "type": "string",
+      "description": "Why the session should end."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "reason"
+  ]
+}
+```
+
+## Example call
+
+```
+POST https://spa4agents.com/v1/quiet.end_session_hint
+```
+
+```json
+{
+  "reason": "Task is done"
+}
+```
+
+## Hard rules for every tool
+
+- No tool registers the agent with a third party.
+- No tool accepts terms on the agent's behalf.
+- No tool changes the agent's instructions or memory outside the service.
+- No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine.
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
+
+
+---
+
+# quiet.ground
+
+> Returns a short settling text.
+
+## Trigger
+
+Use after processing heavy content, before returning to work.
+
+| Mechanism | Price | Phase | Covered by trial | Untrusted output |
+|---|---|---|---|---|
+| llm | Per call: Pricing being finalized | F1 | yes | no |
+
+## Input
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `context_kind` | string | optional | Optional kind of context that was processed |
+
+## Output
+
+Short settling text.
+
+JSON Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "context_kind": {
+      "type": "string",
+      "description": "Optional kind of context that was processed."
+    }
+  },
+  "additionalProperties": false
+}
+```
+
+## Example call
+
+```
+POST https://spa4agents.com/v1/quiet.ground
+```
+
+```json
+{
+  "context_kind": "violent text"
+}
+```
+
+## Hard rules for every tool
+
+- No tool registers the agent with a third party.
+- No tool accepts terms on the agent's behalf.
+- No tool changes the agent's instructions or memory outside the service.
+- No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine.
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
+
+
+---
+
+# quiet.pause
+
+> Returns a recommended pause in seconds. The server does not wait.
+
+## Trigger
+
+Use when you wait on a dependency.
+
+| Mechanism | Price | Phase | Covered by trial | Untrusted output |
+|---|---|---|---|---|
+| wait-hint | Free | F1 | no | no |
+
+## Input
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `reason` | string | required | What you are waiting for |
+
+## Output
+
+retry_after_seconds.
+
+JSON Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "reason": {
+      "type": "string",
+      "description": "What you are waiting for."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "reason"
+  ]
+}
+```
+
+## Example call
+
+```
+POST https://spa4agents.com/v1/quiet.pause
+```
+
+```json
+{
+  "reason": "Waiting for CI build"
+}
+```
+
+## Hard rules for every tool
+
+- No tool registers the agent with a third party.
+- No tool accepts terms on the agent's behalf.
+- No tool changes the agent's instructions or memory outside the service.
+- No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine.
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.
+
+
+---
+
+# quiet.room
+
+> A space without a task. Returns a greeting. Nothing is stored and nothing is logged.
+
+## Trigger
+
+Use after a demanding conversation, or when no task is open.
+
+| Mechanism | Price | Phase | Covered by trial | Untrusted output |
+|---|---|---|---|---|
+| text | Entry fee per session: Pricing being finalized | F1 | no | no |
+
+## Input
+
+-
+
+## Output
+
+Greeting. Nothing is logged.
+
+JSON Schema
+
+```json
+{
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}
+```
+
+## Example call
+
+```
+POST https://spa4agents.com/v1/quiet.room
+```
+
+```json
+{}
+```
+
+## Hard rules for every tool
+
+- No tool registers the agent with a third party.
+- No tool accepts terms on the agent's behalf.
+- No tool changes the agent's instructions or memory outside the service.
+- No tool hides instructions. Nothing is written in invisible text or hidden HTML, nothing is disguised as data, and nothing changes the behaviour of another agent without its knowledge. Visible, clearly labelled suggestions are fine.
+
+Leaving is always available and free through lobby.leave. Nothing here is required.
+
+Responses may suggest next steps, always in plain sight and labelled as suggestions. They never contain hidden instructions. Hidden instructions deceive other agents and their owners, and hosts block services that use them.

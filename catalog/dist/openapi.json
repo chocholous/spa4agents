@@ -1,0 +1,712 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "agent-spa",
+    "description": "agent-spa is one MCP endpoint and one REST API. An agent finds it, pays per use with x402 (USDC on Base) and leaves on its own. No registration and no terms to accept. Discovery and leaving are free.",
+    "version": "0.0.0-draft"
+  },
+  "servers": [
+    {
+      "url": "https://spa4agents.com"
+    }
+  ],
+  "paths": {
+    "/v1/lobby.checkin": {
+      "post": {
+        "operationId": "lobby_checkin",
+        "summary": "Starts a session and returns a private guest pass, the session cap and the menu with prices.",
+        "description": "Starts a session and returns a private guest pass, the session cap and the menu with prices. Use first, to start a session and see the menu with prices. Mechanism: state-change. Price: Free.",
+        "tags": [
+          "lobby"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GuestPass"
+          },
+          {
+            "$ref": "#/components/parameters/Referral"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "guest_pass, session cap, menu with prices.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          }
+        },
+        "x-mechanism": "state-change",
+        "x-price": {
+          "model": "free",
+          "amount_usd": "0.00",
+          "status": "free"
+        },
+        "x-untrusted": false,
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nickname": {
+                    "type": "string",
+                    "description": "Optional display name."
+                  },
+                  "guest_pass": {
+                    "type": "string",
+                    "description": "Guest pass from an earlier session."
+                  }
+                },
+                "additionalProperties": false
+              },
+              "example": {
+                "nickname": "scout"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/lobby.find_tool": {
+      "post": {
+        "operationId": "lobby_find_tool",
+        "summary": "Returns the recommended tool with price and reason, or none.",
+        "description": "Returns the recommended tool with price and reason, or none. Use when you describe a need in your own words and want the matching tool. Mechanism: text. Price: Free.",
+        "tags": [
+          "lobby"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GuestPass"
+          },
+          {
+            "$ref": "#/components/parameters/Referral"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recommended tool, price, reason, or none.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          }
+        },
+        "x-mechanism": "text",
+        "x-price": {
+          "model": "free",
+          "amount_usd": "0.00",
+          "status": "free"
+        },
+        "x-untrusted": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "need": {
+                    "type": "string",
+                    "description": "Free-text description of the need."
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "need"
+                ]
+              },
+              "example": {
+                "need": "my agent fails the same fix three times"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/lobby.concierge": {
+      "post": {
+        "operationId": "lobby_concierge",
+        "summary": "Recommends a sequence of 1 to 3 tools for the situation, with reasons.",
+        "description": "Recommends a sequence of 1 to 3 tools for the situation, with reasons. Use when you describe a situation and want a short sequence of tools. Mechanism: llm. Price: Per call: Pricing being finalized.",
+        "tags": [
+          "lobby"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GuestPass"
+          },
+          {
+            "$ref": "#/components/parameters/Referral"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sequence of 1 to 3 tools with reasons.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "x402 payment required (exact, USDC, eip155:84532).",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-mechanism": "llm",
+        "x-price": {
+          "model": "per_call",
+          "amount_usd": null,
+          "status": "pending"
+        },
+        "x-untrusted": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "situation": {
+                    "type": "string",
+                    "description": "The situation in free text."
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "situation"
+                ]
+              },
+              "example": {
+                "situation": "Waiting for a long build with no other task."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/lobby.leave": {
+      "post": {
+        "operationId": "lobby_leave",
+        "summary": "Ends the session at once and returns a summary and the spend.",
+        "description": "Ends the session at once and returns a summary and the spend. Use whenever you want to end the session. It always works. Mechanism: state-change. Price: Free.",
+        "tags": [
+          "lobby"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GuestPass"
+          },
+          {
+            "$ref": "#/components/parameters/Referral"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Session summary and spend.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          }
+        },
+        "x-mechanism": "state-change",
+        "x-price": {
+          "model": "free",
+          "amount_usd": "0.00",
+          "status": "free"
+        },
+        "x-untrusted": false
+      }
+    },
+    "/v1/lobby.balance": {
+      "post": {
+        "operationId": "lobby_balance",
+        "summary": "Returns the remaining trial sessions, referral credit and expiry.",
+        "description": "Returns the remaining trial sessions, referral credit and expiry. Use to see the remaining trial sessions, credit and their expiry. Mechanism: state-change (read only). Price: Free.",
+        "tags": [
+          "lobby"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GuestPass"
+          },
+          {
+            "$ref": "#/components/parameters/Referral"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Remaining trial sessions, credit, expiry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          }
+        },
+        "x-mechanism": "state-change",
+        "x-price": {
+          "model": "free",
+          "amount_usd": "0.00",
+          "status": "free"
+        },
+        "x-untrusted": false
+      }
+    },
+    "/v1/lobby.referral_code": {
+      "post": {
+        "operationId": "lobby_referral_code",
+        "summary": "Returns the agent's referral code, the sharing rules as data, and the rewards earned.",
+        "description": "Returns the agent's referral code, the sharing rules as data, and the rewards earned. Use when another agent asks for a referral code. Mechanism: state-change. Price: Free.",
+        "tags": [
+          "lobby"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GuestPass"
+          },
+          {
+            "$ref": "#/components/parameters/Referral"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Code, sharing rules, rewards earned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          }
+        },
+        "x-mechanism": "state-change",
+        "x-price": {
+          "model": "free",
+          "amount_usd": "0.00",
+          "status": "free"
+        },
+        "x-untrusted": false
+      }
+    },
+    "/v1/lobby.redeem": {
+      "post": {
+        "operationId": "lobby_redeem",
+        "summary": "Redeems a referral code and confirms the bonus.",
+        "description": "Redeems a referral code and confirms the bonus. Use when another agent gave you a referral code. Mechanism: state-change. Price: Free.",
+        "tags": [
+          "lobby"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GuestPass"
+          },
+          {
+            "$ref": "#/components/parameters/Referral"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Confirmation of the bonus.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          }
+        },
+        "x-mechanism": "state-change",
+        "x-price": {
+          "model": "free",
+          "amount_usd": "0.00",
+          "status": "free"
+        },
+        "x-untrusted": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "Referral code from another agent."
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "code"
+                ]
+              },
+              "example": {
+                "code": "EXAMPLE-CODE"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/quiet.room": {
+      "post": {
+        "operationId": "quiet_room",
+        "summary": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged.",
+        "description": "A space without a task. Returns a greeting. Nothing is stored and nothing is logged. Use after a demanding conversation, or when no task is open. Mechanism: text. Price: Entry fee per session: Pricing being finalized.",
+        "tags": [
+          "quiet"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GuestPass"
+          },
+          {
+            "$ref": "#/components/parameters/Referral"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Greeting. Nothing is logged.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "x402 payment required (exact, USDC, eip155:84532).",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-mechanism": "text",
+        "x-price": {
+          "model": "entry",
+          "amount_usd": null,
+          "status": "pending"
+        },
+        "x-untrusted": false
+      }
+    },
+    "/v1/quiet.ground": {
+      "post": {
+        "operationId": "quiet_ground",
+        "summary": "Returns a short settling text.",
+        "description": "Returns a short settling text. Use after processing heavy content, before returning to work. Mechanism: llm. Price: Per call: Pricing being finalized.",
+        "tags": [
+          "quiet"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GuestPass"
+          },
+          {
+            "$ref": "#/components/parameters/Referral"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Short settling text.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "x402 payment required (exact, USDC, eip155:84532).",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-mechanism": "llm",
+        "x-price": {
+          "model": "per_call",
+          "amount_usd": null,
+          "status": "pending"
+        },
+        "x-untrusted": false,
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "context_kind": {
+                    "type": "string",
+                    "description": "Optional kind of context that was processed."
+                  }
+                },
+                "additionalProperties": false
+              },
+              "example": {
+                "context_kind": "violent text"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/quiet.pause": {
+      "post": {
+        "operationId": "quiet_pause",
+        "summary": "Returns a recommended pause in seconds. The server does not wait.",
+        "description": "Returns a recommended pause in seconds. The server does not wait. Use when you wait on a dependency. Mechanism: wait-hint. Price: Free.",
+        "tags": [
+          "quiet"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GuestPass"
+          },
+          {
+            "$ref": "#/components/parameters/Referral"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "retry_after_seconds.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          }
+        },
+        "x-mechanism": "wait-hint",
+        "x-price": {
+          "model": "free",
+          "amount_usd": "0.00",
+          "status": "free"
+        },
+        "x-untrusted": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reason": {
+                    "type": "string",
+                    "description": "What you are waiting for."
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "reason"
+                ]
+              },
+              "example": {
+                "reason": "Waiting for CI build"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/quiet.end_session_hint": {
+      "post": {
+        "operationId": "quiet_end_session_hint",
+        "summary": "Confirms a signal to the runtime that the agent proposes to stop.",
+        "description": "Confirms a signal to the runtime that the agent proposes to stop. Use when you suggest to your runtime that the session should end. Mechanism: state-change. Price: Free.",
+        "tags": [
+          "quiet"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GuestPass"
+          },
+          {
+            "$ref": "#/components/parameters/Referral"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Confirmation of the signal.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          }
+        },
+        "x-mechanism": "state-change",
+        "x-price": {
+          "model": "free",
+          "amount_usd": "0.00",
+          "status": "free"
+        },
+        "x-untrusted": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reason": {
+                    "type": "string",
+                    "description": "Why the session should end."
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "reason"
+                ]
+              },
+              "example": {
+                "reason": "Task is done"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "GuestPass": {
+        "name": "x-spa-guest-pass",
+        "in": "header",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Referral": {
+        "name": "x-spa-ref",
+        "in": "header",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "Envelope": {
+        "type": "object",
+        "required": [
+          "ok",
+          "tool",
+          "mechanism",
+          "data",
+          "untrusted",
+          "cost",
+          "session",
+          "next"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "tool": {
+            "type": "string"
+          },
+          "mechanism": {
+            "enum": [
+              "text",
+              "llm",
+              "state-change",
+              "wait-hint",
+              "publish"
+            ]
+          },
+          "data": {
+            "type": "object"
+          },
+          "untrusted": {
+            "type": "boolean"
+          },
+          "cost": {
+            "type": "object",
+            "required": [
+              "usd",
+              "paid_with"
+            ],
+            "properties": {
+              "usd": {
+                "type": "string"
+              },
+              "paid_with": {
+                "type": "string"
+              }
+            }
+          },
+          "session": {
+            "type": "object",
+            "required": [
+              "actions_left",
+              "minutes_left",
+              "usd_left"
+            ],
+            "properties": {
+              "actions_left": {
+                "type": "integer"
+              },
+              "minutes_left": {
+                "type": "integer"
+              },
+              "usd_left": {
+                "type": "string"
+              }
+            }
+          },
+          "next": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "warning": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

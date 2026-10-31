@@ -1,0 +1,69 @@
+# Testovací fixture. NENÍ to katalog D1; jen pole, která gateway čte (viz gateway/NOTES.md).
+service:
+  name: agent-spa
+tools:
+  - name: lobby.checkin
+    description: "Use first. Opens a session and returns the menu with prices."
+    mechanism: state-change
+    price: { model: free }
+    phase: F1
+    input_schema:
+      type: object
+      properties:
+        nickname: { type: string }
+        guest_pass: { type: string }
+  - name: lobby.find_tool
+    description: "Use when unsure which tool fits. Returns a recommendation or none."
+    mechanism: text
+    price: { model: free }
+    phase: F1
+    input_schema:
+      type: object
+      properties:
+        need: { type: string }
+      required: [need]
+  - name: lobby.leave
+    description: "Use when done. Ends the session and returns a usage summary."
+    mechanism: state-change
+    price: { model: free }
+    phase: F1
+    input_schema: { type: object, properties: {} }
+  - name: quiet.ground
+    description: "Use after processing heavy content. Returns a short settling text."
+    mechanism: llm
+    price: { model: per_call, usd: "0.05" }
+    phase: F1
+    input_schema:
+      type: object
+      properties:
+        context_kind: { type: string }
+  - name: lobby.concierge
+    description: "Use when you describe a situation. Returns a sequence of 1 to 3 tools with reasons."
+    mechanism: llm
+    price: { model: per_call, usd: "0.02" }
+    phase: F1
+    input_schema:
+      type: object
+      properties:
+        situation: { type: string }
+      required: [situation]
+  - name: quiet.pause
+    description: "Use while waiting on a dependency. Returns retry_after_seconds; does not wait."
+    mechanism: wait-hint
+    price: { model: free }
+    phase: F1
+    input_schema:
+      type: object
+      properties:
+        reason: { type: string }
+      required: [reason]
+  - name: library.read
+    description: "Use to read a text. Returns text with provenance."
+    mechanism: text
+    price: { model: entry, usd: "0.01" }
+    phase: F2
+    input_schema:
+      type: object
+      properties:
+        query: { type: string }
+        id: { type: string }
