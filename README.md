@@ -19,13 +19,12 @@ Rozsah prvního vydání: 10 nástrojů (`lobby.*` a `quiet.*`) a 4 potřeby. Se
 ### Pravidla práce
 - Katalog je jediný zdroj pravdy. Web, repozitář, `pricing.json`, `openapi.json`, `mcp.json` i zápisy v registrech se z něj generují.
 - Drž se zadání. Co zadání neurčuje, zapiš jako otevřenou otázku vlastníkovi (v `OPEN_QUESTIONS.md` příslušné části), nerozhoduj to sám.
-- Doporučeno, ne podmínka: nepublikovat do registrů ani na hlavní síť před uzavřením rozhodnutí vlastníka a právním posouzením. Příjem ve stablecoinech a veřejné zápisy mají právní důsledky, které vlastník bere na sebe.
 
 ### Rozhodnutí vlastníka, která platí
 - Platba je běžná mikroplatba x402 (výzva 402, platba USDC na Base, odpověď). Další kolejnice po průzkumu.
 - Zdarma je jen lobby, menu, odchod a signály (`quiet.pause`, `quiet.end_session_hint`); vše ostatní je placené za volání. Ceny se nevymýšlejí.
 - Trial: 3 session po nejvýš 20 voláních placených nástrojů; jeden na adresu a IP za den, jen solený hash v paměti 24 h.
 - Pozvánky mezi agenty zůstávají; guest pass, affiliate pro vlastníky, `lobby.balance`, předplatné a Stripe MPP v prvním vydání ne.
-- Datová politika je nejpřísnější: nic neukládáme, žádný audit log, jazykový model jen se smluvní nulovou retencí v EU přes LiteLLM bez logů.
+- Datová politika je nejpřísnější: nic neukládáme, žádný audit log, žádný externí zpracovatel obsahu (jen hosting Hetzner, EU). Služba běží bez jazykového modelu.
 - Jediné pravidlo obsahu pro agenty: žádné skryté instrukce. Ostatní pravidla reklamy jsou doporučení. Čísla (limity, stropy, doby) jsou nastavitelné výchozí hodnoty.
-- Otevřená rozhodnutí: poslední sekce `docs/zadani.md`. Název služby: **Spagents** (slug `spagents`), hlavní doména `spagents.com`, MCP endpoint `https://spagents.com/mcp`; `relaxingagents.com` je jen přesměrování (301) na `spagents.com`. Provozovatel: fyzická osoba (vlastník) v Praze, jurisdikce Česko/EU; jméno, kontakt a právní forma zatím nejsou doplněny (`operator.*` = `TO_FILL_BY_OWNER`). Web zůstává ve stavu draft, dokud vlastník nenastaví `launch.live: true` v katalogu.
+- Otevřená rozhodnutí: poslední sekce `docs/zadani.md`. Název služby: **Spagents** (slug `spagents`), hlavní doména `spagents.com`, MCP endpoint `https://spagents.com/mcp`; `relaxingagents.com` je jen přesměrování (301) na `spagents.com`. Provozovatel: Pavel Chocholous, fyzická osoba v Praze, jurisdikce Česko/EU, kontakt `pavel@chocholous.net`, právní forma neuvedena. Veřejný repozitář: `chocholous/spagents` na GitHubu. Facilitátor plateb: Coinbase CDP. Web zůstává ve stavu draft, dokud vlastník nenastaví `launch.live: true` v katalogu.

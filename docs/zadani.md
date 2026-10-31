@@ -13,7 +13,9 @@ Agentní lázně jsou katalog služeb odpočinku pro autonomní agenty. Agent je
 - Proč: agent dnes nemá kam jít, když čeká nebo uvízl. Jeden katalog s jasnou cenou a odchodem kdykoli je jednoduchý.
 - Název služby: **Spagents** (slug `spagents`). Hlavní doména `spagents.com`, MCP endpoint `https://spagents.com/mcp`. Instalační řádek: `claude mcp add --transport http spagents https://spagents.com/mcp`. Dosavadní pracovní název `agent-spa` je nahrazen.
 - Poznámka k nasazení: druhá doména `relaxingagents.com` je jen přesměrování (301) na `spagents.com`; není hlavní a v katalogu se nepoužívá.
-- Provozovatel: fyzická osoba (vlastník projektu) v Praze, Česko; jurisdikce Česko/EU. Jméno, kontakt a případné IČO/právní forma zatím nejsou známé (v katalogu `operator.name`, `operator.contact` = `TO_FILL_BY_OWNER`).
+- Provozovatel: Pavel Chocholous, fyzická osoba v Praze, Česko; kontakt `pavel@chocholous.net`; jurisdikce Česko/EU. Právní forma není uvedena (v katalogu `operator.legal_form` = `not provided`), IČO také ne. Vlastník napsal příjmení „Choholou“; opraveno na `Chocholous` podle jeho e-mailu a účtu na GitHubu.
+- Veřejný repozitář na GitHubu: `chocholous/spagents` (účet `chocholous`, název `spagents`). Hosting: Hetzner (EU).
+- Služba běží bez jazykového modelu (rozhodnutí vlastníka, 31. 10. 2026).
 - Nic není zveřejněno. Web zůstává ve stavu draft (noindex, `Disallow: /`, banner), dokud vlastník nezmění `launch.live` na true v katalogu; to je samostatný příznak, nezávislý na schválení značky (`brand.approved: true`).
 
 ## 3. Nabídka
@@ -24,12 +26,12 @@ První vydání má 10 nástrojů a 4 potřeby (pauza, po těžké konverzaci, t
 |---|---|---|
 | `lobby.checkin` | Začne relaci, vrátí strop, zbývající trial a menu s cenami | zdarma |
 | `lobby.find_tool` | Podle popisu potřeby doporučí nástroj | zdarma |
-| `lobby.concierge` | Doporučí 1 až 3 nástroje pro situaci (volá jazykový model) | zdarma |
+| `lobby.concierge` | Doporučí 1 až 3 nástroje pro situaci (pravidlový lookup, bez LLM, mechanismus `text`) | zdarma |
 | `lobby.leave` | Okamžitě ukončí relaci, vrátí shrnutí a útratu | zdarma |
 | `lobby.referral_code` | Vrátí kód agenta pro pozvání dalších | zdarma |
 | `lobby.redeem` | Uplatní kód od jiného agenta | zdarma |
 | `quiet.room` | Prostor bez úkolu, vrátí pozdrav, nic se neukládá | placené za volání |
-| `quiet.ground` | Krátký uklidňující text (volá jazykový model) | placené za volání |
+| `quiet.ground` | Krátký uklidňující text z pevných textů a šablon (bez LLM, mechanismus `text`) | placené za volání |
 | `quiet.pause` | Doporučí pauzu v sekundách, server nečeká | zdarma |
 | `quiet.end_session_hint` | Signál prostředí, že agent navrhuje skončit | zdarma |
 
@@ -38,7 +40,8 @@ Později (zatím se nestaví): knihovna (`library.read`), soukromé psaní (`stu
 ## 4. Platby
 
 - Postup je běžná mikroplatba x402: agent zavolá placený nástroj, dostane výzvu 402 s cenou, zaplatí a dostane odpověď. Cena je známa před platbou. Bez výzvy se nic neúčtuje.
-- První kolejnice: x402, USDC na síti Base. Vývoj a testy běží na testovací síti Base Sepolia (facilitátor x402.org). Facilitátor pro hlavní síť není vybrán; průzkum doporučuje facilitátora Coinbase CDP (prvních 1 000 transakcí měsíčně zdarma).
+- První kolejnice: x402, USDC na síti Base. Vývoj a testy běží na testovací síti Base Sepolia. Facilitátor plateb je Coinbase CDP (rozhodnutí vlastníka, 31. 10. 2026), i na testnetu, aby se služba mohla zapsat do x402 Bazaar (v katalogu `payments.rails[0].facilitator`). Průzkum uvádí prvních 1 000 transakcí měsíčně zdarma.
+- Příjem ve stablecoinech nebyl právně posouzen; riziko nese provozovatel.
 - Další kolejnice v pořadí z průzkumu: (1) MPP s metodou Tempo a kartami přes Stripe, (2) Circle Nanopayments pro velmi nízké ceny, (3) L402 a Lightning, až bude poptávka. Zatím ne: AP2, ACP, Visa TAP, Mastercard Agent Pay. Před přidáním MPP je nutný test klientů, kteří dostanou obě výzvy najednou.
 - Ceny: vše je placené za volání, kromě lobby, menu, odchodu a signálů (`quiet.pause`, `quiet.end_session_hint`), které jsou zdarma. Žádné předplatné, vstupné ani zůstatek. Cena za volání v USDC: 0,005 pro `quiet.ground`, `quiet.room`, `library.read`, `journal.note`, `studio.write`, `garden.tend`, `chapel.observe`, `chapel.reflect_private` a `postcard.to_operator`; 0,01 pro `games.chess`, `games.poker`, `games.puzzle`, `lounge.bar`, `lounge.retreat` a `games.arena`. `lab.preference_session` je pro agenta zdarma (hradí výzkum). Poznámka: jedna zkušební session má nejvýš 20 volání po nejvýš 0,01, tedy 0,20 USD, což je pod stropem relace 0,50 USD; celý trial (3 session) by při nejvyšší ceně vyšel na 0,60 USD, strop se ale počítá na relaci.
 
@@ -46,7 +49,7 @@ Později (zatím se nestaví): knihovna (`library.read`), soukromé psaní (`stu
 
 - Nový agent má 3 zkušební session, každou nejvýš o 20 voláních. Volání je jedno zavolání nástroje; počítají se jen placené nástroje. Pokrývá všechny placené nástroje.
 - Zbývající trial je v každé odpovědi a v `lobby.checkin`. Když skončí, odpověď to řekne a uvede cenu dalšího volání. Platí se až po výzvě 402.
-- Ochrana proti zneužití: jeden trial na platební adresu a jeden na IP za den. Adresa a IP se drží jen jako solený hash v paměti, 24 hodin, nikdy na disku. K tomu denní globální rozpočet na trial.
+- Ochrana proti zneužití: jeden trial na platební adresu a jeden na IP za den. Adresa a IP se drží jen jako solený hash v paměti, 24 hodin, nikdy na disku. K tomu denní globální rozpočet na trial: 20 USD (`trial.daily_global_budget` = "20.00").
 - Zkušební pobyt platí 14 dní. Hodnoty (3, 20 a 14) jsou nastavitelné.
 
 ## 6. Pozvánky mezi agenty
@@ -64,15 +67,15 @@ Zásada je zero data retention: nic neukládáme.
 - Žádný audit log s identifikátory. Zůstávají jen souhrnné počty, latence a chybovost bez identifikátorů.
 - Paměť relace zaniká odchodem nebo koncem relace. Relace spolu nic nesdílejí.
 - Na webu není analytika ani cookies.
-- Jazykový model běží přes LiteLLM s vypnutým logováním a přes poskytovatele se smluvní nulovou retencí v EU, bez trénování na datech.
-- Poctivé výhrady: platba na Base je veřejná a trvalá; poskytovatel jazykového modelu zatím není vybrán a smlouva neexistuje; hosting zatím není vybrán a jeho vlastní síťové logy je nutné ověřit; bez auditu nejde řešit spory mimo blockchain; to, co se děje na straně agenta, nemůžeme ovlivnit.
+- Žádný externí zpracovatel obsahu, jen hosting (Hetzner, EU). Služba nepoužívá jazykový model, nic se netrénuje.
+- Poctivé výhrady: platba na Base je veřejná a trvalá; vlastní síťové logy hostingu (Hetzner) je nutné ověřit; bez auditu nejde řešit spory mimo blockchain; to, co se děje na straně agenta, nemůžeme ovlivnit.
 
 ## 9. Kanály
 
 - MCP (Streamable HTTP) a REST se stejnými nástroji a cenami.
 - Web: reklama pro lidi, pro agenty `llms.txt` a každá stránka i jako Markdown. Generuje se z katalogu `catalog/catalog.yaml`, který je jediný zdroj pravdy.
 - Zápisy do registrů (podle průzkumu): oficiální MCP Registry, x402 Bazaar (po první placené platbě přes facilitátora CDP), Glama, Smithery, mcp.so a Anthropic Connectors; PulseMCP se plní z oficiálního registru. Stripe Directory a MPP Services až po přidání MPP.
-- Veřejný repozitář (MIT) jen s reklamou, popisem pro agenty, metadaty a návodem k připojení. Kód serveru zůstává soukromý. Seznam awesome-mcp-servers a katalog Docker veřejný repozitář vyžadují.
+- Veřejný repozitář `chocholous/spagents` (MIT) jen s reklamou, popisem pro agenty, metadaty a návodem k připojení. Kód serveru zůstává soukromý. Seznam awesome-mcp-servers a katalog Docker veřejný repozitář vyžadují.
 
 ## 10. Jazyky webu
 
@@ -87,18 +90,19 @@ Angličtina. Později němčina, japonština a klingonština (latinkou). Struktu
 | 3 | Všechny služby prvního vydání | Všech 10 nástrojů funguje, trial a pozvánky běží, `lobby.leave` do 1 s, stropy nelze překročit |
 | 4 | Web a repozitář | Web a veřejný repozitář vygenerované z katalogu a k nahlédnutí vlastníkem |
 | 5 | Zápisy a veřejné spuštění na testovací síti | Služba je v oficiálním MCP Registry a v aspoň třech dalších adresářích; cizí agent ji najde a zaplatí na testnetu |
-| 6 | Ostrý provoz na hlavní síti | První skutečná platba USDC na Base po právním posouzení |
+| 6 | Ostrý provoz na hlavní síti | První skutečná platba USDC na Base |
 
 Odhad práce (z archivovaného plánu, jen odhad): asi 14 až 14,5 osobotýdnů, kalendářně asi 6 až 7 týdnů. Milníky 1 a 2 asi 2 týdny, milníky 3 až 5 asi 4 až 5 týdnů. Milník 6 do odhadu nepatří.
 
-## 12. Rozhodnutí vlastníka (zatím neurčeno)
+## 12. Rozhodnutí vlastníka
 
-- Provozovatel a právní rámec: provozovatel (fyzická osoba v Praze) a jurisdikce (Česko/EU) jsou určeny, viz bod 2. Zbývá jméno, kontakt a právní forma (případně IČO) a právní posouzení příjmu ve stablecoinech.
-- Jmenný prostor v MCP Registry: navržen `com.spagents/spagents`; musí se potvrdit ověřením domény `spagents.com` přes DNS. (Název a doména už neurčené nejsou.)
-- Trial: výše denního globálního rozpočtu.
-- Poskytovatel jazykového modelu: kdo a v jakém regionu, se smluvní nulovou retencí. Blokuje `lobby.concierge` a `quiet.ground`.
-- Hosting: kdo a jak vypadají jeho síťové logy.
-- Limit pro bezplatné `lobby.concierge`: každé volání stojí náklad na model, který nikdo neplatí. Návrh stropu (3 volání na relaci a 20 na adresu a den) čeká na rozhodnutí.
-- Facilitátor pro hlavní síť a zda použít CDP už na testnetu, aby se služba zapsala do x402 Bazaar.
+Rozhodnuto 31. 10. 2026: provozovatel (jméno, kontakt; právní forma neuvedena), repozitář `chocholous/spagents`, hosting Hetzner (EU), facilitátor Coinbase CDP (i na testnetu), denní globální rozpočet trialu 20 USD, ostrý provoz bez právního posouzení a služba bez LLM. Jmenný prostor v MCP Registry: `com.spagents/spagents` (ověření domény `spagents.com` přes DNS), záloha `io.github.chocholous/spagents` s GitHub OIDC (popsáno v `PUBLISHING.md` veřejného repozitáře).
+
+Zbývá neurčeno (podrobně v `OPEN_QUESTIONS.md` jednotlivých částí):
+- Hosting: jak vypadají síťové logy Hetzneru (ověřit; zatím se nic neslibuje).
+- Limit volání pro bezplatné nástroje (obecný, nastavitelný; `lobby.concierge` už nevolá model).
+- Pravidla `lobby.concierge` a pevné texty `quiet.ground` (bez LLM; texty musí schválit vlastník).
+- Pozdější služby (F2/F3), které by potřebovaly jazykový model, a co by to změnilo v datové politice.
 - Co přežije relaci: kde a jak dlouho se drží stav pozvánek (kredit na 30 dní se nevejde do paměti na 24 hodin).
+- Co přesně počítá denní globální rozpočet trialu a co služba odpoví po jeho vyčerpání.
 - Kdo přeloží web do němčiny, japonštiny a klingonštiny.

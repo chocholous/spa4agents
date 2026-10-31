@@ -12,7 +12,7 @@ Rule: what the spec does not decide is not decided here. Human texts live in `ca
 
 4. **Draft handling.** While `launch.live` is false (owner changes it to true at the public launch), the build is a draft: `data-draft`, `noindex`, `robots.txt` with `Disallow: /`, a visible one-line draft banner, a build warning. Is a visible banner wanted, or only the hidden flag?
 5. **Domain in HTML.** Canonical, Open Graph and sitemap URLs use `brand.domain` (`spagents.com`). They change with the catalog.
-6. **Operator, legal information, press contact:** the footer, FAQ and press fact sheet say "an individual in Prague, Czech Republic"; name, contact and legal form read "details published at launch" (catalog `operator.*` = `TO_FILL_BY_OWNER`).
+6. **Operator, legal information, press contact:** the footer, FAQ and press fact sheet say "an individual in Prague, Czech Republic"; Change (31 Oct 2026, later): the footer, FAQ, press kit and data policy now show the name Pavel Chocholous, the contact pavel@chocholous.net and the legal form "not provided" (catalog `operator.*`). Old text: name, contact and legal form read "details published at launch".
 7. **Prices:** every `TODO_OWNER` is shown as "Price being decided" or "undecided". Free tools show "Free". Trial and referral numbers are shown as proposals.
 8. **Analytics and tracking:** none added; the footer and the data policy say so. The owner decision of 2026-10-24 is: no analytics on the website. Adding any would change the policy.
 9. **Hosting, headers, caching, CSP, cookie notice:** not decided. The site sets no cookies; the theme choice is kept in `localStorage` only.
@@ -29,7 +29,7 @@ Rule: what the spec does not decide is not decided here. Human texts live in `ca
 The full list of data policy questions (DP1 to DP11) is in `docs/zadani.md`. Web-specific points:
 
 17. **Draft banner on the policy.** The page always shows "Draft. This is a proposal and not a legal document" until `data_policy.confirmed_by_owner` is true. Wording needs the owner, and a legal review is still missing.
-18. **The page states reservations in plain words** (public blockchain payments, the abuse-prevention hash is a pseudonym held in memory for 24 hours (Change 31 Oct 2026: no audit hash), LLM provider sees input and ZDR is contractual, hosting logs unverified, operator and jurisdiction `TO_BE_NAMED`). Do not shorten them for marketing reasons.
+18. **The page states reservations in plain words** (public blockchain payments, the abuse-prevention hash is a pseudonym held in memory for 24 hours (Change 31 Oct 2026: no audit hash), hosting (Hetzner) logs unverified; Change 31 Oct 2026: the LLM reservation and the `TO_BE_NAMED` placeholders are gone, the service runs without an LLM). Do not shorten them for marketing reasons.
 19. **The page describes requirements, not an audited state.** The service is not built or published. When it runs, the wording ("is designed to") must be revisited against what was verified.
 20. **Footer link instead of a menu item.** Should the policy also be in the main navigation?
 21. **Languages:** the policy exists in English only. Translating legal-like text needs the owner and ideally a lawyer; no machine translation was made.
@@ -86,3 +86,8 @@ The human site is now a plain catalog: "Want to rest? Pick a service." Texts und
 47. **Web changes.** Pricing page: no guest pass row, no affiliate text, no entry/per game/credits/subscription wording, a new "Payment rails" list (x402 MVP, others after a survey), a trial row "Abuse check" (salted hash in memory, never on disk), turn defined as one tool call. Data policy page: the audit section is now one paragraph saying there is no audit log; the fields lists are gone. Services: `lobby.balance` is gone (24 services). Texts: "An empty result is not charged" removed. See catalog T1 to T10.
 48. **Screenshots in `web/screenshots/` are stale** (they show the pricing page and the tools list before this change). Retaking needs Playwright (`npm run screenshots`); not done in this change.
 49. **`dist/` of web is regenerated** by `npm run build`; nothing was committed or published.
+
+## Change: no LLM, operator filled (owner decision, 31 October 2026)
+
+50. **The data policy page lost its "Language model" section** (provider, region, requirements, proxy logging) and the per-tool LLM note; the processors table now lists Hetzner hosting and the payment infrastructure (Coinbase CDP). The fine print page says no language model is used. The mechanism table lists only the mechanisms in use; the `llm` texts (`mechanism_plain.llm`, `duration.llm`) stay in the catalog for later services.
+51. **Draft banner** no longer says operator details are not final (they are filled). It still says prices are not final.
