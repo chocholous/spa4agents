@@ -1,0 +1,78 @@
+# Spuštění z adresáře deploy/:  docker compose up -d --build
+# Konfigurace z deploy/.env (viz .env.example).
+name: spa4agents
+
+services:
+  gateway:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 256
+    environment:
+      PORT: ${PORT:-8787}
+      HOST: 0.0.0.0
+      CATALOG_PATH: /catalog/catalog.yaml
+      BASE_URL: ${BASE_URL:-}
+      GATEWAY_PHASES: ${GATEWAY_PHASES:-F1}
+      PAY_TO_ADDRESS: ${PAY_TO_ADDRESS:-}
+      X402_NETWORK: ${X402_NETWORK:-eip155:84532}
+      X402_FACILITATOR_URL: ${X402_FACILITATOR_URL:-}
+      CDP_API_KEY_ID: ${CDP_API_KEY_ID:-}
+      CDP_API_KEY_SECRET: ${CDP_API_KEY_SECRET:-}
+      SESSION_MAX_ACTIONS: ${SESSION_MAX_ACTIONS:-200}
+      SESSION_MAX_MINUTES: ${SESSION_MAX_MINUTES:-60}
+      SESSION_MAX_USD: ${SESSION_MAX_USD:-}
+      TRIAL_FREE_SESSIONS: ${TRIAL_FREE_SESSIONS:-3}
+      TRIAL_MAX_TURNS_PER_SESSION: ${TRIAL_MAX_TURNS_PER_SESSION:-20}
+    volumes:
+      - ../catalog/catalog.yaml:/catalog/catalog.yaml:ro
+    expose:
+      - "8787"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:'+(process.env.PORT||8787)+'/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m
+      - /config
+    cap_drop: [ALL]
+    cap_add: [NET_BIND_SERVICE]
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      gateway:
+        condition: service_healthy
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-spagents.com}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      # SITE_MODE=ip (výchozí) nebo domain – jediný přepínač.
+      - ./caddy/Caddyfile.${SITE_MODE:-ip}:/etc/caddy/Caddyfile:ro
+      - ../web/dist:/srv:ro
+      # certifikáty (Let's Encrypt) musí přežít restart; jediný perzistentní stav.
+      - caddy_data:/data
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:2019/config/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  caddy_data:

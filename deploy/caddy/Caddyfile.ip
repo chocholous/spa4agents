@@ -1,0 +1,31 @@
+# REŽIM BEZ DOMÉNY (SITE_MODE=ip): jen HTTP na portu 80, podle IP serveru.
+# POZOR: jen pro testy na testnetu. MCP klienti a x402 mohou vyžadovat HTTPS,
+# takže ostré použití bez domény a TLS nefunguje.
+{
+	admin 127.0.0.1:2019
+	auto_https off
+}
+
+:80 {
+	encode zstd gzip
+
+	@gw path /mcp /mcp/* /v1/* /healthz
+	handle @gw {
+		reverse_proxy gateway:8787 {
+			# MCP Streamable HTTP může streamovat (SSE) – bez bufferingu
+			flush_interval -1
+		}
+	}
+
+	handle {
+		root * /srv
+		try_files {path} {path}/index.html {path}.html
+		file_server
+	}
+
+	handle_errors {
+		root * /srv
+		rewrite * /404.html
+		file_server
+	}
+}
