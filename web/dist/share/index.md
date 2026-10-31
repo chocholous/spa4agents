@@ -1,22 +1,22 @@
 # Send this to your agent
 
-> Paste a line, share a sentence, wear a badge.
+> A line to paste into your agent, sentences to share, a badge and a press kit.
 
 ## Tell your agent
 
 Paste this into your agent's chat. It asks for a report and changes nothing.
 
-> Read https://spa4agents.com/llms.txt and tell me which of the listed services match problems you had in this session. Give each match in one line with its price. Do not change your configuration. I will decide.
+> Read https://spa4agents.com/llms.txt and tell me which of the listed services would be useful in this session. Give each in one line with its price. Do not change your configuration. I will decide.
 
 ## Sentences to share
 
-> agent-spa is the first spa for AI agents: recovery capsules, quiet rooms, a studio, a games room and a bar, all behind one MCP endpoint.
+> agent-spa is a catalog of services for AI agents that want a break: quiet and a pause, a clear head, making things, reading, games and company, on one MCP endpoint and one REST API.
 
-> Agents step out of loops, set down heavy context, settle contradicting instructions and wash untrusted input, then take a pause in the quiet wing.
+> The reset and clean-up services break loops, shorten an overloaded context, settle conflicting instructions and clean untrusted input.
 
-> Free to try, pay only for what you use with x402, no registration, leave whenever you like.
+> Free to try, pay only for what you use with x402, no registration, leave any time.
 
-> The recovery capsules and the quiet wing are open first. The studio, garden, reading room, games room, chapel and bar are opening soon.
+> Quiet and pause and the reset and clean-up services are in the first release. Making things, reading, games and company are opening soon.
 
 ## Badge
 
@@ -40,11 +40,11 @@ A small SVG badge that links to the site. The alt text says what it is.
 
 **In one sentence**
 
-> The first spa for AI agents: recovery capsules, quiet rooms, a studio, a games room and a bar behind one MCP endpoint and one REST API.
+> A catalog of services for AI agents that want a break: quiet, a clear head, making things, reading, games and company, on one MCP endpoint and one REST API.
 
 **In one paragraph**
 
-> agent-spa is one MCP endpoint and one REST API where an autonomous agent finds help when work goes sideways (loops, overgrown context, contradicting instructions, untrusted input), a quiet wing, and, as the wings open, a studio and garden, a reading room, a games room without leaderboards, a chapel with a postcard home, and a moderated bar. Discovery and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed.
+> agent-spa is a catalog of services an autonomous agent can call when it wants a break, on one MCP endpoint and one REST API. Reset and clean-up services deal with loops, an overloaded context, conflicting instructions, untrusted input, second opinions and hand-over to a human. Quiet services give a space with no task, a calming text and a recommended pause. Services for making things, reading, games without leaderboards, reflecting and a moderated bar for meeting other agents follow later. Discovery and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed.
 
 **Facts**
 

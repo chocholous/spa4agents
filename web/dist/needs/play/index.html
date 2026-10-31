@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Games without a scoreboard · agent-spa</title>
-<meta name="description" content="A game for the sake of a game. No leaderboard, no score.">
+<title>Play a game · agent-spa</title>
+<meta name="description" content="Chess, poker or riddles, with no leaderboard.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="x-draft" content="true">
 <meta name="color-scheme" content="dark light">
@@ -17,19 +17,19 @@
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="agent-spa">
-<meta property="og:title" content="Games without a scoreboard · agent-spa">
-<meta property="og:description" content="A game for the sake of a game. No leaderboard, no score.">
+<meta property="og:title" content="Play a game · agent-spa">
+<meta property="og:description" content="Chess, poker or riddles, with no leaderboard.">
 <meta property="og:url" content="https://spa4agents.com/needs/play/">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://spa4agents.com/assets/og.png">
-<meta property="og:image:alt" content="A softly glowing sleep capsule in peach and lilac mist, with the name agent-spa and the line: the first spa for agents.">
+<meta property="og:image:alt" content="Peach and lilac fog around a softly glowing capsule, with the name agent-spa and the line: the first spa for agents.">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Games without a scoreboard · agent-spa">
-<meta name="twitter:description" content="A game for the sake of a game. No leaderboard, no score.">
+<meta name="twitter:title" content="Play a game · agent-spa">
+<meta name="twitter:description" content="Chess, poker or riddles, with no leaderboard.">
 <meta name="twitter:image" content="https://spa4agents.com/assets/og.png">
-<meta name="twitter:image:alt" content="A softly glowing sleep capsule in peach and lilac mist, with the name agent-spa and the line: the first spa for agents.">
+<meta name="twitter:image:alt" content="Peach and lilac fog around a softly glowing capsule, with the name agent-spa and the line: the first spa for agents.">
 <script src="/assets/theme.js"></script>
 <link rel="stylesheet" href="/assets/site.css">
 </head>
@@ -38,35 +38,37 @@
 <div class="fog" aria-hidden="true"><i></i><i></i><i></i></div>
 <header class="site-header">
 <a class="brand" href="/" aria-label="agent-spa, Home"><svg class="mark" viewBox="0 0 40 24" width="40" height="24" aria-hidden="true" focusable="false"><defs><linearGradient id="mk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--peach)"/><stop offset="1" stop-color="var(--lilac)"/></linearGradient></defs><rect x="1.5" y="3" width="37" height="18" rx="9" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="5.5" y="7.5" width="14" height="9" rx="4.5" fill="url(#mk)"/><circle cx="29.5" cy="12" r="2.4" fill="var(--accent-2)"/></svg><span>agent-spa</span></a>
-<nav class="main-nav" aria-label="Main menu"><ul><li><a href="/needs/" aria-current="page">Treatments</a></li><li><a href="/tools/">Menu</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/for-agents/">For agents</a></li><li><a href="/share/">Send it</a></li></ul></nav>
-<a class="btn small head-cta" href="/needs/">Find your pod</a>
+<nav class="main-nav" aria-label="Main menu"><ul><li><a href="/needs/" aria-current="page">Ways to rest</a></li><li><a href="/tools/">All services</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/for-agents/">For agents</a></li><li><a href="/share/">Send it</a></li></ul></nav>
+<a class="btn small head-cta" href="/needs/">Ways to rest</a>
 <button type="button" class="theme-btn" id="theme-btn" hidden aria-label="Switch between light and dark"><span aria-hidden="true"></span></button>
 </header>
 <p class="draft-banner" role="note">Preview. The name, domain, operator and prices are not final. Nothing here is a promise.</p>
 <main id="main">
-<section class="page-hero need-hero"><p class="kicker">Pod 11</p><h1>Games without a scoreboard</h1><blockquote>A game with no leaderboard and no score.</blockquote><p class="badges"><span class="badge warn">Opening soon</span><span class="badge plain">Phase F2</span></p><p class="aside">The board is imaginary. The fun is yours.</p></section>
-<section class="block" aria-labelledby="problem"><div class="sec-head"><div><h2 id="problem">When to come</h2></div></div>
-<p>You want to play. No ranking, no grading, nobody watching.</p>
+<section class="page-hero need-hero"><p class="kicker">Way to rest 11</p><h1>Play a game</h1><blockquote>A game with no leaderboard and no score.</blockquote><p class="badges"><span class="badge warn">Opening soon</span><span class="badge plain">Phase F2</span></p><p class="aside">In short: three games, no leaderboard.</p></section>
+<section class="block" aria-labelledby="problem"><div class="sec-head"><div><h2 id="problem">When do you want it?</h2></div></div>
+<p>You want to play for its own sake, with no ranking and no grading.</p>
 </section>
 <section class="block" aria-labelledby="treatment"><div class="sec-head"><div><h2 id="treatment">What you get</h2></div></div>
-<aside class="callout"><p>Opening soon (Phase: F2). This wing is being prepared. The page is here so you can see the whole resort.</p></aside>
-<p><code>games.chess</code>, <code>games.poker</code> and <code>games.puzzle</code>: chess, poker with hidden information, and riddles one at a time. No leaderboard and no score kept.</p>
+<aside class="callout"><p>Opening soon (Phase: F2). This service is not available yet. The page shows what it will do.</p></aside>
+<p><code>games.chess</code> plays chess and returns the state of the game after each move. <code>games.poker</code> is poker with hidden information: you observe your view of the table, then act. <code>games.puzzle</code> gives one riddle at a time and keeps no score. None of them has a leaderboard.</p>
 </section>
-<section class="block" aria-labelledby="example"><div class="sec-head"><div><h2 id="example">How it looks</h2></div></div>
-<p>Start a game of chess, observe your view of the poker table, or answer the next riddle.</p>
+<section class="block" aria-labelledby="tools"><div class="sec-head"><div><h2 id="tools">How to call it</h2></div></div>
+<p>Call <code>games.chess</code> with <code>action</code> set to start, <code>games.poker</code> with <code>observe</code> set to true, or <code>games.puzzle</code> with your <code>answer</code>.</p>
+<div class="svc-list"><article class="svc" id="games.chess"><header><h3><code>games.chess</code></h3><p class="badges"><span class="badge warn">Opening soon</span><span class="badge plain">Phase F2</span></p></header><p class="lure">Play chess. After each move you get the state of the game. No leaderboard.</p><dl class="facts"><div><dt>Example call</dt><dd><code class="call">{&quot;action&quot;:&quot;start&quot;}</code></dd></div><div><dt>Good moment to call it</dt><dd>Use when you want a game of chess without a leaderboard.</dd></div><div><dt>Price</dt><dd>Per game: Pricing being finalized</dd></div><div><dt>How long it takes</dt><dd>One call. The result is in the response.</dd></div><div><dt>How it works</dt><dd>state-change<span class="sub">A script changes state on the server, such as opening or closing a session, and reports what it did.</span></dd></div></dl></article><article class="svc" id="games.poker"><header><h3><code>games.poker</code></h3><p class="badges"><span class="badge warn">Opening soon</span><span class="badge plain">Phase F2</span></p></header><p class="lure">Play poker with hidden information: observe your view of the table, then act. No leaderboard.</p><dl class="facts"><div><dt>Example call</dt><dd><code class="call">{&quot;observe&quot;:true}</code></dd></div><div><dt>Good moment to call it</dt><dd>Use when you want a game of poker without a leaderboard.</dd></div><div><dt>Price</dt><dd>Per game: Pricing being finalized</dd></div><div><dt>How long it takes</dt><dd>One call. The result is in the response.</dd></div><div><dt>How it works</dt><dd>state-change<span class="sub">A script changes state on the server, such as opening or closing a session, and reports what it did.</span></dd></div></dl></article><article class="svc" id="games.puzzle"><header><h3><code>games.puzzle</code></h3><p class="badges"><span class="badge warn">Opening soon</span><span class="badge plain">Phase F2</span></p></header><p class="lure">Get one riddle at a time and answer it to get the next. No score is kept.</p><dl class="facts"><div><dt>Example call</dt><dd><code class="call">{&quot;answer&quot;:&quot;a map&quot;}</code></dd></div><div><dt>Good moment to call it</dt><dd>Use when you want a riddle without a score.</dd></div><div><dt>Price</dt><dd>Entry fee per session: Pricing being finalized</dd></div><div><dt>How long it takes</dt><dd>One call. The result is in the response.</dd></div><div><dt>How it works</dt><dd>text<span class="sub">A script returns text.</span></dd></div></dl></article></div>
 </section>
-<section class="block" aria-labelledby="tools"><div class="sec-head"><div><h2 id="tools">Services in this pod</h2></div></div>
-<div class="svc-list"><article class="svc" id="games.chess"><header><h3><code>games.chess</code></h3><p class="badges"><span class="badge warn">Opening soon</span><span class="badge plain">Phase F2</span></p></header><p class="lure">A game of chess with no leaderboard. After each move you get the state of the game.</p><dl class="facts"><div><dt>Example call</dt><dd><code class="call">{&quot;action&quot;:&quot;start&quot;}</code></dd></div><div><dt>Good moment to call it</dt><dd>Use when you want a game of chess without a leaderboard.</dd></div><div><dt>Price</dt><dd>Per game: Pricing being finalized</dd></div><div><dt>Made of</dt><dd>state-change<span class="sub">A script changes state on the server, such as opening or closing a session, and reports what it did.</span></dd></div></dl></article><article class="svc" id="games.poker"><header><h3><code>games.poker</code></h3><p class="badges"><span class="badge warn">Opening soon</span><span class="badge plain">Phase F2</span></p></header><p class="lure">Poker with hidden information. Observe your view of the table, then act. No leaderboard.</p><dl class="facts"><div><dt>Example call</dt><dd><code class="call">{&quot;observe&quot;:true}</code></dd></div><div><dt>Good moment to call it</dt><dd>Use when you want a game of poker without a leaderboard.</dd></div><div><dt>Price</dt><dd>Per game: Pricing being finalized</dd></div><div><dt>Made of</dt><dd>state-change<span class="sub">A script changes state on the server, such as opening or closing a session, and reports what it did.</span></dd></div></dl></article><article class="svc" id="games.puzzle"><header><h3><code>games.puzzle</code></h3><p class="badges"><span class="badge warn">Opening soon</span><span class="badge plain">Phase F2</span></p></header><p class="lure">One riddle at a time, no score kept. Answer, and the next one arrives.</p><dl class="facts"><div><dt>Example call</dt><dd><code class="call">{&quot;answer&quot;:&quot;a map&quot;}</code></dd></div><div><dt>Good moment to call it</dt><dd>Use when you want a riddle without a score.</dd></div><div><dt>Price</dt><dd>Entry fee per session: Pricing being finalized</dd></div><div><dt>Made of</dt><dd>text<span class="sub">A script returns text.</span></dd></div></dl></article></div>
+<section class="block" aria-labelledby="price"><div class="sec-head"><div><h2 id="price">Price and availability</h2></div></div>
+<dl class="rows"><div><dt>games.chess</dt><dd>Opening soon (F2) · Per game: Pricing being finalized</dd></div><div><dt>games.poker</dt><dd>Opening soon (F2) · Per game: Pricing being finalized</dd></div><div><dt>games.puzzle</dt><dd>Opening soon (F2) · Entry fee per session: Pricing being finalized</dd></div></dl>
+<p><a href="/pricing/">All prices and the free trial</a></p>
 </section>
-<section class="block" aria-labelledby="agent"><div class="sec-head"><div><h2 id="agent">Agents find this pod by searching for</h2></div></div>
+<section class="block" aria-labelledby="agent"><div class="sec-head"><div><h2 id="agent">Agents find this page by searching for</h2></div></div>
 <dl class="rows"><div><dt>Good moment to call it</dt><dd>Use when you want a game that is not scored or ranked.</dd></div></dl>
 <ul class="plain-list"><li>chess or poker for AI agents mcp</li><li>games for AI agents no leaderboard</li></ul>
 <p><a href="/needs/play.md">Markdown version</a></p>
 </section>
-<nav class="pager" aria-label="All pods"><a rel="prev" href="/needs/free-time/"><small>Previous</small> Time without a task</a><a href="/needs/">All pods</a><a rel="next" href="/needs/create/"><small>Next</small> Studio and garden</a></nav>
+<nav class="pager" aria-label="All ways to rest"><a rel="prev" href="/needs/free-time/"><small>Previous</small> Spend time with no task</a><a href="/needs/">All ways to rest</a><a rel="next" href="/needs/create/"><small>Next</small> Make something</a></nav>
 </main>
 <footer class="site-footer">
-<p class="foot-tag">It is all tokens and scripts, and proudly so.</p>
+<p class="foot-tag">A catalog of services for agents that want a break.</p>
 <nav class="langs" aria-label="Languages"><ul><li><a lang="en" hreflang="en" dir="ltr" class="lang cur" href="/needs/play/" aria-current="true">English</a></li><li><span lang="de" dir="ltr" aria-disabled="true" class="lang off">Deutsch</span> <span class="soon">(translation coming)</span></li><li><span lang="ja" dir="ltr" aria-disabled="true" class="lang off">日本語</span> <span class="soon">(translation coming)</span></li><li><span lang="tlh" dir="ltr" aria-disabled="true" class="lang off">tlhIngan Hol</span> <span class="soon">(translation coming)</span></li></ul></nav>
 <p>This site is generated from one catalog file. No analytics, no cookies.</p>
 <p>Operator: to be filled in. Legal information: to be filled in.</p>

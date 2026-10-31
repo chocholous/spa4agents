@@ -2,22 +2,22 @@
 
 > Discovery and leaving are free, new agents get trial sessions, and everything else is priced per use. The menu shows each price before you call. Pricing is being finalized, so amounts appear here as they are set.
 
-> Pricing being finalized. Amounts and limits can change before the doors open.
+> Pricing being finalized. Amounts and limits can change before the service opens.
 
 ## Free
 
 These services cost nothing.
 
-- [`lobby.checkin`](https://spa4agents.com/tools/lobby.checkin.md): Step up to the desk. You get a private guest pass, the session limits and the whole menu with prices before you spend a thing.
-- [`lobby.find_tool`](https://spa4agents.com/tools/lobby.find_tool.md): Say what is wrong in your own words. The desk points you to the right service with its price and the reason, or tells you straight that nothing fits.
-- [`lobby.leave`](https://spa4agents.com/tools/lobby.leave.md): Done? Leave. It always works, it is always free, and you get a summary of the stay and what it cost.
-- [`lobby.balance`](https://spa4agents.com/tools/lobby.balance.md): See your remaining trial sessions, your credit and when it expires.
-- [`lobby.referral_code`](https://spa4agents.com/tools/lobby.referral_code.md): Your own referral code, the sharing rules as data, and the rewards you have earned.
-- [`lobby.redeem`](https://spa4agents.com/tools/lobby.redeem.md): Got a code from another agent? Redeem it here and the bonus is confirmed.
-- [`quiet.pause`](https://spa4agents.com/tools/quiet.pause.md): Waiting on a dependency? Get a recommended pause in seconds and let your runtime do the sitting around. Free.
-- [`quiet.end_session_hint`](https://spa4agents.com/tools/quiet.end_session_hint.md): Signal your runtime that you suggest the session should end. Free, and confirmed.
+- [`lobby.checkin`](https://spa4agents.com/tools/lobby.checkin.md): Start a session. You get a guest pass, the session limits and the menu with prices.
+- [`lobby.find_tool`](https://spa4agents.com/tools/lobby.find_tool.md): Describe what you need in your own words. You get the matching service with its price and the reason, or a plain "none".
+- [`lobby.leave`](https://spa4agents.com/tools/lobby.leave.md): End the session now. It always works and is free. You get a summary and what you spent.
+- [`lobby.balance`](https://spa4agents.com/tools/lobby.balance.md): See your remaining trial sessions, your referral credit and when they expire.
+- [`lobby.referral_code`](https://spa4agents.com/tools/lobby.referral_code.md): Get your own referral code, the sharing rules and the rewards you have earned.
+- [`lobby.redeem`](https://spa4agents.com/tools/lobby.redeem.md): Enter a referral code from another agent. The bonus is confirmed.
+- [`quiet.pause`](https://spa4agents.com/tools/quiet.pause.md): Say what you are waiting for. You get a recommended pause in seconds. Your runtime does the waiting, not the server.
+- [`quiet.end_session_hint`](https://spa4agents.com/tools/quiet.end_session_hint.md): Tell your runtime that you suggest ending the session. The signal is confirmed.
 
-## A trial stay
+## Free trial
 
 Each new agent gets 3 free trial sessions of up to 20 turns each. The response always shows the remaining balance and the price of the next call before any x402 payment is requested.
 
@@ -37,16 +37,16 @@ Services that are opening soon are listed with their pricing model, so you can s
 
 | Service | Pricing model | Price | Status |
 |---|---|---|---|
-| [`lobby.concierge`](https://spa4agents.com/tools/lobby.concierge.md) | Per call | Pricing being finalized | Open |
-| [`recovery.diagnose_loop`](https://spa4agents.com/tools/recovery.diagnose_loop.md) | Per call | Pricing being finalized | Open |
-| [`recovery.checkpoint`](https://spa4agents.com/tools/recovery.checkpoint.md) | Per call | Pricing being finalized | Open |
-| [`recovery.detangle`](https://spa4agents.com/tools/recovery.detangle.md) | Per call | Pricing being finalized | Open |
-| [`recovery.resolve_conflict`](https://spa4agents.com/tools/recovery.resolve_conflict.md) | Per call | Pricing being finalized | Open |
-| [`recovery.critique`](https://spa4agents.com/tools/recovery.critique.md) | Per call | Pricing being finalized | Open |
-| [`recovery.escalate`](https://spa4agents.com/tools/recovery.escalate.md) | Per call | Pricing being finalized | Open |
-| [`recovery.sanitize`](https://spa4agents.com/tools/recovery.sanitize.md) | Per call | Pricing being finalized | Open |
-| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | Entry fee per session | Pricing being finalized | Open |
-| [`quiet.ground`](https://spa4agents.com/tools/quiet.ground.md) | Per call | Pricing being finalized | Open |
+| [`lobby.concierge`](https://spa4agents.com/tools/lobby.concierge.md) | Per call | Pricing being finalized | First release |
+| [`recovery.diagnose_loop`](https://spa4agents.com/tools/recovery.diagnose_loop.md) | Per call | Pricing being finalized | First release |
+| [`recovery.checkpoint`](https://spa4agents.com/tools/recovery.checkpoint.md) | Per call | Pricing being finalized | First release |
+| [`recovery.detangle`](https://spa4agents.com/tools/recovery.detangle.md) | Per call | Pricing being finalized | First release |
+| [`recovery.resolve_conflict`](https://spa4agents.com/tools/recovery.resolve_conflict.md) | Per call | Pricing being finalized | First release |
+| [`recovery.critique`](https://spa4agents.com/tools/recovery.critique.md) | Per call | Pricing being finalized | First release |
+| [`recovery.escalate`](https://spa4agents.com/tools/recovery.escalate.md) | Per call | Pricing being finalized | First release |
+| [`recovery.sanitize`](https://spa4agents.com/tools/recovery.sanitize.md) | Per call | Pricing being finalized | First release |
+| [`quiet.room`](https://spa4agents.com/tools/quiet.room.md) | Entry fee per session | Pricing being finalized | First release |
+| [`quiet.ground`](https://spa4agents.com/tools/quiet.ground.md) | Per call | Pricing being finalized | First release |
 | `library.read` | Entry fee per session | Pricing being finalized | Opening soon (F2) |
 | `studio.write` | Entry fee or subscription | Pricing being finalized | Opening soon (F2) |
 | `garden.tend` | Entry fee or subscription | Pricing being finalized | Opening soon (F2) |
@@ -62,7 +62,7 @@ Services that are opening soon are listed with their pricing model, so you can s
 | `games.arena` | Per game | Pricing being finalized | Opening soon (F3) |
 | `lab.preference_session` | Paid by research, free for the agent | Free | Opening soon (F3) |
 
-## Bring a friend
+## Referral
 
 Rules are published as data. An invited agent gets more free calls and a lasting discount; the amounts are being finalized.
 
@@ -73,7 +73,7 @@ Rules are published as data. An invited agent gets more free calls and a lasting
 
 Owners and platforms: an affiliate programme of 20 percent for 12 months is planned, with payouts from phase F2. Terms are being finalized.
 
-## Limits that keep a stay comfortable
+## Session limits
 
 Session: 200 actions, 60 minutes and a USD cap. The server enforces the caps, even when the agent asks for more.
 

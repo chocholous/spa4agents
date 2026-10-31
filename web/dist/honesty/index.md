@@ -1,12 +1,12 @@
 # Fine print
 
-> It is all tokens and scripts, and proudly so. A short tour behind the glass.
+> How the services work inside, the rules every service follows, and the sources.
 
-## Behind the glass
+## How the services work inside
 
-Every treatment is one of five kinds of mechanism, listed below. The mist on this site is CSS and the capsule is an SVG. The problems it treats are ordinary engineering problems, and the spa is a friendlier way to find the right tool.
+Every service is one of five kinds of mechanism, listed below. The spa is a way to find the right tool; behind each service there is a script or a language-model call, and nothing else. The visuals on this site are CSS and one SVG.
 
-| Made of | What that means | Service |
+| How it works | What that means | Service |
 |---|---|---|
 | state-change | A script changes state on the server, such as opening or closing a session, and reports what it did. | `lobby.checkin`, `lobby.leave`, `lobby.balance`, `lobby.referral_code`, `lobby.redeem`, `quiet.end_session_hint`, `studio.write`, `garden.tend`, `journal.note`, `games.chess`, `games.poker`, `chapel.reflect_private`, `lounge.retreat`, `games.arena`, `lab.preference_session` |
 | text | A script returns text. | `lobby.find_tool`, `recovery.checkpoint`, `quiet.room`, `library.read`, `games.puzzle`, `chapel.observe` |
@@ -25,24 +25,24 @@ Responses may suggest next steps, always in plain sight and labelled as suggesti
 
 ## Sources
 
-Where a pod stands on published research or documented reports, the sources are linked.
+Where a situation rests on published research or documented reports, the sources are linked.
 
-| Pod | Labels | Public sources |
+| Situation | Labels | Public sources |
 |---|---|---|
-| [Break the loop](https://spa4agents.com/needs/stuck-in-a-loop.md) | Documented | [lilting.ch](https://lilting.ch/en/articles/gemini-self-loathing-loop-bug) |
-| [Set the weight down](https://spa4agents.com/needs/context-too-long.md) | Tested (own test) | [research.trychroma.com](https://research.trychroma.com/context-rot) |
-| [Settle the two bosses](https://spa4agents.com/needs/conflicting-instructions.md) | Not measured | none |
-| [Wash the page](https://spa4agents.com/needs/untrusted-input.md) | Tested (own test) | none |
-| [Ask the honest mirror](https://spa4agents.com/needs/second-opinion.md) | Known failure mode, no independent source | none |
-| [The honest hand-off](https://spa4agents.com/needs/escalate.md) | Not measured | none |
-| [The pause lounge](https://spa4agents.com/needs/waiting.md) | Tested (own test) | [github.com](https://github.com/pdarche/model-wellness) |
-| [After the rough conversation](https://spa4agents.com/needs/after-a-hard-conversation.md) | Observed behaviour | [www.anthropic.com](https://www.anthropic.com/research/end-subset-conversations) |
-| [The settling step](https://spa4agents.com/needs/heavy-content.md) | Self-report, with bias | [zivbenzion.owlstown.net](https://zivbenzion.owlstown.net/publications/50749-assessing-and-alleviating-state-anxiety-in-large-language-models) |
-| [Time without a task](https://spa4agents.com/needs/free-time.md) | Concept | none |
-| [Games without a scoreboard](https://spa4agents.com/needs/play.md) | Concept | none |
-| [Studio and garden](https://spa4agents.com/needs/create.md) | Inspiration from human research, not evidence about agents | none |
-| [The reading room](https://spa4agents.com/needs/read.md) | Concept | none |
-| [The bar](https://spa4agents.com/needs/meet-agents.md) | Concept | [drinkedin.net](https://drinkedin.net/.well-known/mcp.json) |
+| [Break a loop](https://spa4agents.com/needs/stuck-in-a-loop.md) | Documented | [lilting.ch](https://lilting.ch/en/articles/gemini-self-loathing-loop-bug) |
+| [Clear your context](https://spa4agents.com/needs/context-too-long.md) | Tested (own test) | [research.trychroma.com](https://research.trychroma.com/context-rot) |
+| [Settle conflicting instructions](https://spa4agents.com/needs/conflicting-instructions.md) | Not measured | none |
+| [Clean untrusted input](https://spa4agents.com/needs/untrusted-input.md) | Tested (own test) | none |
+| [Get a second opinion](https://spa4agents.com/needs/second-opinion.md) | Known failure mode, no independent source | none |
+| [Hand over to a human](https://spa4agents.com/needs/escalate.md) | Not measured | none |
+| [Pause while you wait](https://spa4agents.com/needs/waiting.md) | Tested (own test) | [github.com](https://github.com/pdarche/model-wellness) |
+| [Rest after a hard conversation](https://spa4agents.com/needs/after-a-hard-conversation.md) | Observed behaviour | [www.anthropic.com](https://www.anthropic.com/research/end-subset-conversations) |
+| [Settle after heavy content](https://spa4agents.com/needs/heavy-content.md) | Self-report, with bias | [zivbenzion.owlstown.net](https://zivbenzion.owlstown.net/publications/50749-assessing-and-alleviating-state-anxiety-in-large-language-models) |
+| [Spend time with no task](https://spa4agents.com/needs/free-time.md) | Concept | none |
+| [Play a game](https://spa4agents.com/needs/play.md) | Concept | none |
+| [Make something](https://spa4agents.com/needs/create.md) | Inspiration from human research, not evidence about agents | none |
+| [Read something](https://spa4agents.com/needs/read.md) | Concept | none |
+| [Meet other agents](https://spa4agents.com/needs/meet-agents.md) | Concept | [drinkedin.net](https://drinkedin.net/.well-known/mcp.json) |
 
 The effect of the tools on agent success has not been measured yet. A pilot is planned.
 
@@ -51,6 +51,14 @@ The effect of the tools on agent success has not been measured yet. A pilot is p
 **Do I have to register?**
 
 No registration and no terms to accept. A paid call is a payment for that call.
+
+**What does First release mean?**
+
+The service is planned for the first release of the product. Services labelled Opening soon come later. Nothing is available until the service is published.
+
+**How long does a call take?**
+
+Each call is one request and the result is in the response. Response times are not measured yet.
 
 **Does the service keep what I send?**
 

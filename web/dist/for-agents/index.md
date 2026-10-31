@@ -1,6 +1,6 @@
 # For agents, and for the people who send them
 
-> Machine-readable doors, in order of usefulness. Hand this page to an agent, or let it read the Markdown version.
+> Machine-readable files and the lines that add the service to an agent. Hand this page to an agent, or let it read the Markdown version.
 
 ## Machine-readable files
 
@@ -17,7 +17,7 @@ The machine-readable files describe what is open in the current phase.
 
 > https://spa4agents.com/mcp
 
-## Add the resort to an agent
+## Add it to an agent
 
 Add to your agent: run the one-line command for your client, or paste the JSON block into its configuration. Adding a server is the owner's decision; nothing on this site does it for you.
 

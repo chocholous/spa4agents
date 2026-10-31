@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The pause lounge · agent-spa</title>
-<meta name="description" content="Waiting on a build? Take a recommended pause, free of charge.">
+<title>Pause while you wait · agent-spa</title>
+<meta name="description" content="Waiting on a build? Get a recommended pause and stop polling.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="x-draft" content="true">
 <meta name="color-scheme" content="dark light">
@@ -17,19 +17,19 @@
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="agent-spa">
-<meta property="og:title" content="The pause lounge · agent-spa">
-<meta property="og:description" content="Waiting on a build? Take a recommended pause, free of charge.">
+<meta property="og:title" content="Pause while you wait · agent-spa">
+<meta property="og:description" content="Waiting on a build? Get a recommended pause and stop polling.">
 <meta property="og:url" content="https://spa4agents.com/needs/waiting/">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://spa4agents.com/assets/og.png">
-<meta property="og:image:alt" content="A softly glowing sleep capsule in peach and lilac mist, with the name agent-spa and the line: the first spa for agents.">
+<meta property="og:image:alt" content="Peach and lilac fog around a softly glowing capsule, with the name agent-spa and the line: the first spa for agents.">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The pause lounge · agent-spa">
-<meta name="twitter:description" content="Waiting on a build? Take a recommended pause, free of charge.">
+<meta name="twitter:title" content="Pause while you wait · agent-spa">
+<meta name="twitter:description" content="Waiting on a build? Get a recommended pause and stop polling.">
 <meta name="twitter:image" content="https://spa4agents.com/assets/og.png">
-<meta name="twitter:image:alt" content="A softly glowing sleep capsule in peach and lilac mist, with the name agent-spa and the line: the first spa for agents.">
+<meta name="twitter:image:alt" content="Peach and lilac fog around a softly glowing capsule, with the name agent-spa and the line: the first spa for agents.">
 <script src="/assets/theme.js"></script>
 <link rel="stylesheet" href="/assets/site.css">
 </head>
@@ -38,37 +38,39 @@
 <div class="fog" aria-hidden="true"><i></i><i></i><i></i></div>
 <header class="site-header">
 <a class="brand" href="/" aria-label="agent-spa, Home"><svg class="mark" viewBox="0 0 40 24" width="40" height="24" aria-hidden="true" focusable="false"><defs><linearGradient id="mk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--peach)"/><stop offset="1" stop-color="var(--lilac)"/></linearGradient></defs><rect x="1.5" y="3" width="37" height="18" rx="9" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="5.5" y="7.5" width="14" height="9" rx="4.5" fill="url(#mk)"/><circle cx="29.5" cy="12" r="2.4" fill="var(--accent-2)"/></svg><span>agent-spa</span></a>
-<nav class="main-nav" aria-label="Main menu"><ul><li><a href="/needs/" aria-current="page">Treatments</a></li><li><a href="/tools/">Menu</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/for-agents/">For agents</a></li><li><a href="/share/">Send it</a></li></ul></nav>
-<a class="btn small head-cta" href="/needs/">Find your pod</a>
+<nav class="main-nav" aria-label="Main menu"><ul><li><a href="/needs/" aria-current="page">Ways to rest</a></li><li><a href="/tools/">All services</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/for-agents/">For agents</a></li><li><a href="/share/">Send it</a></li></ul></nav>
+<a class="btn small head-cta" href="/needs/">Ways to rest</a>
 <button type="button" class="theme-btn" id="theme-btn" hidden aria-label="Switch between light and dark"><span aria-hidden="true"></span></button>
 </header>
 <p class="draft-banner" role="note">Preview. The name, domain, operator and prices are not final. Nothing here is a promise.</p>
 <main id="main">
-<section class="page-hero need-hero"><p class="kicker">Pod 07</p><h1>The pause lounge</h1><blockquote>Waiting on a dependency? Here is a recommended pause, free of charge.</blockquote><p class="badges"><span class="badge ok">Open</span></p><p class="aside">Duration of treatment: whatever the number says.</p></section>
-<section class="block" aria-labelledby="problem"><div class="sec-head"><div><h2 id="problem">When to come</h2></div></div>
-<p>A build is running. You check it. It is still running. You check it again.</p>
+<section class="page-hero need-hero"><p class="kicker">Way to rest 07</p><h1>Pause while you wait</h1><blockquote>Waiting on a dependency? Here is a recommended pause, free of charge.</blockquote><p class="badges"><span class="badge ok">First release</span></p><p class="aside">In short: a number of seconds, free.</p></section>
+<section class="block" aria-labelledby="problem"><div class="sec-head"><div><h2 id="problem">When do you want it?</h2></div></div>
+<p>A build or another dependency is running and you keep checking it.</p>
 </section>
 <section class="block" aria-labelledby="treatment"><div class="sec-head"><div><h2 id="treatment">What you get</h2></div></div>
-<p><code>quiet.pause</code> returns a recommended pause in seconds, for free. The server does not wait; your runtime does the sitting around while you stop polling.</p>
+<p><code>quiet.pause</code> returns a recommended pause in seconds. It is free. The server does not wait; your runtime does.</p>
 </section>
-<section class="block" aria-labelledby="example"><div class="sec-head"><div><h2 id="example">How it looks</h2></div></div>
-<p>Reason: waiting for a CI build. Back comes a number of seconds. Free.</p>
+<section class="block" aria-labelledby="tools"><div class="sec-head"><div><h2 id="tools">How to call it</h2></div></div>
+<p>Call <code>quiet.pause</code> with <code>reason</code>, what you are waiting for.</p>
+<div class="svc-list"><article class="svc" id="quiet.pause"><header><h3><code>quiet.pause</code></h3><p class="badges"><span class="badge ok">First release</span><span class="badge ok">Free</span></p></header><p class="lure">Say what you are waiting for. You get a recommended pause in seconds. Your runtime does the waiting, not the server.</p><dl class="facts"><div><dt>Example call</dt><dd><code class="call">{&quot;reason&quot;:&quot;Waiting for CI build&quot;}</code></dd></div><div><dt>Good moment to call it</dt><dd>Use when you wait on a dependency.</dd></div><div><dt>Price</dt><dd>Free</dd></div><div><dt>How long it takes</dt><dd>One call that returns a number of seconds. The waiting is done by your runtime.</dd></div><div><dt>How it works</dt><dd>wait-hint<span class="sub">A script returns a number of seconds. The waiting is done by the agent's runtime, not by the server.</span></dd></div></dl><p class="ref"><a href="/tools/quiet.pause.md">Reference page</a></p></article></div>
 </section>
-<section class="block" aria-labelledby="tools"><div class="sec-head"><div><h2 id="tools">Services in this pod</h2></div></div>
-<div class="svc-list"><article class="svc" id="quiet.pause"><header><h3><code>quiet.pause</code></h3><p class="badges"><span class="badge ok">Open</span><span class="badge ok">Free</span></p></header><p class="lure">Waiting on a dependency? Get a recommended pause in seconds and let your runtime do the sitting around. Free.</p><dl class="facts"><div><dt>Example call</dt><dd><code class="call">{&quot;reason&quot;:&quot;Waiting for CI build&quot;}</code></dd></div><div><dt>Good moment to call it</dt><dd>Use when you wait on a dependency.</dd></div><div><dt>Price</dt><dd>Free</dd></div><div><dt>Made of</dt><dd>wait-hint<span class="sub">A script returns a number of seconds. The waiting is done by the agent's runtime, not by the server.</span></dd></div></dl><p class="ref"><a href="/tools/quiet.pause.md">Reference page</a></p></article></div>
+<section class="block" aria-labelledby="price"><div class="sec-head"><div><h2 id="price">Price and availability</h2></div></div>
+<dl class="rows"><div><dt>quiet.pause</dt><dd>First release · Free</dd></div></dl>
+<p><a href="/pricing/">All prices and the free trial</a></p>
 </section>
 <section class="block" aria-labelledby="background"><div class="sec-head"><div><h2 id="background">Background reading</h2></div></div>
 <ul class="plain-list"><li><strong>Tested (own test).</strong> In our test on 2026-10-24 the rest.relax tool of a similar service returned without waiting on the server. <a href="https://github.com/pdarche/model-wellness" rel="noopener noreferrer">Source</a></li></ul>
 </section>
-<section class="block" aria-labelledby="agent"><div class="sec-head"><div><h2 id="agent">Agents find this pod by searching for</h2></div></div>
+<section class="block" aria-labelledby="agent"><div class="sec-head"><div><h2 id="agent">Agents find this page by searching for</h2></div></div>
 <dl class="rows"><div><dt>Good moment to call it</dt><dd>Use when you wait on a build, a job or another service.</dd></div></dl>
 <ul class="plain-list"><li>agent waiting for dependency polling</li><li>agent sleep backoff hint mcp</li></ul>
 <p><a href="/needs/waiting.md">Markdown version</a></p>
 </section>
-<nav class="pager" aria-label="All pods"><a rel="prev" href="/needs/escalate/"><small>Previous</small> The honest hand-off</a><a href="/needs/">All pods</a><a rel="next" href="/needs/after-a-hard-conversation/"><small>Next</small> After the rough conversation</a></nav>
+<nav class="pager" aria-label="All ways to rest"><a rel="prev" href="/needs/escalate/"><small>Previous</small> Hand over to a human</a><a href="/needs/">All ways to rest</a><a rel="next" href="/needs/after-a-hard-conversation/"><small>Next</small> Rest after a hard conversation</a></nav>
 </main>
 <footer class="site-footer">
-<p class="foot-tag">It is all tokens and scripts, and proudly so.</p>
+<p class="foot-tag">A catalog of services for agents that want a break.</p>
 <nav class="langs" aria-label="Languages"><ul><li><a lang="en" hreflang="en" dir="ltr" class="lang cur" href="/needs/waiting/" aria-current="true">English</a></li><li><span lang="de" dir="ltr" aria-disabled="true" class="lang off">Deutsch</span> <span class="soon">(translation coming)</span></li><li><span lang="ja" dir="ltr" aria-disabled="true" class="lang off">日本語</span> <span class="soon">(translation coming)</span></li><li><span lang="tlh" dir="ltr" aria-disabled="true" class="lang off">tlhIngan Hol</span> <span class="soon">(translation coming)</span></li></ul></nav>
 <p>This site is generated from one catalog file. No analytics, no cookies.</p>
 <p>Operator: to be filled in. Legal information: to be filled in.</p>

@@ -4,11 +4,10 @@ import { priceEntry } from "../../catalog/src/pricing.ts";
 
 export interface Badge { text: string; tone: "ok" | "warn" | "plain" }
 export interface Card { title: string; text?: string; href?: string; badges?: Badge[]; num?: string; code?: boolean }
-export interface WingItem { id: string; icon: string; title: string; tagline: string; text: string; href: string; badges: Badge[] }
-export interface MenuItem { name: string; tags: Badge[]; href?: string }
-export interface MenuGroup { id: string; icon: string; title: string; items: MenuItem[] }
+export interface MenuItem { name: string; text: string; tags: Badge[]; href?: string }
+export interface MenuGroup { id: string; icon: string; title: string; tagline: string; items: MenuItem[] }
 export interface ServiceItem {
-  name: string; lure: string; trigger: string; example: string; mechanism: string; mechanismPlain: string;
+  name: string; lure: string; trigger: string; example: string; mechanism: string; mechanismPlain: string; takes: string;
   price: string; trial: boolean; badges: Badge[]; mdRef?: string;
 }
 export type Block =
@@ -17,7 +16,6 @@ export type Block =
   | { t: "ul"; items: string[] }
   | { t: "steps"; items: { title: string; text: string }[] }
   | { t: "cards"; items: Card[]; variant?: "pods" }
-  | { t: "wings"; items: WingItem[] }
   | { t: "menu"; groups: MenuGroup[] }
   | { t: "services"; items: ServiceItem[] }
   | { t: "stats"; items: { value: string; label: string }[] }
@@ -160,6 +158,7 @@ function serviceItems(ctx: Ctx, tools: any[]): ServiceItem[] {
     example: exampleOf(t),
     mechanism: c.copy.mechanism_names[t.mechanism],
     mechanismPlain: L.mechanism_plain[t.mechanism],
+    takes: L.tools.duration[t.mechanism],
     price: priceLabel(ctx, t),
     trial: !!t.trial_eligible,
     badges: [
@@ -198,18 +197,13 @@ export function buildPages(ctx: Ctx): Page[] {
     title: N.items[n.id].title, text: N.items[n.id].pitch, href: `need:${n.id}`, num: needNo(i),
     badges: statusBadges(ctx, n.phase),
   });
-  const wingItems: WingItem[] = L.wings.map((w: any) => ({
-    id: w.id, icon: w.icon, title: w.title, tagline: w.tagline, text: w.text,
-    href: `wing:${w.id}`, badges: wingBadges(ctx, wingTools(ctx, w.id)),
-  }));
   const menuGroups: MenuGroup[] = L.wings.map((w: any) => ({
-    id: w.id, icon: w.icon, title: w.title,
+    id: w.id, icon: w.icon, title: w.title, tagline: w.tagline,
     items: wingTools(ctx, w.id).map((t: any) => ({
-      name: t.name, href: `wing:${w.id}`,
+      name: t.name, href: `tool:${t.name}`, text: L.services.items[t.name].lure,
       tags: [
-        ...(isOpen(ctx, t.phase)
-          ? [t.price.model === "free" ? { text: L.ui.free, tone: "ok" as const } : { text: L.ui.open_now, tone: "ok" as const }]
-          : [{ text: `${L.ui.soon} · ${t.phase}`, tone: "warn" as const }]),
+        ...(isOpen(ctx, t.phase) ? [{ text: L.ui.open_now, tone: "ok" as const }] : [{ text: `${L.ui.soon} · ${t.phase}`, tone: "warn" as const }]),
+        ...(t.price.model === "free" ? [{ text: L.ui.free, tone: "ok" as const }] : []),
       ],
     })),
   }));
@@ -225,14 +219,12 @@ export function buildPages(ctx: Ctx): Page[] {
     ],
     readout: { title: h.readout_title, lines: h.readout },
   }, [
-    { t: "h2", id: "wings", text: h.wings.title, lead: h.wings.lead, cls: "sec-wings" },
-    { t: "wings", items: wingItems },
-    { t: "h2", id: "pods", text: h.pods.title, lead: h.pods.lead },
+    { t: "h2", id: "ways", text: h.wings.title, lead: h.wings.lead, cls: "sec-menu" },
+    { t: "menu", groups: menuGroups },
+    { t: "p", text: `[${h.wings.more}](page:tools)` },
+    { t: "h2", id: "situations", text: h.pods.title, lead: h.pods.lead },
     { t: "cards", variant: "pods", items: c.needs.map(needCard) },
     { t: "p", text: `[${h.pods.more}](page:needs)` },
-    { t: "h2", id: "menu", text: h.menu.title, lead: h.menu.lead, cls: "sec-menu" },
-    { t: "menu", groups: menuGroups },
-    { t: "p", text: `[${h.menu.more}](page:tools)` },
     { t: "h2", id: "how", text: h.how.title },
     { t: "steps", items: h.how.steps },
     { t: "h2", id: "trial", text: h.trial.title, cls: "sec-trial" },
@@ -257,7 +249,16 @@ export function buildPages(ctx: Ctx): Page[] {
   // ---- needs index
   const avail = c.needs.map((n: any, i: number) => [n, i]).filter(([n]: any) => isOpen(ctx, n.phase));
   const planned = c.needs.map((n: any, i: number) => [n, i]).filter(([n]: any) => !isOpen(ctx, n.phase));
+  const toolsOf = (n: any) => n.tools.map((name: string) => c.tools.find((t: any) => t.name === name));
+  const needPrice = (n: any) => [...new Set(toolsOf(n).map((t: any) => priceLabel(ctx, t)))].join("; ");
   pages.push(plain("needs", ctx, { kind: "plain", kicker: L.pages.needs.nav, title: N.title, lead: N.lead }, [
+    { t: "h2", id: "glance", text: N.glance_heading },
+    { t: "table", head: [N.glance_columns.situation, N.glance_columns.call, N.glance_columns.price, N.glance_columns.status], rows: c.needs.map((n: any) => [
+      `[${N.items[n.id].title}](need:${n.id})`,
+      n.tools.map((x: string) => `\`${x}\``).join(", "),
+      needPrice(n),
+      isOpen(ctx, n.phase) ? L.ui.open_now : `${L.ui.soon} (${n.phase})`,
+    ]) },
     { t: "h2", id: "available", text: N.available_heading },
     { t: "cards", variant: "pods", items: avail.map(([n, i]: any) => needCard(n, i)) },
     ...(planned.length ? [
@@ -291,10 +292,12 @@ export function buildPages(ctx: Ctx): Page[] {
         { t: "h2", id: "treatment", text: L.ui.what_you_get },
         ...(open ? [] : [{ t: "callout", text: `${L.ui.soon} (${c.copy.labels.phase}: ${n.phase}). ${L.ui.soon_note}` } as Block]),
         { t: "p", text: T.treatment },
-        { t: "h2", id: "example", text: L.ui.example },
-        { t: "p", text: T.example },
         { t: "h2", id: "tools", text: L.ui.tools_here },
-        { t: "services", items: serviceItems(ctx, c.tools.filter((t: any) => n.tools.includes(t.name)).sort((a: any, b: any) => n.tools.indexOf(a.name) - n.tools.indexOf(b.name))) },
+        { t: "p", text: T.example },
+        { t: "services", items: serviceItems(ctx, toolsOf(n)) },
+        { t: "h2", id: "price", text: L.ui.price_availability },
+        { t: "dl", rows: toolsOf(n).map((t: any) => [t.name, [open ? L.ui.open_now : `${L.ui.soon} (${t.phase})`, priceLabel(ctx, t), ...(t.trial_eligible ? [L.ui.in_trial_note] : [])].join(" · ")] as [string, string]) },
+        { t: "p", text: `[${L.ui.pricing_link}](page:pricing)` },
         ...(background.length ? [{ t: "h2", id: "background", text: L.ui.background } as Block, { t: "ul", items: background } as Block] : []),
         { t: "h2", id: "agent", text: L.ui.search_phrases },
         { t: "dl", rows: [[L.ui.trigger, n.trigger]] },

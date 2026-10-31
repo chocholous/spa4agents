@@ -33,7 +33,7 @@ function cardHtml(ctx: Ctx, c: Card): string {
 
 function serviceHtml(ctx: Ctx, t: ServiceItem): string {
   const L = ctx.L;
-  return `<article class="svc" id="${esc(t.name)}"><header><h3><code>${esc(t.name)}</code></h3><p class="badges">${t.badges.map(badge).join("")}</p></header><p class="lure">${esc(t.lure)}</p><dl class="facts"><div><dt>${esc(L.ui.example_call)}</dt><dd><code class="call">${esc(t.example)}</code></dd></div><div><dt>${esc(L.ui.trigger)}</dt><dd>${esc(t.trigger)}</dd></div><div><dt>${esc(L.ui.price)}</dt><dd>${esc(t.price)}</dd></div><div><dt>${esc(L.ui.mechanism)}</dt><dd>${esc(t.mechanism)}<span class="sub">${esc(t.mechanismPlain)}</span></dd></div></dl>${t.mdRef ? `<p class="ref"><a href="${esc(href(ctx, t.mdRef, "html"))}">${esc(L.ui.reference)}</a></p>` : ""}</article>`;
+  return `<article class="svc" id="${esc(t.name)}"><header><h3><code>${esc(t.name)}</code></h3><p class="badges">${t.badges.map(badge).join("")}</p></header><p class="lure">${esc(t.lure)}</p><dl class="facts"><div><dt>${esc(L.ui.example_call)}</dt><dd><code class="call">${esc(t.example)}</code></dd></div><div><dt>${esc(L.ui.trigger)}</dt><dd>${esc(t.trigger)}</dd></div><div><dt>${esc(L.ui.price)}</dt><dd>${esc(t.price)}</dd></div><div><dt>${esc(L.ui.takes)}</dt><dd>${esc(t.takes)}</dd></div><div><dt>${esc(L.ui.mechanism)}</dt><dd>${esc(t.mechanism)}<span class="sub">${esc(t.mechanismPlain)}</span></dd></div></dl>${t.mdRef ? `<p class="ref"><a href="${esc(href(ctx, t.mdRef, "html"))}">${esc(L.ui.reference)}</a></p>` : ""}</article>`;
 }
 
 function blockHtml(ctx: Ctx, b: Block): string {
@@ -45,8 +45,7 @@ function blockHtml(ctx: Ctx, b: Block): string {
     case "steps": return `<ol class="steps">${b.items.map((i) => `<li><h3>${esc(i.title)}</h3><p>${inlineHtml(ctx, i.text)}</p></li>`).join("")}</ol>`;
     case "cards": return `<ul class="cards${b.variant ? " " + b.variant : ""}">${b.items.map((c) => cardHtml(ctx, c)).join("")}</ul>`;
     case "services": return `<div class="svc-list">${b.items.map((t) => serviceHtml(ctx, t)).join("")}</div>`;
-    case "wings": return `<ul class="wing-grid">${b.items.map((w) => `<li class="wing"><span class="wing-icon">${iconSvg(w.icon)}</span><h3><a class="card-link" href="${esc(href(ctx, w.href, "html"))}">${esc(w.title)}</a></h3><p class="tagline">${esc(w.tagline)}</p><p>${esc(w.text)}</p><p class="badges">${w.badges.map(badge).join("")}</p></li>`).join("")}</ul>`;
-    case "menu": return `<div class="menu-board">${b.groups.map((g) => `<section class="menu-group" aria-label="${esc(g.title)}"><h3><span class="mi">${iconSvg(g.icon)}</span>${esc(g.title)}</h3><ul>${g.items.map((i) => `<li><a href="${esc(href(ctx, i.href ?? "", "html"))}"><code>${esc(i.name)}</code><span class="dots" aria-hidden="true"></span>${i.tags.map(badge).join("")}</a></li>`).join("")}</ul></section>`).join("")}</div>`;
+    case "menu": return `<div class="menu-board">${b.groups.map((g) => `<section class="menu-group" aria-label="${esc(g.title)}"><h3><span class="mi">${iconSvg(g.icon)}</span>${esc(g.title)}</h3><p class="mg-tag">${esc(g.tagline)}</p><ul>${g.items.map((i) => `<li><a href="${esc(href(ctx, i.href ?? "", "html"))}"><code>${esc(i.name)}</code><span class="dots" aria-hidden="true"></span>${i.tags.map(badge).join("")}</a><p class="mi-text">${esc(i.text)}</p></li>`).join("")}</ul></section>`).join("")}</div>`;
     case "stats": return `<ul class="stats">${b.items.map((i) => `<li><strong>${esc(i.value)}</strong><span>${esc(i.label)}</span></li>`).join("")}</ul>`;
     case "cta": return `<p class="actions">${b.actions.map((a) => `<a class="btn${a.primary ? "" : " ghost"}" href="${esc(href(ctx, a.href, "html"))}">${esc(a.label)}</a>`).join("")}</p>`;
     case "table": return `<div class="table-wrap"><table><thead><tr>${b.head.map((h) => `<th scope="col">${esc(h)}</th>`).join("")}</tr></thead><tbody>${b.rows.map((r) => `<tr>${r.map((c) => `<td>${inlineHtml(ctx, c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
@@ -80,7 +79,7 @@ function heroHtml(ctx: Ctx, p: Page): string {
   const h = p.hero;
   const kicker = h.kicker ? `<p class="kicker">${esc(h.kicker)}</p>` : "";
   if (h.kind === "home") {
-    return `<section class="hero"><div class="hero-copy">${kicker}<h1>${esc(h.title)}</h1><p class="lead">${esc(h.lead ?? "")}</p><p class="actions">${(h.actions ?? []).map((a) => `<a class="btn${a.primary ? "" : " ghost"}" href="${esc(href(ctx, a.href, "html"))}">${esc(a.label)}</a>`).join("")}</p>${h.perks?.length ? `<ul class="perks">${h.perks.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}</div><div class="hero-pod">${podSvg()}<figure class="readout"><figcaption>${esc(h.readout!.title)}</figcaption><ul>${h.readout!.lines.map((l) => `<li>${esc(l)}</li>`).join("")}</ul></figure></div></section>`;
+    return `<section class="hero"><div class="hero-copy">${kicker}<h1>${esc(h.title)}</h1><p class="lead">${inlineHtml(ctx, h.lead ?? "")}</p><p class="actions">${(h.actions ?? []).map((a) => `<a class="btn${a.primary ? "" : " ghost"}" href="${esc(href(ctx, a.href, "html"))}">${esc(a.label)}</a>`).join("")}</p>${h.perks?.length ? `<ul class="perks">${h.perks.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}</div><div class="hero-pod">${podSvg()}<figure class="readout"><figcaption>${esc(h.readout!.title)}</figcaption><ul>${h.readout!.lines.map((l) => `<li>${esc(l)}</li>`).join("")}</ul></figure></div></section>`;
   }
   if (h.kind === "need") {
     return `<section class="page-hero need-hero">${kicker}<h1>${esc(h.title)}</h1>${h.quote ? `<blockquote>${esc(h.quote)}</blockquote>` : ""}<p class="badges">${(h.badges ?? []).map(badge).join("")}</p>${h.aside ? `<p class="aside">${esc(h.aside)}</p>` : ""}</section>`;
@@ -223,8 +222,7 @@ export function renderMarkdown(ctx: Ctx, p: Page): string {
         return `- ${head}${c.text ? `: ${m(c.text)}` : ""}${bd}`;
       }), ""); break;
       case "services": out.push(...b.items.map((t) => `- ${t.mdRef ? `[\`${t.name}\`](${href(ctx, t.mdRef, "md")})` : `\`${t.name}\``}: ${t.lure} ${L.ui.example_call}: \`${t.example}\`. ${L.ui.price}: ${t.price}. (${t.badges.map((x) => x.text).join("; ")})`), ""); break;
-      case "wings": out.push(...b.items.map((w) => `- **${w.title}.** ${w.tagline} ${w.text} (${w.badges.map((x) => x.text).join("; ")})`), ""); break;
-      case "menu": out.push(...b.groups.flatMap((g) => [`**${g.title}**`, "", ...g.items.map((i) => `- \`${i.name}\` (${i.tags.map((x) => x.text).join("; ")})`), ""])); break;
+      case "menu": out.push(...b.groups.flatMap((g) => [`**${g.title}.** ${g.tagline}`, "", ...g.items.map((i) => `- \`${i.name}\`: ${i.text} (${i.tags.map((x) => x.text).join("; ")})`), ""])); break;
       case "stats": out.push(...b.items.map((i) => `- **${i.value}** ${i.label}`), ""); break;
       case "cta": out.push(b.actions.map((a) => `[${a.label}](${href(ctx, a.href, "md")})`).join(" · "), ""); break;
       case "table": out.push(`| ${b.head.join(" | ")} |`, `|${b.head.map(() => "---").join("|")}|`, ...b.rows.map((r) => `| ${r.map(cell).join(" | ")} |`), ""); break;

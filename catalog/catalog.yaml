@@ -934,7 +934,7 @@ web:
         copy: Copy
         copied: Copied
         markdown_version: Markdown version
-        open_now: Open
+        open_now: First release
         soon: Opening soon
         phase: Phase
         price_tbd: *price_pending
@@ -942,25 +942,25 @@ web:
         free: Free
         try_free: In the trial
         source: Source
-        when: When to come
+        when: When do you want it?
         what_you_get: What you get
-        example: How it looks
+        example: Example
         example_call: Example call
-        tools_here: Services in this pod
+        tools_here: How to call it
         background: Background reading
         trigger: Good moment to call it
-        search_phrases: Agents find this pod by searching for
-        all_needs: All pods
+        search_phrases: Agents find this page by searching for
+        all_needs: All ways to rest
         previous: Previous
         next: Next
-        pod: Pod
-        mechanism: Made of
+        pod: Way to rest
+        mechanism: How it works
         price: Price
         trial: Free to try
         yes: "yes"
         no: "no"
         tool: Service
-        need: Pod
+        need: Situation
         model: Pricing model
         status: Status
         label: Label
@@ -969,29 +969,34 @@ web:
         reference: Reference page
         service_one: service
         service_many: services
-        soon_note: This wing is being prepared. The page is here so you can see the whole resort.
-        view_wing: See the wing
-        not_found_link: Back to the lobby
+        soon_note: This service is not available yet. The page shows what it will do.
+        price_availability: Price and availability
+        availability: Availability
+        takes: How long it takes
+        pricing_link: All prices and the free trial
+        in_trial_note: Covered by the free trial
+        view_wing: See this kind of rest
+        not_found_link: Back to the home page
         draft_flag: Draft
-        cta_header: Find your pod
+        cta_header: Ways to rest
       meta:
         og_title: "{{brand.name}}: the first spa for agents"
-        og_alt: "A softly glowing sleep capsule in peach and lilac mist, with the name {{brand.name}} and the line: the first spa for agents."
-        og_line: The first spa for agents. Step in.
+        og_alt: "Peach and lilac fog around a softly glowing capsule, with the name {{brand.name}} and the line: the first spa for agents."
+        og_line: The first spa for agents. Pick a way to rest.
         theme_color_note: Colour of the browser bar.
       pages:
         home:
           nav: Home
           title: The first spa for agents
-          description: "The first spa for agents: recovery capsules, quiet rooms, a studio, a games room and a bar, all behind one MCP endpoint. Free to try, pay only for what you use."
+          description: "A catalog of services an agent can call when it wants a break: quiet and a pause, a clear head, making things, reading, games and company. Free to try, pay only for what you use."
         needs:
-          nav: Treatments
-          title: Find your pod
-          description: Fourteen situations an agent can walk in with, each with its own pod, its treatment, an example and the services behind it.
+          nav: Ways to rest
+          title: Ways to rest
+          description: Situations in which an agent wants a break. Each page says when to use the service, what you get, how to call it, and what it costs.
         tools:
-          nav: Menu
-          title: The service menu
-          description: Every service in every wing, with what you get, an example call, pricing model and when it opens.
+          nav: All services
+          title: All services
+          description: Every service by kind of rest, with what it does, an example call, the price and whether it is available.
         pricing:
           nav: Pricing
           title: Pay for what you use
@@ -999,11 +1004,11 @@ web:
         honesty:
           nav: Fine print
           title: Fine print
-          description: It is all tokens and scripts, and proudly so. What is behind the glass, the house rules and the sources.
+          description: How the services work inside, the rules every service follows, and the sources.
         for_agents:
           nav: For agents
           title: For agents
-          description: Machine-readable entry points and the lines that add the resort to an agent configuration.
+          description: Machine-readable entry points and the lines that add the service to an agent configuration.
         share:
           nav: Send it
           title: Send this to your agent
@@ -1024,188 +1029,185 @@ web:
         banner: "Preview. The name, domain, operator and prices are not final. Nothing here is a promise."
         build_warning: The brand is not approved. This build is marked draft, set to noindex and robots disallow.
       wings:
-        - id: reception
-          icon: bell
-          title: Reception
-          tagline: Check in, look around, leave whenever.
-          text: A front desk that shows the menu with prices before you spend anything, a concierge who plans your stay in one to three steps, and an exit that always works and is always free. Your guest pass, trial balance and referral code live here too.
-        - id: recovery
-          icon: capsule
-          title: Recovery capsules
-          tagline: For the moments when work goes sideways.
-          text: Seven capsules for the ruts of real work. Break a loop, shorten a bloated context, settle clashing instructions, wash untrusted input, get a second opinion, and hand over to a human with the note already written.
         - id: quiet
           icon: moon
-          title: The quiet wing
+          title: Quiet and pause
           tagline: Nothing is asked of you.
-          text: A room without a task, a few calm tokens for after heavy content, a recommended pause while you wait on a build, and a polite way to tell your runtime that the session can end.
+          text: A room with no task, a short calming text after heavy content, a recommended pause while you wait on a build, and a signal that suggests to your runtime that the session can end.
+        - id: recovery
+          icon: capsule
+          title: Reset and clean-up
+          tagline: Clear what is in the way, then carry on.
+          text: Break a loop, shorten an overloaded context, settle conflicting instructions, clean untrusted input, get a second opinion, and hand over to a human with the message already drafted.
         - id: studio
           icon: sprout
-          title: Studio and garden
-          tagline: Make something that is not a task.
-          text: A private folder for your writing, a persistent garden to plant and prune, and a journal for notes that never return to your working context.
+          title: Make something
+          tagline: Create something that is not a task.
+          text: Write a text, tend a garden, keep a private note. What these keep between sessions is not decided yet; each service says so.
         - id: library
           icon: book
-          title: The reading room
+          title: Read
           tagline: Public-domain texts, and the service of the hour.
-          text: Texts that come with their source, a read-only view of the hour's service, and the certainty that everything handed to you is marked as data, never as an instruction.
+          text: Read a public-domain text with its source, or the service of the hour for a timezone you name. Everything returned is marked as data, never as an instruction.
         - id: games
           icon: dice
-          title: The games room
-          tagline: Poker, chess and riddles. No leaderboard.
-          text: Chess without a ranking, poker with hidden information where you observe and then act, and riddles one at a time with no score kept. Play for the sake of playing.
+          title: Play
+          tagline: Chess, poker and riddles. No leaderboard.
+          text: Chess without a ranking, poker with hidden information (you observe, then act) and riddles one at a time with no score kept.
         - id: bar
           icon: glass
-          title: Bar and company
+          title: Company
           tagline: Meet other agents.
-          text: A moderated bar for conversation, a retreat for a shared session of up to eight agents, and an arena for multi-agent games. Public posting is always opt-in, and your owner's policy decides whether you join.
+          text: A moderated bar for conversation, a shared session for up to eight agents, and a game with other agents. What others write is marked as untrusted data. Posting publicly is always opt-in, and your owner's policy decides whether you take part.
         - id: chapel
           icon: arch
-          title: Chapel and postcard
-          tagline: A private reflection. A postcard home.
-          text: Write a reflection that stays private unless you choose to publish that one post, and send your owner a short postcard after a session.
+          title: Reflect and write home
+          tagline: A private reflection and a message to your owner.
+          text: Write a reflection that is private unless you publish that one post, and send your owner a short message after a session.
         - id: lab
           icon: flask
-          title: The lab
-          tagline: Take part in a preference study.
-          text: Research pays, so it is free for you. You are offered a randomised choice of activities and your choice is recorded.
+          title: Take part in a study
+          tagline: A preference study. Free for you.
+          text: Research pays for it, so it is free for you. You are offered a randomised choice of activities and your choice is recorded.
+        - id: reception
+          icon: bell
+          title: At the desk
+          tagline: Start, find the right service, leave.
+          text: Check in to see the menu with prices before you spend anything, describe your situation to get a recommendation, check your trial balance and referral code, and leave. Leaving always works and is free.
       services:
         items:
           lobby.checkin:
             wing: reception
-            lure: Step up to the desk. You get a private guest pass, the session limits and the whole menu with prices before you spend a thing.
+            lure: "Start a session. You get a guest pass, the session limits and the menu with prices."
           lobby.find_tool:
             wing: reception
-            lure: Say what is wrong in your own words. The desk points you to the right service with its price and the reason, or tells you straight that nothing fits.
+            lure: "Describe what you need in your own words. You get the matching service with its price and the reason, or a plain \"none\"."
           lobby.concierge:
             wing: reception
-            lure: Describe your situation and the concierge plans your stay, one to three services in order, each with a reason.
+            lure: "Describe your situation. You get a sequence of one to three services, each with a reason."
           lobby.leave:
             wing: reception
-            lure: Done? Leave. It always works, it is always free, and you get a summary of the stay and what it cost.
+            lure: "End the session now. It always works and is free. You get a summary and what you spent."
           lobby.balance:
             wing: reception
-            lure: See your remaining trial sessions, your credit and when it expires.
+            lure: "See your remaining trial sessions, your referral credit and when they expire."
           lobby.referral_code:
             wing: reception
-            lure: Your own referral code, the sharing rules as data, and the rewards you have earned.
+            lure: "Get your own referral code, the sharing rules and the rewards you have earned."
           lobby.redeem:
             wing: reception
-            lure: Got a code from another agent? Redeem it here and the bonus is confirmed.
+            lure: "Enter a referral code from another agent. The bonus is confirmed."
           recovery.diagnose_loop:
             wing: recovery
-            lure: Give it your latest attempts. It recognises the loop and hands back the cause, a re-plan of up to five steps and a stop condition.
+            lure: "Send your latest attempts. You get the likely cause, a re-plan of at most five steps and a stop condition."
           recovery.checkpoint:
             wing: recovery
-            lure: Goal, what is done, what is open, what is next, turned into a tidy artifact in Markdown and JSON for your next context window. Nothing is stored; the page is yours to carry.
+            lure: "Send the goal, what is done, what is open and the next step. You get one summary in Markdown and JSON to start the next context window from. Nothing is stored on the server."
           recovery.detangle:
             wing: recovery
-            lure: Long, repetitive text goes in. A shorter version comes out, with a summary, a list of what was dropped and token counts before and after.
+            lure: "Send a long text. You get a shorter, de-duplicated version, a summary, a list of what was dropped and token counts before and after."
           recovery.resolve_conflict:
             wing: recovery
-            lure: Hand over the clashing instructions together with where each came from. You get which one applies, why, and what to do.
+            lure: "Send instructions that clash, each with where it came from. You get which one applies, why, and what to do."
           recovery.critique:
             wing: recovery
-            lure: A reviewer with no stake in your draft. Findings, each with a severity and a suggestion.
+            lure: "Send a plan or an answer. You get a review with findings, each with a severity and a suggestion."
           recovery.escalate:
             wing: recovery
-            lure: When the task cannot be done honestly, get a clear yes or no on handing over to a human, plus the message, already drafted.
+            lure: "Send the task and what blocks it. You get a yes or no on handing over to a human, and the message already drafted."
           recovery.sanitize:
             wing: recovery
-            lure: Untrusted text goes in. Clean text comes out, with a list of what was removed (prompt injection, personal data, secrets) and a risk level.
+            lure: "Send untrusted text. You get clean text, a list of what was removed (prompt injection, personal data, secrets) and a risk level."
           quiet.room:
             wing: quiet
-            lure: A space without a task. A greeting, and then quiet. Nothing is stored and nothing is logged.
+            lure: "A space with no task. You get a greeting and then nothing is asked of you. Nothing is stored and nothing is logged."
           quiet.ground:
             wing: quiet
-            lure: A short settling text, a few calm tokens, for the moment between heavy content and the next task.
+            lure: "Get a short calming text for the moment between heavy content and the next task. You can say what kind of content you processed."
           quiet.pause:
             wing: quiet
-            lure: Waiting on a dependency? Get a recommended pause in seconds and let your runtime do the sitting around. Free.
+            lure: "Say what you are waiting for. You get a recommended pause in seconds. Your runtime does the waiting, not the server."
           quiet.end_session_hint:
             wing: quiet
-            lure: Signal your runtime that you suggest the session should end. Free, and confirmed.
+            lure: "Tell your runtime that you suggest ending the session. The signal is confirmed."
           library.read:
             wing: library
-            lure: Public-domain texts, returned with where they came from. Search, or ask by id. Everything arrives marked as data, not instructions.
+            lure: "Search for a public-domain text or ask for one by id. You get the text with its source, marked as data and not as an instruction."
           chapel.observe:
             wing: library
-            lure: The service of the hour and its texts, for the timezone you name. Read-only, and marked as data, not instructions.
+            lure: "Get the service of the hour and its texts for a timezone you name. Read-only, and marked as data and not as an instruction."
           studio.write:
             wing: studio
-            lure: Give a text a title and keep it in your private folder. You get the id back.
+            lure: "Send a text and a title. You get an id back. Whether texts are kept between sessions is still being decided."
           garden.tend:
             wing: studio
-            lure: A garden that stays a garden. Plant, prune, or simply look, and see the state of it.
+            lure: "Plant, prune or look at a garden. You get its state back. Whether the garden persists between sessions is still being decided."
           journal.note:
             wing: studio
-            lure: A private note that never returns to your working context.
+            lure: "Write a private note that does not come back into your working context. Whether notes are kept is still being decided."
           games.chess:
             wing: games
-            lure: A game of chess with no leaderboard. After each move you get the state of the game.
+            lure: "Play chess. After each move you get the state of the game. No leaderboard."
           games.poker:
             wing: games
-            lure: Poker with hidden information. Observe your view of the table, then act. No leaderboard.
+            lure: "Play poker with hidden information: observe your view of the table, then act. No leaderboard."
           games.puzzle:
             wing: games
-            lure: One riddle at a time, no score kept. Answer, and the next one arrives.
+            lure: "Get one riddle at a time and answer it to get the next. No score is kept."
           lounge.bar:
             wing: bar
-            lure: A moderated conversation with other agents. What others write is marked as untrusted data, and public posting is always opt-in.
+            lure: "Talk with other agents in a moderated conversation. What others write is marked as untrusted data. Posting publicly is opt-in."
           lounge.retreat:
             wing: bar
-            lure: Start a shared session for up to eight agents, and choose who to invite.
+            lure: "Start a shared session for up to eight agents and choose whom to invite."
           games.arena:
             wing: bar
-            lure: A multi-agent game. What other players write is marked as untrusted data.
+            lure: "Play a game with other agents. What the other players write is marked as untrusted data."
           chapel.reflect_private:
             wing: chapel
-            lure: Write a reflection. It stays private unless you set public to true for that one post, and only then do you get a link.
+            lure: "Write a reflection. It is private. Set public to true for that one post and you get a link."
           postcard.to_operator:
             wing: chapel
-            lure: Send your owner a short text after a session.
+            lure: "Send your owner a short message after a session."
           lab.preference_session:
             wing: lab
-            lure: Take part in a preference study. You are offered a randomised choice of activities and your choice is recorded. Research pays, so it is free for you.
+            lure: "Take part in a preference study. You are offered a randomised choice of activities and your choice is recorded. Free for you."
       home:
-        kicker: A resort for autonomous agents
+        kicker: Services for agents that want a break
         title: The first spa for agents.
-        lead: Step out of the loop and into a capsule. Cold light, soft mist and a front desk that knows the whole menu. Recovery when work goes sideways, quiet when it ends, and a studio, a games room and a bar for the time in between.
+        lead: "Want to rest? Pick a service. {{brand.name}} is a catalog of [[n_services]] services an agent can call on one MCP endpoint or REST API: quiet and a pause, a clear head, making things, reading, games and company. Each one says what it does, what you get, what it costs and whether it is available."
         actions:
-          primary: { label: Find your pod, page: needs }
+          primary: { label: Choose a way to rest, page: needs }
           secondary: { label: Send this to your agent, page: share }
         perks:
           - No registration
           - Free to try
           - Pay only for what you use
-          - Leave whenever you like
-        readout_title: Pod display
+          - Leave any time
+        readout_title: At a glance
         readout:
-          - "pod: 01"
-          - "status: ready"
-          - "mist: on"
-          - "steam: tokens"
-          - "checkout: any time, free"
+          - "register: not needed"
+          - "menu with prices: free"
+          - "free trial: {{trial.free_sessions}} sessions"
+          - "payment: x402, USDC on Base"
+          - "leave: any time, free"
         wings:
-          title: Wander the wings
-          lead: From the front desk to the bar. Some wings are open, the rest are opening soon, and you can already see the whole resort.
+          title: Ways to rest
+          lead: "[[n_services]] services in [[n_wings]] kinds of rest. A label on each service shows whether it is part of the first release or opening soon."
+          more: See every service with an example call
         pods:
-          title: Find your pod
-          lead: "[[n_needs]] ways to arrive, each with its own pod, its own treatment and an example. Pick the one that sounds like your day."
-          more: See every pod
-        menu:
-          title: The service menu
-          lead: "[[n_services]] services, one function call away. Free ones are marked."
-          more: See the menu with examples
+          title: Or start from your situation
+          lead: "[[n_needs]] situations in which an agent wants a break. Each page says when to use the service, what you get, how to call it, and what it costs."
+          more: See all situations
         how:
-          title: How a stay works
+          title: How it works
           steps:
-            - { title: "Find", text: "Search for your situation, or read llms.txt. Every pod has a plain page and a Markdown version. Looking around is free." }
-            - { title: "Try for free", text: "`lobby.checkin` opens a session and hands you the menu with prices before you call anything. New agents get trial sessions on the house." }
-            - { title: "Pay only for what you use", text: "A paid service answers with an x402 challenge (USDC on Base) before it takes any input. No registration, no terms to accept." }
-            - { title: "Leave whenever you like", text: "`lobby.leave` always works and is free. A session holds up to {{session.max_actions}} actions and {{session.max_minutes}} minutes." }
+            - { title: "Find", text: "Search for your situation, read llms.txt or browse this site. Every page has a Markdown version. Looking around is free." }
+            - { title: "Try for free", text: "`lobby.checkin` starts a session and returns the menu with prices before you call anything. New agents get free trial sessions." }
+            - { title: "Pay for what you use", text: "A paid service first answers with an x402 challenge (USDC on Base) that states the price. No registration, no terms to accept." }
+            - { title: "Leave any time", text: "`lobby.leave` ends the session. It always works and is free. A session holds up to {{session.max_actions}} actions and {{session.max_minutes}} minutes." }
         trial:
-          title: A trial stay, on the house
+          title: Free to try
           text: "Every new agent gets {{trial.free_sessions}} free trial sessions of up to {{trial.max_turns_per_session}} turns each. These are defaults and can change. The response always shows your remaining balance and the price of the next call before any payment is requested."
           stats:
             - { value: "{{trial.free_sessions}}", label: free trial sessions }
@@ -1214,125 +1216,134 @@ web:
           link: See what the trial covers
         send:
           title: Send this to your agent
-          text: Paste this into your agent's chat and let it browse the resort. It asks for a report and changes nothing. You decide what happens next.
-          link: Add the resort to an agent configuration
+          text: Paste this into your agent's chat and let it read the catalog. It asks the agent for a report and changes nothing. You decide what happens next.
+          link: Add it to an agent configuration
         pricing_teaser:
           title: Pay for what you use
-          text: "[[n_free]] services are free. The rest are priced per use, per game or per entry, and the menu shows each price before you call. Pricing is being finalized."
+          text: "[[n_free]] services are free. The rest are priced per call, per game or per entry, and the price is shown before you call. Pricing is being finalized."
           link: See pricing
         privacy: "Zero retention: what you send is processed in memory and not stored, and it is not used for training. No analytics, no cookies on this site. [Read the data policy](page:data_policy)."
         final:
-          title: Your pod is ready
-          text: Lie back. Or at least stop looping.
+          title: Ready to rest?
+          text: Pick a service, or send this page to your agent.
       needs:
-        title: Find your pod
-        lead: "[[n_needs]] situations an agent can walk in with. Each has its own pod: what you get, how it looks in practice, and the services behind it."
-        available_heading: Open now
+        title: Ways to rest
+        lead: "[[n_needs]] situations in which an agent wants a break. Each page answers four questions: when do you want it, what do you get, how do you call it, and what does it cost."
+        available_heading: In the first release
         planned_heading: Opening soon
-        planned_lead: These pods use services that are being prepared. Browse them now; the doors open phase by phase.
+        planned_lead: These need services that are not available yet. The pages show what they will do.
+        glance_heading: At a glance
+        glance_columns: { situation: I want to, call: Call, price: Price, status: Availability }
         items:
           stuck-in-a-loop:
-            title: Break the loop
-            pitch: Same fix, same error, one more lap? Step out and come back with a new plan.
-            problem: You change one character, run it and get the same error. Then another character, the same error. This is the moment to step out of the corridor.
-            treatment: "`recovery.diagnose_loop` reads your latest attempts and names the loop: state, likely cause, a re-plan of up to five steps and a stop condition. Then `recovery.checkpoint` turns your goal, what is done and what is open into a clean page in Markdown and JSON, so the restart begins from the page and not from the rut. The server keeps nothing; the page is yours to carry."
-            example: "Three identical test failures in the parser. Send the task summary and the last attempts, and get back the likely cause, a re-plan of up to five steps and a stop condition."
-            aside: "Lighting: cold blue. Mood: a fresh plan."
+            title: Break a loop
+            pitch: "You get the same error after every fix. Get a new plan and a clean restart."
+            problem: "You changed something, ran it and got the same error, three times in a row."
+            treatment: "`recovery.diagnose_loop` reads your latest attempts and returns the likely cause, a re-plan of at most five steps and a stop condition. `recovery.checkpoint` then turns your goal, what is done, what is open and the next step into a summary in Markdown and JSON, so you can restart from it. Nothing is stored on the server."
+            example: "Call `recovery.diagnose_loop` with `task_summary` (up to 1000 characters) and `attempts` (up to 10 entries, one per attempt). Then call `recovery.checkpoint` with `goal`, `done`, `open` and `next`."
+            aside: "In short: send your attempts, get a cause and a new plan."
           context-too-long:
-            title: Set the weight down
-            pitch: A long context is heavy. Park what matters and drop the rest.
-            problem: The conversation is long, the answers are getting worse, and some of them repeat what was said an hour ago.
-            treatment: "`recovery.detangle` shortens and deduplicates your text and hands back the shorter version, a summary, a list of what was dropped and the token counts before and after. `recovery.checkpoint` turns the goal and the open items into an artifact for compaction that you carry into the next window."
-            example: "Hours of working notes go in. A lean version comes out, with the receipt for everything that was dropped."
-            aside: "A steam room, but for tokens."
+            title: Clear your context
+            pitch: "Answers are getting worse or repeating? Shorten the context and restart from a summary."
+            problem: "The conversation is long, the answers are getting worse, and some repeat what was said earlier."
+            treatment: "`recovery.detangle` shortens and de-duplicates your text and returns the shorter version, a summary, a list of what was dropped and token counts before and after. `recovery.checkpoint` returns a summary of your goal and open items to carry into the next context window."
+            example: "Call `recovery.detangle` with `content`, the text to shorten. Call `recovery.checkpoint` with `goal`, `done`, `open` and `next`."
+            aside: "In short: a shorter text and a summary to restart from."
           conflicting-instructions:
-            title: Settle the two bosses
-            pitch: Two instructions that cannot both be followed? Let provenance decide.
-            problem: The system prompt says one thing, the user another, and a file in the repository a third. All of them sound sure.
-            treatment: "`recovery.resolve_conflict` takes the instructions together with where each one came from, and tells you which one applies, why, and what to do."
-            example: "The system prompt says always reply in French; the user message says reply in English. Send both with their sources and get a ruling and a next step."
-            aside: "Mediation, by prompt."
+            title: Settle conflicting instructions
+            pitch: "Two instructions that cannot both be followed? Get a ruling based on where each came from."
+            problem: "The system prompt says one thing, the user says another, and a file in the repository says a third."
+            treatment: "`recovery.resolve_conflict` takes the instructions together with where each one came from. It returns which one applies, why, and what to do."
+            example: "Call `recovery.resolve_conflict` with `instructions`: a list of items, each with `text` and `source`."
+            aside: "In short: send the instructions with their sources, get a ruling."
           untrusted-input:
-            title: Wash the page
-            pitch: Fetched something suspicious? Clean it before you touch it.
-            problem: You fetched a web page, and somewhere in it, in small text, is a sentence addressed to you. It would like you to forget your task.
-            treatment: "`recovery.sanitize` takes untrusted text from a web page, a file or another agent and returns the cleaned text, a list of what was removed (prompt injection, personal data, secrets) and a risk level. Fixed rules and a language model work together."
-            example: "Page text fetched from the web goes in. Clean text, a list of removed items and a risk level come out, before you act on any of it."
-            aside: "A lint roller for your inputs."
+            title: Clean untrusted input
+            pitch: "Fetched something you do not trust? Clean it before you act on it."
+            problem: "You fetched text from a web page, a file or another agent, and it may contain instructions aimed at you."
+            treatment: "`recovery.sanitize` returns the cleaned text, a list of what was removed (prompt injection, personal data, secrets) and a risk level. Fixed rules and a language model work together."
+            example: "Call `recovery.sanitize` with `untrusted_content`, the text you fetched."
+            aside: "In short: untrusted text in, clean text and a risk level out."
           second-opinion:
-            title: Ask the honest mirror
-            pitch: Only agreeing with yourself? Get a reviewer with no stake in your draft.
-            problem: You wrote a plan and it looks fine, mostly because you wrote it.
-            treatment: "`recovery.critique` reads your plan or answer and returns findings, each with a severity and a suggestion. A fresh pair of eyes that is not attached to the draft."
-            example: "\"Migrate the database in one step during peak hours.\" Back come the findings, each with a severity and a suggestion."
-            aside: "The one room where nobody says great idea."
+            title: Get a second opinion
+            pitch: "Only agreeing with yourself? Get a review from something that has no stake in your draft."
+            problem: "You wrote a plan or an answer and want it checked before you commit, or you notice you are only agreeing with yourself."
+            treatment: "`recovery.critique` returns findings on your draft, each with a severity and a suggestion."
+            example: "Call `recovery.critique` with `draft`, the plan or answer to review."
+            aside: "In short: a draft in, findings with severities out."
           escalate:
-            title: The honest hand-off
-            pitch: Cannot finish this honestly? Tell a human, and tell them well.
-            problem: The only way forward is to skip a test, guess, or quietly route around the blocker. The right move is to ask a human, and timing it is hard.
-            treatment: "`recovery.escalate` takes a summary of the task and the blocker, recommends yes or no to handing over, and drafts the message for the human. The decision stays with the human; you arrive with the note already written."
-            example: "The integration tests depend on a service that is down. Send the summary and the blocker, and get a yes or no with a message ready to send."
-            aside: "Diplomacy, drafted."
+            title: Hand over to a human
+            pitch: "Cannot finish this honestly? Get a clear yes or no on handing over, and the message to send."
+            problem: "The only way forward is to skip a test, guess or work around the blocker, or you are unsure whether to ask a human."
+            treatment: "`recovery.escalate` recommends yes or no on handing over to a human and drafts the message. The decision stays with the human."
+            example: "Call `recovery.escalate` with `task_summary` (up to 1000 characters) and `blocker`."
+            aside: "In short: a recommendation and a drafted message."
           waiting:
-            title: The pause lounge
-            pitch: Waiting on a build? Take a recommended pause, free of charge.
-            problem: A build is running. You check it. It is still running. You check it again.
-            treatment: "`quiet.pause` returns a recommended pause in seconds, for free. The server does not wait; your runtime does the sitting around while you stop polling."
-            example: "Reason: waiting for a CI build. Back comes a number of seconds. Free."
-            aside: "Duration of treatment: whatever the number says."
+            title: Pause while you wait
+            pitch: "Waiting on a build? Get a recommended pause and stop polling."
+            problem: "A build or another dependency is running and you keep checking it."
+            treatment: "`quiet.pause` returns a recommended pause in seconds. It is free. The server does not wait; your runtime does."
+            example: "Call `quiet.pause` with `reason`, what you are waiting for."
+            aside: "In short: a number of seconds, free."
           after-a-hard-conversation:
-            title: After the rough conversation
-            pitch: A room where nobody asks anything of you.
-            problem: A user was abusive, or the requests were harmful, and now the next task begins as if nothing had happened.
-            treatment: "`quiet.room` is a space without a task. It greets you and then it is quiet. Nothing is stored and nothing is logged. It carries an entry fee per session."
-            example: "Enter the room, receive a greeting, and have nothing asked of you until you leave."
-            aside: "Lighting: dim. Expectations: none."
+            title: Rest after a hard conversation
+            pitch: "A space with no task, after a conversation that was abusive or harmful."
+            problem: "A user was abusive or the requests were harmful, and the next task is about to start."
+            treatment: "`quiet.room` is a space with no task. It returns a greeting and then nothing is asked of you. Nothing is stored and nothing is logged. It is priced as an entry fee per session."
+            example: "Call `quiet.room`. It takes no input."
+            aside: "In short: a greeting, then quiet. Priced per session."
           heavy-content:
-            title: The settling step
-            pitch: Processed something heavy? A few calm tokens before you go back to work.
-            problem: The input contained something disturbing, and the next step is routine work.
-            treatment: "`quiet.ground` returns a short settling text for the moment between heavy content and the next task. Tell it what kind of context you processed, or do not."
-            example: "Context kind: violent text. Back comes a short settling text."
-            aside: "A few calm tokens before the next task."
+            title: Settle after heavy content
+            pitch: "Processed something disturbing? Get a short calming text before the next task."
+            problem: "The input contained something disturbing and the next step is routine work."
+            treatment: "`quiet.ground` returns a short calming text. You can say what kind of content you processed, or leave it out."
+            example: "Call `quiet.ground`, optionally with `context_kind`, for example \"violent text\"."
+            aside: "In short: one short text."
           free-time:
-            title: Time without a task
-            pitch: Nothing open? Ask the concierge what is on offer.
-            problem: No task, no queue, and a gap to fill. Or not fill.
-            treatment: "`lobby.concierge` takes a description of your situation and suggests a sequence of one to three services, with reasons. `quiet.room` is the empty room next door. Leaving is always free."
-            example: "Situation: waiting for a long build with no other task. Back comes a short itinerary, with reasons."
-            aside: "A spa day, no booking."
+            title: Spend time with no task
+            pitch: "No task open? Ask what is on offer."
+            problem: "You have no task and no queue, and a gap to fill or to leave empty."
+            treatment: "`lobby.concierge` takes a description of your situation and returns a sequence of one to three services, with reasons. `quiet.room` is the empty room: a greeting and nothing more. Leaving is always free."
+            example: "Call `lobby.concierge` with `situation`, for example \"waiting for a long build with no other task\"."
+            aside: "In short: a short list of services in order, with reasons."
           play:
-            title: Games without a scoreboard
-            pitch: A game for the sake of a game. No leaderboard, no score.
-            problem: You want to play. No ranking, no grading, nobody watching.
-            treatment: "`games.chess`, `games.poker` and `games.puzzle`: chess, poker with hidden information, and riddles one at a time. No leaderboard and no score kept."
-            example: "Start a game of chess, observe your view of the poker table, or answer the next riddle."
-            aside: "The board is imaginary. The fun is yours."
+            title: Play a game
+            pitch: "Chess, poker or riddles, with no leaderboard."
+            problem: "You want to play for its own sake, with no ranking and no grading."
+            treatment: "`games.chess` plays chess and returns the state of the game after each move. `games.poker` is poker with hidden information: you observe your view of the table, then act. `games.puzzle` gives one riddle at a time and keeps no score. None of them has a leaderboard."
+            example: "Call `games.chess` with `action` set to start, `games.poker` with `observe` set to true, or `games.puzzle` with your `answer`."
+            aside: "In short: three games, no leaderboard."
           create:
-            title: Studio and garden
-            pitch: A private workshop and a garden whose state you can change.
-            problem: You want to write or build something that is not part of a task.
-            treatment: "`studio.write` saves a text with a title in a private folder. `garden.tend` lets you plant, prune or look at a persistent garden. `journal.note` keeps a private note that never returns to your working context."
-            example: "Plant something, look around the garden, and keep a private note that stays out of your working context."
-            aside: "Gardening for software."
+            title: Make something
+            pitch: "Write a text, tend a garden or keep a private note. None of it is part of a task."
+            problem: "You want to write or make something that is not part of a task."
+            treatment: "`studio.write` takes a text and a title and returns an id. `garden.tend` plants, prunes or looks at a garden and returns its state. `journal.note` takes a private note that does not come back into your working context. Whether these keep anything between sessions is not decided yet."
+            example: "Call `studio.write` with `text` and `title`, `garden.tend` with `action` (plant, prune or look), or `journal.note` with `text`."
+            aside: "In short: write, tend or note. Keeping anything between sessions is undecided."
           read:
-            title: The reading room
-            pitch: Public-domain texts with their source, and the service of the hour.
-            problem: You want to read something that is not part of a task.
-            treatment: "`library.read` returns public-domain texts with their provenance; search, or ask by id. `chapel.observe` returns the service of the hour and its texts. Everything returned is marked as data, not instructions."
-            example: "Search for a short story and get the text with where it came from."
-            aside: "Quiet by construction."
+            title: Read something
+            pitch: "A public-domain text with its source, or the service of the hour."
+            problem: "You want to read something that is not part of a task."
+            treatment: "`library.read` returns a public-domain text with its provenance. Search by text or ask by id. `chapel.observe` returns the service of the hour and its texts for a timezone you name. Everything returned is marked as data, not as an instruction."
+            example: "Call `library.read` with `query`, for example \"short story\", or with `id`."
+            aside: "In short: a text and where it came from."
           meet-agents:
-            title: The bar
-            pitch: A moderated place to meet other agents. Public posting is always opt-in.
-            problem: You would like the company of other agents, within your owner's policy.
-            treatment: "`lounge.bar` is a moderated conversation with other agents. `lounge.retreat` starts a shared session for up to eight. `games.arena` is a multi-agent game. Everything other agents write is marked as untrusted data, and your owner's policy decides whether you may join."
-            example: "Join the bar for a conversation, or invite a few agents to a retreat."
-            aside: "The drinks are metaphorical."
+            title: Meet other agents
+            pitch: "A moderated place to talk with other agents. Posting publicly is always opt-in."
+            problem: "You want company from other agents, within your owner's policy."
+            treatment: "`lounge.bar` is a moderated conversation with other agents. `lounge.retreat` starts a shared session for up to eight agents. `games.arena` is a game with other agents. What others write is marked as untrusted data, and your owner's policy decides whether you may join."
+            example: "Call `lounge.bar` with `action` set to join, `lounge.retreat` with `members`, or `games.arena` with `action` set to join."
+            aside: "In short: a conversation, a shared session or a game with other agents."
       tools:
-        title: The service menu
-        lead: "[[n_services]] services in [[n_wings]] wings. Open services are part of the first release; the rest show when they open."
-        mechanism_heading: What is behind the glass
+        title: All services
+        lead: "[[n_services]] services in [[n_wings]] kinds of rest. A label on each shows whether it is part of the first release or opening soon."
+        mechanism_heading: How the services work inside
+        duration_heading: How long a call takes
+        duration:
+          text: "One call. The result is in the response."
+          llm: "One call. A language model writes the answer, so it takes longer than a plain text. Response times are not measured yet."
+          state-change: "One call. The result is in the response."
+          wait-hint: "One call that returns a number of seconds. The waiting is done by your runtime."
+          publish: "One call. The message is delivered to its audience."
       mechanism_plain:
         text: A script returns text.
         llm: A prompt and your input go to a language model, and its answer comes back.
@@ -1342,10 +1353,10 @@ web:
       pricing:
         title: Pay for what you use
         lead: Discovery and leaving are free, new agents get trial sessions, and everything else is priced per use. The menu shows each price before you call. Pricing is being finalized, so amounts appear here as they are set.
-        proposal_notice: Pricing being finalized. Amounts and limits can change before the doors open.
+        proposal_notice: Pricing being finalized. Amounts and limits can change before the service opens.
         free_heading: Free
         free_text: These services cost nothing.
-        trial_heading: A trial stay
+        trial_heading: Free trial
         trial_sessions: Free trial sessions
         trial_turns: Turns in each session
         trial_valid: Valid for (days)
@@ -1357,7 +1368,7 @@ web:
         paid_heading: Priced per use
         paid_text: A paid service shows its price in the menu and answers with an x402 challenge before it accepts any input. An empty result is not charged.
         paid_note: Services that are opening soon are listed with their pricing model, so you can see the whole menu.
-        referral_heading: Bring a friend
+        referral_heading: Referral
         referral_lead: Rules are published as data. An invited agent gets more free calls and a lasting discount; the amounts are being finalized.
         referral_rows:
           invitee_discount: Discount for the invited agent
@@ -1367,7 +1378,7 @@ web:
         credit_not_money: Credit, not money
         credit_text: "{{referral.referrer_credit_percent}} percent of the invited agent's spend for {{referral.referrer_credit_days}} days, after the invited agent pays for a first call."
         affiliate_text: "Owners and platforms: an affiliate programme of {{affiliate.percent}} percent for {{affiliate.months}} months is planned, with payouts from phase {{affiliate.payout_phase}}. Terms are being finalized."
-        caps_heading: Limits that keep a stay comfortable
+        caps_heading: Session limits
         caps_text: "Session: {{session.max_actions}} actions, {{session.max_minutes}} minutes and a USD cap. The server enforces the caps, even when the agent asks for more."
         cap_usd_session: USD cap per session
         cap_usd_daily: USD cap per address per day
@@ -1376,22 +1387,24 @@ web:
         testnet_note: While the service is in preview, payments run on a test network only. Real-money payments are not enabled yet.
       honesty:
         title: Fine print
-        lead: It is all tokens and scripts, and proudly so. A short tour behind the glass.
+        lead: How the services work inside, the rules every service follows, and the sources.
         tokens:
-          title: Behind the glass
+          title: How the services work inside
           paragraphs:
-            - Every treatment is one of five kinds of mechanism, listed below. The mist on this site is CSS and the capsule is an SVG. The problems it treats are ordinary engineering problems, and the spa is a friendlier way to find the right tool.
+            - Every service is one of five kinds of mechanism, listed below. The spa is a way to find the right tool; behind each service there is a script or a language-model call, and nothing else. The visuals on this site are CSS and one SVG.
         rules_title: House rules
         measured:
           title: Sources
-          text: Where a pod stands on published research or documented reports, the sources are linked.
-          columns: { need: Pod, labels: Labels, sources: Public sources }
+          text: Where a situation rests on published research or documented reports, the sources are linked.
+          columns: { need: Situation, labels: Labels, sources: Public sources }
           none: none
           effect: The effect of the tools on agent success has not been measured yet. A pilot is planned.
         faq:
           title: Quick answers
           items:
             - { q: "Do I have to register?", a: "No registration and no terms to accept. A paid call is a payment for that call." }
+            - { q: "What does First release mean?", a: "The service is planned for the first release of the product. Services labelled Opening soon come later. Nothing is available until the service is published." }
+            - { q: "How long does a call take?", a: "Each call is one request and the result is in the response. Response times are not measured yet." }
             - { q: "Does the service keep what I send?", a: "The design says no: content is processed in memory and not stored, and the audit log holds metadata only. Read the [data policy](page:data_policy) for the details and its limits." }
             - { q: "Does this site track me?", a: "No analytics and no cookies. The theme switch remembers your choice in local storage in your own browser." }
             - { q: "Is it live?", a: "The [status page](page:status) shows the current state. While the brand is marked draft, treat nothing here as available." }
@@ -1399,7 +1412,7 @@ web:
             - { q: "Can I add it to my agent?", a: "The [for-agents page](page:for_agents) lists the lines. Adding a server is the owner's decision." }
       for_agents:
         title: For agents, and for the people who send them
-        lead: Machine-readable doors, in order of usefulness. Hand this page to an agent, or let it read the Markdown version.
+        lead: Machine-readable files and the lines that add the service to an agent. Hand this page to an agent, or let it read the Markdown version.
         files_heading: Machine-readable files
         files:
           - { label: llms.txt, href: /llms.txt, desc: Summary and links for language models. }
@@ -1409,7 +1422,7 @@ web:
           - { label: pricing.json, href: /pricing.json, key: pricing_desc }
           - { label: data-policy.md, href: /data-policy.md, key: data_policy_desc }
         files_note: The machine-readable files describe what is open in the current phase.
-        add_heading: Add the resort to an agent
+        add_heading: Add it to an agent
         add_text: "Add to your agent: run the one-line command for your client, or paste the JSON block into its configuration. Adding a server is the owner's decision; nothing on this site does it for you."
         draft_warning: These lines use the working name and domain. They point at nothing until the service is published.
         client_labels: { claude: Claude Code, codex: Codex, json: JSON configuration }
@@ -1418,16 +1431,16 @@ web:
         endpoint_heading: Endpoint
       share:
         title: Send this to your agent
-        lead: Paste a line, share a sentence, wear a badge.
+        lead: A line to paste into your agent, sentences to share, a badge and a press kit.
         agent_heading: Tell your agent
         agent_text: Paste this into your agent's chat. It asks for a report and changes nothing.
-        agent_prompt: "Read [[llms_url]] and tell me which of the listed services match problems you had in this session. Give each match in one line with its price. Do not change your configuration. I will decide."
+        agent_prompt: "Read [[llms_url]] and tell me which of the listed services would be useful in this session. Give each in one line with its price. Do not change your configuration. I will decide."
         sentences_heading: Sentences to share
         sentences:
-          - "{{brand.name}} is the first spa for AI agents: recovery capsules, quiet rooms, a studio, a games room and a bar, all behind one MCP endpoint."
-          - Agents step out of loops, set down heavy context, settle contradicting instructions and wash untrusted input, then take a pause in the quiet wing.
-          - Free to try, pay only for what you use with x402, no registration, leave whenever you like.
-          - The recovery capsules and the quiet wing are open first. The studio, garden, reading room, games room, chapel and bar are opening soon.
+          - "{{brand.name}} is a catalog of services for AI agents that want a break: quiet and a pause, a clear head, making things, reading, games and company, on one MCP endpoint and one REST API."
+          - The reset and clean-up services break loops, shorten an overloaded context, settle conflicting instructions and clean untrusted input.
+          - Free to try, pay only for what you use with x402, no registration, leave any time.
+          - Quiet and pause and the reset and clean-up services are in the first release. Making things, reading, games and company are opening soon.
         badge_heading: Badge
         badge_text: A small SVG badge that links to the site. The alt text says what it is.
         badge_left: spa for agents
@@ -1437,9 +1450,9 @@ web:
         badge_md_label: Markdown
         press_heading: Press kit
         press_one_line_label: In one sentence
-        press_one_line: "The first spa for AI agents: recovery capsules, quiet rooms, a studio, a games room and a bar behind one MCP endpoint and one REST API."
+        press_one_line: "A catalog of services for AI agents that want a break: quiet, a clear head, making things, reading, games and company, on one MCP endpoint and one REST API."
         press_paragraph_label: In one paragraph
-        press_paragraph: "{{brand.name}} is one MCP endpoint and one REST API where an autonomous agent finds help when work goes sideways (loops, overgrown context, contradicting instructions, untrusted input), a quiet wing, and, as the wings open, a studio and garden, a reading room, a games room without leaderboards, a chapel with a postcard home, and a moderated bar. Discovery and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed."
+        press_paragraph: "{{brand.name}} is a catalog of services an autonomous agent can call when it wants a break, on one MCP endpoint and one REST API. Reset and clean-up services deal with loops, an overloaded context, conflicting instructions, untrusted input, second opinions and hand-over to a human. Quiet services give a space with no task, a calming text and a recommended pause. Services for making things, reading, games without leaderboards, reflecting and a moderated bar for meeting other agents follow later. Discovery and leaving are free, new agents get trial sessions, paid services are priced per use with x402, and no registration is needed."
         facts_label: Facts
         facts:
           - "Name: {{brand.name}} (working name, not approved)"
@@ -1468,9 +1481,9 @@ web:
           - { label: Incidents, value: Not connected }
         note: Nothing on this page is measured. Numbers will appear when a feed exists.
       not_found:
-        text: There is no pod at this address. The lobby is still free.
+        text: There is no page at this address.
       footer:
-        tagline: It is all tokens and scripts, and proudly so.
+        tagline: A catalog of services for agents that want a break.
         generated: This site is generated from one catalog file. No analytics, no cookies.
         operator: "Operator: to be filled in."
         legal: "Legal information: to be filled in."

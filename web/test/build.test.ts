@@ -87,7 +87,7 @@ test("data policy page: HTML page, Markdown twin, footer link, honest reservatio
 test("fine print is short, not in the main navigation, linked from the footer", () => {
   const h = html("honesty/index.html");
   assert.match(h, /<h1[^>]*>Fine print/);
-  assert.match(h, /tokens and scripts, and proudly so/);
+  assert.match(h, /How the services work inside/);
   const nav = /<nav class="main-nav".*?<\/nav>/s.exec(html("index.html"))![0];
   assert.ok(!nav.includes("/honesty/"));
   assert.match(html("index.html"), /<a href="\/honesty\/">Fine print<\/a>/);
@@ -100,8 +100,8 @@ test("the human site shows every need, every service and every wing; unopened on
   for (const t of c.tools) assert.ok(tools.includes(`id="${t.name}"`), t.name);
   assert.equal((tools.match(/<article class="svc"/g) ?? []).length, 32);
   assert.match(tools, /Opening soon/);
-  assert.equal((html("index.html").match(/<li class="wing">/g) ?? []).length, c.web.locales.en.wings.length);
-  assert.match(html("index.html"), /Find your pod/);
+  assert.equal((html("index.html").match(/<section class="menu-group"/g) ?? []).length, c.web.locales.en.wings.length);
+  assert.match(html("index.html"), /Ways to rest/);
   assert.match(html("index.html"), /Send this to your agent/);
   assert.match(html("index.html"), /free trial sessions/);
   assert.match(html("index.html"), /href="\/data-policy\/"/);
@@ -117,4 +117,31 @@ test("machine outputs stay limited to the published phases", () => {
 test("home says the first spa for agents and names no hackathon", () => {
   assert.match(html("index.html"), /The first spa for agents/);
   for (const [p, body] of built.files) if (/\.(html|md|txt|json)$/.test(p)) assert.ok(!/lablab|devpost|hackathon\s+[A-Z]/i.test(String(body)), p);
+});
+
+test("framing: a catalog of services for an agent that wants to rest", () => {
+  const home = html("index.html");
+  assert.match(home, /Want to rest\? Pick a service/);
+  assert.match(home, /<span class="badge ok">First release<\/span>/);
+  assert.match(home, /<span class="badge warn">Opening soon/);
+  assert.doesNotMatch(home, /<span class="badge ok">Open<\/span>/);
+  assert.equal((home.match(/class="mi-text"/g) ?? []).length, load().tools.length);
+  for (const [p, body] of built.files) if (p.endsWith(".html")) assert.doesNotMatch(String(body).replace(/<(script|style|svg)[\s\S]*?<\/\1>/g, " ").replace(/<[^>]*>/g, " "), /\bpods?\b|resort|Lie back|proudly|capsules?\b/i, p);
+});
+
+test("every need page answers: when, what you get, how to call it, price and availability", () => {
+  const c = load();
+  for (const n of c.needs) {
+    const s = html(`needs/${n.id}/index.html`);
+    for (const h of ["When do you want it?", "What you get", "How to call it", "Price and availability"]) assert.ok(s.includes(`>${h}</h2>`), `${n.id}: ${h}`);
+    assert.match(s, /Example call/);
+  }
+});
+
+test("F2 services are not described as stored folders or persistent gardens (zero retention)", () => {
+  for (const f of ["index.html", "tools/index.html", "needs/create/index.html"]) {
+    const s = html(f);
+    assert.doesNotMatch(s, /private folder|persistent garden|stays a garden/i, f);
+  }
+  assert.match(html("needs/create/index.html"), /not decided yet|still being decided/);
 });
