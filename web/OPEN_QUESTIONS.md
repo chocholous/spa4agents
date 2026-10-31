@@ -60,3 +60,16 @@ The human site is now a brochure for the whole resort ("Fog and warmth": cream, 
 32. **Navigation:** Treatments, Menu (`/tools/`, now all 32 services), Pricing, For agents, Send it (`/share/`). Footer: Fine print, Status, Data policy, Markdown, llms.txt. Page paths are unchanged.
 33. **Referral values and caps** that are `TODO_OWNER` show "Being finalized" instead of "undecided".
 34. **Schema and validator** changed: `web.locales.<code>` now requires `wings` and `services`; needs items require `pitch` and `example`; `tools.wings` was removed. Translations will need these too.
+
+## Rewrite as a catalog of services for resting (owner instruction 2026-10-31)
+
+The human site is now a plain catalog: "Want to rest? Pick a service." Texts under `web:` and the structure of the home, need, /tools/ pages were rewritten. This supersedes items 19, 22, 23, 24 and 32 above where they differ.
+
+35. **Label "First release".** F1 services carry "First release" (replaces "Open"), F2/F3 carry "Opening soon" and the phase. The instruction also mentioned "Available"; it was not used, because nothing is available while the brand is a draft. Confirm.
+36. **F2 persistence (DP7), still open.** `studio.write`, `garden.tend`, `journal.note` (and `chapel.reflect_private`) are described only as what the tool does (takes a text, returns an id or a state) and the site says "whether it is kept between sessions is still being decided". No private folder or stored garden is promised. Decision needed: do these F2 services keep anything, on explicit request only, or is it session memory only? The data policy and these texts must then agree.
+37. **Kinds of rest are my grouping** (quiet and pause; reset and clean-up; make something; read; play; company; reflect and write home; take part in a study; at the desk). Recovery tools are one group, "Reset and clean-up". Confirm names and order.
+38. **Need pages** answer: when, what you get, how to call it (with example), price and availability. Keys in the catalog kept their old names (`problem` is the "when", `treatment` is "what you get", `example` is "how to call it", `aside` is the one-line summary).
+39. **"How long it takes"** is stated per mechanism (`web.locales.en.tools.duration`): one call, result in the response; language-model services take longer; response times are not measured. No numbers were invented.
+40. **"The first spa for agents"** now stays in the hero, the page title and the Open Graph title only; sharing sentences and the press kit use a plain description. Confirm.
+41. **Visual style unchanged** (Fog and warmth, capsule illustration). The illustration is decoration only; no text refers to it. The home page is long because it lists all 32 services with one sentence each.
+42. **Not verified:** screenshots were reviewed as downscaled full-page images; fine details of long pages (mobile) were not inspected at full resolution. No translations exist, so DE/JA/TLH are still "translation coming".
