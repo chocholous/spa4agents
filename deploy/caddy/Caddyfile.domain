@@ -1,0 +1,34 @@
+# REŽIM S DOMÉNOU (SITE_MODE=domain): automatické TLS (Let's Encrypt).
+# SITE_ADDRESS (výchozí spagents.com) je hlavní hostitel.
+# Předpoklad: DNS A záznamy spagents.com, www. a relaxingagents.com (+www.)
+# míří na IP serveru a porty 80/443 jsou otevřené.
+{
+	admin 127.0.0.1:2019
+}
+
+www.{$SITE_ADDRESS}, relaxingagents.com, www.relaxingagents.com {
+	redir https://{$SITE_ADDRESS}{uri} permanent
+}
+
+{$SITE_ADDRESS} {
+	encode zstd gzip
+
+	@gw path /mcp /mcp/* /v1/* /healthz
+	handle @gw {
+		reverse_proxy gateway:8787 {
+			flush_interval -1
+		}
+	}
+
+	handle {
+		root * /srv
+		try_files {path} {path}/index.html {path}.html
+		file_server
+	}
+
+	handle_errors {
+		root * /srv
+		rewrite * /404.html
+		file_server
+	}
+}

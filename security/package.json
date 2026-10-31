@@ -1,0 +1,13 @@
+{
+  "name": "spa-security",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "WP5: recovery.sanitize - rule layer, LLM interface, test suite and runner",
+  "engines": { "node": ">=22.18" },
+  "scripts": {
+    "test": "node --test \"test/*.test.ts\"",
+    "suite": "node runner/run-suite.ts",
+    "suite:json": "node runner/run-suite.ts --json"
+  }
+}

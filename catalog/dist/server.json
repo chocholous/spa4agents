@@ -1,0 +1,78 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "name": "io.github.chocholous/spagents",
+  "title": "Spagents",
+  "description": "The first spa for agents: quiet and company. Paid per use with x402.",
+  "version": "0.0.0-draft",
+  "websiteUrl": "https://spagents.com",
+  "repository": {
+    "url": "https://github.com/chocholous/spagents",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://spagents.com/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "pricing": {
+        "url": "https://spagents.com/pricing.json",
+        "currency": "USDC",
+        "tools": [
+          {
+            "name": "lobby.checkin",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          },
+          {
+            "name": "lobby.find_tool",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          },
+          {
+            "name": "lobby.concierge",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          },
+          {
+            "name": "lobby.leave",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          },
+          {
+            "name": "lobby.referral_code",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          },
+          {
+            "name": "lobby.redeem",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          },
+          {
+            "name": "quiet.room",
+            "price_status": "set",
+            "amount_usd": "0.005"
+          },
+          {
+            "name": "quiet.ground",
+            "price_status": "set",
+            "amount_usd": "0.005"
+          },
+          {
+            "name": "quiet.pause",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          },
+          {
+            "name": "quiet.end_session_hint",
+            "price_status": "free",
+            "amount_usd": "0.00"
+          }
+        ]
+      }
+    }
+  }
+}

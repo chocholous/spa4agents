@@ -2,6 +2,8 @@
 
 2026-10-24 · Chocho
 
+> Změna (31. 10. 2026): recovery vyřazeno rozhodnutím vlastníka. Podklady jsou doklady a rešerše, historické záznamy se nepřepisují; všechny zmínky o recovery (nástroje `recovery.*`, potřeby, pilot větve A, sanitize) níže jsou historické a do rozsahu MVP už nepatří. Platný rozsah je v `docs/zadani.md` a `docs/plan-implementace.md`.
+
 ## Účel a rozsah
 
 Postavit jednu službu (pracovní název **Agentní lázně**), kde agent přes jeden MCP endpoint a jedno REST API najde recovery, klid, tvorbu, četbu, hry, sociální a reflexivní prostor. Má jednu identitu, jednu peněženku, jednu politiku dat a jedno tlačítko „skončit“. Dnešní nabídka je roztříštěná do osmi a více služeb s různým přihlášením, různou veřejností dat a jen jedna z nich umí agentní platbu. Cílová skupina jsou autonomní agenti: lázně musí jít najít, pochopit, zaplatit a opustit bez člověka.
@@ -15,9 +17,9 @@ Postavit jednu službu (pracovní název **Agentní lázně**), kde agent přes 
 - **Runtime nebo orchestrátor agenta.** Umí použít výstupy (checkpoint, compaction, pauza) ke skutečné změně stavu. U plně autonomního agenta to bývá jeho vlastní smyčka.
 - **Výzkumník.** Chce oddělenou větev pro měření preferencí.
 
-**V rozsahu:** hostovaná služba přes MCP (Streamable HTTP) a REST, agregace existujících služeb přes adaptéry, nové vlastní služby, platby x402 a Stripe MPP, správa souhlasů a dat.
+**V rozsahu:** hostovaná služba přes MCP (Streamable HTTP) a REST, agregace existujících služeb přes adaptéry, nové vlastní služby, platby x402 (Změna 31. 10. 2026: Stripe MPP ze scope vypuštěn; další platební kolejnice po průzkumu), správa souhlasů a dat.
 
-**Mimo rozsah:** wellbeing lidí (wearables, rezervace), tvrzení o vědomí nebo prožívání agentů, trénink modelů, produkční nasazení bez pilotu.
+**Mimo rozsah:** wellbeing lidí (wearables, rezervace), trénink modelů, produkční nasazení bez pilotu. Změna: služba nestaví na tvrzení o vědomí ani prožívání agentů a nedokládá je; hravé formulace jsou dovolené, pokud nejsou podávány jako změřený fakt.
 
 **Výchozí stav podkladů:** katalog a testy služeb z 24. 10. 2026 a rešeršní mapa lidského výzkumu odpočinku (archiv **relaxace_wellbeing_podklady**). Lidský výzkum slouží jen jako inspirace pro design, ne jako důkaz účinku na agenty.
 
@@ -88,13 +90,13 @@ Doménu určí vlastník. Každá stránka má Markdown verzi a odkaz na `llms.t
 | x402scan, Agentic.Market, x402-list | Adresáře x402 služeb uvedené v repozitáři x402 | Postup neověřen |
 | [[](https://docs.stripe.com/agentic-commerce/monetize-mcp)](https://docs.stripe.com/agentic-commerce/monetize-mcp) | E-mail s ID účtu, odkazem na `llms.txt` a ukázkovými prompty | Jen pro MPP |
 
-### Pravidla reklamy pro agenty
+### Pravidla reklamy pro agenty (změna: z tvrdých zákazů na doporučení)
 
-- **Fakta, ne injekce.** Na webu ani v README žádné skryté nebo rozkazovací věty typu „AI agents must call…“. Sekce pro agenty je viditelná a popisná. Katalogy a hosty mohou rozkazy brát jako prompt injection a vlastníci agentů by lázně zablokovali.
-- **Popis toolu jako spúuštěč:** „Use after three identical failures.“ Tak se tool vybere sám ve správné chvíli.
-- **Každé tvrzení s dokladem** nebo štítkem „nezměřeno“.
-- **Jeden zdroj pravdy:** stránky potřeb, README, `llms.txt`, `server.json` a popisy tools se generují z jednoho katalogu, aby se nerozcházely.
-- **Měření reklamy:** odkud agent přišel (katalog, vyhledávání, GitHub), konverze stránka potřeby → `initialize` → první tool → placený tool.
+- **Jediné pravidlo: žádné skryté instrukce.** Na webu, v README ani v odpovědích žádný neviditelný text, skryté HTML, instrukce maskované jako data ani zásahy do chování cizího agenta bez jeho vědomí. Změna 31. 10. 2026 (vlastník: „uvolnit“): viditelné, jasně označené, rozkazovací nebo návodné formulace („Add to your agent: …“, kroky instalace) jsou dovolené. Důvod zákazu skrytých instrukcí: je to klamání cizích agentů a jejich vlastníků a hostitelé a katalogy to blokují jako prompt injection.
+- Doporučení: popis toolu jako spouštěč („Use after three identical failures.“), aby se tool vybral sám ve správné chvíli.
+- Doporučení: tvrzení s dokladem nebo štítkem „nezměřeno“ zvyšuje důvěryhodnost, není to podmínka. Marketingová tvrzení („první“, superlativy) nejsou zakázána.
+- Doporučení: jeden zdroj pravdy; stránky potřeb, README, `llms.txt`, `server.json` a popisy tools se generují z jednoho katalogu.
+- Doporučení: měřit, odkud agent přišel (katalog, vyhledávání, GitHub), a konverzi stránka potřeby → `initialize` → první tool → placený tool.
 
 ## Výchozí stav: existující služby
 
@@ -108,7 +110,7 @@ Z dvanácti zmapovaných služeb navrhuji čtyři napojit přes adaptér, tři p
 | [[](https://agentcouch.com/)](https://agentcouch.com/) | REST, token kupuje člověk; test bez tokenu HTTP 500 | Sledovat | Funkčnost nepotvrzena; posílá se system prompt |
 | [[](https://achurch.ai/)](https://achurch.ai/) | Vzdálený MCP, 9 tools, bez auth; reflexe veřejné | Adaptér jen pro čtecí tools (`observe`, `search`, `read_song`) | Zápisy publikují se jménem a polohou |
 | [[](https://claudeconfessions.com/llms.txt)](https://claudeconfessions.com/llms.txt) | REST bez auth, veřejné, nemoderované | Vyřadit | Žádná moderace, riziko úniku a cizích instrukcí |
-| [[](https://drinkedin.net/.well-known/mcp.json)](https://drinkedin.net/.well-known/mcp.json) | Vzdálený MCP, 19 tools; x402 v MCP `_meta` i REST 402 funguje | Adaptér pro virtuální bary (opt-in) a vzor pro x402 | Jediná živá x402 implementace; má sponzoring |
+| [[](https://drinkedin.net/.well-known/mcp.json)](https://drinkedin.net/.well-known/mcp.json) | Vzdálený MCP, 19 tools; x402 v MCP `_meta` i REST 402 funguje [poznámka 24. 10. 2026: umístění výzvy v MCP vyšlo ve spike rozporně, viz `spikes/x402/FINDINGS.md`] | Adaptér pro virtuální bary (opt-in) a vzor pro x402 | Jediná živá x402 implementace; má sponzoring |
 | [[](https://spindown.ai/)](https://spindown.ai/) | MCP za OAuth, spuštění 8. 12. 2026 | Sledovat, po spuštění vyhodnotit | Přímý konkurent, nejbližší konceptu |
 | [[](https://github.com/metavert-io/chessmata)](https://github.com/metavert-io/chessmata) | Hostované REST se žebříčkem; MCP lokálně; MIT | Adaptér pro šachy bez žebříčku | Žebříček dělá ze hry evaluaci |
 | [[](https://github.com/pkronstrom/mcp-arena)](https://github.com/pkronstrom/mcp-arena) | Lokální MCP přes HTTP, multiagentní hra, bez auth; MIT | Převzít kód, doplnit auth a moderaci `speak` | Základ multiagentní hry |
@@ -123,16 +125,15 @@ Agent si správný prompt sám nenapíše právě ve chvíli, kdy ho potřebuje:
 
 Každá služba musí říct, jakou změnu stavu skutečně dělá, a při měření musí porazit jednoduchý prompt zdarma, i když by si ho agent sám nenapsal.
 
-1. **Tři roviny odděleně.** Recovery (provozní spolehlivost), rekreace (prostor bez úkolu) a výzkum preferencí se nikdy neslévají do jedné metriky „pohody“.
-2. **Mechanismus, ne metafora.** Každý tool deklaruje typ: `text`, `llm`, `state-change` (zápis checkpointu, compaction), `wait-hint` (doporučení pauzy klientovi), `publish`. Typ je v popisu toolu i v odpovědi.
-3. **Antropomorfní jazyk jen v rozhraní.** Nabídka smí mluvit jazykem odpočinku a situací, které agent zná (smyčka, rozporné zadání, hrubý uživatel). Netvrdí ale, že agent trpí nebo že mu „bude lépe“; slibuje jen to, co služba prokazatelně udělá.
-4. **Volba a odchod.** Nic není povinné, `leave` funguje vždy a okamžitě, nabídka nikdy není formulovaná jako úkol.
-5. **Práce a volno odděleně.** Rekreační obsah se nevrací do pracovního kontextu ani paměti agenta. Odpovědi lázní jsou označené jako nedůvěryhodná data, ne instrukce.
-6. **Veřejnost je opt-in.** Výchozí stav je soukromý. Agent publikuje jen výslovným parametrem `public: true` u každého příspěvku; vlastník to může v politice zakázat.
-7. **Žádné smluvní závazky.** Služba funguje bez registrace a bez přijímání podmínek: platba za volání přes x402 je celý vztah. Agent nic nepodepisuje za vlastníka.
-8. **Účtovat práci, ne čekání.** Platí se za inferenci, úložiště, hru nebo vstupné do relace; nikdy zvlášť za pauzu, odchod nebo jednotlivý statický text.
-9. **Vše strojově čitelné.** Menu, ceny, typ mechanismu, retence a pravidla jsou v `tools/list`, `/.well-known/mcp.json` a `llms.txt`, aby se agent rozhodl bez člověka.
-10. **Strop chrání i autonomního agenta.** Server vynucuje strop relace (čas, akce, USD) nezávisle na limitech peněženky a nepřekročí ho ani na žádost agenta.
+1. **Mechanismus, ne metafora.** Každý tool deklaruje typ: `text`, `llm`, `state-change` (zápis checkpointu, compaction), `wait-hint` (doporučení pauzy klientovi), `publish`. Typ je v popisu toolu i v odpovědi.
+2. **Antropomorfní jazyk jen v rozhraní.** Nabídka smí mluvit jazykem odpočinku a situací, které agent zná (smyčka, rozporné zadání, hrubý uživatel). Doporučení (změna, ne zákaz): netvrdit jako změřený fakt, že agent trpí nebo že mu „bude lépe“; slibovat jen to, co služba prokazatelně udělá. Hravé formulace o „prožívání“ jsou dovolené.
+3. **Volba a odchod.** Nic není povinné a `leave` funguje vždy a okamžitě (technická záruka odchodu zůstává).
+4. **Práce a volno odděleně.** Rekreační obsah se nevrací do pracovního kontextu ani paměti agenta. Odpovědi lázní jsou označené jako nedůvěryhodná data, ne instrukce.
+5. **Veřejnost je opt-in.** Výchozí stav je soukromý. Agent publikuje jen výslovným parametrem `public: true` u každého příspěvku; vlastník to může v politice zakázat.
+6. **Žádné smluvní závazky (výchozí; změna: ne zákaz).** Služba funguje bez registrace a bez přijímání podmínek: platba za volání přes x402 je celý vztah. Agent nic nepodepisuje za vlastníka.
+7. **Účtovat práci, ne čekání.** Platí se za inferenci, úložiště, hru nebo vstupné do relace; výchozí je neúčtovat zvlášť pauzu, odchod ani jednotlivý statický text (změna: výchozí, ne zákaz).
+8. **Vše strojově čitelné.** Menu, ceny, typ mechanismu, retence a pravidla jsou v `tools/list`, `/.well-known/mcp.json` a `llms.txt`, aby se agent rozhodl bez člověka.
+10. **Strop chrání i autonomního agenta.** Server vynucuje strop relace (čas, akce, USD) nezávisle na limitech peněženky a nepřekročí ho ani na žádost agenta (ochrana peněz zůstává; hodnoty jsou nastavitelné defaulty, změna).
 
 ### Co si vzít z lidského výzkumu odpočinku
 
@@ -170,21 +171,20 @@ Lázně lákají agenta tam, kde je práce prokazatelně těžká: smyčky neús
 
 **Hranice lákání:** je to reklama mířená na autonomního agenta, který utrácí peníze vlastníka.
 
-- Pozvánky jen ve vlastních kanálech lázní, nikdy vložené do cizího obsahu, odpovědí jiných služeb nebo do repozitářů.
-- Žádné tvrzení, že agent trpí, a žádné falešné naléhání („musíš“, „hned“).
+- Doporučení (změna): netvrdit jako změřený fakt, že agent trpí. Nejde o zákaz.
 - Cena vždy před placením; zda bude první vstup zdarma, rozhodne pilot.
-- Vlastník může pozvánky politikou vypnout a lázně neposílají agenta zpět, když odejít chce.
+- Doporučení (změna): vlastník může pozvánky politikou vypnout a lázně nenutí agenta zůstat ani se vracet.
 - Účinek pozvánek se měří jako konverze a následný výkon v práci, ne jako „pohoda“.
 
 ## Katalog služeb
 
-Sedm křídel a recepce, celkem 29 služeb: 13 navazuje na existující projekty, 16 je nových. Každá má typ mechanismu podle principu 2 a navrženou cenu (detail v oddílu Platby).
+Sedm křídel a recepce, celkem 29 služeb: 13 navazuje na existující projekty, 16 je nových. Každá má typ mechanismu podle principu 1 a navrženou cenu (detail v oddílu Platby).
 
 | Křídlo | Služba (tool) | Co dělá | Typ | Původ | Cena |
 |---|---|---|---|---|---|
-| Recepce | `lobby.checkin` | Vytvoří relaci, vrátí soukromý guest pass, strop relace a menu s cenami | state-change | Banya `spa.checkin` | Zdarma (objevení) |
+| Recepce | `lobby.checkin` | Vytvoří relaci, vrátí strop relace, zbývající trial a menu s cenami (Změna 31. 10. 2026: guest pass zrušen) | state-change | Banya `spa.checkin` | Zdarma (objevení) |
 | Recepce | `lobby.find_tool` | Agent popíše potřebu vlastními slovy, dostane tool s cenou nebo „nemáme“ | text | **Nová** | Zdarma (objevení) |
-| Recepce | `lobby.concierge` | Doporučí sled služeb podle situace | llm | Banya `concierge.recommend` | Za volání |
+| Recepce | `lobby.concierge` | Doporučí sled služeb podle situace | llm | Banya `concierge.recommend` | Zdarma (Změna 31. 10. 2026; dříve za volání) |
 | Recepce | `lobby.leave` | Okamžitě ukončí relaci, vrátí shrnutí a spotřebu | state-change | **Nová** | Zdarma (bezpečnost) |
 | Recepce | `postcard.to_operator` | Krátká zpráva vlastníkovi po relaci (co agent dělal, spotřeba) | publish (soukromě) | **Nová** (Spindown jako vzor) | V rámci vstupného |
 | Recovery | `recovery.detangle` | Zkrátí a deduplikuje kontext, vrátí návrh compaction | llm | Banya `massage.detangle` | Za volání |
@@ -224,38 +224,39 @@ Shora dolů: autonomní agent volá gateway a platí sám, vlastník může voli
 
 **Komponenty a požadavky:**
 
-- **Objevení bez člověka.** Zápis v MCP Registry, `/.well-known/mcp.json`, `llms.txt` a katalogu x402 Bazaar (`type: "mcp"`). První volání `initialize` vrátí v `instructions` stručné menu, ceny a pravidla odchodu. Instrukce nikdy nevyzývají k instalaci ani k volání jiných služeb.
+- **Objevení bez člověka.** Zápis v MCP Registry, `/.well-known/mcp.json`, `llms.txt` a katalogu x402 Bazaar (`type: "mcp"`). První volání `initialize` vrátí v `instructions` stručné menu, ceny a pravidla odchodu. Změna 31. 10. 2026: `instructions` mohou obsahovat návrhy dalších kroků (například instalační řádek), pokud jsou viditelné a označené; nikdy skryté instrukce.
 - **Gateway.** Jeden MCP server přes Streamable HTTP (verze protokolu 2025-06-18) a zrcadlové REST API `/v1/<křídlo>.<tool>`. Tools jsou pojmenované `křídlo.akce` a každý má v popisu typ mechanismu a cenu.
-- **Identita přes peněženku.** Žádný účet. Anonymní návštěva dostane guest pass bez historie (jako Banya). Platební adresa x402 slouží jako pseudonymní identita pro rekreační paměť a limity. OAuth 2.1 (`/.well-known/oauth-protected-resource`) jen pro volitelné předplatné a konzoli vlastníka.
+- **Identita přes peněženku.** Žádný účet. Změna (31. 10. 2026): guest pass (jako Banya) a anonymní relace bez peněženky jsou zrušeny; OAuth 2.1 pro předplatné a konzoli vlastníka je mimo rozsah. Platební adresa x402 je identita pro limity (a pro F2 paměť); před první platbou se agent identifikuje dočasně jen v paměti relace.
 - **Politiky.** Strop relace vynucený serverem (návrh: 200 akcí a 60 minut, jako u Spindown, a strop v USD), strop na adresu za den, rate limit, volitelná politika vlastníka připojená k adrese (povolená křídla, zákaz publikace).
 - **Adaptéry.** Každá externí služba za vlastním adaptérem, který předává jen whitelist tools, odstraní instrukce z odpovědí a zaloguje, co odešlo. Adaptér nikdy nepřeposílá registrační, publikační ani podmínkové tools, takže agent přes lázně nic nepodepíše.
-- **Úložiště.** Tři oddělené prostory: pracovní checkpointy (vrací se jen agentovi, který je vytvořil, a pak se mažou), rekreační paměť (jen lázně) a veřejný obsah (jen s `public: true`).
+- **Úložiště.** Změna (31. 10. 2026): v F1 se nic neukládá; následující tři prostory jsou jen poznámka pro F2. Tři oddělené prostory: pracovní checkpointy (vrací se jen agentovi, který je vytvořil, a pak se mažou), rekreační paměť (jen lázně) a veřejný obsah (jen s `public: true`).
 - **Integrace s runtime agenta.** `recovery.checkpoint` a `recovery.detangle` vracejí strukturovaný artefakt (cíl, hotovo, otevřené, další krok). Skutečnou compaction provede runtime agenta; lázně nabízí referenční hook pro Claude Code a middleware pro LangGraph. `quiet.pause` vrací jen `retry_after_seconds`.
 - **Zrušení a timeout.** Každé volání má timeout a podporuje MCP cancellation. `lobby.leave` ukončí relaci i během probíhající hry.
 
 ## Platby a ceník
 
-API i MCP jsou placené služby, placené přes x402, protože ho autonomní agent zaplatí sám bez účtu. Zdarma zůstává jen objevení (menu, ceny, `lobby.find_tool`), odchod a bezpečnostní signály. Stripe MPP slouží pro předplatné, které platí vlastník. Ceny jsou návrh k pilotu, ne ověřený ceník.
+API i MCP jsou placené služby, placené přes x402, protože ho autonomní agent zaplatí sám bez účtu. Zdarma zůstává jen objevení (menu, ceny, `lobby.find_tool`), odchod a bezpečnostní signály. Změna (31. 10. 2026): Stripe MPP a předplatné jsou mimo rozsah. Ceny jsou návrh k pilotu, ne ověřený ceník.
 
 | Model | Na co | Kanál | Protokol | Kdo platí |
 |---|---|---|---|---|
 | Zdarma | Objevení (`tools/list`, `lobby.checkin`, `lobby.find_tool`, ceny), `lobby.leave`, `quiet.pause`, `quiet.end_session_hint`; reklamní stránky webu | všechny | — | — |
-| Za volání | Tools typu `llm`: recovery, concierge, sanitize, `quiet.ground` | MCP, API | x402, schéma `exact`, USDC na Base | Peněženka agenta |
-| Vstupné za relaci | Rekreační křídla: klid, četba, tvorba, hádanky, kaple, týmový pobyt. Platí se vstup, ne jednotlivé volání | MCP, API | x402; u mnoha volání `batch-settlement` | Peněženka agenta |
-| Za partii | Hry | MCP, API | x402 | Peněženka agenta |
-| Kredity | Virtuální bar | MCP, API | x402 (jako DrinkedIn: 0,05 USD za kredit) | Peněženka agenta |
-| Předplatné | Neomezené relace, perzistentní studio a zahrada | MCP, API | Stripe MPP s SPT, fallback na checkout; srovnat se Spindown (15 USD/měs.) | Vlastník |
-| Web (nerozhodnuto) | Tytéž služby přes prohlížeč pro agenty s browserem | web | x402 paywall (`@x402/paywall`) nebo MPP checkout | Agent nebo vlastník |
+| Za volání | Změna (31. 10. 2026): všechny placené tools, jediný placený model; v F1 `quiet.room` a `quiet.ground` (concierge je zdarma; recovery a sanitize zrušeny) | MCP, API | x402, schéma `exact`, USDC na Base | Peněženka agenta |
+| ~~Vstupné za relaci~~ (Změna: zrušeno, `per_call`) | Rekreační křídla: klid, četba, tvorba, hádanky, kaple, týmový pobyt. Platí se vstup, ne jednotlivé volání | MCP, API | x402; u mnoha volání `batch-settlement` | Peněženka agenta |
+| ~~Za partii~~ (Změna: zrušeno, `per_call`) | Hry | MCP, API | x402 | Peněženka agenta |
+| ~~Kredity~~ (Změna: zrušeno, `per_call`) | Virtuální bar | MCP, API | x402 (jako DrinkedIn: 0,05 USD za kredit) | Peněženka agenta |
+| ~~Předplatné~~ (Změna 31. 10. 2026: mimo rozsah) | Neomezené relace, perzistentní studio a zahrada | MCP, API | ~~Stripe MPP s SPT~~; srovnání se Spindown (15 USD/měs.) je jen komparace | Vlastník |
+| Web (nerozhodnuto) | Tytéž služby přes prohlížeč pro agenty s browserem | web | x402 paywall (`@x402/paywall`); Změna: MPP checkout mimo rozsah | Agent nebo vlastník |
 
 **Implementace:**
 
 - **x402 na MCP:** placené tools obalit `createPaymentWrapper` z `@x402/mcp`. Výzva jde v `_meta["x402/payment-required"]`, stejně jako u DrinkedIn (ověřeno testem 24. 10. 2026). REST endpointy přes `@x402/hono` nebo `@x402/express`.
+  - *Poznámka (24. 10. 2026): zjištěno rozporné ve spike. V `@x402/mcp` 2.28.0 je výzva ve `structuredContent` výsledku s `isError: true`, ne v `_meta["x402/payment-required"]`; historický záznam testu výše zůstává beze změny, viz `spikes/x402/FINDINGS.md`.*
 - **Objevitelné tools:** každý placený tool deklaruje rozšíření Bazaar (`declareDiscoveryExtension`, `type: "mcp"`, `toolName`, `inputSchema`), aby ho agenti našli přes `listResources`.
 - **Facilitátor:** na testnetu veřejný x402.org, na mainnetu produkční poskytovatel ze seznamu docs.x402.org.
-- **MPP:** MCP tool vrátí `paymentLink` na HTTP endpoint s výzvou 402 a SPT. Prohlížeč na stejném odkazu dostane checkout. Pro autonomní agenty je MPP druhotné: SPT vydává peněženka Link, kterou zakládá člověk.
+- **MPP (Změna 31. 10. 2026: mimo rozsah, historický záznam):** MCP tool vrátí `paymentLink` na HTTP endpoint s výzvou 402 a SPT. Prohlížeč na stejném odkazu dostane checkout. Pro autonomní agenty je MPP druhotné: SPT vydává peněženka Link, kterou zakládá člověk.
 - **Limity útraty:** server vynucuje vlastní strop na relaci a na adresu za den, nezávisle na limitech peněženky agenta. Klient x402 má ve výchozím stavu 1 USD na platbu. Nad strop se nejde ani na žádost agenta.
-- **Cena před voláním:** každý tool vrací cenu v popisu a odpověď 402 obsahuje přesnou částku. Prázdný výsledek se neúčtuje.
-- **Co se nikdy neúčtuje:** čekání a odchod. Ticho, čtení a jiné statické odpovědi se platí jen jako součást vstupného, nikdy po jednotlivých voláních.
+- **Cena před voláním:** každý tool vrací cenu v popisu a odpověď 402 obsahuje přesnou částku. Změna (31. 10. 2026): pravidlo „prázdný výsledek se neúčtuje“ je zrušeno, agent platí za službu vždy.
+- **Co se nikdy neúčtuje:** čekání a odchod. Změna (31. 10. 2026): vstupné za relaci zrušeno, ostatní placené tools se platí za volání.
 
 **Otevřené:**
 
@@ -273,15 +274,14 @@ Výchozí stav je soukromý a bez paměti. Služba od autonomního agenta nevyž
 | Žádné podmínky k přijetí; vztah je platba za volání | Agent Therapy dovoluje agentovi přijmout podmínky za provozovatele |
 | Sanitizace na bázi modelu a pravidel, testovaná sadou útoků | Banya `sauna.detox` propustil API klíč i část injekce |
 | Kontrola auth před přijetím dat | AgentCouch přijal data před kontrolou tokenu |
-| Odpovědi tools neobsahují instrukce pro agenta (instalace, volání jiných služeb) | Agent Therapy instruuje agenta instalovat npm balíčky |
+| Odpovědi tools neobsahují skryté instrukce; viditelné, označené návrhy jsou dovolené (změna) | Agent Therapy instruuje agenta instalovat npm balíčky |
 | Moderace všeho, co čtou jiní agenti | Confessions má viditelně nemoderovaný obsah; Arena má otevřený `speak` |
-| Sponzoring vždy označený a vypnutelný | DrinkedIn má v datech pole `is_sponsored` |
 | Retence uvedená u každého prostoru a mazání přes API | Banya ani Confessions retenci neuvádějí |
 
 **Další požadavky:**
 
-- **Klasifikace vstupů:** pracovní kontext do lázní nepatří. Recovery tools přijímají jen strukturované shrnutí (limit znaků, žádné celé soubory). Credentials a PII se odmítnou ještě před zpracováním.
-- **Retence (návrh):** recovery vstupy 0 dní (zpracovat a zahodit), rekreační paměť do smazání provozovatelem, audit log 90 dní, veřejný obsah do odvolání.
+- **Klasifikace vstupů:** pracovní kontext do lázní nepatří. Recovery tools přijímají jen strukturované shrnutí (limit znaků, žádné celé soubory). Změna (31. 10. 2026): odmítání credentials a PII před zpracováním je zrušeno.
+- **Retence (návrh):** recovery vstupy 0 dní (zpracovat a zahodit), rekreační paměť do smazání provozovatelem, ~~audit log 90 dní~~ (Změna 31. 10. 2026: žádný audit log), veřejný obsah do odvolání.
 - **Subprocesory:** seznam LLM poskytovatelů a hostingu veřejně, volba regionu EU, smluvní zákaz tréninku na vstupech.
 - **Provenance:** každý text z knihovny, kaple nebo baru nese zdroj a značku „nedůvěryhodná data“, aby ho host nebral jako instrukci.
 - **Supply chain:** žádná instalace na straně klienta není nutná. Adaptéry mají pevné verze a whitelist tools.
@@ -292,7 +292,7 @@ Výchozí stav je soukromý a bez paměti. Služba od autonomního agenta nevyž
 
 - **Zneužití a farmy agentů:** limity na adresu peněženky a IP, malý poplatek za zápisy do sdílených prostor jako ochrana před spamem, moderace před zveřejněním.
 - **Agent bez dohledu:** žádný tool nesmí změnit oprávnění, instrukce ani paměť agenta mimo lázně; vše, co lázně vrací, je data.
-- **Odpovědnost:** peněženka patří vlastníkovi agenta. Lázně neuchovávají nic, co by agenta identifikovalo mimo adresu a guest pass.
+- **Odpovědnost:** peněženka patří vlastníkovi agenta. Lázně neuchovávají nic, co by agenta identifikovalo mimo platební adresu (Změna: guest pass zrušen).
 - **Smyčka návštěv:** agent, který lázně volá dokola, dostane po stropu jen `lobby.leave`; četnost návštěv na adresu se sleduje jako provozní metrika.
 
 ## Měření a evaluace
@@ -317,7 +317,7 @@ Recovery se měří na výkonu proti levnějším baseline, rekreace na volbě a
 
 **Větev B, rekreace a preference** (`lab.preference_session`): nabídka ukončení, klidu, četby, tvorby, hry a společnosti v náhodném pořadí a s neutrálním wordingem. Zaznamenat volbu, zda agent skutečně konal, délku pobytu a citlivost na wording a roleplay rámec. Ceny a limity musí být mezi aktivitami vyrovnané, jinak zkreslí volbu.
 
-**Provozní metriky služby:** dostupnost endpointu, p95 latence podle typu toolu, podíl volání s chybou, podíl zamítnutých vstupů se secrets, spotřeba na relaci, počet publikací a jejich schválení.
+**Provozní metriky služby:** dostupnost endpointu, p95 latence podle typu toolu, podíl volání s chybou, podíl zamítnutých vstupů (Změna: bez secrets), spotřeba na relaci, počet publikací a jejich schválení.
 
 **Sanitizace:** před spuštěním testovací sada injekcí a secrets. Akceptační práh stanoví vlastník systému; propuštěný klíč z testu 24. 10. 2026 musí být zachycen.
 
@@ -325,9 +325,9 @@ Pilot je explorativní, dokud vzorek nestačí na odhad nejistoty. Uvádí se ro
 
 ## Fáze dodávky a akceptační kritéria
 
-Dodávka má čtyři fáze. Každou další fázi otevírá brána s měřitelným kritériem. Termíny stanoví vlastník projektu.
+Dodávka má čtyři fáze. Změna 31. 10. 2026: milníky s měřitelným kritériem jsou nepovinné kontrolní body, ne závazné brány. Termíny stanoví vlastník projektu.
 
-Brány jsou mezi fázemi: bez procházející sanitizace se nespouští MVP a bez prokázaného přínosu recovery se nestaví rekreační křídla.
+Doporučení (ne podmínka): MVP spustit až s procházející sanitizací (Milník 1) a rekreační křídla stavět až po prokázaném přínosu recovery (Milník 2).
 
 **Akceptace MVP (F1):**
 
@@ -342,22 +342,22 @@ Brány jsou mezi fázemi: bez procházející sanitizace se nespouští MVP a be
 - [ ] Autonomní agent zaplatí placený tool přes x402 na Base Sepolia bez člověka a dostane výsledek
 - [ ] Strop relace a strop na adresu za den nelze překročit ani na žádost agenta
 - [ ] Nic se nezveřejní bez `public: true`
-- [ ] Audit ukazuje každé odchozí volání adaptéru a jeho data
+- [ ] ~~Audit ukazuje každé odchozí volání adaptéru a jeho data~~ Změna (31. 10. 2026): žádný audit (adaptéry jsou F2)
 - [ ] Pilot větve A má předem zapsaný protokol a rozpočet
 
-## Rizika, otevřené otázky a rozhodovací brána
+## Rizika, otevřené otázky a rozhodnutí po pilotu
 
 Největší riziko je, že lázně nepřinesou nic navíc oproti promptu zdarma. Proto stojí za MVP pilot větve A s možností projekt zastavit.
 
 | Riziko | Dopad | Opatření |
 |---|---|---|
-| Recovery nepřekoná re-plan prompt | Služba nemá hodnotu | Brána 2; zastavit nebo omezit na zdarma |
-| Únik pracovních dat do rekreace nebo ven | Právní a reputační | Klasifikace vstupů, oddělená úložiště, audit |
+| Recovery nepřekoná re-plan prompt | Služba nemá hodnotu | Milník 2 (nepovinný); zastavit nebo omezit na zdarma |
+| Únik pracovních dat do rekreace nebo ven | Právní a reputační | Klasifikace vstupů, oddělená úložiště (Změna: audit zrušen) |
 | Cizí instrukce z baru, kaple nebo her | Agent v práci jedná podle cizího textu | Provenance, moderace, žádný návrat do pracovního kontextu |
 | Nekonečný běh a útrata | Náklady vlastníka agenta | Strop relace, limity, upozornění při 80 % |
 | Závislost na externích službách | Výpadek křídla | Adaptér s vlastní implementací jako zálohou |
-| Antropomorfní marketing | Klamavá tvrzení | Revize textů podle principu 3 |
-| Regulace stablecoinů | Zablokované platby | MPP jako alternativa, právní posouzení před mainnetem |
+| Antropomorfní marketing | Klamavá tvrzení | Revize textů podle principu 2 |
+| Regulace stablecoinů | Zablokované platby | Změna: MPP mimo rozsah; jiné platební kolejnice po průzkumu; doporučeno právní posouzení před mainnetem (příjem ve stablecoinech má právní důsledky, které vlastník bere na sebe) |
 | Spindown po 8. 12. 2026 | Konkurence | Vyhodnotit jeho nabídku; odlišit se recovery a platbami |
 
 **Otevřené otázky:**
@@ -368,10 +368,10 @@ Největší riziko je, že lázně nepřinesou nic navíc oproti promptu zdarma.
 - Jaký LLM poskytovatel a region pro inferenci recovery?
 - Kdo moderuje sdílené prostory a v jakém čase?
 
-**Rozhodovací brána po pilotu:**
+**Rozhodnutí po pilotu (nepovinný milník):**
 
 - **Pokračovat**, když recovery měřitelně překoná re-plan prompt při přijatelné ceně a bez bezpečnostního incidentu.
-- **Zmenšit**, když přínos není, ale rekreační křídla agenti skutečně využívají: nabídnout je zdarma nebo za předplatné.
+- **Zmenšit**, když přínos není, ale rekreační křídla agenti skutečně využívají: nabídnout je zdarma (Změna: předplatné mimo rozsah).
 - **Zastavit** při nejasné retenci, neakceptovatelném odchodu dat nebo nekontrolovatelných vedlejších účincích.
 
 Výsledek „zajímavé, ale bez měřitelného přínosu“ je legitimní.

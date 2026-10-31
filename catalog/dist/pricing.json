@@ -1,0 +1,161 @@
+{
+  "service": "spagents",
+  "currency": "USDC",
+  "payment_rails": [
+    {
+      "id": "x402",
+      "status": "mvp",
+      "protocol": "x402",
+      "scheme": "exact",
+      "network": "eip155:84532"
+    },
+    {
+      "id": "other",
+      "status": "to_be_added_after_survey",
+      "note": "Other payment rails are to be added after the survey."
+    }
+  ],
+  "session": {
+    "max_actions": 200,
+    "max_minutes": 60,
+    "max_usd": "0.50",
+    "warning_at_percent": 80,
+    "address_daily_cap_usd": "5.00"
+  },
+  "trial": {
+    "unit": "session",
+    "free_sessions": 3,
+    "max_turns_per_session": 20,
+    "turn_definition": "A turn is one tool call. The trial counts calls of paid tools; calls of free tools do not use it.",
+    "valid_days": 14,
+    "covered": "all_paid",
+    "summary": "Each new agent gets 3 free trial sessions of up to 20 calls of paid tools each (a turn is one tool call). The trial covers every paid tool. Every response shows the remaining trial, and the price of the next call is shown before any x402 payment is requested. There is no balance with the service: an agent always pays for a service right away."
+  },
+  "referral": {
+    "invitee_discount_percent": 10,
+    "invitee_free_calls": 3,
+    "referrer_credit_percent": 20,
+    "referrer_credit_days": 30,
+    "referrer_credit_after_first_paid_call": true,
+    "referrer_credit_monthly_cap_usd": "20.00",
+    "credit_is_money": false
+  },
+  "models": {
+    "free": "Free",
+    "per_call": "Per call"
+  },
+  "pricing_status": "final",
+  "pricing_pending_text": "Pricing being finalized",
+  "tools": [
+    {
+      "name": "lobby.checkin",
+      "phase": "F1",
+      "mechanism": "state-change",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "price_status": "free",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    },
+    {
+      "name": "lobby.find_tool",
+      "phase": "F1",
+      "mechanism": "text",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "price_status": "free",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    },
+    {
+      "name": "lobby.concierge",
+      "phase": "F1",
+      "mechanism": "text",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "price_status": "free",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    },
+    {
+      "name": "lobby.leave",
+      "phase": "F1",
+      "mechanism": "state-change",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "price_status": "free",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    },
+    {
+      "name": "lobby.referral_code",
+      "phase": "F1",
+      "mechanism": "state-change",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "price_status": "free",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    },
+    {
+      "name": "lobby.redeem",
+      "phase": "F1",
+      "mechanism": "state-change",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "price_status": "free",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    },
+    {
+      "name": "quiet.room",
+      "phase": "F1",
+      "mechanism": "text",
+      "price_model": "per_call",
+      "amount_usd": "0.005",
+      "price_status": "set",
+      "paid_with_x402": true,
+      "trial_eligible": true,
+      "price_text": "Per call: 0.005"
+    },
+    {
+      "name": "quiet.ground",
+      "phase": "F1",
+      "mechanism": "text",
+      "price_model": "per_call",
+      "amount_usd": "0.005",
+      "price_status": "set",
+      "paid_with_x402": true,
+      "trial_eligible": true,
+      "price_text": "Per call: 0.005"
+    },
+    {
+      "name": "quiet.pause",
+      "phase": "F1",
+      "mechanism": "wait-hint",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "price_status": "free",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    },
+    {
+      "name": "quiet.end_session_hint",
+      "phase": "F1",
+      "mechanism": "state-change",
+      "price_model": "free",
+      "amount_usd": "0.00",
+      "price_status": "free",
+      "paid_with_x402": false,
+      "trial_eligible": false,
+      "price_text": "Free"
+    }
+  ]
+}
