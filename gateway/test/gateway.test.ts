@@ -44,7 +44,7 @@ async function connect(url: string, headers: Record<string, string> = {}) {
 const env = (r: any) => JSON.parse((r.content as { text: string }[])[0]!.text);
 
 beforeAll(async () => {
-  const x = await start({ TIMEOUT_MS_LLM: "60000" });
+  const x = await start({ TIMEOUT_MS_TEXT: "60000" });
   http = x.s; base = x.url;
 });
 afterAll(() => { http.closeAllConnections(); http.close(); });
@@ -55,7 +55,7 @@ describe("MCP", () => {
     const ins = c.getInstructions()!;
     expect(ins).toContain("lobby.leave");
     expect(ins).toContain("200 actions, 60 minutes");
-    expect(ins).toContain("quiet.ground (llm): per_call 0.05 USD");
+    expect(ins).toContain("quiet.ground (text): per_call 0.05 USD");
     expect(ins).not.toMatch(/install|you must/i);
     const { tools } = await c.listTools();
     const names = tools.map((t) => t.name);
@@ -190,7 +190,7 @@ describe("caps and timeout", () => {
   });
 
   it("times out a call", async () => {
-    const { s, url } = await start({ TIMEOUT_MS_LLM: "200" });
+    const { s, url } = await start({ TIMEOUT_MS_TEXT: "200" });
     const r = await fetch(`${url}/v1/quiet.ground`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({}) });
     expect(r.status).toBe(504);
     s.closeAllConnections(); s.close();
@@ -203,7 +203,15 @@ describe("caps and timeout", () => {
   });
 });
 
-describe("LiteLLM client", () => {
+describe("no LLM required", () => {
+  it("the gateway starts and serves F1 without any LLM client or LLM env, and no F1 tool of the fixture has the llm mechanism", () => {
+    const gw = new Gateway({ config: loadConfig({}), catalog, payments: headerGate });
+    expect(gw.exposed.length).toBeGreaterThan(0);
+    expect(gw.exposed.some((t) => t.mechanism === "llm")).toBe(false);
+  });
+});
+
+describe("LiteLLM client (optional code, not used by the first release)", () => {
   it("calls the OpenAI-compatible endpoint with env-supplied model", async () => {
     let seen: any;
     const srv = createServer((req, res) => {

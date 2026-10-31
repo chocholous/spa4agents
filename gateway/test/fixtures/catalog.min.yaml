@@ -29,7 +29,7 @@ tools:
     input_schema: { type: object, properties: {} }
   - name: quiet.ground
     description: "Use after processing heavy content. Returns a short settling text."
-    mechanism: llm
+    mechanism: text
     price: { model: per_call, usd: "0.05" }
     phase: F1
     input_schema:
@@ -38,7 +38,7 @@ tools:
         context_kind: { type: string }
   - name: lobby.concierge
     description: "Use when you describe a situation. Returns a sequence of 1 to 3 tools with reasons."
-    mechanism: llm
+    mechanism: text
     price: { model: free, amount_usd: "0.00" }
     phase: F1
     input_schema:

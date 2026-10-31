@@ -4,7 +4,7 @@ import type { Catalog, ToolDef } from "./catalog.js";
 import type { Config } from "./config.js";
 import { buildEnvelope, type Envelope } from "./envelope.js";
 import { defaultStub, handlers as defaultHandlers, menu, priceLabel, type Handler } from "./handlers.js";
-import { LiteLlmClient, type LlmClient } from "./llm.js";
+import type { LlmClient } from "./llm.js";
 import { NoopPaymentGate, type PaymentGate } from "./payments.js";
 import { SessionStore, type Session } from "./session.js";
 
@@ -50,7 +50,8 @@ export class Gateway {
   readonly catalog: Catalog;
   readonly exposed: ToolDef[];
   readonly sessions: SessionStore;
-  private readonly llm: LlmClient;
+  /** Volitelné: služba běží bez LLM (rozhodnutí vlastníka, 31. 10. 2026); klient se použije jen, když ho někdo předá. */
+  private readonly llm?: LlmClient;
   private readonly payments: PaymentGate;
   private readonly handlers: Record<string, Handler>;
   private readonly ajv: any = new Ajv({ strict: false, allErrors: false });
@@ -61,7 +62,7 @@ export class Gateway {
     this.catalog = d.catalog;
     this.exposed = d.catalog.tools.filter((t) => !t.phase || d.config.phases.includes(t.phase));
     this.sessions = new SessionStore(d.config.session, d.now);
-    this.llm = d.llm ?? new LiteLlmClient(d.config.llm);
+    this.llm = d.llm;
     this.payments = d.payments ?? new NoopPaymentGate();
     this.handlers = { ...defaultHandlers, ...(d.handlers ?? {}) };
     for (const t of this.exposed) this.validators.set(t.name, this.ajv.compile(t.inputSchema));

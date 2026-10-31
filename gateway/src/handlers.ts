@@ -9,7 +9,8 @@ export interface HandlerCtx {
   catalog: Catalog;
   exposed: ToolDef[];
   config: Config;
-  llm: LlmClient;
+  /** Volitelné: žádný handler prvního vydání ho nepotřebuje. */
+  llm?: LlmClient;
   signal: AbortSignal;
   mcpSessionId?: string;
 }
